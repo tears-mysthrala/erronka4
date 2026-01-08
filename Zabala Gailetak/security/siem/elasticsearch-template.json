@@ -1,0 +1,39 @@
+{
+  "index_patterns": ["zabala-gailetak-*"],
+  "template": {
+    "settings": {
+      "number_of_shards": 1,
+      "number_of_replicas": 0,
+      "index.lifecycle.name": "zabala-gailetak-policy",
+      "index.lifecycle.rollover_alias": "zabala-gailetak"
+    },
+    "mappings": {
+      "properties": {
+        "timestamp": {
+          "type": "date"
+        },
+        "level": {
+          "type": "keyword"
+        },
+        "msg": {
+          "type": "text"
+        },
+        "host": {
+          "type": "keyword"
+        },
+        "type": {
+          "type": "keyword"
+        },
+        "tags": {
+          "type": "keyword"
+        },
+        "response": {
+          "type": "integer"
+        },
+        "request": {
+          "type": "text"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,175 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  security-scan:
+    name: Security Scanning
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: 'Zabala Gailetak/package-lock.json'
+        
+    - name: Install dependencies
+      working-directory: ./Zabala Gailetak
+      run: npm ci
+      
+    - name: Run npm audit
+      working-directory: ./Zabala Gailetak
+      run: npm audit --audit-level=moderate
+      
+    - name: Run SAST with SonarQube
+      working-directory: ./Zabala Gailetak
+      run: |
+        npm install -g sonar-scanner
+        sonar-scanner -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      continue-on-error: true
+      
+    - name: Run OWASP Dependency Check
+      uses: dependency-check/Dependency-Check_Action@main
+      with:
+        project: 'Zabala Gailetak'
+        path: './Zabala Gailetak'
+        format: 'HTML'
+        out: 'reports'
+      continue-on-error: true
+
+  lint:
+    name: Code Linting
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: 'Zabala Gailetak/package-lock.json'
+        
+    - name: Install dependencies
+      working-directory: ./Zabala Gailetak
+      run: npm ci
+      
+    - name: Run ESLint
+      working-directory: ./Zabala Gailetak
+      run: npm run lint
+      
+    - name: Upload lint results
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        name: lint-results
+        path: ./Zabala Gailetak/lint-results.xml
+
+  test:
+    name: Unit & Integration Tests
+    runs-on: ubuntu-latest
+    needs: [security-scan, lint]
+    
+    services:
+      mongodb:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+          
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: 'Zabala Gailetak/package-lock.json'
+        
+    - name: Install dependencies
+      working-directory: ./Zabala Gailetak
+      run: npm ci
+      
+    - name: Run tests
+      working-directory: ./Zabala Gailetak
+      run: npm test
+      
+    - name: Upload coverage
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./Zabala Gailetak/coverage/lcov.info
+        flags: unittests
+        name: codecov-umbrella
+      continue-on-error: true
+
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: [test]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+      
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v4
+      with:
+        context: ./Zabala Gailetak
+        push: true
+        tags: |
+          ${{ secrets.DOCKER_USERNAME }}/zabala-gailetak-api:latest
+          ${{ secrets.DOCKER_USERNAME }}/zabala-gailetak-api:${{ github.sha }}
+        cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/zabala-gailetak-api:latest
+        cache-to: type=inline
+
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [build]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Deploy to server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DEPLOY_HOST }}
+        username: ${{ secrets.DEPLOY_USERNAME }}
+        key: ${{ secrets.DEPLOY_SSH_KEY }}
+        script: |
+          docker pull ${{ secrets.DOCKER_USERNAME }}/zabala-gailetak-api:latest
+          docker stop zabala-gailetak-api || true
+          docker rm zabala-gailetak-api || true
+          docker run -d --name zabala-gailetak-api -p 3000:3000 --env-file /app/.env ${{ secrets.DOCKER_USERNAME }}/zabala-gailetak-api:latest
+          
+    - name: Notify deployment
+      if: success()
+      run: |
+        curl -X POST ${{ secrets.SLACK_WEBHOOK }} \
+          -H 'Content-Type: application/json' \
+          -d '{"text":"Deployment successful: ${{ github.sha }}"}'
+      continue-on-error: true

@@ -1,0 +1,210 @@
+name: DAST - Dynamic Security Testing
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    # Run DAST weekly on Sundays at 3 AM
+    - cron: '0 3 * * 0'
+  workflow_dispatch:
+
+jobs:
+  deploy-staging:
+    name: Deploy to Staging Environment
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up Docker Compose
+        run: |
+          docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+          sleep 30  # Wait for services to be ready
+      
+      - name: Wait for services to be healthy
+        run: |
+          timeout 120 bash -c 'until curl -f http://localhost:3000/api/health; do sleep 5; done'
+      
+      - name: Verify staging deployment
+        run: |
+          curl -f http://localhost:3000/api/health || exit 1
+          echo "Staging environment is ready"
+
+  owasp-zap-scan:
+    name: OWASP ZAP Security Scan
+    runs-on: ubuntu-latest
+    needs: [deploy-staging]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Start services
+        run: |
+          docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+          sleep 30
+      
+      - name: ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.7.0
+        with:
+          target: 'http://localhost:3000'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a'
+          allow_issue_writing: false
+        continue-on-error: true
+      
+      - name: ZAP Full Scan
+        uses: zaproxy/action-full-scan@v0.4.0
+        with:
+          target: 'http://localhost:3000'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-j'
+          allow_issue_writing: false
+        continue-on-error: true
+      
+      - name: Upload ZAP results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: zap-scan-results
+          path: |
+            report_html.html
+            report_json.json
+          retention-days: 30
+      
+      - name: Stop services
+        if: always()
+        run: docker-compose down
+
+  nikto-scan:
+    name: Nikto Web Server Scan
+    runs-on: ubuntu-latest
+    needs: [deploy-staging]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Start services
+        run: |
+          docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+          sleep 30
+      
+      - name: Run Nikto scan
+        run: |
+          docker run --network=host \
+            sullo/nikto \
+            -h http://localhost:3000 \
+            -output nikto-results.json \
+            -Format json
+        continue-on-error: true
+      
+      - name: Upload Nikto results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: nikto-scan-results
+          path: nikto-results.json
+          retention-days: 30
+      
+      - name: Stop services
+        if: always()
+        run: docker-compose down
+
+  api-security-test:
+    name: API Security Testing
+    runs-on: ubuntu-latest
+    needs: [deploy-staging]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Start services
+        run: |
+          docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+          sleep 30
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install Newman (Postman CLI)
+        run: npm install -g newman newman-reporter-htmlextra
+      
+      - name: Run API security tests
+        run: |
+          # Run Postman collection with security tests
+          newman run tests/postman/api-security-tests.json \
+            --environment tests/postman/staging-env.json \
+            --reporters cli,htmlextra \
+            --reporter-htmlextra-export newman-report.html
+        continue-on-error: true
+      
+      - name: Upload Newman results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: newman-api-test-results
+          path: newman-report.html
+          retention-days: 30
+      
+      - name: Stop services
+        if: always()
+        run: docker-compose down
+
+  ssl-tls-scan:
+    name: SSL/TLS Configuration Scan
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Run testssl.sh
+        run: |
+          docker run --rm \
+            drwetter/testssl.sh:stable \
+            --jsonfile testssl-results.json \
+            https://zabala-gailetak.com
+        continue-on-error: true
+      
+      - name: Upload testssl results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: testssl-results
+          path: testssl-results.json
+          retention-days: 30
+
+  dast-report:
+    name: Generate DAST Report
+    runs-on: ubuntu-latest
+    needs: [owasp-zap-scan, nikto-scan, api-security-test, ssl-tls-scan]
+    if: always()
+    
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+      
+      - name: Generate DAST summary
+        run: |
+          echo "# DAST Scan Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Scan Results" >> $GITHUB_STEP_SUMMARY
+          echo "- OWASP ZAP: ${{ needs.owasp-zap-scan.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Nikto: ${{ needs.nikto-scan.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- API Security: ${{ needs.api-security-test.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- SSL/TLS: ${{ needs.ssl-tls-scan.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Scan completed at:** $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Please review the detailed results in the workflow artifacts." >> $GITHUB_STEP_SUMMARY
+      
+      - name: Notify security team
+        if: failure()
+        run: |
+          echo "::warning::DAST scan found security issues. Please review the artifacts."

@@ -1,0 +1,334 @@
+{
+  "alert_rules": {
+    "version": "1.0",
+    "organization": "Zabala Gailetak",
+    "rules": [
+      {
+        "id": "auth-001",
+        "name": "Multiple Failed Login Attempts",
+        "description": "Detects multiple failed login attempts from the same IP address within a short time period",
+        "severity": "high",
+        "category": "authentication",
+        "condition": {
+          "query": "event:auth.login.failed",
+          "threshold": 5,
+          "timeframe": "15m",
+          "group_by": "client_ip"
+        },
+        "action": {
+          "alert": true,
+          "notify": ["security_team"],
+          "block_ip": false,
+          "create_incident": true
+        },
+        "mitre_attack": ["T1110.001", "T1110.003"]
+      },
+      {
+        "id": "auth-002",
+        "name": "Account Lockout Triggered",
+        "description": "User account has been locked due to too many failed attempts",
+        "severity": "medium",
+        "category": "authentication",
+        "condition": {
+          "query": "event:auth.account.locked",
+          "threshold": 1,
+          "timeframe": "5m"
+        },
+        "action": {
+          "alert": true,
+          "notify": ["user", "security_team"]
+        },
+        "mitre_attack": ["T1110"]
+      },
+      {
+        "id": "sqli-001",
+        "name": "SQL Injection Attempt Detected",
+        "description": "Possible SQL injection attack detected in request parameters",
+        "severity": "critical",
+        "category": "injection_attack",
+        "condition": {
+          "query": "alert_type:sql_injection_attempt",
+          "threshold": 1,
+          "timeframe": "1m"
+        },
+        "action": {
+          "alert": true,
+          "notify": ["security_team", "soc"],
+          "block_ip": true,
+          "create_incident": true,
+          "quarantine": true
+        },
+        "mitre_attack": ["T1190"]
+      },
+      {
+        "id": "xss-001",
+        "name": "Cross-Site Scripting (XSS) Attempt",
+        "description": "Possible XSS attack detected in user input",
+        "severity": "high",
+        "category": "injection_attack",
+        "condition": {
+          "query": "alert_type:xss_attempt",
+          "threshold": 1,
+          "timeframe": "1m"
+        },
+        "action": {
+          "alert": true,
+          "notify": ["security_team"],
+          "block_ip": false,
+          "create_incident": true
+        },
+        "mitre_attack": ["T1189"]
+      },
+      {
+        "id": "cmdi-001",
+        "name": "Command Injection Attempt",
+        "description": "Possible command injection attack detected",
+        "severity": "critical",
+        "category": "injection_attack",
+        "condition": {
+          "query": "alert_type:command_injection_attempt",
+          "threshold": 1,
+          "timeframe": "1m"
+        },
+        "action": {
+          "alert": true,
+          "notify": ["security_team", "soc", "ciso"],
+          "block_ip": true,
+          "create_incident": true,
+          "quarantine": true
+        },
+        "mitre_attack": ["T1059"]
+      },
+      {
+        "id": "scan-001",
+        "name": "Security Scanner Detected",
+        "description": "Known security scanning tool detected in User-Agent",
+        "severity": "high",
+        "category": "reconnaissance",
+        "condition": {
+          "query": "alert_type:security_scanner_detected",
+          "threshold": 1,
+          "timeframe": "1m"
+        },
+        "action": {
+          "alert": true,
+          "notify": ["security_team"],
+          "block_ip": true,
+          "create_incident": true
+        },
+        "mitre_attack": ["T1595"]
+      },
+      {
+        "id": "scan-002",
+        "name": "Directory Enumeration",
+        "description": "High number of 404 errors from single IP suggesting directory enumeration",
+        "severity": "medium",
+        "category": "reconnaissance",
+        "condition": {
+          "query": "status_code:404",
+          "threshold": 20,
+          "timeframe": "5m",
+          "group_by": "client_ip"
+        },
+        "action": {
+          "alert": true,
+          "notify": ["security_team"],
+          "block_ip": false,
+          "rate_limit": true
+        },
+        "mitre_attack": ["T1083"]
+      },
+      {
+        "id": "geo-001",
+        "name": "Access from High-Risk Country",
+        "description": "Administrative access from high-risk geographic location",
+        "severity": "medium",
+        "category": "suspicious_activity",
+        "condition": {
+          "query": "role:admin AND geoip.country_code2:(CN OR RU OR KP OR IR)",
+          "threshold": 1,
+          "timeframe": "1m"
+        },
+        "action": {
+          "alert": true,
+          "notify": ["security_team"],
+          "require_mfa": true
+        },
+        "mitre_attack": ["T1078"]
+      },
+      {
+        "id": "geo-002",
+        "name": "Impossible Travel",
+        "description": "User authentication from two geographically distant locations in short time",
+        "severity": "high",
+        "category": "suspicious_activity",
+        "condition": {
+          "query": "event:auth.login.success",
+          "check": "distance_between_logins > 1000km AND time_between_logins < 1h"
+        },
+        "action": {
+          "alert": true,
+          "notify": ["security_team", "user"],
+          "suspend_account": true,
+          "create_incident": true
+        },
+        "mitre_attack": ["T1078.004"]
+      },
+      {
+        "id": "rate-001",
+        "name": "Rate Limit Exceeded",
+        "description": "Client exceeded rate limiting threshold",
+        "severity": "low",
+        "category": "abuse",
+        "condition": {
+          "query": "status_code:429",
+          "threshold": 10,
+          "timeframe": "10m",
+          "group_by": "client_ip"
+        },
+        "action": {
+          "alert": true,
+          "notify": ["ops_team"],
+          "extend_block": true
+        },
+        "mitre_attack": ["T1499"]
+      },
+      {
+        "id": "data-001",
+        "name": "Large Data Exfiltration",
+        "description": "Unusually large amount of data transferred from database",
+        "severity": "critical",
+        "category": "data_exfiltration",
+        "condition": {
+          "query": "event:data.export AND bytes > 100MB",
+          "threshold": 1,
+          "timeframe": "5m"
+        },
+        "action": {
+          "alert": true,
+          "notify": ["security_team", "dpo", "ciso"],
+          "block_user": true,
+          "create_incident": true
+        },
+        "mitre_attack": ["T1567"]
+      },
+      {
+        "id": "priv-001",
+        "name": "Privilege Escalation Attempt",
+        "description": "User attempting to access resources beyond their authorization level",
+        "severity": "high",
+        "category": "privilege_escalation",
+        "condition": {
+          "query": "event:security.access.denied AND status_code:403",
+          "threshold": 3,
+          "timeframe": "5m",
+          "group_by": "user"
+        },
+        "action": {
+          "alert": true,
+          "notify": ["security_team"],
+          "create_incident": true
+        },
+        "mitre_attack": ["T1068", "T1078"]
+      },
+      {
+        "id": "sys-001",
+        "name": "Critical System Error",
+        "description": "Critical system error that may indicate a security issue",
+        "severity": "high",
+        "category": "system",
+        "condition": {
+          "query": "level:error AND severity:critical",
+          "threshold": 1,
+          "timeframe": "1m"
+        },
+        "action": {
+          "alert": true,
+          "notify": ["ops_team", "security_team"],
+          "create_ticket": true
+        }
+      },
+      {
+        "id": "mfa-001",
+        "name": "MFA Bypass Attempt",
+        "description": "User attempting to bypass MFA requirement",
+        "severity": "critical",
+        "category": "authentication",
+        "condition": {
+          "query": "event:auth.mfa.bypassed OR (mfaRequired:true AND mfaVerified:false AND auth.success:true)",
+          "threshold": 1,
+          "timeframe": "1m"
+        },
+        "action": {
+          "alert": true,
+          "notify": ["security_team", "ciso"],
+          "revoke_session": true,
+          "create_incident": true
+        },
+        "mitre_attack": ["T1556"]
+      },
+      {
+        "id": "gdpr-001",
+        "name": "Unauthorized Data Access",
+        "description": "Access to personal data without proper authorization",
+        "severity": "critical",
+        "category": "data_protection",
+        "condition": {
+          "query": "event:data.read AND data_classification:personal AND authorization:failed",
+          "threshold": 1,
+          "timeframe": "1m"
+        },
+        "action": {
+          "alert": true,
+          "notify": ["dpo", "security_team", "legal"],
+          "create_incident": true,
+          "log_gdpr_breach": true
+        }
+      }
+    ],
+    "notification_channels": {
+      "security_team": {
+        "email": "security@zabala-gailetak.com",
+        "slack": "#security-alerts",
+        "pagerduty": "security-oncall"
+      },
+      "ops_team": {
+        "email": "ops@zabala-gailetak.com",
+        "slack": "#ops-alerts"
+      },
+      "soc": {
+        "email": "soc@zabala-gailetak.com",
+        "sms": "+34-XXX-XXX-XXX"
+      },
+      "ciso": {
+        "email": "ciso@zabala-gailetak.com",
+        "sms": "+34-XXX-XXX-XXX"
+      },
+      "dpo": {
+        "email": "dpo@zabala-gailetak.com"
+      },
+      "legal": {
+        "email": "legal@zabala-gailetak.com"
+      }
+    },
+    "response_actions": {
+      "block_ip": {
+        "method": "firewall_rule",
+        "duration": "1h",
+        "escalation": "permanent_if_repeated"
+      },
+      "block_user": {
+        "method": "account_suspension",
+        "duration": "pending_investigation"
+      },
+      "rate_limit": {
+        "method": "api_throttle",
+        "duration": "15m"
+      },
+      "quarantine": {
+        "method": "isolate_traffic",
+        "review_required": true
+      }
+    }
+  }
+}

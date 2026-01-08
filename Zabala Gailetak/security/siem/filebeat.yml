@@ -1,0 +1,164 @@
+# Filebeat Configuration for Zabala Gailetak
+# Ships logs from application to Logstash
+
+filebeat.inputs:
+  # Application logs
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/zabala-gailetak/*.log
+      - /app/logs/*.log
+    fields:
+      type: application
+      environment: ${ENVIRONMENT:production}
+      organization: zabala-gailetak
+    fields_under_root: true
+    json.keys_under_root: true
+    json.add_error_key: true
+    json.message_key: message
+    multiline.pattern: '^\d{4}-\d{2}-\d{2}'
+    multiline.negate: true
+    multiline.match: after
+    
+  # Nginx access logs
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/nginx/access.log
+    fields:
+      type: nginx-access
+      log_type: web_server
+    fields_under_root: true
+    
+  # Nginx error logs
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/nginx/error.log
+    fields:
+      type: nginx-error
+      log_type: web_server
+      severity: error
+    fields_under_root: true
+    
+  # MongoDB logs
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/mongodb/*.log
+    fields:
+      type: mongodb
+      log_type: database
+    fields_under_root: true
+    
+  # Audit logs
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/zabala-gailetak/audit/*.log
+    fields:
+      type: audit
+      log_type: security
+      severity: medium
+    fields_under_root: true
+    json.keys_under_root: true
+    
+  # System logs (optional)
+  - type: log
+    enabled: false
+    paths:
+      - /var/log/syslog
+      - /var/log/auth.log
+    fields:
+      type: system
+      log_type: system
+    fields_under_root: true
+
+# Filebeat modules
+filebeat.modules:
+  - module: nginx
+    access:
+      enabled: true
+      var.paths: ["/var/log/nginx/access.log"]
+    error:
+      enabled: true
+      var.paths: ["/var/log/nginx/error.log"]
+
+# Processors to enrich data
+processors:
+  - add_host_metadata:
+      when.not.contains.tags: forwarded
+  - add_cloud_metadata: ~
+  - add_docker_metadata: ~
+  - add_kubernetes_metadata: ~
+  
+  # Drop debug logs in production
+  - drop_event:
+      when:
+        and:
+          - equals:
+              environment: production
+          - or:
+            - equals:
+                level: debug
+            - equals:
+                level: trace
+  
+  # Add custom fields
+  - add_fields:
+      target: ''
+      fields:
+        organization: Zabala Gailetak
+        data_classification: internal
+  
+  # Anonymize sensitive data
+  - drop_fields:
+      fields: ["password", "token", "secret", "api_key"]
+      ignore_missing: true
+
+# Output to Logstash
+output.logstash:
+  hosts: ["logstash:5044"]
+  ssl.enabled: false
+  loadbalance: true
+  worker: 2
+  compression_level: 3
+  
+  # Bulk settings
+  bulk_max_size: 2048
+  timeout: 30s
+
+# Logging
+logging.level: info
+logging.to_files: true
+logging.files:
+  path: /var/log/filebeat
+  name: filebeat
+  keepfiles: 7
+  permissions: 0644
+
+# Monitoring
+monitoring.enabled: true
+monitoring.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  username: "elastic"
+  password: "${ELASTIC_PASSWORD}"
+
+# Setup dashboards (run once)
+setup.dashboards.enabled: false
+setup.kibana:
+  host: "kibana:5601"
+  username: "elastic"
+  password: "${ELASTIC_PASSWORD}"
+
+# ILM (Index Lifecycle Management)
+setup.ilm.enabled: true
+setup.ilm.rollover_alias: "zabala-filebeat"
+setup.ilm.pattern: "{now/d}-000001"
+setup.ilm.policy_name: "zabala-policy"
+
+# Queue settings
+queue.mem:
+  events: 4096
+  flush.min_events: 512
+  flush.timeout: 1s

@@ -31,9 +31,12 @@ Prozesuaren faseen arabera:
   * *Kontrola:* Tenperatura (txokolatea likido mantentzeko) eta fluxua.
 * **Enbalatzeko Robotak:** Amaitutako produktuak kaxetan sartzeko beso robotikoak.
 
-## 2. Kontrol Sistemak
+## 2. Kontrol Sistemak eta Simulazioa
 
-* **PLCak (Programmable Logic Controllers):** Makina bakoitzaren kontrol lokala.
+Proiektu honetan, ingurune erreala simulatzeko software espezifikoa erabiliko da:
+
+* **Factory I/O:** Makina fisikoak (zinta garraiatzaileak, sentsoreak, beso robotikoak...) simulatzeko ingurune birtuala.
+* **OpenPLC:** PLCak (Programmable Logic Controllers) simulatzeko softwarea. Factory I/O-ko gailuak kontrolatuko ditu Modbus edo antzeko protokoloen bidez.
 * **HMI (Human Machine Interface):** Operadoreek makinak maneiatzeko panelak.
 * **SCADA:** Fabrika osoaren ikuspegi orokorra eta datuen bilketa.
 

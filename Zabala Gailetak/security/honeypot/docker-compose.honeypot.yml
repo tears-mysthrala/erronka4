@@ -1,0 +1,640 @@
+# =================================================================
+# Zabala Gailetak - Honeypot Infrastructure
+# =================================================================
+# 
+# DESCRIPTION:
+#   Multi-honeypot deployment for threat intelligence gathering
+#   Includes SSH, web, malware, and ICS/SCADA honeypots
+#   Integrated with ELK Stack SIEM for centralized logging
+#
+# SECURITY NOTICE:
+#   Deploy in isolated DMZ network ONLY
+#   Never deploy in production network
+#   Restrict outbound connections to prevent lateral movement
+#   Monitor resource usage to detect abuse
+#
+# COMPONENTS:
+#   - T-Pot: All-in-one honeypot platform
+#   - Cowrie: SSH/Telnet honeypot
+#   - Conpot: ICS/SCADA honeypot (Modbus, S7, BACnet)
+#   - Dionaea: Malware collection honeypot
+#   - Honeytrap: Low-interaction honeypot
+#   - ElasticPot: Elasticsearch honeypot
+#   - Logstash: Log aggregation and forwarding to main SIEM
+#
+# DEPLOYMENT:
+#   docker-compose -f docker-compose.honeypot.yml up -d
+#
+# MAINTENANCE:
+#   Daily log review, weekly malware analysis, monthly tuning
+#
+# =================================================================
+
+version: '3.8'
+
+services:
+  # =================================================================
+  # T-Pot - Comprehensive Honeypot Platform
+  # =================================================================
+  tpot:
+    image: telekom-security/tpotce:latest
+    container_name: zabala-tpot
+    hostname: zabala-tpot
+    restart: unless-stopped
+    
+    # Network configuration
+    network_mode: host
+    
+    # Resource limits (prevent abuse)
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
+    
+    # Persistent storage
+    volumes:
+      - tpot_data:/data
+      - tpot_log:/var/log/tpot
+      - ./config/tpot/tpot.yml:/opt/tpot/etc/tpot.yml:ro
+      - /etc/localtime:/etc/localtime:ro
+    
+    # Environment configuration
+    environment:
+      # Web UI credentials (change in production!)
+      - WEB_USER=admin
+      - WEB_PASS=SecurePassword123!
+      
+      # Timezone
+      - TZ=Europe/Madrid
+      
+      # Enable specific honeypots
+      - HONEYPOTS=cowrie,dionaea,conpot,elasticpot,heralding,honeytrap,mailoney,rdpy
+      
+      # SIEM integration
+      - ELK_ENABLED=true
+      - LOGSTASH_HOST=logstash
+      - LOGSTASH_PORT=5044
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:64297"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+    
+    labels:
+      - "com.zabala.service=honeypot"
+      - "com.zabala.component=tpot"
+      - "com.zabala.environment=dmz"
+
+  # =================================================================
+  # Cowrie - SSH/Telnet Honeypot (Standalone for Custom Config)
+  # =================================================================
+  cowrie:
+    image: cowrie/cowrie:latest
+    container_name: zabala-cowrie
+    hostname: zabalagailetak-ssh-server
+    restart: unless-stopped
+    
+    # Ports (mapped to non-standard to avoid conflicts with T-Pot)
+    ports:
+      - "2222:2222"  # SSH
+      - "2223:2223"  # Telnet
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    
+    # Persistent storage
+    volumes:
+      - cowrie_data:/cowrie/cowrie-git
+      - cowrie_log:/cowrie/cowrie-git/var/log/cowrie
+      - cowrie_downloads:/cowrie/cowrie-git/var/lib/cowrie/downloads
+      - cowrie_tty:/cowrie/cowrie-git/var/lib/cowrie/tty
+      - ./config/cowrie/cowrie.cfg:/cowrie/cowrie-git/etc/cowrie.cfg:ro
+      - ./config/cowrie/userdb.txt:/cowrie/cowrie-git/etc/userdb.txt:ro
+      - /etc/localtime:/etc/localtime:ro
+    
+    # Environment configuration
+    environment:
+      - TZ=Europe/Madrid
+      - COWRIE_JSON_ENABLED=true
+      - COWRIE_LOG_PATH=/cowrie/cowrie-git/var/log/cowrie
+    
+    # Network
+    networks:
+      - honeypot-net
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "2222"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    
+    labels:
+      - "com.zabala.service=honeypot"
+      - "com.zabala.component=cowrie"
+      - "com.zabala.protocol=ssh"
+
+  # =================================================================
+  # Conpot - ICS/SCADA Honeypot
+  # =================================================================
+  conpot:
+    image: honeynet/conpot:latest
+    container_name: zabala-conpot
+    hostname: zabalagailetak-plc-01
+    restart: unless-stopped
+    
+    # Industrial protocol ports
+    ports:
+      - "80:8080"    # HTTP (PLC Web Interface)
+      - "102:102"    # S7Comm (Siemens PLC)
+      - "502:502"    # Modbus TCP
+      - "161:161/udp" # SNMP
+      - "47808:47808" # BACnet
+      - "44818:44818" # EtherNet/IP
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+    
+    # Persistent storage
+    volumes:
+      - conpot_log:/var/log/conpot
+      - ./config/conpot/conpot.cfg:/etc/conpot/conpot.cfg:ro
+      - ./config/conpot/template.xml:/usr/src/conpot/conpot/templates/default/template.xml:ro
+      - /etc/localtime:/etc/localtime:ro
+    
+    # Environment configuration
+    environment:
+      - TZ=Europe/Madrid
+      - CONPOT_TEMPLATE=default
+      - CONPOT_DEVICE_NAME=Zabala Gailetak PLC-01
+      - CONPOT_JSON=true
+    
+    # Command (specify template)
+    command: ["--template", "default", "--logfile", "/var/log/conpot/conpot.log"]
+    
+    # Network
+    networks:
+      - honeypot-net
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "502"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    
+    labels:
+      - "com.zabala.service=honeypot"
+      - "com.zabala.component=conpot"
+      - "com.zabala.protocol=ics-scada"
+
+  # =================================================================
+  # Dionaea - Malware Collection Honeypot
+  # =================================================================
+  dionaea:
+    image: dinotools/dionaea:latest
+    container_name: zabala-dionaea
+    hostname: zabalagailetak-file-server
+    restart: unless-stopped
+    
+    # Common service ports
+    ports:
+      - "21:21"     # FTP
+      - "42:42"     # TFTP
+      - "69:69/udp" # TFTP
+      - "135:135"   # MS-RPC
+      - "445:445"   # SMB
+      - "1433:1433" # MSSQL
+      - "1723:1723" # PPTP
+      - "3306:3306" # MySQL
+      - "5060:5060" # SIP
+      - "5061:5061" # SIP-TLS
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+    
+    # Persistent storage
+    volumes:
+      - dionaea_log:/opt/dionaea/var/log
+      - dionaea_downloads:/opt/dionaea/var/dionaea/binaries
+      - dionaea_bistreams:/opt/dionaea/var/dionaea/bistreams
+      - ./config/dionaea/dionaea.cfg:/opt/dionaea/etc/dionaea/dionaea.cfg:ro
+      - /etc/localtime:/etc/localtime:ro
+    
+    # Environment configuration
+    environment:
+      - TZ=Europe/Madrid
+    
+    # Network
+    networks:
+      - honeypot-net
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "445"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    
+    labels:
+      - "com.zabala.service=honeypot"
+      - "com.zabala.component=dionaea"
+      - "com.zabala.purpose=malware-collection"
+
+  # =================================================================
+  # ElasticPot - Elasticsearch Honeypot
+  # =================================================================
+  elasticpot:
+    image: ghcr.io/schmalle/elasticpot:latest
+    container_name: zabala-elasticpot
+    hostname: zabalagailetak-elastic
+    restart: unless-stopped
+    
+    # Elasticsearch default port
+    ports:
+      - "9200:9200"
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    
+    # Persistent storage
+    volumes:
+      - elasticpot_log:/opt/elasticpot/log
+      - /etc/localtime:/etc/localtime:ro
+    
+    # Environment configuration
+    environment:
+      - TZ=Europe/Madrid
+    
+    # Network
+    networks:
+      - honeypot-net
+    
+    labels:
+      - "com.zabala.service=honeypot"
+      - "com.zabala.component=elasticpot"
+      - "com.zabala.protocol=elasticsearch"
+
+  # =================================================================
+  # Heralding - Credential Harvesting Honeypot
+  # =================================================================
+  heralding:
+    image: johnnykv/heralding:latest
+    container_name: zabala-heralding
+    hostname: zabalagailetak-services
+    restart: unless-stopped
+    
+    # Multiple service ports
+    ports:
+      - "23:23"     # Telnet
+      - "25:25"     # SMTP
+      - "110:110"   # POP3
+      - "143:143"   # IMAP
+      - "5432:5432" # PostgreSQL
+      - "1521:1521" # Oracle
+      - "3389:3389" # RDP
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    
+    # Persistent storage
+    volumes:
+      - heralding_log:/var/log/heralding
+      - ./config/heralding/heralding.yml:/etc/heralding/heralding.yml:ro
+      - /etc/localtime:/etc/localtime:ro
+    
+    # Environment configuration
+    environment:
+      - TZ=Europe/Madrid
+    
+    # Network
+    networks:
+      - honeypot-net
+    
+    labels:
+      - "com.zabala.service=honeypot"
+      - "com.zabala.component=heralding"
+      - "com.zabala.purpose=credential-harvesting"
+
+  # =================================================================
+  # Logstash - Log Aggregation and Forwarding
+  # =================================================================
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.11.0
+    container_name: zabala-honeypot-logstash
+    hostname: honeypot-logstash
+    restart: unless-stopped
+    
+    # Ports
+    ports:
+      - "5044:5044"  # Beats input
+      - "5045:5045"  # TCP JSON input
+      - "5000:5000/udp" # Syslog input
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+        reservations:
+          memory: 1G
+    
+    # Persistent storage
+    volumes:
+      - ./config/logstash/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./config/logstash/pipelines:/usr/share/logstash/pipeline:ro
+      - logstash_data:/usr/share/logstash/data
+      - /etc/localtime:/etc/localtime:ro
+    
+    # Environment configuration
+    environment:
+      - TZ=Europe/Madrid
+      - LS_JAVA_OPTS=-Xmx1g -Xms1g
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - XPACK_MONITORING_ENABLED=true
+    
+    # Network
+    networks:
+      - honeypot-net
+      - siem-net
+    
+    # Depends on
+    depends_on:
+      - cowrie
+      - conpot
+      - dionaea
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9600/_node/stats"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    
+    labels:
+      - "com.zabala.service=honeypot"
+      - "com.zabala.component=logstash"
+      - "com.zabala.purpose=log-aggregation"
+
+  # =================================================================
+  # Filebeat - Log Shipper (for T-Pot logs)
+  # =================================================================
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.11.0
+    container_name: zabala-honeypot-filebeat
+    hostname: honeypot-filebeat
+    restart: unless-stopped
+    user: root
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    
+    # Persistent storage
+    volumes:
+      - ./config/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - filebeat_data:/usr/share/filebeat/data
+      - tpot_log:/var/log/tpot:ro
+      - cowrie_log:/var/log/cowrie:ro
+      - conpot_log:/var/log/conpot:ro
+      - dionaea_log:/var/log/dionaea:ro
+      - /etc/localtime:/etc/localtime:ro
+    
+    # Environment configuration
+    environment:
+      - TZ=Europe/Madrid
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - LOGSTASH_HOSTS=logstash:5044
+    
+    # Network
+    networks:
+      - honeypot-net
+      - siem-net
+    
+    # Command
+    command: filebeat -e -strict.perms=false
+    
+    # Depends on
+    depends_on:
+      - logstash
+    
+    labels:
+      - "com.zabala.service=honeypot"
+      - "com.zabala.component=filebeat"
+      - "com.zabala.purpose=log-shipping"
+
+  # =================================================================
+  # Malware Analysis - Cuckoo Sandbox (Optional)
+  # =================================================================
+  # Commented out by default - requires significant resources
+  # Uncomment if malware analysis is needed
+  #
+  # cuckoo:
+  #   image: blacktop/cuckoo:latest
+  #   container_name: zabala-cuckoo
+  #   hostname: cuckoo-sandbox
+  #   restart: unless-stopped
+  #   
+  #   ports:
+  #     - "8000:8000"  # Web interface
+  #   
+  #   volumes:
+  #     - cuckoo_data:/cuckoo
+  #     - dionaea_downloads:/samples:ro
+  #   
+  #   networks:
+  #     - honeypot-net
+  #   
+  #   labels:
+  #     - "com.zabala.service=honeypot"
+  #     - "com.zabala.component=cuckoo"
+  #     - "com.zabala.purpose=malware-analysis"
+
+# =================================================================
+# Networks
+# =================================================================
+networks:
+  # Honeypot internal network (isolated)
+  honeypot-net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.30.0.0/24
+          gateway: 172.30.0.1
+    driver_opts:
+      com.docker.network.bridge.name: br-honeypot
+    labels:
+      - "com.zabala.network=honeypot"
+      - "com.zabala.isolation=true"
+  
+  # SIEM network (for forwarding logs to main ELK Stack)
+  siem-net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.31.0.0/24
+          gateway: 172.31.0.1
+    driver_opts:
+      com.docker.network.bridge.name: br-siem
+    labels:
+      - "com.zabala.network=siem"
+
+# =================================================================
+# Volumes
+# =================================================================
+volumes:
+  # T-Pot
+  tpot_data:
+    driver: local
+    labels:
+      - "com.zabala.backup=daily"
+  tpot_log:
+    driver: local
+    labels:
+      - "com.zabala.backup=weekly"
+  
+  # Cowrie
+  cowrie_data:
+    driver: local
+  cowrie_log:
+    driver: local
+    labels:
+      - "com.zabala.backup=daily"
+  cowrie_downloads:
+    driver: local
+    labels:
+      - "com.zabala.backup=daily"
+      - "com.zabala.scan=malware"
+  cowrie_tty:
+    driver: local
+  
+  # Conpot
+  conpot_log:
+    driver: local
+    labels:
+      - "com.zabala.backup=daily"
+  
+  # Dionaea
+  dionaea_log:
+    driver: local
+    labels:
+      - "com.zabala.backup=daily"
+  dionaea_downloads:
+    driver: local
+    labels:
+      - "com.zabala.backup=daily"
+      - "com.zabala.scan=malware"
+  dionaea_bistreams:
+    driver: local
+  
+  # ElasticPot
+  elasticpot_log:
+    driver: local
+  
+  # Heralding
+  heralding_log:
+    driver: local
+  
+  # Logstash
+  logstash_data:
+    driver: local
+  
+  # Filebeat
+  filebeat_data:
+    driver: local
+  
+  # Cuckoo (optional)
+  # cuckoo_data:
+  #   driver: local
+
+# =================================================================
+# DEPLOYMENT NOTES
+# =================================================================
+# 
+# 1. Pre-deployment:
+#    - Review and change default credentials
+#    - Create configuration files in ./config/ directories
+#    - Ensure sufficient disk space (minimum 100GB recommended)
+#    - Configure firewall rules for DMZ isolation
+#
+# 2. Initial deployment:
+#    docker-compose -f docker-compose.honeypot.yml up -d
+#
+# 3. Verify deployment:
+#    docker-compose -f docker-compose.honeypot.yml ps
+#    docker-compose -f docker-compose.honeypot.yml logs -f
+#
+# 4. Access T-Pot web interface:
+#    https://<honeypot-ip>:64297
+#    Username: admin
+#    Password: SecurePassword123! (CHANGE THIS!)
+#
+# 5. Monitor logs:
+#    docker-compose -f docker-compose.honeypot.yml logs -f logstash
+#    docker-compose -f docker-compose.honeypot.yml logs -f cowrie
+#
+# 6. Stop honeypots:
+#    docker-compose -f docker-compose.honeypot.yml down
+#
+# 7. Backup data:
+#    docker run --rm -v zabala_honeypot_cowrie_log:/data \
+#      -v $(pwd)/backups:/backup alpine tar czf \
+#      /backup/cowrie-logs-$(date +%Y%m%d).tar.gz /data
+#
+# =================================================================
+# SECURITY WARNINGS
+# =================================================================
+#
+# CRITICAL: This honeypot infrastructure should ONLY be deployed in:
+#   - Dedicated DMZ network segment
+#   - Isolated from production systems
+#   - With restricted outbound connectivity
+#   - Under constant monitoring
+#
+# DO NOT:
+#   - Deploy in production network
+#   - Use real credentials or production data
+#   - Allow honeypot to access internal systems
+#   - Ignore security alerts from honeypots
+#
+# LEGAL CONSIDERATIONS:
+#   - Ensure compliance with local laws
+#   - Document honeypot purpose and scope
+#   - Obtain necessary approvals
+#   - Maintain audit trail of all activities
+#
+# =================================================================

@@ -16,7 +16,9 @@ Enpresak sare segmentatu bat ezarri du, segurtasuna bermatzeko.
   * Datu-baseak, Fitxategi zerbitzariak, Domeinu kontrolatzailea.
   * Sarbidea murriztuta (bakarrik beharrezko portuak).
 * **OT Sarea (Industrial):**
-  * PLCak, HMIak, SCADA sistemak.
+  * PLCak (OpenPLC), HMIak, SCADA sistemak.
+  * **Node-RED:** Datuen integrazioa eta fluxuen kudeaketa egiteko, sare berean kokatuta.
+  * Makina fisikoen simulazioa (Factory I/O).
   * IT saretik guztiz isolatuta edo "Data Diode" / Firewall zorrotz baten bidez.
 
 ## 2. Sare Mapa (Irudiak)
