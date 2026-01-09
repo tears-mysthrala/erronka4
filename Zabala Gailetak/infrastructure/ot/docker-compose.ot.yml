@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  openplc:
+    image: openplcproject/openplc:v3
+    container_name: zabala-openplc
+    ports:
+      - "8080:8080"
+      - "502:502"
+    volumes:
+      - ./openplc/programs:/programs
+      - openplc_data:/persistent
+    networks:
+      ot_network:
+        ipv4_address: 192.168.50.10
+    restart: unless-stopped
+    
+  scadabr:
+    image: scadabr/scadabr:latest
+    container_name: zabala-scadabr
+    ports:
+      - "9090:8080"
+    depends_on:
+      - openplc
+    networks:
+      - ot_network
+    restart: unless-stopped
+
+networks:
+  ot_network:
+    driver: bridge
+    internal: true
+    ipam:
+      config:
+        - subnet: 192.168.50.0/24
+
+volumes:
+  openplc_data:
