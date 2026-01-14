@@ -2,7 +2,8 @@
 
 ## Helburua
 
-Mugikorrerako aplikazioa (React Native) segurtasun estandarren arabera gogortzeko prozedura, OWASP Mobile Top 10 arauak kontuan hartuta.
+Mugikorrerako aplikazioa (React Native) segurtasun estandarren arabera gogortzeko prozedura,
+OWASP Mobile Top 10 arauak kontuan hartuta.
 
 ## Aurrebaldintzak
 
@@ -30,9 +31,9 @@ android {
     
     buildTypes {
         release {
-            minifyEnabled true // Kodea murriztea eta lausotzea gaitu
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable false // Arazketa desgaitu produkzioan
+            debuggable false
         }
     }
 }
@@ -152,7 +153,6 @@ Inplementatu Faktore Anitzeko Autentifikazioa (MFA) segurtasuna indartzeko.
 const handleMFA = async (token) => {
   try {
     const response = await apiClient.post('/auth/mfa/verify', { token });
-    // Prozesatu erantzuna
   } catch (error) {
     Alert.alert('Errorea', 'MFA kodea baliogabea');
   }
@@ -204,7 +204,8 @@ const requestCameraPermission = async () => {
 
 ### 5.2 Baimenak Manifest-ean Bakarrik
 
-`AndroidManifest.xml` eta `Info.plist` fitxategietan soilik aplikazioak benetan behar dituen baimenak zehaztu. Gutxieneko pribilegioen printzipioa jarraitu.
+`AndroidManifest.xml` eta `Info.plist` fitxategietan soilik aplikazioak benetan behar dituen
+baimenak zehaztu. Gutxieneko pribilegioen printzipioa jarraitu.
 
 ## 6. HTTPS eta Certificate Pinning Konfigurazioa (Android)
 
@@ -243,7 +244,6 @@ apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response?.status === 401) {
-      // Logout eta login orrira bideratu
       await clearToken();
       navigation.navigate('Login');
     }
@@ -264,7 +264,6 @@ import { Linking } from 'react-native';
 
 const handleOpenURL = async (url) => {
   if (url.startsWith('https://zabala-gailetak.com/')) {
-    // Prozesatu URL segurua
   } else {
     Alert.alert('Abisua', 'Esteka ez da segurua');
   }
@@ -283,7 +282,6 @@ Ziurtatu `console.log` eta garapeneko beste tresnak desgaituta daudela produkzio
 if (__DEV__) {
   console.log('Debug mode - ez erabili produkzioan');
 } else {
-  // Produkzioan log-ak isilarazi
   console.log = () => {};
   console.warn = () => {};
   console.error = () => {};
@@ -306,7 +304,7 @@ docker run -it -p 8000:8000 opensecurity/mobile-security-framework-mobsf
 
 ### 10.2 Frida Erabili
 
-Erabili Frida aplikazioaren portaera dinamikoa aztertzeko eta funtzioak hook egiteko (baimenik gabeko sarbideak simulatzeko).
+Erabili Frida aplikazioaren portaera dinamikoa aztertzeko eta funtzioak hook egiteko.
 
 ```bash
 npm install -g frida
@@ -316,7 +314,7 @@ npm install -g frida
 
 ### 11.1 ProGuard / R8 (Android)
 
-Gaitu kodearen murrizketa eta lausotzea `build.gradle` fitxategian. Honek alderantzizko ingeniaritza zailtzen du.
+Gaitu kodearen murrizketa eta lausotzea `build.gradle` fitxategian.
 
 ```bash
 android {
@@ -332,12 +330,12 @@ android {
 
 ### 11.2 Hermes (JavaScript)
 
-Erabili Hermes motorra JavaScript bytecode-a konpilatzeko, errendimendua hobetzeko eta iturburu kodea zuzenean ez erakusteko.
+Erabili Hermes motorra JavaScript bytecode-a konpilatzeko, errendimendua hobetzeko eta iturburu
+kodea zuzenean ez erakusteko.
 
 ```javascript
-// android/app/build.gradle
 project.ext.react = [
-    enableHermes: true,  // Garbitu eta berreraiki behar da
+    enableHermes: true
 ]
 ```
 
@@ -345,7 +343,7 @@ project.ext.react = [
 
 ### 12.1 Unitate Probak
 
-Egiaztatu segurtasun funtzioak (adibidez, pasahitzak ez direla testu lauan gordetzen).
+Egiaztatu segurtasun funtzioak.
 
 ```javascript
 describe('Segurtasun Probak', () => {
@@ -368,7 +366,7 @@ describe('Segurtasun E2E', () => {
       await loginAttempt('test', 'wrong');
     }
     const response = await loginAttempt('test', 'wrong');
-    expect(response.status).toBe(429); // Too Many Requests
+    expect(response.status).toBe(429);
   });
 });
 ```
@@ -383,5 +381,6 @@ describe('Segurtasun E2E', () => {
 ## Erreferentziak
 
 - OWASP Mobile Top 10: <https://owasp.org/www-project-mobile-top-10/>
-- OWASP Mobile Security Testing Guide: <https://owasp.org/www-project-mobile-security-testing-guide/>
+- OWASP Mobile Security Testing Guide:
+  <https://owasp.org/www-project-mobile-security-testing-guide/>
 - React Native Security: <https://reactnative.dev/docs/security>

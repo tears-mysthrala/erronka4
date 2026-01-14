@@ -26,7 +26,8 @@
 
 ### 1.1 Proiektuaren Helburuak
 
-Zabala Gailetak proiektuaren helburua enpresaren azpiegitura informatikoa modernizatzea eta segurtasuna indartzea da. Proiektu honek hurrengo osagaiak biltzen ditu:
+Zabala Gailetak proiektuaren helburua enpresaren azpiegitura informatikoa modernizatzea
+eta segurtasuna indartzea da. Proiektu honek hurrengo osagaiak biltzen ditu:
 
 - **Backend API**: Segurtasun middleware osatuekin
 - **Web Aplikazioa**: E-commerce plataforma segurua
@@ -59,7 +60,8 @@ Zabala Gailetak proiektuaren helburua enpresaren azpiegitura informatikoa modern
 
 ### 2.1 Enpresaren Profila
 
-**Zabala Gailetak** Euskal Herrian kokatuta dagoen enpresa bat da, gaileta eta txokolate ekoizpen, salmenta eta banaketa egiten duena.
+**Zabala Gailetak** Euskal Herrian kokatuta dagoen enpresa bat da,
+gaileta eta txokolate ekoizpen, salmenta eta banaketa egiten duena.
 
 **Datuak:**
 
@@ -159,9 +161,8 @@ Proiektu honek hurrengo eremuak hartzen ditu:
 
 ### 3.1 Sistema Arkitektura
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
-│                    Kanpoko Erabiltzaileak                   │
 └──────────────────┬──────────────────┬────────────────────┘
                    │                  │
             ┌──────▼──────┐    ┌─────▼─────┐
@@ -190,7 +191,7 @@ Proiektu honek hurrengo eremuak hartzen ditu:
 
 ### 3.2 Sare Arkitektura
 
-```
+```text
 ┌─────────────────────────────────────────────────────────┐
 │                   Internet                            │
 └──────────────────┬────────────────────────────────────┘
@@ -246,7 +247,7 @@ Proiektu honek hurrengo eremuak hartzen ditu:
 
 #### 3.3.1 Autentikazio Fluxua
 
-```
+```text
 Erabiltzailea → Login Inprimakia
     ↓
 POST /api/auth/login (username, password)
@@ -268,7 +269,7 @@ Bezeroak tokena gordetzen du (HttpOnly cookie)
 
 #### 3.3.2 Eskaera Fluxua
 
-```
+```text
 Erabiltzaileak produktuak arakatzen ditu
     ↓
 GET /api/products
@@ -292,7 +293,7 @@ SIEM log gertaera
 
 #### 3.4.1 Defentsa Sakoneran (Defense in Depth)
 
-```
+```text
 1. Geruza: Sare Segurtasuna
 ├── Firewall arauak
 ├── Sare segmentazioa
@@ -972,7 +973,7 @@ tar -czf /backups/archive/$(date +%Y%m).tar.gz /backups/weekly/*
 
 #### 9.3.1 Proba Piramidea
 
-```
+```text
         /\
        /E2E\        (10%)
       /------\
@@ -993,7 +994,7 @@ tar -czf /backups/archive/$(date +%Y%m).tar.gz /backups/weekly/*
 
 #### 9.4.1 Adar Estrategia (Branching)
 
-```
+```text
 main (production)
   ↑
 develop (integration)
@@ -1007,7 +1008,7 @@ bugfix/auth-error
 
 **Formatua:**
 
-```
+```text
 <mota>(<eremua>): <gaia>
 
 <body>

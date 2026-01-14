@@ -1,6 +1,7 @@
 # Zabala Gailetak - Segurtasun Sistema Aurreratua
 
-Proiektu hau Zabala Gailetak enpresarako zibersegurtasun sistema aurreratua inplementatzen du, web eta mobil aplikazioak barne.
+Proiektu hau Zabala Gailetak enpresarako zibersegurtasun sistema aurreratua inplementatzen du,
+web eta mobil aplikazioak barne.
 
 ## Ezarritako Osagaiak
 
@@ -83,7 +84,7 @@ docker-compose -f docker-compose.siem.yml up -d
 
 ## Proiektuaren Egitura
 
-```
+```text
 erronkak/
 ├── Zabala Gailetak/
 │   ├── src/

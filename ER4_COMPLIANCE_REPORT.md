@@ -8,7 +8,9 @@
 
 ## Executive Summary
 
-This document verifies that the Zabala Gailetak cybersecurity project meets all requirements specified in ER4.md (Erronka 4 specifications). The project has achieved **100% compliance** with all technical and cross-functional competencies outlined in the course requirements.
+This document verifies that the Zabala Gailetak cybersecurity project meets all requirements
+specified in ER4.md (Erronka 4 specifications). The project has achieved **100% compliance**
+with all technical and cross-functional competencies outlined in the course requirements.
 
 ---
 
@@ -581,7 +583,8 @@ This document verifies that the Zabala Gailetak cybersecurity project meets all 
 
 ### ✅ Autonomy (25%)
 
-**Evidence:** Self-directed implementation of all security systems, independent decision-making on technology choices, proactive problem-solving.
+**Evidence:** Self-directed implementation of all security systems, independent decision-making
+on technology choices, proactive problem-solving.
 
 ### ✅ Involvement (25%)
 
@@ -652,7 +655,8 @@ This document verifies that the Zabala Gailetak cybersecurity project meets all 
 
 ## Conclusion
 
-The Zabala Gailetak cybersecurity project has achieved **100% compliance** with all ER4 (Erronka 4) requirements. The project demonstrates:
+The Zabala Gailetak cybersecurity project has achieved **100% compliance** with all ER4
+(Erronka 4) requirements. The project demonstrates:
 
 1. **Comprehensive Security Implementation** across all layers (network, application, data)
 2. **Complete OT/IT Integration** with proper segmentation and industrial security controls
@@ -663,7 +667,9 @@ The Zabala Gailetak cybersecurity project has achieved **100% compliance** with 
 7. **Full Regulatory Compliance** with GDPR, ISO 27001, and IEC 62443
 8. **Production-Ready Systems** with CI/CD, monitoring, and disaster recovery
 
-All technical competencies (RA1-RA10 across 6 modules) have been successfully implemented and documented. Cross-functional competencies (autonomy, involvement, communication, teamwork) are demonstrated through quality of work and comprehensive documentation.
+All technical competencies (RA1-RA10 across 6 modules) have been successfully implemented
+and documented. Cross-functional competencies (autonomy, involvement, communication, teamwork)
+are demonstrated through quality of work and comprehensive documentation.
 
 **Project Status: READY FOR EVALUATION**
 

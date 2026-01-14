@@ -32,13 +32,13 @@ Este documento detalla los costes completos de implementación del sistema Zabal
 
 | Servidor | Especificaciones | Precio Unitario | Cantidad | Total |
 |----------|------------------|-----------------|----------|-------|
-| **Servidor Producción** | Dell PowerEdge R750<br>- 8 cores (Intel Xeon Silver 4310)<br>- 32 GB RAM DDR4<br>- 2x 960GB SSD RAID1<br>- 2x 10Gbe NIC<br>- Redundant PSU | €4,200 | 2 (HA) | €8,400 |
-| **Servidor SIEM** | Dell PowerEdge R750<br>- 16 cores (Intel Xeon Gold 5320)<br>- 64 GB RAM DDR4<br>- 4x 960GB SSD RAID10<br>- 2x 10Gbe NIC<br>- Redundant PSU | €7,800 | 2 (cluster) | €15,600 |
-| **Servidor OT/PLC** | Dell PowerEdge R650<br>- 6 cores (Intel Xeon Silver 4309Y)<br>- 16 GB RAM DDR4<br>- 2x 480GB SSD RAID1<br>- 2x 1Gbe NIC<br>- Redundant PSU | €3,200 | 1 | €3,200 |
-| **Servidor Honeypot** | Dell PowerEdge R650<br>- 12 cores (Intel Xeon Silver 4314)<br>- 32 GB RAM DDR4<br>- 4x 480GB SSD RAID10<br>- 2x 10Gbe NIC<br>- Redundant PSU | €5,400 | 1 | €5,400 |
-| **Firewall/Router** | Fortinet FortiGate 200F<br>- 20 Gbps throughput<br>- SSL inspection<br>- IPS/IDS<br>- VPN 1000 usuarios | €8,500 | 2 (HA pair) | €17,000 |
-| **Switch Core** | Cisco Catalyst 9300-48U<br>- 48 puertos 1/2.5/5/10Gbe<br>- VLAN, ACL, QoS<br>- PoE+ 740W | €6,500 | 2 (stack) | €13,000 |
-| **UPS** | APC Smart-UPS SRT 6kVA<br>- Autonomía 15 min a plena carga<br>- Online double-conversion | €3,200 | 2 | €6,400 |
+| **Servidor Producción** | Dell PowerEdge R750, 8 cores, 32 GB RAM, 2x 960GB SSD RAID1 | €4,200 | 2 (HA) | €8,400 |
+| **Servidor SIEM** | Dell PowerEdge R750, 16 cores, 64 GB RAM, 4x 960GB SSD RAID10 | €7,800 | 2 (cluster) | €15,600 |
+| **Servidor OT/PLC** | Dell PowerEdge R650, 6 cores, 16 GB RAM, 2x 480GB SSD RAID1 | €3,200 | 1 | €3,200 |
+| **Servidor Honeypot** | Dell PowerEdge R650, 12 cores, 32 GB RAM, 4x 480GB SSD RAID10 | €5,400 | 1 | €5,400 |
+| **Firewall/Router** | Fortinet FortiGate 200F, 20 Gbps, SSL inspection, IPS/IDS | €8,500 | 2 (HA pair) | €17,000 |
+| **Switch Core** | Cisco Catalyst 9300-48U, 48 puertos, VLAN, ACL, QoS, PoE+ | €6,500 | 2 (stack) | €13,000 |
+| **UPS** | APC Smart-UPS SRT 6kVA, 15 min autonomía, double-conversion | €3,200 | 2 | €6,400 |
 | **Rack 42U** | Incluye PDUs, bandejas, ventilación | €1,200 | 1 | €1,200 |
 | **Cableado estructurado** | Cat6a, latiguillos, patch panel | €800 | 1 | €800 |
 
@@ -48,7 +48,7 @@ Este documento detalla los costes completos de implementación del sistema Zabal
 
 | Item | Especificaciones | Precio |
 |------|------------------|--------|
-| **NAS Backup/Archive** | Synology RS2421RP+<br>- 12 bahías<br>- 12x 8TB SATA (96TB total)<br>- RAID6 (72TB útil)<br>- 10Gbe | €8,500 |
+| **NAS Backup/Archive** | Synology RS2421RP+, 12 bahías, 12x 8TB SATA, RAID6, 10Gbe | €8,500 |
 | **Cloud Backup** | AWS S3 Glacier<br>- 100 TB/año<br>- Replicación off-site | €2,400/año |
 
 **Subtotal Storage**: **€8,500 + €2,400/año**
@@ -610,7 +610,7 @@ País Vasco, España
 
 ### Anexo C: Hoja de Ruta de Implementación (6 meses)
 
-```
+```text
 Mes 1-2: Diseño y Preparación
 ├─ Semana 1-2: Kick-off, requisitos, arquitectura
 ├─ Semana 3-4: Diseño UX/UI, aprobación

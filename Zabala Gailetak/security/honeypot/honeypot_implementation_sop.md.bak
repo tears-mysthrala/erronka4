@@ -2,8 +2,7 @@
 
 ## Helburua
 
-Honeypot bat ezartzeko eta kudeatzeko prozedura,
-erasoen detekzioa eta analisia egiteko, batez ere
+Honeypot bat ezartzeko eta kudeatzeko prozedura, erasoen detekzioa eta analisia egiteko, batez ere
 OT/Industrial sektorera bideratua.
 
 ## Aurrebaldintzak
@@ -140,9 +139,7 @@ password = secure_password
 ### 4.1 Instalazioa
 
 ```bash
-docker run -d --name dionaea -p 21:21 -p 42:42 -p 135:135 -p 445:445 -p 
-1433:1433 -p 3306:3306 -p 80:80 -p 443:443 -v ./dionaea:/var/dionaea 
-honeytrap/dionaea
+docker run -d --name dionaea -p 21:21 -p 42:42 -p 135:135 -p 445:445 -p 1433:1433 -p 3306:3306 -p 80:80 -p 443:443 -v ./dionaea:/var/dionaea honeytrap/dionaea
 ```
 
 ### 4.2 Konfigurazioa
@@ -180,15 +177,13 @@ dionaea:
 ```bash
 iptables -A INPUT -p tcp --dport 102 -j DNAT --to-destination 192.168.100.50:102
 iptables -A INPUT -p tcp --dport 502 -j DNAT --to-destination 192.168.100.50:502
-iptables -A INPUT -p tcp --dport 2222 -j DNAT --to-destination 
-192.168.100.51:2222
+iptables -A INPUT -p tcp --dport 2222 -j DNAT --to-destination 192.168.100.51:2222
 ```
 
 ### 5.2 NAT eta Port Forwarding
 
 ```bash
-iptables -t nat -A PREROUTING -d EXTERNAL_IP -p tcp --dport 22 -j DNAT --to 
-192.168.100.51:2222
+iptables -t nat -A PREROUTING -d EXTERNAL_IP -p tcp --dport 22 -j DNAT --to 192.168.100.51:2222
 ```
 
 ## 6. Logging eta SIEM Integrazioa
@@ -208,8 +203,7 @@ filter {
   if [type] == "honeypot" {
     grok {
       match => {
-        "message" => "%{TIMESTAMP_ISO8601:timestamp} %{LOGLEVEL:level} 
-%{GREEDYDATA:msg}"
+        "message" => "%{TIMESTAMP_ISO8601:timestamp} %{LOGLEVEL:level} %{GREEDYDATA:msg}"
       }
     }
     

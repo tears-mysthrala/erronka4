@@ -21,33 +21,23 @@
 
 ### 1.2 Helburua
 
-Datuen Babesaren gaineko Eraginaren Ebaluazio (DPIA) txantiloi hau datuen babeserako arriskuak
-identifikatzeko eta minimizatzeko erabiltzen da, tratamendu jarduera berriak ezartzean edo
-lehendik daudenak nabarmen aldatzean. DPIAk derrigorrezkoak dira GDPR 35. artikuluaren arabera,
-tratatamendua "pertsona fisikoen eskubide eta askatasunetarako arrisku handia ekarriko duela
-litekeena denean".
+Datuen Babesaren gaineko Eraginaren Ebaluazio (DPIA) txantiloi hau datuen babeserako arriskuak identifikatzeko eta minimizatzeko erabiltzen da, tratamendu jarduera berriak ezartzean edo lehendik daudenak nabarmen aldatzean. DPIAk derrigorrezkoak dira GDPR 35. artikuluaren arabera, tratamendua "pertsona fisikoen eskubide eta askatasunetarako arrisku handia ekarriko duela litekeena denean".
 
 ### 1.3 Noiz da Derrigorrezkoa DPIA bat?
 
 **DPIA DERRIGORREZKOA da tratamenduak honako hauek dakarzkionean:**
 
-1. 
-**Tratamendu automatizatu sistematiko eta zabala**,
-ondorio juridikoak edo antzeko ondorio esanguratsuak dituen profilatzea barne
-2. 
-**Kategoria bereziko datuen eskala handiko tratamendua** (9. Artikulua) edo 
-zigor penalekin lotutako datuak (10. Artikulua)
+1. **Tratamendu automatizatu sistematiko eta zabala**, ondorio juridikoak edo antzeko ondorio esanguratsuak dituen profilatzea barne
+2. **Kategoria bereziko datuen eskala handiko tratamendua** (9. Artikulua) edo zigor penalekin lotutako datuak (10. Artikulua)
 3. **Eremu publikoen eskala handiko behaketa sistematikoa** (adib., CCTV zabala)
 
-**DPIA GOMENDAGARRIA da tratamenduak honako hauek dakarzkionean (WP29/EDPB 
-irizpideak):**
+**DPIA GOMENDAGARRIA da tratamenduak honako hauek dakarzkionean (WP29/EDPB irizpideak):**
 
 - Ebaluazioa edo puntuazioa (kreditu puntuazioa, iruzur detekzioa, profilatzea)
 - Erabaki automatizatuak ondorio juridiko edo esanguratsuekin
 - Behaketa sistematikoa
 - Datu sentikorrak edo oso pertsonalak (kokapena, osasuna, finantzak)
-- Eskala handiko tratamendua (datu interesdun kopurua,
-bolumena, iraupena, eremu geografikoa)
+- Eskala handiko tratamendua (datu interesdun kopurua, bolumena, iraupena, eremu geografikoa)
 - Datu multzoak parekatzea edo konbinatzea
 - Datu interesdun zaurgarrien datuak (haurrak, langileak, gaixoak, adinekoak)
 - Irtenbide teknologiko edo antolakuntzakoen erabilera berritzailea
@@ -122,22 +112,15 @@ Data: _____________________________
 
 **Zer da proiektua/tratamendu jarduera?**
 
-[Eman tratamendu jardueraren deskribapen osoa, helburua, esparrua eta testuingurua barne.
-Adibideak:
+[Eman tratamendu jardueraren deskribapen osoa, helburua, esparrua eta testuingurua barne. Adibideak:
 
-- "Bezeroen harremanak kudeatzeko (CRM) sistema berri baten inplementazioa bezeroen interakzioak,
-salmentak eta marketin kanpainak kudeatzeko"
-- "Produkzio instalazioetan CCTV kamerak jartzea segurtasun eta segurtasun 
-monitoreorako"
-- "Fidelizazio programa bat abiaraztea bezeroen erosketak eta lehentasunak 
-jarraituz eskaintza pertsonalizatuak emateko"]
+- "Bezeroen harremanak kudeatzeko (CRM) sistema berri baten inplementazioa bezeroen interakzioak, salmentak eta marketin kanpainak kudeatzeko"
+- "Produkzio instalazioetan CCTV kamerak jartzea segurtasun eta segurtasun monitoreorako"
+- "Fidelizazio programa bat abiaraztea bezeroen erosketak eta lehentasunak jarraituz eskaintza pertsonalizatuak emateko"]
 
 **Negozio Helburua:**
 
-[Azaldu negozio beharra eta espero diren onurak. Adibidea: "Bezeroarentzako 
-zerbitzua hobetzea bezeroen datuak eta interakzio historia zentralizatuz. 
-Erantzun denbora %30 murriztea eta bezeroen gogobetetasuna handitzea espero 
-da."]
+[Azaldu negozio beharra eta espero diren onurak. Adibidea: "Bezeroarentzako zerbitzua hobetzea bezeroen datuak eta interakzio historia zentralizatuz. Erantzun denbora %30 murriztea eta bezeroen gogobetetasuna handitzea espero da."]
 
 **Bizi-zikloaren Fasea:**
 
@@ -170,9 +153,7 @@ da."]
 
 **Tratamenduaren Deskribapen Xehatua:**
 
-[Deskribatu zehazki nola bildu,
-erabili, gorde, partekatu eta ezabatuko diren datuak. Sartu xehetasun tekniko 
-eta antolakuntzakoak.]
+[Deskribatu zehazki nola bildu, erabili, gorde, partekatu eta ezabatuko diren datuak. Sartu xehetasun tekniko eta antolakuntzakoak.]
 
 ### 3.3 Tratamenduaren Esparrua
 
@@ -230,9 +211,7 @@ Estimatutako datu tamaina: _____________________________ GB/TB
 
 **Datu Interesdunen Ezaugarriak:**
 
-[Deskribatu zaurgarritasuna edo arriskua handitu dezakeen edozein ezaugarri berezi. Adibideak: haurrak,
-langileak (botere desoreka), zailtasun ekonomikoan dauden pertsonak, osasun 
-datuen jabeak, etab.]
+[Deskribatu zaurgarritasuna edo arriskua handitu dezakeen edozein ezaugarri berezi. Adibideak: haurrak, langileak (botere desoreka), zailtasun ekonomikoan dauden pertsonak, osasun datuen jabeak, etab.]
 
 ### 4.2 Datu Pertsonalen Kategoriak
 
@@ -352,37 +331,28 @@ _____________________________
 
 **Helburu Nagusia:**
 
-[Adierazi argi helburu nagusia. Adibidea: "Bezeroen eskaerak prozesatu eta 
-produktuak entregatzeko."]
+[Adierazi argi helburu nagusia. Adibidea: "Bezeroen eskaerak prozesatu eta produktuak entregatzeko."]
 
 **Bigarren Mailako Helburuak:**
 
-[Zerrendatu helburu gehigarriak. Adibidea: "Produktu berriei eta eskaintza 
-bereziei buruzko marketin komunikazioak bidaltzeko."]
+[Zerrendatu helburu gehigarriak. Adibidea: "Produktu berriei eta eskaintza bereziei buruzko marketin komunikazioak bidaltzeko."]
 
 ### 5.2 Oinarri Juridikoa (GDPR 6. Artikulua)
 
 **Oinarri Juridiko Nagusia:**
 
 [ ] **(a) Baimena:** Datu interesdunak baimena eman du helburu zehatzetarako  
-[ ] **(b) Kontratua:** Tratamendua beharrezkoa da kontratua betetzeko edo 
-kontratu aurreko urratsetarako  
-[ ] **(c) Lege Obligazioa:** Tratamendua beharrezkoa da lege obligazio bat 
-betetzeko  
-[ ] **(d) Bizi Interesak:** Tratamendua beharrezkoa da bizi interesak babesteko 
-(hil ala biziko egoerak)  
-[ ] **(e) Zeregin Publikoa:** Tratamendua beharrezkoa da interes publikorako 
-edo agintaritza ofizialerako  
-[ ] **(f) Interes Legitimoak:** Tratamendua beharrezkoa da interes 
-legitimoetarako (datu interesdunen eskubideek gainditzen ez badute)  
+[ ] **(b) Kontratua:** Tratamendua beharrezkoa da kontratua betetzeko edo kontratu aurreko urratsetarako  
+[ ] **(c) Lege Obligazioa:** Tratamendua beharrezkoa da lege obligazio bat betetzeko  
+[ ] **(d) Bizi Interesak:** Tratamendua beharrezkoa da bizi interesak babesteko (hil ala biziko egoerak)  
+[ ] **(e) Zeregin Publikoa:** Tratamendua beharrezkoa da interes publikorako edo agintaritza ofizialerako  
+[ ] **(f) Interes Legitimoak:** Tratamendua beharrezkoa da interes legitimoetarako (datu interesdunen eskubideek gainditzen ez badute)  
 
 **Oinarri Juridikoaren Justifikazioa:**
 
-[Azaldu zergatik den egokia oinarri juridiko hau. Interes legitimoetan oinarritzen bada,
-egin eta dokumentatu oreka proba bat.]
+[Azaldu zergatik den egokia oinarri juridiko hau. Interes legitimoetan oinarritzen bada, egin eta dokumentatu oreka proba bat.]
 
-**Kategoria Bereziko Datuak badira (9. Artikulua),
-Oinarri Juridiko Gehigarria Beharrezkoa:**
+**Kategoria Bereziko Datuak badira (9. Artikulua), Oinarri Juridiko Gehigarria Beharrezkoa:**
 
 [ ] **(a) Berariazko baimena**  
 [ ] **(b) Enplegua, gizarte segurantza, gizarte babesa legea**  
@@ -403,8 +373,7 @@ Oinarri Juridiko Gehigarria Beharrezkoa:**
 
 **Zein departamentu/langilek izango dute sarbidea?**
 
-| Departamentua/Rola | Sarbide Helburua | Sarbide Datu Kategoriak | Sarbide 
-Kontrol Metodoa |
+| Departamentua/Rola | Sarbide Helburua | Sarbide Datu Kategoriak | Sarbide Kontrol Metodoa |
 |--------------------|------------------|-------------------------|-------------------------|
 | | | | |
 
@@ -416,8 +385,7 @@ Kontrol Metodoa |
 
 **Baiezkoa bada, zerrendatu prozesatzaile guztiak:**
 
-| Prozesatzaile Izena | Emandako Zerbitzua | Partekatutako Datuak | Kokapena | 
-DPA Indarrean |
+| Prozesatzaile Izena | Emandako Zerbitzua | Partekatutako Datuak | Kokapena | DPA Indarrean |
 |---------------------|--------------------|----------------------|----------|---------------|
 | | | | | [ ] Bai [ ] Ez |
 
@@ -429,11 +397,9 @@ DPA Indarrean |
 
 **Baiezkoa bada:**
 
-| Helmuga Herrialdea | Hartzailea | Transferentzia Mekanismoa | Egokitasun 
-Erabakia Dago |
+| Helmuga Herrialdea | Hartzailea | Transferentzia Mekanismoa | Egokitasun Erabakia Dago |
 |--------------------|------------|---------------------------|--------------------------|
-| | | [ ] Egokitasun Erabakia [ ] SCCs [ ] BCR [ ] Ziurtagiria [ ] Beste bat | 
-[ ] Bai [ ] Ez |
+| | | [ ] Egokitasun Erabakia [ ] SCCs [ ] BCR [ ] Ziurtagiria [ ] Beste bat | [ ] Bai [ ] Ez |
 
 ---
 
@@ -484,8 +450,7 @@ Erabakia Dago |
 
 ### 9.1 Arrisku Identifikazioa
 
-**Identifikatu datu interesdunen eskubide eta askatasunetarako arrisku 
-potentzialak:**
+**Identifikatu datu interesdunen eskubide eta askatasunetarako arrisku potentzialak:**
 
 **1. Arriskua:** _____________________________
 **Eragina:** [ ] Fisikoa [ ] Finantzarioa [ ] Diskriminazioa [ ] Ospea

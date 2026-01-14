@@ -2,7 +2,9 @@
 
 ## Proiektuaren Deskribapena
 
-"Zabala Gailetak" proiektuaren helburua enpresaren azpiegitura informatikoa modernizatzea eta segurtasuna indartzea da. Hau lortzeko, webgune bat eta mugikorrerako aplikazio bat garatuko dira, eta segurtasun neurri zorrotzak ezarriko dira.
+"Zabala Gailetak" proiektuaren helburua enpresaren azpiegitura informatikoa modernizatzea
+eta segurtasuna indartzea da. Hau lortzeko, webgune bat eta mugikorrerako aplikazio bat
+garatuko dira, eta segurtasun neurri zorrotzak ezarriko dira.
 
 ## Egitura
 

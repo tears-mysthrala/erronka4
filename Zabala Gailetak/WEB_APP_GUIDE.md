@@ -2,11 +2,12 @@
 
 ## Orokorra
 
-Zabala Gailetak web aplikazioa React-en oinarritutako merkataritza elektroniko plataforma moderno eta segurua da, mugikorrerako aplikazioaren segurtasun estandar berberekin eraikia.
+Zabala Gailetak web aplikazioa React-en oinarritutako merkataritza elektroniko plataforma
+moderno eta segurua da, mugikorrerako aplikazioaren segurtasun estandar berberekin eraikia.
 
 ## Arkitektura
 
-```
+```text
 Web Aplikazioa (React)
     ↓ HTTPS + JWT + MFA
 Backend API (Express)
@@ -49,7 +50,7 @@ SIEM (ELK Stack)
 
 ## Proiektuaren Egitura
 
-```
+```text
 src/web/
 ├── app/
 │   ├── pages/

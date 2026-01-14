@@ -6,7 +6,8 @@
 
 ## 📚 Dokumentazio Egitura
 
-Aurkibide honek Zabala Gailetak zibersegurtasun proiekturako eskuragarri dagoen dokumentazio guztiaren ikuspegi orokorra eskaintzen du.
+Aurkibide honek Zabala Gailetak zibersegurtasun proiekturako eskuragarri dagoen
+dokumentazio guztiaren ikuspegi orokorra eskaintzen du.
 
 ---
 

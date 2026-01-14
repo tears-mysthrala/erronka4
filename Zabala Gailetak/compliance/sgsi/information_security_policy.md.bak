@@ -43,22 +43,17 @@ Politika hau honako hauei banatzen zaie:
 
 ### 2.1 Helburua
 
-Informazioaren Segurtasun Politika honek Zabala Gailetak-en informazio-aktiboak 
-babesteko
-esparrua ezartzen du, IT sistemak, teknologia operatiboa (OT), negozio-datuak, 
-bezeroen
-informazioa eta jabetza intelektuala barne. ISO/IEC 27001:2022,
-GDPR eta Espainiako legedi
+Informazioaren Segurtasun Politika honek Zabala Gailetak-en informazio-aktiboak babesteko
+esparrua ezartzen du, IT sistemak, teknologia operatiboa (OT), negozio-datuak, bezeroen
+informazioa eta jabetza intelektuala barne. ISO/IEC 27001:2022, GDPR eta Espainiako legedi
 garrantzitsua (DBLO-GDD) betetzen dela ziurtatzen du.
 
 ### 2.2 Esparrua
 
 Politika hau honako hauei aplikatzen zaie:
 
-- Zabala Gailetak-en jabetzakoak edo kontrolpekoak diren informazio-aktibo 
-guztiak
-- Konpainiaren informaziora sartzen diren langile,
-kontratista, aholkulari eta hirugarren guztiak
+- Zabala Gailetak-en jabetzakoak edo kontrolpekoak diren informazio-aktibo guztiak
+- Konpainiaren informaziora sartzen diren langile, kontratista, aholkulari eta hirugarren guztiak
 - IT sistema guztiak (web aplikazioak, datu-baseak, hodeiko zerbitzuak)
 - OT sistema guztiak (PLCak, SCADA, fabrikazio-ekipamendua)
 - Instalazio fisikoak eta paperezko informazioa
@@ -69,19 +64,15 @@ kontratista, aholkulari eta hirugarren guztiak
 Politika honek ez ditu estaltzen:
 
 - Negozio helburuetarako erabiltzen ez diren informazio pertsonaleko sistemak
-- Hirugarrenen jabetzakoak diren informazio-sistemak,
-non Zabala Gailetak bezeroa den (akordio bereizien pean estalita)
+- Hirugarrenen jabetzakoak diren informazio-sistemak, non Zabala Gailetak bezeroa den (akordio bereizien pean estalita)
 
 ---
 
 ## 3. Politika Adierazpena
 
-Zabala Gailetak konprometituta dago bere informazio-aktiboen konfidentzialtasuna,
-osotasuna eta
-eskuragarritasuna babestera. Informazioaren segurtasuna negozioaren erraztailea da,
-ez oztopo
-bat, eta ezinbestekoa da bezeroen konfiantza, araudiaren betetzea eta 
-gaileta-fabrikazioaren
+Zabala Gailetak konprometituta dago bere informazio-aktiboen konfidentzialtasuna, osotasuna eta
+eskuragarritasuna babestera. Informazioaren segurtasuna negozioaren erraztailea da, ez oztopo
+bat, eta ezinbestekoa da bezeroen konfiantza, araudiaren betetzea eta gaileta-fabrikazioaren
 industrian abantaila lehiakorra mantentzeko.
 
 ### 3.1 Zuzendaritzaren Konpromisoa
@@ -91,24 +82,16 @@ Zuzendaritza Exekutiboak honako konpromisoak hartzen ditu:
 - Informazioaren segurtasunerako baliabide egokiak eskaintzea
 - Lege eta arauzko baldintzak betetzen direla ziurtatzea
 - Erakunde osoan segurtasunaren inguruko kultura sustatzea
-- Informazioaren Segurtasuna Kudeatzeko Sistema (ISMS) aldizka berrikusi eta 
-hobetzea
+- Informazioaren Segurtasuna Kudeatzeko Sistema (ISMS) aldizka berrikusi eta hobetzea
 - Segurtasun politika eta prozedurak jarraituz eredua ematea
 
 ### 3.2 Informazioaren Segurtasun Helburuak
 
-1. 
-**Konfidentzialtasuna:** Informazio sentikorra baimenik gabeko zabalkundetik 
-babestea
-2. 
-**Osotasuna:** Informazioaren eta sistemen zehaztasuna eta osotasuna ziurtatzea
-3. 
-**Eskuragarritasuna:** Behar denean informaziorako baimendutako sarbidea 
-ziurtatzea (%99.5eko uptime helburua)
+1. **Konfidentzialtasuna:** Informazio sentikorra baimenik gabeko zabalkundetik babestea
+2. **Osotasuna:** Informazioaren eta sistemen zehaztasuna eta osotasuna ziurtatzea
+3. **Eskuragarritasuna:** Behar denean informaziorako baimendutako sarbidea ziurtatzea (%99.5eko uptime helburua)
 4. **Betetzea:** Lege, arauzko eta kontratuzko betebehar guztiak betetzea
-5. 
-**Erresilientzia:** Negozio-eragiketak mantentzea segurtasun-intzidentzien 
-bitartean eta ondoren
+5. **Erresilientzia:** Negozio-eragiketak mantentzea segurtasun-intzidentzien bitartean eta ondoren
 6. **Etengabeko Hobekuntza:** Segurtasun-jarrera aldizka ebaluatu eta hobetzea
 
 ---
@@ -186,81 +169,59 @@ bitartean eta ondoren
 
 ### 5.1 Informazioaren Segurtasuna Kudeatzeko Sistema (ISMS)
 
-Zabala Gailetak-ek ISO/IEC 27001:2022 arauan oinarritutako ISMS bat darabil,
-PDCA (Plan-Do-Check-Act) zikloa ezarriz:
+Zabala Gailetak-ek ISO/IEC 27001:2022 arauan oinarritutako ISMS bat darabil, PDCA (Plan-Do-Check-Act) zikloa ezarriz:
 
-- **Plangintza (Plan):** Arriskuen ebaluazioa,
-segurtasun-helburuak, tratamendu-planak
+- **Plangintza (Plan):** Arriskuen ebaluazioa, segurtasun-helburuak, tratamendu-planak
 - **Egitea (Do):** Kontrolak, politikak, prozedurak, prestakuntza ezartzea
-- **Egiaztatzea (Check):** Barne-auditoriak,
-monitorizazioa, metrikak, kudeaketa-berrikuspena
-- **Jokatzea (Act):** Ekintza zuzentzaileak,
-etengabeko hobekuntza, ikasitako ikasgaiak
+- **Egiaztatzea (Check):** Barne-auditoriak, monitorizazioa, metrikak, kudeaketa-berrikuspena
+- **Jokatzea (Act):** Ekintza zuzentzaileak, etengabeko hobekuntza, ikasitako ikasgaiak
 
 ### 5.2 Arriskuen Kudeaketa
 
-Arriskuen ebaluazioa urtero egiten da edo aldaketa garrantzitsuak gertatzen 
-direnean:
+Arriskuen ebaluazioa urtero egiten da edo aldaketa garrantzitsuak gertatzen direnean:
 
-1. 
-**Aktiboen Identifikazioa:** Informazio-aktiboen inbentarioa (ikus Aktiboen 
-Erregistroa)
-2. 
-**Mehatxuen Ebaluazioa:** Mehatxu potentzialak identifikatu (zibererasoak,
-hondamendi naturalak,
+1. **Aktiboen Identifikazioa:** Informazio-aktiboen inbentarioa (ikus Aktiboen Erregistroa)
+2. **Mehatxuen Ebaluazioa:** Mehatxu potentzialak identifikatu (zibererasoak, hondamendi naturalak,
    giza akatsak)
 3. **Ahultasunen Analisia:** Sistemen eta prozesuen ahuleziak ebaluatu
 4. **Arriskuen Ebaluazioa:** Arrisku maila kalkulatu (Probabilitatea × Eragina)
 5. **Arriskuen Tratamendua:** Arriskuak onartu, arindu, transferitu edo saihestu
 6. **Hondar Arriskua:** Geratzen diren arriskuak dokumentatu eta onartu
 
-**Arriskuen Apetitoa:** Zabala Gailetak-ek arrisku baxuak eta ertainak onartzen 
-ditu kontrol egokiekin. Arrisku altuek exekutiboen onarpena eta arintze-planak 
-behar dituzte.
+**Arriskuen Apetitoa:** Zabala Gailetak-ek arrisku baxuak eta ertainak onartzen ditu kontrol egokiekin. Arrisku altuek exekutiboen onarpena eta arintze-planak behar dituzte.
 
 ### 5.3 Segurtasun Kontrolak
 
-Segurtasun kontrolak ISO/IEC 27001:2022 Anexo A-tik hautatzen dira (ikus 
-Aplikagarritasun
+Segurtasun kontrolak ISO/IEC 27001:2022 Anexo A-tik hautatzen dira (ikus Aplikagarritasun
 Adierazpena). Kontrolak honela sailkatzen dira:
 
-- **Prebentiboak:** Segurtasun-intzidentziak gertatu aurretik geldiaraztea 
-(suebakiak,
+- **Prebentiboak:** Segurtasun-intzidentziak gertatu aurretik geldiaraztea (suebakiak,
   sarbide-kontrola)
-- **Detektiboak:** Segurtasun-intzidentziak gertatzen direnean identifikatzea 
-(SIEM, IDS,
+- **Detektiboak:** Segurtasun-intzidentziak gertatzen direnean identifikatzea (SIEM, IDS,
   auditoriak)
-- **Zuzentzaileak:** Intzidentzien eragina minimizatu eta berreskuratzea 
-(segurtasun-kopiak,
+- **Zuzentzaileak:** Intzidentzien eragina minimizatu eta berreskuratzea (segurtasun-kopiak,
   intzidentzien erantzuna)
 
 ---
 
 ## 6. Segurtasun Politika Gakoak
 
-Informazioaren Segurtasun Politika orokor hau politika eta prozedura zehatzekin 
-babesten da:
+Informazioaren Segurtasun Politika orokor hau politika eta prozedura zehatzekin babesten da:
 
 ### 6.1 Sarbide Kontrolerako Politika
 
-- **Pribilegio Txikienaren Printzipioa:** Erabiltzaileek lan-funtzioetarako 
-beharrezkoa den gutxieneko sarbidea jasotzen dute
-- **Eginkizunen Bereizketa:** Funtzio kritikoek pertsona bat baino gehiago 
-behar dute
+- **Pribilegio Txikienaren Printzipioa:** Erabiltzaileek lan-funtzioetarako beharrezkoa den gutxieneko sarbidea jasotzen dute
+- **Eginkizunen Bereizketa:** Funtzio kritikoek pertsona bat baino gehiago behar dute
 - **Erabiltzaile Kontuen Kudeaketa:** Hornikuntza, aldaketa eta baja prozedurak
 - **Pasahitz Politika:** Ikus Pasahitz Politika dokumentu espezifikoa
-- **Faktore Anitzeko Autentifikazioa (MFA):** Derrigorrezkoa urruneko 
-sarbiderako eta pribilegiatutako kontuetarako
-- **Sarbide Berrikuspena:** Erabiltzaileen sarbide-eskubideen hiruhileko 
-berrikuspena
+- **Faktore Anitzeko Autentifikazioa (MFA):** Derrigorrezkoa urruneko sarbiderako eta pribilegiatutako kontuetarako
+- **Sarbide Berrikuspena:** Erabiltzaileen sarbide-eskubideen hiruhileko berrikuspena
 
 ### 6.2 Erabilera Onargarriaren Politika
 
 - Ikus Erabilera Onargarriaren Politika dokumentu espezifikoa
-- IT baliabideen, posta elektronikoaren, interneten eta gailu mugikorren 
-erabilera egokia estaltzen du
-- Baimenik gabeko softwarea, legez kanpoko jarduerak eta arrazoizko mugatik 
-gorako erabilera pertsonala debekatzen ditu
+- IT baliabideen, posta elektronikoaren, interneten eta gailu mugikorren erabilera egokia estaltzen du
+- Baimenik gabeko softwarea, legez kanpoko jarduerak eta arrazoizko mugatik gorako erabilera pertsonala debekatzen ditu
 
 ### 6.3 Datuen Sailkapena eta Kudeaketa
 
@@ -268,16 +229,10 @@ Informazioa lau mailatan sailkatzen da:
 
 | Sailkapena | Definizioa | Adibideak | Kudeaketa Baldintzak |
 |------------|------------|-----------|----------------------|
-| **Publikoa** | Zabalkunde publikorako informazioa | Marketing materialak,
-prentsa-oharrak | Ez dago murrizketa berezirik |
-| **Barnekoa** | Barne erabilerarako informazioa soilik | Barne oharrak,
-bilera-notak | Email enkriptatzea, barne sareak soilik |
-| **Konfidentziala** | Negozio-informazio sentikorra | Bezeroen datuak,
-finantza-txostenak, errezetak | Enkriptatzea geldirik eta trantsitoan, 
-sarbide-kontrola |
-| **Oso Konfidentziala** | Zabaltzeak kalte larriak eragin ditzakeen informazio kritikoa | Merkataritza-sekretuak,
-PII, ordainketa-txartelen datuak | Enkriptatze sendoa, MFA, auditoretza 
-erregistroa, DLP |
+| **Publikoa** | Zabalkunde publikorako informazioa | Marketing materialak, prentsa-oharrak | Ez dago murrizketa berezirik |
+| **Barnekoa** | Barne erabilerarako informazioa soilik | Barne oharrak, bilera-notak | Email enkriptatzea, barne sareak soilik |
+| **Konfidentziala** | Negozio-informazio sentikorra | Bezeroen datuak, finantza-txostenak, errezetak | Enkriptatzea geldirik eta trantsitoan, sarbide-kontrola |
+| **Oso Konfidentziala** | Zabaltzeak kalte larriak eragin ditzakeen informazio kritikoa | Merkataritza-sekretuak, PII, ordainketa-txartelen datuak | Enkriptatze sendoa, MFA, auditoretza erregistroa, DLP |
 
 **Kudeaketa Baldintzak:**
 
@@ -289,20 +244,14 @@ erregistroa, DLP |
 
 ### 6.4 Datuen Babes eta Pribatutasun Politika
 
-- GDPR (EB 2016/679 Erregelamendua) eta DBLO-GDD (Espainiako 3/2018 Lege 
-Organikoa) betetzea
-- Tratamendurako oinarri juridikoa: baimena,
-kontratua, legezko betebeharra, interes legitimoa
+- GDPR (EB 2016/679 Erregelamendua) eta DBLO-GDD (Espainiako 3/2018 Lege Organikoa) betetzea
+- Tratamendurako oinarri juridikoa: baimena, kontratua, legezko betebeharra, interes legitimoa
 - Datuen minimizazioa: beharrezkoak diren datuak soilik biltzea
 - Helburuaren mugatzea: datuak adierazitako helburuetarako soilik erabiltzea
-- Datu-interesdunen eskubideak: sarbidea,
-zuzenketa, ezabaketa, eramangarritasuna, aurkaritza (ikus Datu-Interesdunen 
-Eskubideen Prozedurak)
+- Datu-interesdunen eskubideak: sarbidea, zuzenketa, ezabaketa, eramangarritasuna, aurkaritza (ikus Datu-Interesdunen Eskubideen Prozedurak)
 - Datuen atxikipena: ikus Datuen Atxikipen Egutegia
-- Nazioarteko transferentziak: Klausula Kontratu Estandarrak (SCC) erabiltzea 
-EBtik kanpoko transferentzietarako
-- Datu-urraketen jakinarazpena: AEPDri jakinaraztea 72 orduko epean 
-pertsonentzat arriskua badago
+- Nazioarteko transferentziak: Klausula Kontratu Estandarrak (SCC) erabiltzea EBtik kanpoko transferentzietarako
+- Datu-urraketen jakinarazpena: AEPDri jakinaraztea 72 orduko epean pertsonentzat arriskua badago
 
 ### 6.5 Sare Segurtasun Politika
 
@@ -346,8 +295,7 @@ pertsonentzat arriskua badago
   - Sistema kritikoak: Eguneroko inkrementala, asteko osoa
   - Datu-baseak: Denbora errealeko erreplikazioa + egunerako kopiak
   - OT konfigurazioak: Aldaketen aurretik eta ondoren
-- **Biltegiratzea:** Enkriptatuta,
-gunetik kanpoko biltegiratzea (3-2-1 araua: 3 kopia, 2 euskarri
+- **Biltegiratzea:** Enkriptatuta, gunetik kanpoko biltegiratzea (3-2-1 araua: 3 kopia, 2 euskarri
   mota, 1 gunetik kanpo)
 - **Atxikipena:** 30 egun linean, urtebeteko artxiboa
 - **Berreskuratze Probak:** Hiruhileko berreskuratze simulazioak
@@ -356,26 +304,21 @@ gunetik kanpoko biltegiratzea (3-2-1 araua: 3 kopia, 2 euskarri
 
 ### 6.8 Intzidentzien Kudeaketa Politika
 
-- **Intzidentzia Definizioa:** Konfidentzialtasuna,
-osotasuna edo eskuragarritasuna mehatxatzen duen
+- **Intzidentzia Definizioa:** Konfidentzialtasuna, osotasuna edo eskuragarritasuna mehatxatzen duen
   edozein gertaera
 - **Jakinarazpena:** Intzidentzia guztiak ordubeteko epean jakinaraztea
   <security@zabalagailetak.com> bidez edo intzidentzia telefono bidez
-- **Sailkapena:** Kritikoa, Altua, Ertaina, Baxua eraginaren eta urgentziaren 
-arabera
-- **Erantzun Taldea:** CISO, IT Arduraduna, Lege Saila, DPO, PR (intzidentzia 
-kritikoetarako)
+- **Sailkapena:** Kritikoa, Altua, Ertaina, Baxua eraginaren eta urgentziaren arabera
+- **Erantzun Taldea:** CISO, IT Arduraduna, Lege Saila, DPO, PR (intzidentzia kritikoetarako)
 - **Erantzun Prozesua:**
   1. Detekzioa eta jakinarazpena
   2. Hasierako ebaluazioa eta eustea
   3. Ikerketa eta ebidentzia bilketa
   4. Ezabapena eta berreskuratzea
   5. Intzidentzia osteko berrikuspena eta ikasitako ikasgaiak
-- **Komunikazioa:** Kaltetutako alderdiei,
-erregulatzaileei (beharrezkoa bada) eta zuzendaritzari
+- **Komunikazioa:** Kaltetutako alderdiei, erregulatzaileei (beharrezkoa bada) eta zuzendaritzari
   jakinaraztea
-- **Dokumentazioa:** Intzidentzia erregistroa eta auzitegi-ebidentzia 
-mantentzea (ikus Audit Log)
+- **Dokumentazioa:** Intzidentzia erregistroa eta auzitegi-ebidentzia mantentzea (ikus Audit Log)
 
 ### 6.9 Negozioaren Jarraitutasuna eta Hondamendien Berreskuratze Politika
 
@@ -414,8 +357,7 @@ mantentzea (ikus Audit Log)
 
 - Segurtasun ebaluazioa kontratatu aurretik
 - Kontratu-segurtasun baldintzak akordio guztietan
-- Konfidentzialtasun Hitzarmenak (NDA) datu Konfidentzialetarako sarbidea 
-izateko
+- Konfidentzialtasun Hitzarmenak (NDA) datu Konfidentzialetarako sarbidea izateko
 - Segurtasun berrikuspen erregularrak hornitzaile kritikoentzat
 - Hornitzaileen segurtasun kontrolak auditatzeko eskubidea
 - Sarbidea eta datuak itzultzeko amaiera-prozedurak
@@ -437,16 +379,11 @@ izateko
 
 ### 6.13 Segurtasun Monitorizazio eta Erregistro Politika
 
-- **Erregistro Baldintzak:** Autentifikazioa,
-sarbide-kontrola, sistema aldaketak, segurtasun gertaerak
-- **Erregistro Atxikipena:** Gutxienez urtebete (legezko betekizuna),
-3 urte sistema kritikoetarako
-- **SIEM (Security Information and Event Management):** Denbora errealeko 
-erregistro korrelazioa eta alertak
-- **Erregistro Babesa:** Manipulazioen aurkakoa,
-enkriptatua, sarbide-kontrolatua
-- **Berrikuspen Maiztasuna:** Denbora errealeko analisi automatizatua,
-asteko eskuzko berrikuspena
+- **Erregistro Baldintzak:** Autentifikazioa, sarbide-kontrola, sistema aldaketak, segurtasun gertaerak
+- **Erregistro Atxikipena:** Gutxienez urtebete (legezko betekizuna), 3 urte sistema kritikoetarako
+- **SIEM (Security Information and Event Management):** Denbora errealeko erregistro korrelazioa eta alertak
+- **Erregistro Babesa:** Manipulazioen aurkakoa, enkriptatua, sarbide-kontrolatua
+- **Berrikuspen Maiztasuna:** Denbora errealeko analisi automatizatua, asteko eskuzko berrikuspena
 - **Alertak:** Alerta kritikoak segurtasun taldeari 24/7
 
 ---
@@ -458,18 +395,13 @@ asteko eskuzko berrikuspena
 Zabala Gailetak-ek honako hauek betetzen ditu:
 
 - **GDPR (EB 2016/679):** Datuen Babeserako Erregelamendu Orokorra
-- **DBLO-GDD (Espainiako 3/2018 Lege Organikoa):** Espainiako datuen babeserako 
-legea
+- **DBLO-GDD (Espainiako 3/2018 Lege Organikoa):** Espainiako datuen babeserako legea
 - **ePrivacy Zuzentaraua (2002/58/EE):** Komunikazio elektronikoen pribatutasuna
-- **PCI DSS:** Ordainketa Txartelen Industriaren Datuen Segurtasun Estandarra 
-(txartel bidezko ordainketak prozesatzen badira)
-- **ISO/IEC 27001:2022:** Informazioaren Segurtasuna Kudeatzeko ziurtagiri 
-helburua
-- **Espainiako Zigor Kodea (197. 
-artikulua):** Datu pertsonalen legez kanpoko zabalkundea
+- **PCI DSS:** Ordainketa Txartelen Industriaren Datuen Segurtasun Estandarra (txartel bidezko ordainketak prozesatzen badira)
+- **ISO/IEC 27001:2022:** Informazioaren Segurtasuna Kudeatzeko ziurtagiri helburua
+- **Espainiako Zigor Kodea (197. artikulua):** Datu pertsonalen legez kanpoko zabalkundea
 - **Langileen Estatutua:** Langileen pribatutasuna eta monitorizazioa
-- **Elikagaien Segurtasun Araudiak:** GMP,
-HACCP (zeharka datuen osotasunari eragiten dio)
+- **Elikagaien Segurtasun Araudiak:** GMP, HACCP (zeharka datuen osotasunari eragiten dio)
 
 ### 7.2 Kontratuzko Betebeharrak
 
@@ -480,8 +412,7 @@ HACCP (zeharka datuen osotasunari eragiten dio)
 
 ### 7.3 Jabetza Intelektualaren Babesa
 
-- Merkataritza-sekretuen babesa gaileta errezetetarako eta 
-fabrikazio-prozesuetarako
+- Merkataritza-sekretuen babesa gaileta errezetetarako eta fabrikazio-prozesuetarako
 - Copyright babesa softwarerako, dokumentaziorako, marketing materialetarako
 - Zabala Gailetak markaren babesa
 - Patenteen babesa fabrikazio-teknika berritzaileetarako (badaagokio)
@@ -495,12 +426,10 @@ fabrikazio-prozesuetarako
 Langile guztiek jasotzen dute:
 
 - **Kontratazio Berrien Prestakuntza:** Segurtasun oinarriak lehen astean
-- **Urteroko Freskatze Prestakuntza:** Derrigorrezkoa langile guztientzat (2 
-ordu)
+- **Urteroko Freskatze Prestakuntza:** Derrigorrezkoa langile guztientzat (2 ordu)
 - **Rol Espezifikoko Prestakuntza:**
   - Garatzaileak: Kodeketa segurua, OWASP Top 10 (8 ordu urtero)
-  - Sistema Administratzaileak: Hardening,
-monitorizazioa, intzidentzien erantzuna (16 ordu urtero)
+  - Sistema Administratzaileak: Hardening, monitorizazioa, intzidentzien erantzuna (16 ordu urtero)
   - Zuzendaritza: Arriskuen kudeaketa, legezko betebeharrak (4 ordu urtero)
   - Produkzio Langileak: OT segurtasuna, segurtasun fisikoa (4 ordu urtero)
 - **Phishing Simulazioak:** Hiruhileko phishing kanpaina simulatuak
@@ -522,8 +451,7 @@ monitorizazioa, intzidentzien erantzuna (16 ordu urtero)
 - Prestakuntza osatze-tasa: %100 helburua
 - Phishing simulazioan klik tasa: <%10 helburua
 - Intzidentziak jakinarazteko erantzun-denbora: <1 ordu helburua
-- Prestakuntzaren eraginkortasunaren ebaluazioa galdetegi eta ariketa 
-praktikoen bidez
+- Prestakuntzaren eraginkortasunaren ebaluazioa galdetegi eta ariketa praktikoen bidez
 
 ---
 
@@ -583,29 +511,21 @@ Funtsezko Errendimendu Adierazleak (KPIak):
 Politika hau urratzeak honakoak ekar ditzake:
 
 1. **Lehen Urraketa (Arina):** Ahozko ohartarazpena eta berriro prestatzea
-2. 
-**Bigarren Urraketa edo Urraketa Larria:** Idatzizko ohartarazpena eta 
-errendimendua hobetzeko plana
-3. 
-**Urraketa Oso Larriak edo Errepikatuak:** Etenaldia,
-kaleratzea edo legezko ekintzak
+2. **Bigarren Urraketa edo Urraketa Larria:** Idatzizko ohartarazpena eta errendimendua hobetzeko plana
+3. **Urraketa Oso Larriak edo Errepikatuak:** Etenaldia, kaleratzea edo legezko ekintzak
 
 **Urraketa Adibideak:**
 
 - Arina: Pasahitz ahula, desblokeatutako lan-estazioa zaintzarik gabe
-- Larria: Pasahitzak partekatzea,
-baimenik gabeko software instalazioa, politika ez betetzea
+- Larria: Pasahitzak partekatzea, baimenik gabeko software instalazioa, politika ez betetzea
   ohartarazpenaren ondoren
-- Oso Larria: Nahita egindako datu-urraketa,
-jarduera maltzurra, iruzurra, informazio lapurreta
+- Oso Larria: Nahita egindako datu-urraketa, jarduera maltzurra, iruzurra, informazio lapurreta
 
-Diziplina-ekintza guztiak Espainiako lan-legearekin eta lan-kontratuekin bat 
-datoz.
+Diziplina-ekintza guztiak Espainiako lan-legearekin eta lan-kontratuekin bat datoz.
 
 ### 10.3 Salbuespenak eta Uko Egiteak
 
-- Politika salbuespenek CISOren eta dagokion departamentuko arduradunaren 
-idatzizko onarpena behar dute
+- Politika salbuespenek CISOren eta dagokion departamentuko arduradunaren idatzizko onarpena behar dute
 - Salbuespenak denbora mugatukoak dira (gehienez 6 hilabete) eta dokumentatuak
 - Konpentsazio-kontrolak ezarri behar dira
 - Salbuespenak hiruhilero berrikusten dira
@@ -652,8 +572,7 @@ Politika aldaketek prozesu hau jarraitzen dute:
 - Aktiboen Erregistroa - Dokumentuaren IDa: ASR-001
 - Arriskuen Ebaluazio Txostena - Dokumentuaren IDa: RAR-001
 - Intzidentzien Erantzun Prozedura - Dokumentuaren IDa: IRP-001
-- Datuen Babesaren gaineko Eraginaren Ebaluazio Txantiloia - Dokumentuaren IDa: 
-DPIA-001
+- Datuen Babesaren gaineko Eraginaren Ebaluazio Txantiloia - Dokumentuaren IDa: DPIA-001
 - Datu Urraketa Jakinarazpen Txantiloia - Dokumentuaren IDa: DBN-001
 - Datu Interesdunen Eskubideen Prozedurak - Dokumentuaren IDa: DSR-001
 
@@ -698,10 +617,8 @@ Webgunea: <www.incibe.es>
 
 Langile guztiek politika hau jaso eta ulertu dutela aitortu behar dute:
 
-**Aitortzen dut Zabala Gailetak-en Informazioaren Segurtasun Politika jaso,
-irakurri eta ulertu
-dudala. Baldintza guztiak betetzea onartzen dut eta ulertzen dut urraketek 
-diziplina-ekintzak
+**Aitortzen dut Zabala Gailetak-en Informazioaren Segurtasun Politika jaso, irakurri eta ulertu
+dudala. Baldintza guztiak betetzea onartzen dut eta ulertzen dut urraketek diziplina-ekintzak
 ekar ditzaketela, enplegu edo kontratuaren amaiera barne.**
 
 ---
@@ -718,28 +635,21 @@ ekar ditzaketela, enplegu edo kontratuaren amaiera barne.**
 
 ## Eranskina A: Definizioak eta Akronimoak
 
-**Informazio Aktiboa:** Erakundearentzat balioa duen edozein datu,
-sistema edo baliabide
+**Informazio Aktiboa:** Erakundearentzat balioa duen edozein datu, sistema edo baliabide
 
-**Informazioaren Segurtasuna:** Informazioa baimenik gabeko sarbide,
-erabilera, zabalkunde, eten, aldaketa edo suntsipenetik babestea
+**Informazioaren Segurtasuna:** Informazioa baimenik gabeko sarbide, erabilera, zabalkunde, eten, aldaketa edo suntsipenetik babestea
 
-**Konfidentzialtasuna:** Informazioa baimendutako pertsonek soilik eskura 
-dezaketela ziurtatzea
+**Konfidentzialtasuna:** Informazioa baimendutako pertsonek soilik eskura dezaketela ziurtatzea
 
 **Osotasuna:** Informazioaren zehaztasuna eta osotasuna ziurtatzea
 
-**Eskuragarritasuna:** Behar denean informaziorako baimendutako sarbidea 
-ziurtatzea
+**Eskuragarritasuna:** Behar denean informaziorako baimendutako sarbidea ziurtatzea
 
-**CIA Hirukotea:** Konfidentzialtasuna,
-Osotasuna, Eskuragarritasuna - informazioaren segurtasunaren hiru zutabeak
+**CIA Hirukotea:** Konfidentzialtasuna, Osotasuna, Eskuragarritasuna - informazioaren segurtasunaren hiru zutabeak
 
-**ISMS:** Information Security Management System - informazioaren segurtasuna 
-kudeatzeko sistema sistematikoa
+**ISMS:** Information Security Management System - informazioaren segurtasuna kudeatzeko sistema sistematikoa
 
-**Arriskua:** Mehatxu batek ahultasun bat ustiatzen duenean galera edo kaltea 
-izateko potentziala
+**Arriskua:** Mehatxu batek ahultasun bat ustiatzen duenean galera edo kaltea izateko potentziala
 
 **Mehatxua:** Nahi ez den intzidentzia baten kausa potentziala
 
@@ -747,11 +657,9 @@ izateko potentziala
 
 **Kontrola:** Arriskua aldatzen duen neurria
 
-**PII:** Personally Identifiable Information (Informazio Pertsonal 
-Identifikagarria)
+**PII:** Personally Identifiable Information (Informazio Pertsonal Identifikagarria)
 
-**GDPR:** General Data Protection Regulation (Datuen Babeserako Erregelamendu 
-Orokorra)
+**GDPR:** General Data Protection Regulation (Datuen Babeserako Erregelamendu Orokorra)
 
 **AEPD:** Datuak Babesteko Espainiako Bulegoa
 
@@ -767,8 +675,7 @@ Orokorra)
 
 **DMZ:** Demilitarized Zone (sare segmentua)
 
-**OT:** Operational Technology (teknologia operatiboa / kontrol sistema 
-industrialak)
+**OT:** Operational Technology (teknologia operatiboa / kontrol sistema industrialak)
 
 **PLC:** Programmable Logic Controller (Kontrolatzaile Logiko Programagarria)
 
@@ -778,8 +685,7 @@ industrialak)
 
 **RPO:** Recovery Point Objective (Berreskuratze Puntu Helburua)
 
-**MTPD:** Maximum Tolerable Period of Disruption (Etenaldi Jasangarriaren 
-Gehieneko Epea)
+**MTPD:** Maximum Tolerable Period of Disruption (Etenaldi Jasangarriaren Gehieneko Epea)
 
 **BIA:** Business Impact Analysis (Negozioaren Eraginaren Analisia)
 

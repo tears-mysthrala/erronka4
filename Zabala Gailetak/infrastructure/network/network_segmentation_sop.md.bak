@@ -2,8 +2,7 @@
 
 ## Helburua
 
-Enpresako sare segmentatua ezartzeko eta kudeatzeko prozedura,
-IT eta OT sareen artean komunikazio seguruak bermatzeko.
+Enpresako sare segmentatua ezartzeko eta kudeatzeko prozedura, IT eta OT sareen artean komunikazio seguruak bermatzeko.
 
 ## Aurrebaldintzak
 
@@ -196,12 +195,10 @@ deny all
 
 ```bash
 # SQL Injection detekzioa
-alert tcp $EXTERNAL_NET any -> $DMZ 80 (msg:"SQL Injection Attempt"; 
-flow:established; content:"UNION SELECT"; nocase; sid:1000001;)
+alert tcp $EXTERNAL_NET any -> $DMZ 80 (msg:"SQL Injection Attempt"; flow:established; content:"UNION SELECT"; nocase; sid:1000001;)
 
 # OT Traffic anomalia
-alert tcp $OT_NET any -> $OT_NET 102 (msg:"Unexpected PLC Traffic"; threshold: type both,
-track by_src, count 10, seconds 60; sid:2000001;)
+alert tcp $OT_NET any -> $OT_NET 102 (msg:"Unexpected PLC Traffic"; threshold: type both, track by_src, count 10, seconds 60; sid:2000001;)
 ```
 
 ## 7. Monitoring eta Logging

@@ -24,7 +24,8 @@
 
 ### 1.1 Helburua
 
-Zabala Gailetak mugikorrerako aplikazioak plataforma seguru eta erabilerraza eskaintzen du produktuak arakatzeko eta iOS eta Android gailuetatik eskaerak egiteko.
+Zabala Gailetak mugikorrerako aplikazioak plataforma seguru eta erabilerraza eskaintzen du
+produktuak arakatzeko eta iOS eta Android gailuetatik eskaerak egiteko.
 
 ### 1.2 Ezaugarri Nagusiak
 
@@ -51,7 +52,7 @@ Zabala Gailetak mugikorrerako aplikazioak plataforma seguru eta erabilerraza esk
 
 #### 2.1.1 Saio-hasiera Fluxua
 
-```
+```text
 1. Erabiltzaileak kredentzialak sartzen ditu
    ↓
 2. APIak erabiltzailea/pasahitza balidatzen du
@@ -131,7 +132,7 @@ const authenticate = async () => {
 
 ### 3.1 Osagai Egitura
 
-```
+```text
 App (Erroa)
 ├── AuthProvider
 ├── NavigationContainer

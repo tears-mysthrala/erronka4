@@ -6,7 +6,8 @@ Based on my thorough analysis of the ER4.md requirements and the complete projec
 
 ## EXECUTIVE SUMMARY
 
-**Current Status:** The project is **75% complete** with excellent foundations in application security, documentation, and architecture design. The main gaps are in:
+**Current Status:** The project is **75% complete** with excellent foundations in application
+security, documentation, and architecture design. The main gaps are in:
 
 1. **DevOps automation** (CI/CD pipelines)
 2. **Production deployment infrastructure** (Docker orchestration, IaC)
@@ -1004,7 +1005,7 @@ export default function () {
 
 **File: `infrastructure/ot/openplc/plc_program.st`** (100 lines)
 
-```
+```pascal
 // Structured Text program for OpenPLC
 // Simulating cookie production line
 
@@ -1574,7 +1575,8 @@ The following SOPs should be created for areas that are documented but need deta
 
 **Total Personnel Cost:** €140,000-210,000/year
 
-**Note:** For Zabala Gailetak (120 employees, existing 5 IKT staff), these roles can be covered by existing team with additional training.
+**Note:** For Zabala Gailetak (120 employees, existing 5 IKT staff), these roles can be covered
+by existing team with additional training.
 
 ---
 
@@ -1867,16 +1869,22 @@ The following SOPs should be created for areas that are documented but need deta
 
 ## 7. CONCLUSION
 
-The Zabala Gailetak project demonstrates **strong cybersecurity fundamentals** with excellent documentation and a solid technical foundation. The implementation covers the vast majority of ER4.md requirements with particular strengths in:
+The Zabala Gailetak project demonstrates **strong cybersecurity fundamentals** with excellent
+documentation and a solid technical foundation. The implementation covers the vast majority
+of ER4.md requirements with particular strengths in:
 
 - Application security (web & mobile)
 - Security architecture and network design
 - Incident response procedures
 - Risk assessment and compliance documentation
 
-**Primary gaps** are in operational deployment automation (CI/CD, IaC) and some practical tool implementations (honeypot, complete SIEM setup). These are **easily addressable** with focused effort.
+**Primary gaps** are in operational deployment automation (CI/CD, IaC) and some practical
+tool implementations (honeypot, complete SIEM setup). These are **easily addressable**
+with focused effort.
 
-**Recommendation:** This project is **suitable for submission** with minor additions to CI/CD and database implementation. The comprehensive documentation and security-first approach demonstrate mastery of cybersecurity concepts required by the ER4 challenge.
+**Recommendation:** This project is **suitable for submission** with minor additions to
+CI/CD and database implementation. The comprehensive documentation and security-first approach
+demonstrate mastery of cybersecurity concepts required by the ER4 challenge.
 
 ---
 

@@ -22,8 +22,7 @@
 
 ### 1.2 Helburua
 
-Aktiboen Erregistro hau Zabala Gailetak-en jabetzakoak edo kontrolpekoak diren 
-informazio-aktiboen
+Aktiboen Erregistro hau Zabala Gailetak-en jabetzakoak edo kontrolpekoak diren informazio-aktiboen
 inbentario osoa da. Honako hauek babesten ditu:
 
 - ISO/IEC 27001:2022 betetzea (A eranskina 5.9 kontrola)
@@ -37,26 +36,20 @@ inbentario osoa da. Honako hauek babesten ditu:
 
 Erregistro honek barne hartzen ditu:
 
-- **IT Aktiboak:** Zerbitzariak,
-sare ekipamendua, lan-estazioak, gailu mugikorrak, softwarea
-- **OT Aktiboak:** PLCak, SCADA sistemak, txertatutako sistemak dituen 
-industria ekipamendua
+- **IT Aktiboak:** Zerbitzariak, sare ekipamendua, lan-estazioak, gailu mugikorrak, softwarea
+- **OT Aktiboak:** PLCak, SCADA sistemak, txertatutako sistemak dituen industria ekipamendua
 - **Datu Aktiboak:** Datu-baseak, fitxategiak, babeskopiak, jabetza intelektuala
-- **Aktibo Fisikoak:** Instalazioak,
-ekipamendua (informazioaren segurtasunarekin lotura dutenak)
-- **Giza Aktiboak:** Informazioaren segurtasunerako kritikoak diren funtsezko 
-langileak eta rolak
+- **Aktibo Fisikoak:** Instalazioak, ekipamendua (informazioaren segurtasunarekin lotura dutenak)
+- **Giza Aktiboak:** Informazioaren segurtasunerako kritikoak diren funtsezko langileak eta rolak
 - **Zerbitzuak:** Hirugarrenen zerbitzuak eta hodeiko plataformak
 
 ### 1.4 Aktiboen Sailkapena
 
 Aktiboak honela sailkatzen dira:
 
-- **Konfidentzialtasuna:** Publikoa,
-Barnekoa, Konfidentziala, Oso Konfidentziala
+- **Konfidentzialtasuna:** Publikoa, Barnekoa, Konfidentziala, Oso Konfidentziala
 - **Osotasuna:** Baxua, Ertaina, Altua, Kritikoa
-- **Eskuragarritasuna:** Baxua (72 orduko etenaldia onargarria),
-Ertaina (24 ordu), Altua (8 ordu), Kritikoa (4 ordu)
+- **Eskuragarritasuna:** Baxua (72 orduko etenaldia onargarria), Ertaina (24 ordu), Altua (8 ordu), Kritikoa (4 ordu)
 
 ---
 
@@ -64,40 +57,24 @@ Ertaina (24 ordu), Altua (8 ordu), Kritikoa (4 ordu)
 
 ### 2.1 Zerbitzariak eta Azpiegitura
 
-| ID | Izena | Mota | Kokapena | Jabea | Zau. 
-| K/O/E | Helburua | Balio (€) | Data |
+| ID | Izena | Mota | Kokapena | Jabea | Zau. | K/O/E | Helburua | Balio (€) | Data |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| SRV-001 | Web App | Birt. 
-(AWS) | eu-west-1a | IT Kude. 
-| IT Tald. | OK/A/K | Web kude. | 15.000 | 2026-01-08 |
-| SRV-002 | DB Nagusia | Birt. 
-(AWS) | eu-west-1a | IT Kude. 
-| IT Tald. | OK/K/K | MongoDB | 25.000 | 2026-01-08 |
-| SRV-003 | DB Replika | Birt. 
-(AWS) | eu-west-1b | IT Kude. 
-| IT Tald. | OK/K/A | Erreplika | 25.000 | 2026-01-08 |
-| SRV-004 | Fitxategi | Fisikoa | DC | IT Kude. 
-| IT Tald. | K/A/A | Biltegia | 8.000 | 2026-01-08 |
-| SRV-005 | SCADA | Fisikoa | DC | OT Kude. 
-| OT Tald. | K/K/K | Produkzioa | 20.000 | 2026-01-08 |
-| SRV-006 | Backup | Fisikoa | DC | IT Kude. 
-| IT Tald. | OK/K/A | Babesko. | 12.000 | 2026-01-08 |
-| SRV-007 | Domeinu | Birtuala | DC | IT Kude. 
-| IT Tald. | OK/K/K | AD Autent. | 10.000 | 2026-01-08 |
-| SRV-008 | Email | Hodeia | Globala | IT Kude. 
-| Microsoft | K/E/A | Eposta | 5.000/u | 2026-01-08 |
-| SRV-009 | Garapen | Birtuala | DC | IT Kude. 
-| Dev Tald. | B/E/B | Probak | 5.000 | 2026-01-08 |
-| SRV-010 | ELK Stack | Birt. 
-(AWS) | eu-w-1a | CISO | Seg Tald. | OK/A/A | SIEM/Moni. | 18.000 | 2026-01-08 |
+| SRV-001 | Web App | Birt. (AWS) | eu-west-1a | IT Kude. | IT Tald. | OK/A/K | Web kude. | 15.000 | 2026-01-08 |
+| SRV-002 | DB Nagusia | Birt. (AWS) | eu-west-1a | IT Kude. | IT Tald. | OK/K/K | MongoDB | 25.000 | 2026-01-08 |
+| SRV-003 | DB Replika | Birt. (AWS) | eu-west-1b | IT Kude. | IT Tald. | OK/K/A | Erreplika | 25.000 | 2026-01-08 |
+| SRV-004 | Fitxategi | Fisikoa | DC | IT Kude. | IT Tald. | K/A/A | Biltegia | 8.000 | 2026-01-08 |
+| SRV-005 | SCADA | Fisikoa | DC | OT Kude. | OT Tald. | K/K/K | Produkzioa | 20.000 | 2026-01-08 |
+| SRV-006 | Backup | Fisikoa | DC | IT Kude. | IT Tald. | OK/K/A | Babesko. | 12.000 | 2026-01-08 |
+| SRV-007 | Domeinu | Birtuala | DC | IT Kude. | IT Tald. | OK/K/K | AD Autent. | 10.000 | 2026-01-08 |
+| SRV-008 | Email | Hodeia | Globala | IT Kude. | Microsoft | K/E/A | Eposta | 5.000/u | 2026-01-08 |
+| SRV-009 | Garapen | Birtuala | DC | IT Kude. | Dev Tald. | B/E/B | Probak | 5.000 | 2026-01-08 |
+| SRV-010 | ELK Stack | Birt. (AWS) | eu-w-1a | CISO | Seg Tald. | OK/A/A | SIEM/Moni. | 18.000 | 2026-01-08 |
 
 #### Sailkapen Legenda
 
-- **K (Konfidentzialtasuna):** P=Publikoa,
-B=Barnekoa, K=Konfidentziala, OK=Oso Konfidentziala
+- **K (Konfidentzialtasuna):** P=Publikoa, B=Barnekoa, K=Konfidentziala, OK=Oso Konfidentziala
 - **O (Osotasuna):** B=Baxua, E=Ertaina, A=Altua, K=Kritikoa
-- **E (Eskuragarritasuna):** B=Baxua (72h),
-E=Ertaina (24h), A=Altua (8h), K=Kritikoa (4h)
+- **E (Eskuragarritasuna):** B=Baxua (72h), E=Ertaina (24h), A=Altua (8h), K=Kritikoa (4h)
 
 #### IT Zerbitzarien Balio Osoa: 143.000 €
 
@@ -105,33 +82,18 @@ E=Ertaina (24h), A=Altua (8h), K=Kritikoa (4h)
 
 | ID | Izena | Mota | Kok. | IP | Jabea | K/O/E | Helburua | Balio (€) | Data |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| NET-001 | Core Sw. 
-| Cisco 9300 | DC | 10.0.0.1 | IT Kude. 
-| K/K/K | Bideratze | 15.000 | 2026-01-08 |
-| NET-002 | Suebakia | FG 200F | DC | 10.0.0.2 | IT Kude. 
-| K/K/K | Perimetro | 12.000 | 2026-01-08 |
-| NET-003 | Suebakia | FG 200F | DC | 10.0.0.3 | IT Kude. 
-| K/K/A | Failover | 12.000 | 2026-01-08 |
-| NET-004 | Bulego Sw. 
-| Cisco SG350 | Bul. 
-| 10.1.0.1 | IT Kude. | B/E/E | Bulegoa | 2.500 | 2026-01-08 |
-| NET-005 | Prod. Sw. 
-| Cisco IE3400 | Prod. 
-| 10.2.0.1 | OT Kude. | K/K/K | OT sarea | 8.000 | 2026-01-08 |
-| NET-006 | WiFi Kontr | UDM-Pro | Bul. 
-| 10.1.0.10 | IT Kude. | K/E/E | WiFi kude. | 1.500 | 2026-01-08 |
-| NET-007 | WiFi AP-1 | AC-Pro | S1 | 10.1.1.101 | IT Kude. 
-| B/E/E | WiFi estal. | 300 | 2026-01-08 |
-| NET-008 | WiFi AP-2 | AC-Pro | S2 | 10.1.1.102 | IT Kude. 
-| B/E/E | WiFi estal. | 300 | 2026-01-08 |
-| NET-009 | WiFi AP-G | AC-Pro | Harr. 
-| 10.1.2.101 | IT Kude. | P/B/E | Gonbidatu | 300 | 2026-01-08 |
-| NET-010 | OT Suebak. 
-| FG 100F | Prod. | 10.2.0.2 | OT Kude. | K/K/K | Segmen. | 8.000 | 2026-01-08 |
-| NET-011 | IDS/IPS | Suricata | Birt. 
-| 10.0.0.10 | CISO | K/A/A | Detekzioa | 0 (OSS) | 2026-01-08 |
-| NET-012 | VPN Gate | OpenVPN | Birt. 
-| End-p | IT Kude. | OK/A/A | Sarbidea | 0 (OSS) | 2026-01-08 |
+| NET-001 | Core Sw. | Cisco 9300 | DC | 10.0.0.1 | IT Kude. | K/K/K | Bideratze | 15.000 | 2026-01-08 |
+| NET-002 | Suebakia | FG 200F | DC | 10.0.0.2 | IT Kude. | K/K/K | Perimetro | 12.000 | 2026-01-08 |
+| NET-003 | Suebakia | FG 200F | DC | 10.0.0.3 | IT Kude. | K/K/A | Failover | 12.000 | 2026-01-08 |
+| NET-004 | Bulego Sw. | Cisco SG350 | Bul. | 10.1.0.1 | IT Kude. | B/E/E | Bulegoa | 2.500 | 2026-01-08 |
+| NET-005 | Prod. Sw. | Cisco IE3400 | Prod. | 10.2.0.1 | OT Kude. | K/K/K | OT sarea | 8.000 | 2026-01-08 |
+| NET-006 | WiFi Kontr | UDM-Pro | Bul. | 10.1.0.10 | IT Kude. | K/E/E | WiFi kude. | 1.500 | 2026-01-08 |
+| NET-007 | WiFi AP-1 | AC-Pro | S1 | 10.1.1.101 | IT Kude. | B/E/E | WiFi estal. | 300 | 2026-01-08 |
+| NET-008 | WiFi AP-2 | AC-Pro | S2 | 10.1.1.102 | IT Kude. | B/E/E | WiFi estal. | 300 | 2026-01-08 |
+| NET-009 | WiFi AP-G | AC-Pro | Harr. | 10.1.2.101 | IT Kude. | P/B/E | Gonbidatu | 300 | 2026-01-08 |
+| NET-010 | OT Suebak. | FG 100F | Prod. | 10.2.0.2 | OT Kude. | K/K/K | Segmen. | 8.000 | 2026-01-08 |
+| NET-011 | IDS/IPS | Suricata | Birt. | 10.0.0.10 | CISO | K/A/A | Detekzioa | 0 (OSS) | 2026-01-08 |
+| NET-012 | VPN Gate | OpenVPN | Birt. | End-p | IT Kude. | OK/A/A | Sarbidea | 0 (OSS) | 2026-01-08 |
 
 #### Sare Ekipamenduaren Balio Osoa: 59.900 €
 
@@ -139,16 +101,11 @@ E=Ertaina (24h), A=Altua (8h), K=Kritikoa (4h)
 
 | ID | Mota | Kop. | Kokapena | Jabea | K/O/E | SE | Balio (€) | Oharrak |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| WRK-001 | Mahaigain | 50 | Bulegoa | IT Kude. 
-| K/E/E | Win 11 | 50.000 | Langileak |
-| WRK-051 | Eramang. 
-| 15 | Mugikor | IT Kude. | OK/A/A | Win 11 | 22.500 | Kudeaketa |
-| WRK-066 | Eramang. 
-| 5 | Bulegoa | IT Kude. | K/A/E | Win/mac | 10.000 | Garatz. |
-| WRK-071 | Bezero A. 
-| 10 | Prod. | OT Kude. | K/E/A | Linux | 8.000 | SCADA HMI |
-| WRK-081 | Tableta | 10 | Prod. 
-| OT Kude. | K/K/A | W10 IoT | 15.000 | Monito. |
+| WRK-001 | Mahaigain | 50 | Bulegoa | IT Kude. | K/E/E | Win 11 | 50.000 | Langileak |
+| WRK-051 | Eramang. | 15 | Mugikor | IT Kude. | OK/A/A | Win 11 | 22.500 | Kudeaketa |
+| WRK-066 | Eramang. | 5 | Bulegoa | IT Kude. | K/A/E | Win/mac | 10.000 | Garatz. |
+| WRK-071 | Bezero A. | 10 | Prod. | OT Kude. | K/E/A | Linux | 8.000 | SCADA HMI |
+| WRK-081 | Tableta | 10 | Prod. | OT Kude. | K/K/A | W10 IoT | 15.000 | Monito. |
 
 #### Lan-estazioen Balio Osoa: 105.500 €
 
@@ -156,8 +113,7 @@ E=Ertaina (24h), A=Altua (8h), K=Kritikoa (4h)
 
 | ID | Mota | Kop. | Jabea | K/O/E | SE | MDM | Balio (€) | Oharrak |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| MOB-001 | Smphone. 
-| 30 | IT Kude. | K/E/E | iOS/And | Bai | 24.000 | Enpresa |
+| MOB-001 | Smphone. | 30 | IT Kude. | K/E/E | iOS/And | Bai | 24.000 | Enpresa |
 | MOB-031 | Smphone. | 20 | Langil. | K/B/B | iOS/And | Ez | 0 | BYOD |
 | MOB-051 | Tableta | 5 | IT Kude. | K/E/E | iOS | Bai | 4.000 | Salmen. |
 
@@ -165,23 +121,16 @@ E=Ertaina (24h), A=Altua (8h), K=Kritikoa (4h)
 
 ### 2.5 Softwarea eta Lizentziak
 
-| ID | Izena | Mota | Saltz. 
-| Lizentz. | Kop. | Jabea | K/O/E | Balio (€) | Data | Oharrak |
+| ID | Izena | Mota | Saltz. | Lizentz. | Kop. | Jabea | K/O/E | Balio (€) | Data | Oharrak |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| SW-001 | M365 E3 | Prod. 
-| MS | Harpid. | 80 | IT Kud. | K/E/A | 12.800 | Hilero | Email |
+| SW-001 | M365 E3 | Prod. | MS | Harpid. | 80 | IT Kud. | K/E/A | 12.800 | Hilero | Email |
 | SW-002 | Win Srv | SE | MS | Betiko | 5 | IT Kud. | K/A/K | 5.000 | N/A | OS |
-| SW-003 | MongoDB | DB | Mongo | Harpid. 
-| 2 | IT Kud. | OK/K/K | 15.000 | 2026-06 | DB |
-| SW-004 | FortiC. 
-| Segur. | Forti | Harpid. | 3 | IT Kud. | K/K/K | 4.500 | 2026-12 | Lagun. |
-| SW-005 | Veeam | Back. 
-| Veeam | Betiko | 10 | IT Kud. | OK/K/A | 3.000 | 2026-09 | SW |
-| SW-006 | Node.js | Run. 
-| OpenJS | OSS | - | IT Kud. | K/A/K | 0 | N/A | Back. |
+| SW-003 | MongoDB | DB | Mongo | Harpid. | 2 | IT Kud. | OK/K/K | 15.000 | 2026-06 | DB |
+| SW-004 | FortiC. | Segur. | Forti | Harpid. | 3 | IT Kud. | K/K/K | 4.500 | 2026-12 | Lagun. |
+| SW-005 | Veeam | Back. | Veeam | Betiko | 10 | IT Kud. | OK/K/A | 3.000 | 2026-09 | SW |
+| SW-006 | Node.js | Run. | OpenJS | OSS | - | IT Kud. | K/A/K | 0 | N/A | Back. |
 | SW-007 | React | Fram. | Meta | OSS | - | IT Kud. | B/E/E | 0 | N/A | Front. |
-| SW-010 | WinCC | SCAD | Sieme | Betiko | 1 | OT Kud. 
-| K/K/K | 25.000 | 2026-08 | SCADA |
+| SW-010 | WinCC | SCAD | Sieme | Betiko | 1 | OT Kud. | K/K/K | 25.000 | 2026-08 | SCADA |
 
 #### Software Urteko Kostu Osoa: 84.100 €
 
@@ -189,22 +138,16 @@ E=Ertaina (24h), A=Altua (8h), K=Kritikoa (4h)
 
 ### 2.6 Hodeiko Zerbitzuak
 
-| ID | Izena | Hornit. 
-| Mota | Jabea | K/O/E | Hil. | Urt. | Kokapena | Oharrak |
+| ID | Izena | Hornit. | Mota | Jabea | K/O/E | Hil. | Urt. | Kokapena | Oharrak |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| CLD-001 | EC2 | AWS | IaaS | IT Kud. 
-| OK/A/K | 800 | 9.600 | eu-west-1 | Web zerb. |
-| CLD-002 | RDS | AWS | DBaaS | IT Kud. 
-| OK/K/K | 1.200 | 14.400 | eu-west-1 | DB kude. |
-| CLD-003 | S3 | AWS | Obj.St | IT Kud. 
-| OK/K/A | 150 | 1.800 | eu-west-1 | Back. |
+| CLD-001 | EC2 | AWS | IaaS | IT Kud. | OK/A/K | 800 | 9.600 | eu-west-1 | Web zerb. |
+| CLD-002 | RDS | AWS | DBaaS | IT Kud. | OK/K/K | 1.200 | 14.400 | eu-west-1 | DB kude. |
+| CLD-003 | S3 | AWS | Obj.St | IT Kud. | OK/K/A | 150 | 1.800 | eu-west-1 | Back. |
 | CLD-004 | CF | AWS | CDN | IT Kud. | B/E/A | 100 | 1.200 | Globala | CDN |
 | CLD-005 | R53 | AWS | DNS | IT Kud. | K/K/K | 25 | 300 | Globala | DNS |
-| CLD-006 | ClWatc | AWS | Moni. 
-| IT Kud. | K/E/A | 80 | 960 | eu-west-1 | Azpieg. |
+| CLD-006 | ClWatc | AWS | Moni. | IT Kud. | K/E/A | 80 | 960 | eu-west-1 | Azpieg. |
 | CLD-007 | M365 | MS | SaaS | IT Kud. | K/E/A | 1.067 | 12.800 | EB | Email |
-| CLD-008 | GitHub | GH | SaaS | IT Kud. 
-| K/A/E | 208 | 2.500 | Globala | Kodea |
+| CLD-008 | GitHub | GH | SaaS | IT Kud. | K/A/E | 208 | 2.500 | Globala | Kodea |
 
 #### Hodeiko Zerbitzuen Urteko Kostu Osoa: 43.560 €
 
@@ -214,23 +157,14 @@ E=Ertaina (24h), A=Altua (8h), K=Kritikoa (4h)
 
 ### 3.1 Kontrolatzaile Logiko Programagarriak (PLCak)
 
-| ID | Izena | Fabrik. 
-| Modeloa | Kokapena | Helburua | Jabea | K/O/E | Inst. | Data | Balio (€) |
+| ID | Izena | Fabrik. | Modeloa | Kokapena | Helburua | Jabea | K/O/E | Inst. | Data | Balio (€) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| PLC-001 | Nahas. 
-| Sieme. 
-| S7-1500 | L1 | Nahask. | OT Kud. | K/K/K | 2023-03 | 2025-11 | 12.000 |
-| PLC-002 | Labea | Sieme. 
-| S7-1200 | L1 | Labea | OT Kud. | K/K/K | 2022-08 | 2025-10 | 8.000 |
-| PLC-003 | Enba A | Sieme. 
-| S7-1500 | Enba. | Enba. | OT Kud. | K/K/K | 2024-01 | 2025-12 | 12.000 |
-| PLC-004 | Enba B | Sieme. 
-| S7-1500 | Enba. | Enba. | OT Kud. | K/K/K | 2024-01 | 2025-12 | 12.000 |
-| PLC-005 | Zinta | Sieme. 
-| S7-1200 | L1 | Garraio | OT Kud. | K/A/K | 2022-06 | 2025-09 | 8.000 |
-| PLC-006 | Util. 
-| Sieme. 
-| S7-1200 | Util. | HVAC | OT Kud. | B/E/A | 2021-11 | 2025-08 | 8.000 |
+| PLC-001 | Nahas. | Sieme. | S7-1500 | L1 | Nahask. | OT Kud. | K/K/K | 2023-03 | 2025-11 | 12.000 |
+| PLC-002 | Labea | Sieme. | S7-1200 | L1 | Labea | OT Kud. | K/K/K | 2022-08 | 2025-10 | 8.000 |
+| PLC-003 | Enba A | Sieme. | S7-1500 | Enba. | Enba. | OT Kud. | K/K/K | 2024-01 | 2025-12 | 12.000 |
+| PLC-004 | Enba B | Sieme. | S7-1500 | Enba. | Enba. | OT Kud. | K/K/K | 2024-01 | 2025-12 | 12.000 |
+| PLC-005 | Zinta | Sieme. | S7-1200 | L1 | Garraio | OT Kud. | K/A/K | 2022-06 | 2025-09 | 8.000 |
+| PLC-006 | Util. | Sieme. | S7-1200 | Util. | HVAC | OT Kud. | B/E/A | 2021-11 | 2025-08 | 8.000 |
 
 #### PLC Balio Osoa: 60.000 €
 
@@ -243,8 +177,7 @@ E=Ertaina (24h), A=Altua (8h), K=Kritikoa (4h)
 
 ### 3.2 SCADA eta HMI Sistemak
 
-| ID | Izena | Mota | Fabrik. 
-| Kokapena | Helburua | Jabea | K/O/E | Balio (€) |
+| ID | Izena | Mota | Fabrik. | Kokapena | Helburua | Jabea | K/O/E | Balio (€) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | SCADA-1 | SCADA | Srv | Sieme. | DC | Moni. | OT Kud. | K/K/K | 25.000 |
 | HMI-001 | HMI-1 | Panel | Sieme. | L1 | Operad. | OT Kud. | K/K/A | 4.000 |
@@ -272,15 +205,11 @@ E=Ertaina (24h), A=Altua (8h), K=Kritikoa (4h)
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | PROD-001 | Nahas. A | Nahas. | L1 | PLC | OT Kud. | K/K/K | 45.000 | 2023-03 |
 | PROD-002 | Nahas. B | Nahas. | L1 | PLC | OT Kud. | K/K/K | 45.000 | 2023-03 |
-| PROD-003 | Labea | Labea | L1 | PLC+Jab. 
-| OT Kud. | K/K/K | 120.000 | 2022-08 |
+| PROD-003 | Labea | Labea | L1 | PLC+Jab. | OT Kud. | K/K/K | 120.000 | 2022-08 |
 | PROD-004 | Hozte Z. | Hoztea | L1 | PLC | OT Kud. | K/A/A | 25.000 | 2022-06 |
-| PROD-005 | Enba. A | Enba. 
-| Enba. | PLC+HMI | OT Kud. | K/K/K | 80.000 | 2024-01 |
-| PROD-006 | Enba. B | Enba. 
-| Enba. | PLC+HMI | OT Kud. | K/K/K | 80.000 | 2024-01 |
-| PROD-007 | Paletiz. 
-| Materi | Bilte. | PLC | OT Kud. | K/E/E | 35.000 | 2021-05 |
+| PROD-005 | Enba. A | Enba. | Enba. | PLC+HMI | OT Kud. | K/K/K | 80.000 | 2024-01 |
+| PROD-006 | Enba. B | Enba. | Enba. | PLC+HMI | OT Kud. | K/K/K | 80.000 | 2024-01 |
+| PROD-007 | Paletiz. | Materi | Bilte. | PLC | OT Kud. | K/E/E | 35.000 | 2021-05 |
 
 #### Produkzio Ekipamenduaren Balio Osoa: 430.000 €
 
@@ -290,17 +219,12 @@ E=Ertaina (24h), A=Altua (8h), K=Kritikoa (4h)
 
 ### 4.1 Datu-baseak
 
-| ID | Izena | Mota | Edukia | Jabea | Zau. 
-| K/O/E | Err. | Tam. | Back. | Kok. |
+| ID | Izena | Mota | Edukia | Jabea | Zau. | K/O/E | Err. | Tam. | Back. | Kok. |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| DB-001 | Prod DB | Mongo | Bezero | IT Kud. 
-| IT Tal. | OK/K/K | 500k | 50G | Ordu. | AWS |
-| DB-002 | SCADA | Denbo | Metrik | OT Kud. 
-| OT Tal. | K/K/A | 10M+ | 200G | Egun. | Lok. |
-| DB-003 | Audit | Elast | Logak | CISO | Segur. 
-| OK/A/A | 5M+ | 100G | Ordu. | AWS |
-| DB-004 | Dev DB | Mongo | Probak | IT Kud. 
-| Dev | B/E/B | 10k | 2G | Aster. | Lok. |
+| DB-001 | Prod DB | Mongo | Bezero | IT Kud. | IT Tal. | OK/K/K | 500k | 50G | Ordu. | AWS |
+| DB-002 | SCADA | Denbo | Metrik | OT Kud. | OT Tal. | K/K/A | 10M+ | 200G | Egun. | Lok. |
+| DB-003 | Audit | Elast | Logak | CISO | Segur. | OK/A/A | 5M+ | 100G | Ordu. | AWS |
+| DB-004 | Dev DB | Mongo | Probak | IT Kud. | Dev | B/E/B | 10k | 2G | Aster. | Lok. |
 
 #### Datu Bolumena Guztira: 352 GB
 
@@ -320,15 +244,11 @@ E=Ertaina (24h), A=Altua (8h), K=Kritikoa (4h)
 
 ### 4.3 Babeskopiak
 
-| ID | Edukia | Mota | Maiztasuna | Atxikipena | Kokapena | Enkrip. 
-| Jabea | Balioa |
+| ID | Edukia | Mota | Maiztasuna | Atxikipena | Kokapena | Enkrip. | Jabea | Balioa |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| BCK-001 | Prod. 
-| Osoa | Ordu/Egun | 30d/1u | S3/Lok | AES256 | IT Kud. | Krit. |
-| BCK-002 | Fitxat. 
-| Osoa | Egun/Ast | 30d/1u | S3/Lok | AES256 | IT Kud. | Krit. |
-| BCK-003 | SCADA | Osoa | Egunero | 90d/3u | NAS Lok | AES256 | OT Kud. 
-| Altua |
+| BCK-001 | Prod. | Osoa | Ordu/Egun | 30d/1u | S3/Lok | AES256 | IT Kud. | Krit. |
+| BCK-002 | Fitxat. | Osoa | Egun/Ast | 30d/1u | S3/Lok | AES256 | IT Kud. | Krit. |
+| BCK-003 | SCADA | Osoa | Egunero | 90d/3u | NAS Lok | AES256 | OT Kud. | Altua |
 | BCK-004 | PLC | Osoa | Astero | 10b/5u | USB/Srv | AES256 | OT Kud. | Krit. |
 | BCK-005 | Email | Eteng. | Etengabe | Muga. | Azure | Bai | IT Kud. | Altua |
 | BCK-006 | Kodea | Eteng. | Push | Muga. | GH/S3 | Bai | IT Kud. | Altua |
@@ -347,14 +267,10 @@ E=Ertaina (24h), A=Altua (8h), K=Kritikoa (4h)
 
 | ID | Izena | Mota | Helbidea | m² | Jabe. | K/O/E | Balio | Segurtasuna |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| FAC-001 | Fabrika | Prod. 
-| [Helb.] | 3.000 | Bai | K/K/K | 2.5M | Hesi,cam,sarbide |
-| FAC-002 | Bulegoa | Bul. 
-| [Helb.] | 800 | Bai | K/E/E | 800k | Sarbide,cam,ala |
-| FAC-003 | Biltegia | Bilt. 
-| [Helb.] | 1.200 | Alok. | K/E/E | N/A | Cam, zaindaria |
-| FAC-004 | DC Gela | Azpie. 
-| FAC-001 | 40 | Bai | OK/K/K | 150k | Bio,sute,UPS |
+| FAC-001 | Fabrika | Prod. | [Helb.] | 3.000 | Bai | K/K/K | 2.5M | Hesi,cam,sarbide |
+| FAC-002 | Bulegoa | Bul. | [Helb.] | 800 | Bai | K/E/E | 800k | Sarbide,cam,ala |
+| FAC-003 | Biltegia | Bilt. | [Helb.] | 1.200 | Alok. | K/E/E | N/A | Cam, zaindaria |
+| FAC-004 | DC Gela | Azpie. | FAC-001 | 40 | Bai | OK/K/K | 150k | Bio,sute,UPS |
 
 #### Instalazio Balio Osoa: 3.450.000 € (jabetzakoak)
 
@@ -374,14 +290,10 @@ E=Ertaina (24h), A=Altua (8h), K=Kritikoa (4h)
 
 | ID | Izena | Mota | Kokapena | Edukiera | Jabea | Helburua | Balio | Data |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| PWR-001 | UPS Nag. 
-| APC | DC Gela | 20kVA/30m | IT Kud. | Back.pot | 25.000 | 2025-10 |
-| PWR-002 | Sorgail. 
-| Cat | Kanpoan | 1000kVA | Inst. | Epe luze | 150.000 | 2025-09 |
-| PWR-003 | UPS Pro. 
-| APC | Prod. | 10kVA/15m | OT Kud. | PLC back. | 8.000 | 2025-11 |
-| ENV-001 | DC HVAC | Lieb. 
-| DC Gela | 15kW | Inst. | Klima | 30.000 | 2025-08 |
+| PWR-001 | UPS Nag. | APC | DC Gela | 20kVA/30m | IT Kud. | Back.pot | 25.000 | 2025-10 |
+| PWR-002 | Sorgail. | Cat | Kanpoan | 1000kVA | Inst. | Epe luze | 150.000 | 2025-09 |
+| PWR-003 | UPS Pro. | APC | Prod. | 10kVA/15m | OT Kud. | PLC back. | 8.000 | 2025-11 |
+| ENV-001 | DC HVAC | Lieb. | DC Gela | 15kW | Inst. | Klima | 30.000 | 2025-08 |
 | ENV-002 | PR HVAC | Daik. | Prod. | 50kW | Inst. | Klima | 80.000 | 2025-07 |
 
 #### Potentzia/Ingurumen Balio Osoa: 293.000 €
@@ -409,8 +321,7 @@ E=Ertaina (24h), A=Altua (8h), K=Kritikoa (4h)
 
 **Prestakuntza eta Kontzientziazioa:**
 
-- Langile guztiak: Urteroko segurtasun kontzientziazio prestakuntza 
-(derrigorrezkoa)
+- Langile guztiak: Urteroko segurtasun kontzientziazio prestakuntza (derrigorrezkoa)
 - IT/OT langileak: Rol-espezifiko prestakuntza teknikoa (16 ordu/urte)
 - Garatzaileak: Kodeketa seguru prestakuntza (8 ordu/urte)
 - Zuzendaritza: Arrisku kudeaketa eta betetzea (4 ordu/urte)
@@ -428,8 +339,7 @@ E=Ertaina (24h), A=Altua (8h), K=Kritikoa (4h)
 | 3RD-3 | Telef. | ISP | Zuntza 1G | K/E/K | 2027-06 | 12.000 | Ez | 99.5% |
 | 3RD-4 | Vodaf. | ISP | Zuntza 500M | K/E/A | 2026-12 | 8.000 | Ez | 99.0% |
 | 3RD-5 | GH | SaaS | Kode biltegia | K/A/E | 2026-11 | 2.500 | Bai | 99.95% |
-| 3RD-6 | Asegur | Aseg. 
-| Ziber-aseg. | K/E/E | 2026-08 | 15.000 | Muga. | N/A |
+| 3RD-6 | Asegur | Aseg. | Ziber-aseg. | K/E/E | 2026-08 | 15.000 | Muga. | N/A |
 | 3RD-7 | Legal | Legal | Aholkulari | OK/A/B | Eteng. | 10.000 | Bai | N/A |
 | 3RD-8 | Segur | Zerb. | Pen-testak | K/A/E | Proj. | 12.000 | Bai | N/A |
 | 3RD-9 | Hondak | Fisik | Suntsipen | K/E/B | 2027-03 | 2.000 | Ez | N/A |
@@ -589,17 +499,13 @@ E=Ertaina (24h), A=Altua (8h), K=Kritikoa (4h)
 ## 10. Lotutako Dokumentuak
 
 - **Informazioaren Segurtasun Politika (ISP-001):** Segurtasun esparru orokorra
-- **Arrisku Ebaluazio Txostena (RAR-001):** Aktiboetan oinarritutako arrisku 
-analisia
-- **Negozioaren Jarraitutasun Plana (BCP-001):** Aktibo kritikoen berreskurapen 
-lehentasunak
-- **Erabilera Onargarriaren Politika (AUP-001):** Aktiboen erabilera 
-jarraibideak
+- **Arrisku Ebaluazio Txostena (RAR-001):** Aktiboetan oinarritutako arrisku analisia
+- **Negozioaren Jarraitutasun Plana (BCP-001):** Aktibo kritikoen berreskurapen lehentasunak
+- **Erabilera Onargarriaren Politika (AUP-001):** Aktiboen erabilera jarraibideak
 - **Datuen Sailkapen Politika:** Datu kudeaketa baldintzak
 - **Ezabaketa Seguruaren Prozedura:** Aktibo deskomisionatze estandarrak
 - **Aldaketa Kudeaketa Prozedura:** Aktibo aldaketa kontrolak
-- **Saltzaileen Segurtasun Ebaluazio Txantiloia:** Hirugarrenen arrisku 
-ebaluazioa
+- **Saltzaileen Segurtasun Ebaluazio Txantiloia:** Hirugarrenen arrisku ebaluazioa
 
 ---
 
@@ -611,34 +517,19 @@ ebaluazioa
 
 | Maila | Irizpideak | Adibideak | Kudeaketa |
 |-------|------------|-----------|-----------|
-| **Publikoa (P)** | Argitalpen publikorako informazioa | Marketing materialak,
-prentsa oharrak, webgune publiko edukia | Murrizketarik gabe |
-| **Barnekoa (B)** | Barne erabilerarako informazioa,
-kalte minimoa ezagutarazten bada | Barne oharrak,
-txosten ez-sentikorrak, bilera oharrak | Email enkriptatzea, barne sareak 
-soilik |
-| **Konfidentziala (K)** | Negozio informazio sentikorra,
-kalte esanguratsua ezagutarazten bada | Bezero zerrendak,
-finantza txostenak (ez-kritikoak),
-errezetak (ez-nagusiak) | Enkriptatzea geldirik eta trantsitoan,
-sarbide kontrola, MFA |
-| **Oso Konfidentziala (OK)** | Informazio kritikoa,
-kalte larria ezagutarazten bada | PII,
-ordainketa datuak, merkataritza sekretuak (errezeta nagusiak), segurtasun 
-gakoak | Enkriptatze sendoa, sarbide kontrol zorrotza, MFA, audit log, DLP |
+| **Publikoa (P)** | Argitalpen publikorako informazioa | Marketing materialak, prentsa oharrak, webgune publiko edukia | Murrizketarik gabe |
+| **Barnekoa (B)** | Barne erabilerarako informazioa, kalte minimoa ezagutarazten bada | Barne oharrak, txosten ez-sentikorrak, bilera oharrak | Email enkriptatzea, barne sareak soilik |
+| **Konfidentziala (K)** | Negozio informazio sentikorra, kalte esanguratsua ezagutarazten bada | Bezero zerrendak, finantza txostenak (ez-kritikoak), errezetak (ez-nagusiak) | Enkriptatzea geldirik eta trantsitoan, sarbide kontrola, MFA |
+| **Oso Konfidentziala (OK)** | Informazio kritikoa, kalte larria ezagutarazten bada | PII, ordainketa datuak, merkataritza sekretuak (errezeta nagusiak), segurtasun gakoak | Enkriptatze sendoa, sarbide kontrol zorrotza, MFA, audit log, DLP |
 
 **Osotasun Sailkapena:**
 
 | Maila | Irizpideak | Baimenik Gabeko Aldaketaren Eragina |
 |-------|------------|-------------------------------------|
-| **Baxua (B)** | Erraz zuzentzen da,
-eragin minimoa | Eragozpen txikia, zuzenketa azkarra |
-| **Ertaina (E)** | Zuzentzeko ahalegin moderatua,
-eragin pixka bat | Prozesu etenaldia, eskuzko zuzenketa beharrezkoa |
-| **Altua (A)** | Zuzentzeko zaila,
-eragin esanguratsua | Produkzio atzerapenak, finantza galera, bezero eragina |
-| **Kritikoa (K)** | Oso zaila edo ezinezkoa zuzentzeko | Segurtasun arriskuak,
-finantza galera handia, arau urraketak |
+| **Baxua (B)** | Erraz zuzentzen da, eragin minimoa | Eragozpen txikia, zuzenketa azkarra |
+| **Ertaina (E)** | Zuzentzeko ahalegin moderatua, eragin pixka bat | Prozesu etenaldia, eskuzko zuzenketa beharrezkoa |
+| **Altua (A)** | Zuzentzeko zaila, eragin esanguratsua | Produkzio atzerapenak, finantza galera, bezero eragina |
+| **Kritikoa (K)** | Oso zaila edo ezinezkoa zuzentzeko | Segurtasun arriskuak, finantza galera handia, arau urraketak |
 
 **Eskuragarritasun Sailkapena:**
 
@@ -727,10 +618,8 @@ finantza galera handia, arau urraketak |
 
 ### KONFIDENTZIALTASUN OHARRA
 
-Dokumentu honek Zabala Gailetak-en informazio-aktiboei buruzko informazio zehatza dauka,
-sistemak,
-ahultasunak eta segurtasun neurriak barne. Baimenik gabeko ezagutarazteak 
-erakundearen aurkako
+Dokumentu honek Zabala Gailetak-en informazio-aktiboei buruzko informazio zehatza dauka, sistemak,
+ahultasunak eta segurtasun neurriak barne. Baimenik gabeko ezagutarazteak erakundearen aurkako
 erasoak erraztu ditzake. Kudeatu konfidentzialtasun kontrol egokiekin.
 Banaketa mugatua:
 

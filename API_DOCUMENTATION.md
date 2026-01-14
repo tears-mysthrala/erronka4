@@ -703,7 +703,8 @@ curl https://api.zabala-gailetak.com/api/products
 curl -X POST https://api.zabala-gailetak.com/api/orders \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <JWT_TOKEN>" \
-  -d '{"productId":1,"quantity":2,"customerEmail":"john@example.com","customerName":"John Doe","shippingAddress":"123 Main St"}'
+  -d '{"productId":1,"quantity":2,"customerEmail":"john@example.com",
+       "customerName":"John Doe","shippingAddress":"123 Main St"}'
 ```
 
 ---
