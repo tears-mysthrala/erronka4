@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Zabala Gailetak HR</string>
+    
+    <!-- Auth -->
+    <string name="login">Saioa hasi</string>
+    <string name="logout">Amaitu saioa</string>
+    <string name="email">Helbide elektronikoa</string>
+    <string name="password">Pasahitza</string>
+    <string name="forgot_password">Pasahitza ahaztu duzu?</string>
+    
+    <!-- Navigation -->
+    <string name="home">Hasiera</string>
+    <string name="employees">Langileak</string>
+    <string name="vacations">Oporrak</string>
+    <string name="documents">Dokumentuak</string>
+    <string name="payroll">Nominak</string>
+    <string name="chat">Txata</string>
+    <string name="complaints">Kexak</string>
+    <string name="profile">Profila</string>
+    
+    <!-- Common -->
+    <string name="save">Gorde</string>
+    <string name="cancel">Utzi</string>
+    <string name="delete">Ezabatu</string>
+    <string name="edit">Editatu</string>
+    <string name="search">Bilatu</string>
+    <string name="loading">Kargatzen...</string>
+    <string name="error">Errorea</string>
+    <string name="success">Arrakasta</string>
+    <string name="confirm">Baieztatu</string>
+    
+    <!-- Errors -->
+    <string name="error_network">Sareko errorea</string>
+    <string name="error_unknown">Errore ezezaguna</string>
+    <string name="error_invalid_credentials">Kredentzial baliogabeak</string>
+</resources>

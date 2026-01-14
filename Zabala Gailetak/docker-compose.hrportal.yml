@@ -1,0 +1,106 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: hr_portal_postgres
+    environment:
+      POSTGRES_DB: hr_portal
+      POSTGRES_USER: hr_user
+      POSTGRES_PASSWORD: hr_password_change_me
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./hr-portal/migrations:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - hr_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hr_user -d hr_portal"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: hr_portal_redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - hr_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # PHP Application
+  php:
+    build:
+      context: ./hr-portal
+      dockerfile: Dockerfile
+    container_name: hr_portal_php
+    volumes:
+      - ./hr-portal:/var/www/html
+      - php_logs:/var/www/html/logs
+      - php_storage:/var/www/html/storage
+    environment:
+      APP_ENV: development
+      APP_DEBUG: "true"
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: hr_portal
+      DB_USER: hr_user
+      DB_PASSWORD: hr_password_change_me
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - hr_network
+
+  # Nginx Web Server
+  nginx:
+    image: nginx:alpine
+    container_name: hr_portal_nginx
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - ./hr-portal/public:/var/www/html/public
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - nginx_logs:/var/log/nginx
+    depends_on:
+      - php
+    networks:
+      - hr_network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  php_logs:
+    driver: local
+  php_storage:
+    driver: local
+  nginx_logs:
+    driver: local
+
+networks:
+  hr_network:
+    driver: bridge

@@ -1,0 +1,162 @@
+# Zabala Gailetak HR - Android App
+
+Aplicación móvil Android para el sistema de gestión de recursos humanos de Zabala Gailetak.
+
+## 🚀 Tecnologías
+
+- **Lenguaje**: Kotlin 2.0
+- **UI**: Jetpack Compose + Material 3
+- **Arquitectura**: Clean Architecture + MVI
+- **DI**: Hilt (Dagger)
+- **Networking**: Retrofit + OkHttp
+- **Local DB**: Room
+- **Async**: Coroutines + Flow
+- **Seguridad**: Credential Manager API, Biometric, EncryptedSharedPreferences
+- **Min SDK**: 26 (Android 8.0)
+- **Target SDK**: 35 (Android 15)
+
+## 📋 Requisitos
+
+- Android Studio Hedgehog | 2023.1.1 o superior
+- JDK 17
+- Android SDK 35
+- Gradle 8.2.0
+
+## 🏗️ Setup del Proyecto
+
+1. Clonar el repositorio
+2. Abrir el proyecto en Android Studio
+3. Sync Gradle files
+4. Configurar emulador o dispositivo físico
+5. Run app
+
+## 📁 Estructura del Proyecto
+
+```
+app/
+├── src/main/
+│   ├── java/com/zabalagailetak/hrapp/
+│   │   ├── HrApplication.kt                  # Application class
+│   │   │
+│   │   ├── data/                             # Data layer
+│   │   │   ├── local/                        # Local data (Room)
+│   │   │   ├── remote/                       # Remote data (Retrofit)
+│   │   │   └── repository/                   # Repository implementations
+│   │   │
+│   │   ├── di/                               # Dependency injection
+│   │   │   ├── AppModule.kt
+│   │   │   ├── NetworkModule.kt
+│   │   │   ├── DatabaseModule.kt
+│   │   │   └── RepositoryModule.kt
+│   │   │
+│   │   ├── domain/                           # Domain layer
+│   │   │   ├── model/                        # Domain models
+│   │   │   ├── repository/                   # Repository interfaces
+│   │   │   └── usecase/                      # Use cases
+│   │   │
+│   │   ├── presentation/                     # Presentation layer
+│   │   │   ├── MainActivity.kt
+│   │   │   ├── navigation/                   # Navigation
+│   │   │   ├── ui/                           # UI components & screens
+│   │   │   └── viewmodel/                    # ViewModels
+│   │   │
+│   │   ├── security/                         # Security utilities
+│   │   └── util/                             # Utilities
+│   │
+│   ├── res/                                  # Resources
+│   │   ├── values/
+│   │   ├── drawable/
+│   │   └── xml/
+│   │
+│   └── AndroidManifest.xml
+│
+└── build.gradle.kts
+```
+
+## 🔧 Configuración de API
+
+El endpoint de la API se configura en `build.gradle.kts`:
+
+- **Debug**: `http://10.0.2.2:8080/api/` (localhost desde emulador)
+- **Release**: `https://hr.zabalagailetak.com/api/`
+
+Para cambiar la URL en desarrollo, edita la variable `API_BASE_URL` en el buildType debug.
+
+## 🧪 Testing
+
+```bash
+# Unit tests
+./gradlew test
+
+# Instrumented tests
+./gradlew connectedAndroidTest
+
+# Lint check
+./gradlew lint
+```
+
+## 🔒 Seguridad
+
+- ✅ Network Security Config (solo HTTPS en producción)
+- ✅ Certificate pinning
+- ✅ EncryptedSharedPreferences para datos sensibles
+- ✅ Credential Manager API para passkeys
+- ✅ Biometric authentication
+- ✅ ProGuard/R8 ofuscación en release
+- ✅ No cleartext traffic
+
+## 📱 Features Implementadas
+
+- [ ] Autenticación (Login/Logout)
+- [ ] MFA (TOTP)
+- [ ] Passkey authentication
+- [ ] Gestión de empleados
+- [ ] Solicitud de vacaciones
+- [ ] Consulta de nóminas
+- [ ] Gestión de documentos
+- [ ] Chat interno
+- [ ] Sistema de quejas
+- [ ] Notificaciones push
+
+## 🚀 Build & Deploy
+
+### Debug Build
+
+```bash
+./gradlew assembleDebug
+```
+
+### Release Build
+
+```bash
+./gradlew assembleRelease
+```
+
+El APK se generará en: `app/build/outputs/apk/release/app-release.apk`
+
+### Signing
+
+Para firmar la app en release:
+
+1. Crear keystore
+2. Configurar signing en `build.gradle.kts`
+3. Build release
+
+## 📚 Documentación
+
+- [API Documentation](/docs/API.md)
+- [Security Guidelines](/docs/SECURITY.md)
+- [Architecture](/docs/ARCHITECTURE.md)
+
+## 👥 Contribuir
+
+Ver [CONTRIBUTING.md](/docs/CONTRIBUTING.md)
+
+## 📝 Licencia
+
+Propietario - Zabala Gailetak
+
+---
+
+**Versión**: 1.0.0  
+**Última actualización**: Enero 2026
