@@ -53,6 +53,11 @@ $authController = new AuthController($db, $tokenManager, $sessionManager, $totpS
 $accessControl = new \ZabalaGailetak\HrPortal\Auth\AccessControl();
 $employeeController = new \ZabalaGailetak\HrPortal\Controllers\EmployeeController($db, $accessControl);
 
+// Vacation controller
+$auditLogger = new \ZabalaGailetak\HrPortal\Services\AuditLogger($db);
+$vacationService = new \ZabalaGailetak\HrPortal\Services\VacationService($db);
+$vacationController = new \ZabalaGailetak\HrPortal\Controllers\VacationController($vacationService, $auditLogger);
+
 // ============================================================================
 // Web Routes
 // ============================================================================
@@ -125,13 +130,18 @@ $router->delete('/api/employees/{id}', function (Request $request, string $id): 
 });
 
 // API Vacations
-$router->get('/api/vacations', function (Request $request): Response {
-    return Response::json(['message' => 'List vacations - TODO']);
-});
-
-$router->post('/api/vacations', function (Request $request): Response {
-    return Response::json(['message' => 'Request vacation - TODO']);
-});
+$router->get('/api/vacations/balance', [$vacationController, 'getBalance']);
+$router->get('/api/vacations/balance/{employeeId}', [$vacationController, 'getBalanceByEmployee']);
+$router->get('/api/vacations/requests', [$vacationController, 'getMyRequests']);
+$router->get('/api/vacations/requests/{requestId}', [$vacationController, 'getRequest']);
+$router->post('/api/vacations/requests', [$vacationController, 'createRequest']);
+$router->post('/api/vacations/requests/{requestId}/cancel', [$vacationController, 'cancel']);
+$router->get('/api/vacations/pending/manager', [$vacationController, 'getPendingManagerRequests']);
+$router->get('/api/vacations/pending/hr', [$vacationController, 'getPendingHRRequests']);
+$router->post('/api/vacations/requests/{requestId}/approve-manager', [$vacationController, 'approveByManager']);
+$router->post('/api/vacations/requests/{requestId}/approve-hr', [$vacationController, 'approveByHR']);
+$router->post('/api/vacations/requests/{requestId}/reject', [$vacationController, 'reject']);
+$router->get('/api/vacations/calendar', [$vacationController, 'getCalendar']);
 
 // API Documents
 $router->get('/api/documents', function (Request $request): Response {
