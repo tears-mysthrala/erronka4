@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Use Theme.Material3.DayNight.NoActionBar as the base theme -->
+    <style name="Theme.ZabalaGaileTakHR" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@android:color/holo_blue_dark</item>
+        <!-- Use colorPrimary for status bar color to avoid attr/colorPrimaryVariant error -->
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+    </style>
+</resources>
