@@ -93,6 +93,14 @@ class Request
         return $this->headers[$name] ?? null;
     }
     
+    /**
+     * Get header line (PSR-7 compatible)
+     */
+    public function getHeaderLine(string $name): string
+    {
+        return $this->headers[$name] ?? '';
+    }
+    
     public function getHeaders(): array
     {
         return $this->headers;
@@ -157,11 +165,21 @@ class Request
     }
     
     /**
-     * Set an attribute
+     * Set an attribute (mutable)
      */
     public function setAttribute(string $name, mixed $value): void
     {
         $this->attributes[$name] = $value;
+    }
+    
+    /**
+     * Create new request with attribute (immutable PSR-7)
+     */
+    public function withAttribute(string $name, mixed $value): self
+    {
+        $new = clone $this;
+        $new->attributes[$name] = $value;
+        return $new;
     }
     
     /**

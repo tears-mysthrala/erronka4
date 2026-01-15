@@ -26,6 +26,9 @@ if ($router === null) {
 $db = $GLOBALS['app']->getDatabase();
 
 // Connect to Redis
+if (!class_exists('Redis')) {
+    throw new \Exception('Redis extension is required');
+}
 $redis = new \Redis();
 $redis->connect($_ENV['REDIS_HOST'] ?? 'redis', (int)($_ENV['REDIS_PORT'] ?? 6379));
 if (!empty($_ENV['REDIS_PASSWORD'])) {
@@ -45,6 +48,10 @@ $sessionManager = new SessionManager($redis, [
 ]);
 $totpService = new TOTPService();
 $authController = new AuthController($db, $tokenManager, $sessionManager, $totpService);
+
+// Employee controller
+$accessControl = new \ZabalaGailetak\HrPortal\Auth\AccessControl();
+$employeeController = new \ZabalaGailetak\HrPortal\Controllers\EmployeeController($db, $accessControl);
 
 // ============================================================================
 // Web Routes
@@ -94,9 +101,12 @@ $router->post('/api/auth/mfa/enable', [$authController, 'enableMfa']);
 $router->post('/api/auth/mfa/disable', [$authController, 'disableMfa']);
 
 // API Employees
-$router->get('/api/employees', function (Request $request): Response {
-    return Response::json(['message' => 'List employees - TODO']);
-});
+$router->get('/api/employees', [$employeeController, 'index']);
+$router->get('/api/employees/{id}', [$employeeController, 'show']);
+$router->post('/api/employees', [$employeeController, 'create']);
+$router->put('/api/employees/{id}', [$employeeController, 'update']);
+$router->delete('/api/employees/{id}', [$employeeController, 'delete']);
+$router->post('/api/employees/{id}/restore', [$employeeController, 'restore']);
 
 $router->get('/api/employees/{id}', function (Request $request, string $id): Response {
     return Response::json(['message' => "Get employee $id - TODO"]);

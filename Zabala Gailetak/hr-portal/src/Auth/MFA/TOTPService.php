@@ -105,8 +105,9 @@ class TOTPService
     
     /**
      * Verifica si un código ya fue usado recientemente (anti-replay)
+     * @param \Redis $redis Redis instance
      */
-    public function isCodeRecentlyUsed(string $userId, string $code, \Redis $redis): bool
+    public function isCodeRecentlyUsed(string $userId, string $code, object $redis): bool
     {
         $key = "mfa_used:{$userId}:{$code}";
         $exists = $redis->exists($key);

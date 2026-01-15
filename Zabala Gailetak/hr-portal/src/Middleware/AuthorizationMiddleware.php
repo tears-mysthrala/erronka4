@@ -90,7 +90,7 @@ class AuthorizationMiddleware
         
         // Obtener método y path
         $method = $request->getMethod();
-        $path = $request->getUri()->getPath();
+        $path = $request->getUri();
         
         // Buscar permiso requerido para esta ruta
         $requiredPermission = $this->findRequiredPermission($method, $path);

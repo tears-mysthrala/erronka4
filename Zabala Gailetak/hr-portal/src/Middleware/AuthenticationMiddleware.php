@@ -36,7 +36,7 @@ class AuthenticationMiddleware
     
     public function __invoke(Request $request, callable $next): Response
     {
-        $path = $request->getUri()->getPath();
+        $path = $request->getUri();
         
         // Excluir rutas públicas
         if ($this->isExcludedPath($path)) {

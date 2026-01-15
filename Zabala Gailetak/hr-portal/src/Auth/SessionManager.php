@@ -7,6 +7,10 @@ namespace ZabalaGailetak\HrPortal\Auth;
 use Redis;
 use Exception;
 
+if (!class_exists('Redis')) {
+    throw new Exception('Redis extension not installed. Install with: pecl install redis');
+}
+
 /**
  * Session Manager con Redis
  * 

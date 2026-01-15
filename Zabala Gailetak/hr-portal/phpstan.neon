@@ -1,0 +1,29 @@
+includes:
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
+
+parameters:
+    level: 5
+    paths:
+        - src
+        - tests
+    excludePaths:
+        - vendor
+        - node_modules
+    
+    # Ignore Redis extension not being loaded
+    ignoreErrors:
+        - '#Undefined type.*Redis#'
+        - '#Parameter .* of .* has invalid type.*Redis#'
+        - '#has unknown class.*Redis as its type#'
+        
+    # PHPUnit mocking
+    universalObjectCrates:
+        - PHPUnit\Framework\MockObject\MockObject
+    
+    # Allow dynamic properties in tests
+    reportUnmatchedIgnoredErrors: false
+    
+    # PSR-7 interfaces
+    bootstrapFiles:
+        - vendor/autoload.php
