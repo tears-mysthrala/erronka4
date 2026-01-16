@@ -1,375 +1,292 @@
+# 📋 PLAN COMPLETO DE IMPLEMENTACIÓN - PRESUPUESTO ZABALA GAILETAK SEGURIDAD INTEGRAL
 
-# PRESUPUESTO ZABALA GAILETAK — SEGURIDAD INTEGRAL IT/OT (2026)
+## 🎯 **VISIÓN GENERAL DEL PROYECTO**
 
-Documento de propuesta y plan de implementación para la mejora integral de seguridad de Zabala Gailetak S.A. (IT + OT/ICS), incluyendo SOC/SIEM, honeypots e implantación de Portal RRHH.
-
-**Cliente**: Zabala Gailetak S.A. (Panificadora industrial, 120 empleados, País Vasco)  
+**Cliente**: Zabala Gailetak S.A. - Panificadora industrial (120 empleados, País Vasco)  
 **Alcance**: Seguridad OT/ICS + SIEM/SOC + Honeypots + Portal RRHH  
-**Inversión (Year 1)**: €733.950  
-**Coste recurrente (Year 2+)**: €129.000/año (servicios y mantenimiento)  
-**Calendario**: 10 meses (Enero–Diciembre 2026)  
-**ROI estimado**: 137,6% a 3 años (beneficios estimados: €786.000/año)
+**Presupuesto Total**: €733,950 Year 1 + €129K/año recurrente  
+**Timeline**: 10 meses implementación (Enero-Diciembre 2026)  
+**ROI**: 137.6% sobre 3 años (€786K/año beneficios)  
+
+**Resultado esperado**: Documento profesional IT/OT de 35-40 páginas siguiendo estándares de consultoría Accenture/Deloitte, dividido en 3 partes para diferentes audiencias.
 
 ---
 
-## Índice
+## 📄 **ESTRUCTURA DEL DOCUMENTO FINAL**
 
-- Parte I — Resumen Ejecutivo
-   - 1. Contexto y motivación
-   - 2. Objetivos y alcance
-   - 3. Situación actual y riesgos
-   - 4. Solución propuesta (pilares)
-   - 5. Inversión, retorno y modelo de contratación
-   - 6. Plan de implementación (alto nivel)
-- Parte II — Propuesta Comercial
-   - 7. Paquetes de servicio
-   - 8. Precios detallados e hitos de pago
-   - 9. Términos comerciales
-   - 10. Casos de éxito y referencias
-   - 11. Acuerdos de nivel de servicio (SLA)
-   - 12. Propuesta de valor y diferenciación
-- Parte III — Especificaciones Técnicas
-   - 13. Arquitectura IT/OT (Modelo Purdue)
-   - 14. Implementación de seguridad OT
-   - 15. SIEM & SOC (Wazuh vs ELK)
-   - 16. Arquitectura y despliegue de honeypots
-   - 17. Especificaciones técnicas del HR Portal
-   - 18. Mapeo de cumplimiento (ISO/IEC/GDPR/NIS2)
-   - 19. Plan de implementación detallado
-   - 20. Gestión de riesgos y FMEA
-   - 21. Anexos técnicos
+```
+PRESUPUESTO_ZABALA_GAILETAK_SEGURIDAD_INTEGRAL.md
+├── Parte I: Resumen Ejecutivo (6 páginas) ⏳ PENDIENTE
+├── Parte II: Propuesta Comercial (8-10 páginas) ⏳ PENDIENTE  
+│   ├── Sección 7: Paquetes de Servicio (3 niveles)
+│   ├── Sección 8: Precios Detallados con Hitos
+│   ├── Sección 9: Términos Comerciales
+│   ├── Sección 10: Casos de Éxito y Referencias
+│   ├── Sección 11: Acuerdos de Nivel de Servicio
+│   └── Sección 12: Propuesta de Valor y Diferenciación
+└── Parte III: Especificaciones Técnicas (20-25 páginas) ⏳ PENDIENTE
+    ├── Sección 13: Arquitectura IT/OT (Modelo Purdue)
+    ├── Sección 14: Implementación Seguridad OT
+    ├── Sección 15: SIEM & SOC (Wazuh vs ELK)
+    ├── Sección 16: Arquitectura Despliegue Honeypots
+    ├── Sección 17: Especificaciones Técnicas HR Portal
+    ├── Sección 18: Mapeo Cumplimiento (ISO/IEC/GDPR)
+    ├── Sección 19: Plan de Implementación Detallado
+    ├── Sección 20: Gestión de Riesgos & FMEA
+    └── Sección 21: Anexos Técnicos
+```
 
 ---
 
-# PARTE I — RESUMEN EJECUTIVO
+## 📝 **PARTE II: PROPUESTA COMERCIAL** (Páginas 7-16)
 
-## 1. Contexto y motivación
+### **Sección 7: Paquetes de Servicio** (Páginas 7-9)
+**Objetivo**: Presentar 3 niveles de servicio para diferentes necesidades y presupuestos
 
-Zabala Gailetak opera una planta industrial con dependencia elevada de automatización (SCADA/HMI/PLC). La convergencia IT/OT incrementa la exposición a incidentes (ransomware, interrupción de producción, accesos indebidos a redes industriales) y genera presión adicional por cumplimiento (GDPR y NIS2), así como por requisitos de clientes B2B.
+**Contenido detallado**:
+1. **Paquete Básico - "OT Foundation"** (€180,000)
+   - OT Security audit completo
+   - SIEM básico (8x5 monitoring)
+   - Formación básica (40 horas)
+   - Soporte email/telefónico
+   - Duración: 3 meses
 
-Este documento propone una iniciativa de seguridad integral para:
+2. **Paquete Profesional - "OT Advanced"** (€324,000) ⭐ **RECOMENDADO**
+   - Todo del Básico +
+   - Segmentación completa de red
+   - Honeypots desplegados
+   - SIEM avanzado con alertas OT
+   - Formación avanzada (80 horas)
+   - Soporte prioritario
+   - Duración: 5 meses
 
-- Reducir el riesgo de parada de producción y pérdida de trazabilidad.
-- Aumentar la capacidad de detección y respuesta ante incidentes.
-- Mejorar la postura de cumplimiento y auditoría.
-- Digitalizar y securizar procesos de RRHH mediante un portal y aplicación móvil.
+3. **Paquete Empresarial - "OT Enterprise"** (€733,950)
+   - Todo del Profesional +
+   - HR Portal completo
+   - SOC 24x7 durante 6 meses
+   - Integración completa IT/OT
+   - Soporte 24x7
+   - Duración: 10 meses
 
-## 2. Objetivos y alcance
+4. **Matriz Comparativa de Características**
+   ```
+   | Característica | Básico | Profesional | Empresarial |
+   |----------------|--------|-------------|-------------|
+   | OT Audit | ✅ | ✅ | ✅ |
+   | SIEM 8x5 | ✅ | ✅ | ✅ |
+   | Segmentación Red | ❌ | ✅ | ✅ |
+   | Honeypots | ❌ | ✅ | ✅ |
+   | HR Portal | ❌ | ❌ | ✅ |
+   | SOC 24x7 | ❌ | ❌ | ✅ |
+   | Soporte | Email | Prioritario | 24x7 |
+   | Formación | 40h | 80h | 120h |
+   ```
 
-### Objetivos (qué se consigue)
+5. **Ruta de Migración**: Cómo crecer de Básico → Profesional → Empresarial según presupuesto disponible
 
-- **Continuidad operativa**: minimizar interrupciones de planta mediante segmentación, hardening y procedimientos de backup/DR.
-- **Detección temprana**: centralizar logs y correlación (SIEM) con casos de uso OT/ICS.
-- **Respuesta y gobierno**: capacidad SOC (8x5 base, 24x7 opcional) y procedimientos de respuesta.
-- **Disuasión y visibilidad de amenazas**: honeypots aislados e integrados con SIEM.
-- **Digitalización RRHH**: HR Portal seguro (web + Android) con RBAC, MFA, auditoría y controles GDPR.
+### **Sección 8: Precios Detallados con Hitos** (Páginas 10-11)
+**Objetivo**: Desglose transparente de costos y pagos
 
-### Alcance (qué entra)
+**Contenido detallado**:
+1. **Desglose por Pilar** (basado en Parte I):
+   - **Pilar 1: OT Security** €180,000 (25%)
+     - Asset inventory & audit: €40K
+     - Network segmentation: €60K
+     - PLC hardening: €35K
+     - Jump host setup: €25K
+     - Documentation & training: €20K
 
-El proyecto se organiza en **4 pilares** más gestión de proyecto y auditoría:
+   - **Pilar 2: SIEM & SOC** €120,000 (16%)
+     - Platform setup: €50K
+     - Log integration: €30K
+     - Alert development: €20K
+     - SOC staffing (6 months): €20K
 
-1. **Seguridad OT/ICS** (inventario, arquitectura Purdue, segmentación, hardening PLC, jump host, procedimientos).
-2. **SIEM & SOC** (Wazuh recomendado; integración de fuentes IT/OT/aplicación; alertas; dashboards; operación).
-3. **Honeypots** (T-Pot/Conpot; red aislada; pipeline de análisis e inteligencia).
-4. **HR Portal** (backend PHP, frontend web, app Android, despliegue, mantenimiento).
+   - **Pilar 3: Honeypots** €24,000 (3%)
+     - T-Pot platform: €8K
+     - Conpot ICS: €10K
+     - Integration: €6K
 
-Quedan fuera del alcance (salvo contratación adicional): renovación masiva de PLCs/SCADA legacy, sustitución total de ERP, y certificaciones formales completas (p. ej. ISO 27001 certificación final) sin auditoría externa específica.
+   - **Pilar 4: HR Portal** €300,000 (41%)
+     - Backend development: €120K
+     - Web frontend: €60K
+     - Android app: €80K
+     - Deployment: €40K
 
-## 3. Situación actual y principales riesgos
+   - **PM & Audit** €110,000 (15%)
+     - Project management: €50K
+     - Compliance audit: €30K
+     - Risk assessment: €30K
 
-### Riesgos operativos (OT)
+2. **Hitos de Pago** (contrato escalonado):
+   ```
+   Hito 1 (30%): Firma contrato - €220,185
+   Hito 2 (20%): OT Audit completo + SIEM setup - €146,790
+   Hito 3 (20%): Segmentación + HR Portal Fase 1 - €146,790
+   Hito 4 (20%): Implementación completa - €146,790
+   Hito 5 (10%): Go-live + aceptación - €73,395
+   ```
 
-- **Ransomware/IT-to-OT pivoting**: compromiso en IT que derive en afectación de SCADA/PLC.
-- **Parada de producción** por misconfiguraciones, fallos de segmentación o cambios no controlados.
-- **Obsolescencia y entornos legacy**: equipos con soporte limitado, dificultando parches.
+3. **Costos Recurrentes Year 2+** (€129,000/año):
+   - SIEM monitoring: €24K/año
+   - SOC services (opcional): €60K/año
+   - HR Portal maintenance: €30K/año
+   - Security updates: €15K/año
 
-### Riesgos de seguridad y cumplimiento (IT + RRHH)
+4. **Add-ons Opcionales**:
+   - Penetration testing anual: €12K
+   - Incident response retainer: €15K
+   - Additional training: €1,500/día
+   - On-site audits trimestrales: €8K/año
 
-- **Exposición de datos personales** (empleados, nóminas, documentación) y obligaciones GDPR.
-- **Requisitos NIS2**: gestión de riesgos, incidentes, continuidad, cadena de suministro.
+### **Sección 9: Términos Comerciales** (Páginas 12-13)
+**Objetivo**: Términos contractuales claros y profesionales
 
-### Riesgos de visibilidad
+**Contenido detallado**:
+1. **Garantías**:
+   - Software (HR Portal): 12 meses defect warranty
+   - Consultoría: 6 meses warranty on deliverables
+   - Hardware: 3 años manufacturer warranty
+   - Configuraciones seguridad: 90 días adjustment period
 
-- Sin telemetría centralizada y correlación, los incidentes pueden detectarse tarde.
-- Ausencia de “señal” de ataques externos: los honeypots añaden inteligencia y disuasión.
+2. **Términos de Pago**:
+   - Net 30 días desde factura
+   - Penalización mora: 1.5% mensual
+   - Descuento pronto pago: 3% si paga en 10 días
+   - Métodos aceptados: Transferencia bancaria, cheque corporativo
 
-## 4. Solución propuesta (visión de alto nivel)
+3. **Duración del Contrato**:
+   - **Year 1**: Contrato implementación (10 meses)
+   - **Year 2-3**: Contrato mantenimiento (opcional)
+   - **Descuento renovación**: 10% descuento por compromiso 3 años anticipado
 
-La propuesta implementa un modelo de arquitectura y operación que separa IT y OT (Modelo Purdue), habilita una **DMZ industrial (nivel 3.5)**, añade un **jump host con MFA** como vía controlada, y centraliza telemetría mediante **SIEM Wazuh**.
+4. **Cláusulas de Terminación**:
+   - Cancelación cliente: Reembolsos basados en hitos completados menos trabajo realizado
+   - Fuerza mayor: Ambas partes exentas
+   - No rendimiento: Período remediation de 30 días
 
-Elementos clave:
+5. **Límites de Responsabilidad**:
+   - Cap general: €733,950 (valor contrato)
+   - Daños consecuenciales: Excluidos (excepto negligencia grave)
+   - Seguro ciber: Cobertura €2M mantenida
 
-- **Segmentación y control de flujos**: VLAN/ACL + firewalls con enfoque “whitelist”.
-- **Hardening OT**: procedimientos concretos por fabricante (Siemens/Rockwell) y control de cambios.
-- **SIEM**: integración de 30 fuentes de logs (IT/OT/aplicación), 50+ reglas, dashboards por rol.
-- **Honeypots**: red aislada y pipeline de logs hacia SIEM para correlación e IOC.
-- **HR Portal**: seguridad por diseño (RBAC, MFA, auditoría, validaciones, cifrado en tránsito, backups).
+6. **Propiedad Intelectual**:
+   - Código HR Portal: Propiedad Zabala Gailetak tras pago completo
+   - Configuraciones seguridad: Licenciadas para uso Zabala
+   - Materiales formación: Licencia perpetua
 
-## 5. Inversión, retorno y modelo de contratación
+### **Sección 10: Casos de Éxito y Referencias** (Página 14)
+**Objetivo**: Credibilidad mediante casos similares anónimos
 
-### Resumen económico
+**Contenido detallado**:
+1. **Caso de Estudio 1: Industria Láctea (Navarra)** (Anónimo)
+   - **Perfil**: 200 empleados, automatización producción
+   - **Desafío**: Sin seguridad OT, incidente ransomware scare
+   - **Solución**: Similar audit OT + SIEM + segmentación
+   - **Resultados**: 0 incidentes en 24 meses, certificación ISO 27001, ROI 180%
 
-- **Inversión Year 1**: €733.950
-- **Recurrente Year 2+**: €129.000/año
-- **ROI estimado**: 137,6% a 3 años
+2. **Caso de Estudio 2: Panificadora Industrial** (Similar Zabala)
+   - **Perfil**: 80 empleados, líneas producción robotizadas
+   - **Desafío**: SCADA legacy, sin trail auditoría
+   - **Solución**: Modelo Purdue + jump hosts
+   - **Resultados**: Audit IEC 62443 SL2 aprobado, €300K parada producción evitada
 
-La inversión se justifica por la reducción de riesgo de parada (impacto anual estimado), mitigación de incidentes y mejora de eficiencia administrativa en RRHH.
+3. **Caso de Estudio 3: Digitalización RRHH SME**
+   - **Perfil**: 150 empleados, fabricante industrial
+   - **Desafío**: Procesos RRHH papel, gaps compliance GDPR
+   - **Solución**: Portal HR custom con app móvil
+   - **Resultados**: 60% reducción tiempo admin RRHH, €50K ahorros anuales
 
-### Modelo de pago por hitos
+4. **Referencias** (con permiso):
+   - Información de contacto: Nombre, empresa, teléfono
+   - Recomendaciones LinkedIn
+   - Certificaciones: ISO 27001 Lead Auditor, CISSP, IEC 62443 Certified
 
-Se recomienda contratación escalonada por hitos, vinculada a entregables verificables (auditoría OT, SIEM operativo, segmentación y entregables del HR Portal, go-live y aceptación).
+### **Sección 11: Acuerdos de Nivel de Servicio** (Página 15)
+**Objetivo**: Compromisos de rendimiento medibles
 
-## 6. Plan de implementación (alto nivel)
+**Contenido detallado**:
+1. **Tiempos Respuesta SIEM/SOC**:
+   ```
+   | Severidad | Detección | Respuesta | Resolución |
+   |-----------|-----------|-----------|------------|
+   | Crítico   | 5 min     | 15 min    | 4 horas    |
+   | Alto      | 15 min    | 1 hora    | 24 horas   |
+   | Medio     | 1 hora    | 4 horas   | 5 días     |
+   | Bajo      | 4 horas   | 24 horas  | 30 días    |
+   ```
 
-El proyecto se ejecuta en 10 meses, con entregas incrementales y ventanas de cambio coordinadas con producción:
+2. **Disponibilidad del Sistema**:
+   - SIEM: 99.5% uptime (máx 3.65h downtime/mes)
+   - HR Portal: 99.0% uptime (horas business 7am-11pm)
+   - Honeypots: 95% uptime (sistemas aislados)
+   - Red OT: 99.9% uptime (máx 43 min/mes)
 
-- Meses 1–2: discovery, inventario, arquitectura, riesgos, bases HR Portal.
-- Meses 2–4: SIEM inicial, segmentación, jump host, HR Portal (auth + CRUD base).
-- Meses 4–6: hardening PLC, honeypots, tuning SOC/SIEM, HR Portal (empleados completo).
-- Meses 6–8: módulos HR (vacaciones, nóminas), pruebas integradas.
-- Meses 8–10: pruebas de seguridad y rendimiento, formación, go-live y soporte.
+3. **Canales de Soporte**:
+   - **Hotline 24x7**: +34 XXX XXX XXX (paquete Empresarial)
+   - **Sistema Ticketing**: Respuesta <2h business
+   - **Email Support**: Respuesta <8h business
+   - **Soporte On-site**: <4h para incidentes críticos (País Vasco)
 
-Entregables transversales: documentación, procedimientos de operación, formación (120h) y criterios de aceptación por pilar.
+4. **Gestión de Parches**:
+   - Críticos: <72h
+   - Alto: <7 días
+   - Regulares: Ventana mantenimiento mensual
+
+5. **Créditos SLA** (si SLA no cumplido):
+   - 99.5%-99.0%: 10% crédito mensual
+   - 99.0%-95.0%: 25% crédito mensual
+   - <95%: 50% crédito + plan remediation
+
+### **Sección 12: Propuesta de Valor y Diferenciación** (Página 16)
+**Objetivo**: Por qué elegirnos vs competencia
+
+**Contenido detallado**:
+1. **Diferenciadores Clave**:
+   - ✅ **Especialización OT/ICS**: Una de las pocas firmas con expertise IEC 62443 en País Vasco
+   - ✅ **Experiencia Sector Alimentario**: Entendimiento integración HACCP + ciberseguridad
+   - ✅ **Presencia Local**: Equipo Bilbao, disponibilidad on-site <2 horas
+   - ✅ **Apoyo Dual Compliance**: Enfoque combinado ISO 27001 + IEC 62443 (ahorro costos)
+   - ✅ **Soporte Euskera**: Documentación y formación en euskera nativo
+
+2. **Ventajas Técnicas**:
+   - Simulación Factory I/O + OpenPLC (pruebas seguras antes producción)
+   - Honeypots Conpot especializados para protocolos alimentación
+   - HR Portal construido desde cero para GDPR Art. 88 (protección datos empleados)
+   - Stack PostgreSQL + Redis (grado enterprise, costo eficiente open-source)
+
+3. **Valor de Negocio**:
+   - **Mitigación Riesgo**: Evitación costo ransomware promedio €1.2M
+   - **Continuidad Operativa**: Prevención parada producción €500K/año
+   - **Compliance**: Evitar multas GDPR €20M, mantener contratos B2B requiriendo ISO 27001
+   - **Eficiencia RRHH**: Reducción 60% overhead admin (ahorros €44K/año)
+
+4. **Posicionamiento Competitivo**:
+   ```
+   | Factor | Zabala Security Project | Firma IT Genérica | Consultoría Grande |
+   |--------|-------------------------|-------------------|---------------------|
+   | Expertise OT | ✅ IEC 62443 certified | ❌ Solo IT | ✅ Pero cara |
+   | Sector Alimentario | ✅ Especializada | ⚠️ Genérica | ⚠️ Genérica |
+   | Disponibilidad Local | ✅ <2h | ❌ Remoto solo | ❌ HQ Madrid |
+   | Costo | €733K Year 1 | €500K (IT solo) | €1.2M+ |
+   | Soporte Euskera | ✅ Nativo | ❌ Español solo | ❌ Español solo |
+   | HR Portal Incluido | ✅ Custom-built | ❌ Fuera scope | ✅ Pero COTS |
+   ```
+
+5. **Métricas de Éxito** (rastreadas en dashboard):
+   - 0 incidentes impacting producción
+   - <5% false positive rate SIEM tras 90 días
+   - 95%+ adopción HR Portal en 6 meses
+   - Certificación ISO 27001 + IEC 62443 en 12 meses
 
 ---
 
-# PARTE II — PROPUESTA COMERCIAL
+## 🛠️ **PARTE III: ESPECIFICACIONES TÉCNICAS** (Páginas 17-42)
 
-Esta parte describe las opciones de contratación, el desglose económico y los términos de servicio. La propuesta está diseñada para permitir una adopción incremental (por paquetes) o una implantación integral (Enterprise).
+### **Sección 13: Arquitectura IT/OT (Modelo Purdue)** (Páginas 17-19)
+**Objetivo**: Diseño técnico de la arquitectura segura
 
-## 7. Paquetes de servicio
-
-### 7.1. Resumen de paquetes
-
-| Paquete | Denominación | Duración estimada | Inversión (Year 1) | Perfil recomendado |
-|---|---|---:|---:|---|
-| Básico | OT Foundation | 3 meses | €180.000 | Primer salto en OT, visibilidad y formación |
-| Profesional | OT Advanced | 5 meses | €324.000 | Segmentación + detección ampliada + honeypots |
-| Empresarial | OT Enterprise | 10 meses | €733.950 | Programa completo IT/OT + HR Portal + SOC ampliado |
-
-### 7.2. Contenido por paquete
-
-**Paquete Básico — OT Foundation (€180.000)**
-
-- Auditoría de seguridad OT y toma de inventario de activos.
-- SIEM base con operación 8x5 (monitorización y reporting).
-- Formación base (40h) para IT/OT.
-- Soporte estándar (email/telefónico) y entrega de documentación.
-
-**Paquete Profesional — OT Advanced (€324.000)**
-
-- Incluye OT Foundation.
-- Segmentación de red IT/OT (VLAN/ACL y firewalls) y jump host con MFA.
-- Despliegue de honeypots aislados e integración con SIEM.
-- SIEM avanzado con casos de uso OT (reglas y dashboards por rol).
-- Formación avanzada (80h) y soporte prioritario.
-
-**Paquete Empresarial — OT Enterprise (€733.950)**
-
-- Incluye OT Advanced.
-- Desarrollo e implantación del HR Portal (web + Android) con controles GDPR.
-- Servicio SOC ampliado (24x7 durante 6 meses) como opción de arranque.
-- Integración completa IT/OT, pruebas de seguridad y preparación de auditoría.
-- Formación completa (120h) y soporte 24x7 según alcance contratado.
-
-### 7.3. Matriz comparativa
-
-| Característica | Básico | Profesional | Empresarial |
-|---|:---:|:---:|:---:|
-| Auditoría OT / inventario | Sí | Sí | Sí |
-| SIEM 8x5 | Sí | Sí | Sí |
-| Segmentación y jump host | No | Sí | Sí |
-| Honeypots (aislados) | No | Sí | Sí |
-| HR Portal | No | No | Sí |
-| SOC 24x7 (arranque) | No | No | Sí |
-| Soporte | Estándar | Prioritario | 24x7 (según contrato) |
-| Formación | 40h | 80h | 120h |
-
-### 7.4. Ruta de migración
-
-- **Básico → Profesional**: cuando se apruebe inversión de segmentación IT/OT y operación de detección ampliada.
-- **Profesional → Empresarial**: cuando se incorpore HR Portal, SOC ampliado y la integración completa de gobierno/operación.
-
-## 8. Precios detallados e hitos de pago
-
-### 8.1. Desglose económico por pilar (Year 1)
-
-| Pilar | Alcance resumido | Importe |
-|---|---|---:|
-| Pilar 1 — Seguridad OT/ICS | Inventario/auditoría, segmentación, hardening PLC, jump host, documentación y formación | €180.000 |
-| Pilar 2 — SIEM & SOC | Plataforma, integración de logs, casos de uso/alertas y servicio SOC inicial | €120.000 |
-| Pilar 3 — Honeypots | Plataforma, honeypots ICS y su integración/correlación con SIEM | €24.000 |
-| Pilar 4 — HR Portal | Backend, web frontend, Android app y despliegue | €300.000 |
-| PM & Auditoría | Gestión de proyecto, auditoría de cumplimiento y evaluación de riesgos | €110.000 |
-
-Nota: algunas partidas están **redondeadas**; el **total contractual** aplicable a hitos es **€733.950**.
-
-### 8.2. Hitos de pago (contrato escalonado)
-
-| Hito | Condición de facturación (resumen) | % | Importe |
-|---|---|---:|---:|
-| Hito 1 | Firma de contrato y plan de proyecto aprobado | 30% | €220.185 |
-| Hito 2 | Auditoría OT completa + SIEM inicial operativo | 20% | €146.790 |
-| Hito 3 | Segmentación y jump host + HR Portal fase 1 | 20% | €146.790 |
-| Hito 4 | Implementación completa (pilares) + UAT superada | 20% | €146.790 |
-| Hito 5 | Go-live + aceptación formal | 10% | €73.395 |
-
-### 8.3. Costes recurrentes (Year 2+)
-
-**Total recurrente estimado**: €129.000/año
-
-- SIEM monitoring: €24.000/año
-- SOC services (opcional): €60.000/año
-- HR Portal maintenance: €30.000/año
-- Security updates: €15.000/año
-
-### 8.4. Add-ons opcionales
-
-- Penetration testing anual: €12.000
-- Incident response retainer: €15.000
-- Formación adicional: €1.500/día
-- Auditorías on-site trimestrales: €8.000/año
-
-## 9. Términos comerciales
-
-### 9.1. Garantías
-
-- Software (HR Portal): garantía de 12 meses sobre defectos.
-- Consultoría: garantía de 6 meses sobre entregables.
-- Hardware: 3 años según garantía del fabricante.
-- Ajustes de configuración de seguridad: ventana de 90 días para refinamientos.
-
-### 9.2. Condiciones de pago
-
-- Pago neto a 30 días desde factura.
-- Penalización por mora: 1,5% mensual.
-- Descuento por pronto pago: 3% si se paga en 10 días.
-- Métodos aceptados: transferencia bancaria y cheque corporativo.
-
-### 9.3. Duración
-
-- Year 1: contrato de implementación (10 meses).
-- Year 2+: contrato de operación/mantenimiento (opcional).
-- Descuento renovación: 10% por compromiso 3 años anticipado.
-
-### 9.4. Terminación
-
-- Cancelación por el cliente: liquidación por hitos y trabajo efectivamente realizado.
-- Fuerza mayor: exención recíproca.
-- Incumplimiento: periodo de remediación de 30 días.
-
-### 9.5. Responsabilidad
-
-- Límite general: €733.950 (valor contractual Year 1).
-- Daños consecuenciales: excluidos, salvo negligencia grave.
-- Seguro ciber: cobertura €2M mantenida.
-
-### 9.6. Propiedad intelectual
-
-- Código del HR Portal: propiedad de Zabala Gailetak tras pago completo.
-- Configuraciones de seguridad: licenciadas para uso interno de Zabala.
-- Materiales de formación: licencia perpetua de uso interno.
-
-## 10. Casos de éxito y referencias (anónimos)
-
-**Caso 1 — Industria láctea (Navarra)**
-
-- Perfil: 200 empleados, automatización en producción.
-- Reto: ausencia de seguridad OT; evento de ransomware (casi incidente).
-- Solución: auditoría OT + SIEM + segmentación.
-- Resultado: 0 incidentes 24 meses, ISO 27001, ROI 180%.
-
-**Caso 2 — Panificadora industrial (perfil similar)**
-
-- Perfil: 80 empleados, líneas robotizadas.
-- Reto: SCADA legacy y ausencia de trazabilidad de accesos.
-- Solución: modelo Purdue + jump hosts.
-- Resultado: auditoría IEC 62443 SL2, evitada parada estimada €300.000.
-
-**Caso 3 — Digitalización RRHH en pyme industrial**
-
-- Perfil: 150 empleados.
-- Reto: procesos en papel y gaps de GDPR.
-- Solución: HR Portal custom + app móvil.
-- Resultado: 60% reducción de tiempo administrativo, €50.000/año en ahorros.
-
-## 11. Acuerdos de nivel de servicio (SLA)
-
-### 11.1. Tiempos de respuesta SIEM/SOC
-
-| Severidad | Detección | Respuesta | Resolución |
-|---|---:|---:|---:|
-| Crítico | 5 min | 15 min | 4 horas |
-| Alto | 15 min | 1 hora | 24 horas |
-| Medio | 1 hora | 4 horas | 5 días |
-| Bajo | 4 horas | 24 horas | 30 días |
-
-### 11.2. Disponibilidad
-
-- SIEM: 99,5%.
-- HR Portal: 99,0% (en horario 07:00–23:00).
-- Honeypots: 95% (sistemas aislados).
-- Red OT: 99,9% (objetivo; sujeto a ventanas de mantenimiento coordinadas).
-
-### 11.3. Canales de soporte
-
-- Hotline 24x7: +34 XXX XXX XXX (Paquete Empresarial).
-- Sistema de tickets: respuesta <2h en horario laboral.
-- Email: respuesta <8h en horario laboral.
-- Soporte on-site: <4h para incidentes críticos en País Vasco (según contrato).
-
-### 11.4. Gestión de parches
-
-- Críticos: <72h.
-- Altos: <7 días.
-- Regulares: ventana de mantenimiento mensual.
-
-### 11.5. Créditos SLA
-
-- 99,5%–99,0%: 10% crédito mensual.
-- 99,0%–95,0%: 25% crédito mensual.
-- <95,0%: 50% crédito + plan de remediación.
-
-## 12. Propuesta de valor y diferenciación
-
-### 12.1. Diferenciadores
-
-- Especialización OT/ICS con enfoque IEC 62443.
-- Experiencia en el sector alimentario e integración con necesidades de producción.
-- Presencia local (Bilbao) y disponibilidad on-site rápida.
-- Enfoque dual de cumplimiento (ISO 27001 + IEC 62443) para optimizar costes.
-- Soporte de documentación y formación en euskera.
-
-### 12.2. Ventajas técnicas
-
-- Simulación con Factory I/O + OpenPLC para pruebas seguras previas.
-- Honeypots Conpot orientados a protocolos industriales.
-- HR Portal con controles específicos para datos de empleados (GDPR Art. 88).
-- PostgreSQL + Redis con patrón enterprise y eficiencia de coste.
-
-### 12.3. Valor de negocio
-
-- Mitigación del riesgo: reducción del coste esperado de incidente (ransomware, interrupción).
-- Continuidad operativa: prevención de paradas de producción.
-- Cumplimiento: reducción del riesgo sancionador y mantenimiento de requisitos B2B.
-- Eficiencia RRHH: reducción de carga administrativa y mejora de trazabilidad.
-
-### 12.4. Métricas de éxito
-
-- 0 incidentes con impacto en producción.
-- <5% de falsos positivos en SIEM tras 90 días.
-- 95%+ de adopción del HR Portal en 6 meses.
-- Preparación para ISO 27001 + IEC 62443 en 12 meses (según auditoría externa).
-
----
-
-# PARTE III — ESPECIFICACIONES TÉCNICAS
-
-Esta parte define la arquitectura de referencia, los requisitos técnicos y los criterios de despliegue/operación para los cuatro pilares (OT/ICS, SIEM/SOC, honeypots y HR Portal), así como el mapeo de cumplimiento, la planificación detallada y la gestión de riesgos.
-
-## 13. Arquitectura IT/OT (Modelo Purdue)
-
-Objetivo: definir una arquitectura de segmentación IT/OT con DMZ industrial, control de flujos y rutas de acceso gobernadas.
+**Contenido detallado**:
 1. **Modelo Purdue Implementado** (diagrama ASCII):
    ```
    ┌─────────────────────────────────────────────────────────────┐
@@ -441,9 +358,10 @@ Objetivo: definir una arquitectura de segmentación IT/OT con DMZ industrial, co
    - **[DIAGRAMA B]**: Arquitectura lógica VLAN
    - **[DIAGRAMA C]**: Diagrama flujo datos (SCADA → Historian → SIEM)
 
-## 14. Implementación de seguridad OT
+### **Sección 14: Implementación Seguridad OT** (Páginas 20-22)
+**Objetivo**: Detalles técnicos implementación OT
 
-Objetivo: concretar metodología, procedimientos y controles para inventario, hardening, segmentación y continuidad en OT/ICS.
+**Contenido detallado**:
 1. **Metodología Inventario Activos**:
    - **Herramientas**: Nmap 7.94, Nessus Industrial Edition, Claroty CTD
    - **Proceso**: Discovery pasiva (span port switch core), escaneo activo (ventana mantenimiento), verificación manual (dibujos ingeniería)
@@ -504,14 +422,15 @@ Objetivo: concretar metodología, procedimientos y controles para inventario, ha
    - Recovery Time Objective (RTO): 4h SCADA, 8h PLCs
    - Recovery Point Objective (RPO): 24h máximo data loss
 
-## 15. SIEM & SOC (Wazuh vs ELK)
+### **Sección 15: SIEM & SOC (Wazuh vs ELK)** (Páginas 23-25)
+**Objetivo**: Especificaciones plataforma SIEM/SOC
 
-Objetivo: especificar plataforma SIEM/SOC, fuentes de logs, casos de uso y operación.
+**Contenido detallado**:
 1. **Matriz Comparación Plataforma**:
    
    | Criterio | Wazuh (Recomendado) | ELK Stack (Alternativa) | AlienVault OSSIM |
    |-----------|---------------------|-------------------------|------------------|
-   | Costo | €0 (código abierto) | €0 (core) | €0 (código abierto) |
+   | Costo | €0 (open-source) | €0 (core) | €0 (open-source) |
    | Soporte OT/ICS | ✅ Parsers Modbus/S7Comm | ⚠️ Plugins Logstash requeridos | ⚠️ Limitado OT |
    | Escalabilidad | ✅ 10K+ agentes | ✅ Excelente (Elasticsearch) | ❌ Límite 1 nodo |
    | Curva Aprendizaje | Medio | Alto | Medio |
@@ -520,7 +439,7 @@ Objetivo: especificar plataforma SIEM/SOC, fuentes de logs, casos de uso y opera
    | RBAC | ✅ Granular | ✅ Con X-Pack (paid) | ✅ Básico |
    | Compliance | ✅ PCI-DSS, GDPR reports | ✅ Custom | ✅ Pre-built |
    
-   Decisión: **Wazuh** por soporte OT, simplicidad, EDR y coste (€0 en licencias).
+   **DECISIÓN**: **Wazuh** por soporte OT + simplicidad + EDR + costo = €0 licensing
 
 2. **Integración Fuentes Log** (30 total):
    
@@ -603,19 +522,20 @@ Objetivo: especificar plataforma SIEM/SOC, fuentes de logs, casos de uso y opera
 
 6. **Modelo Staffing SOC**:
    
-   **Opción A: SOC 8x5** (€20.000/6 meses, incluido presupuesto):
+   **Opción A: SOC 8x5** (€20K/6 meses, incluido presupuesto):
    - Cobertura: L-V 8am-5pm
    - Staffing: 1 analista L1 + 1 L2 (cobertura part-time)
    - Escalación: Ingeniero on-call para alertas críticas
    
-   **Opción B: SOC 24x7** (+€60.000/año, paquete Empresarial):
+   **Opción B: SOC 24x7** (+€60K/año, paquete Empresarial):
    - Cobertura: 24h, 7 días, 365 días
    - Staffing: 3 shifts x 2 analistas = 6 FTE
    - Escalación: Equipo response incident dedicado
 
-## 16. Arquitectura y despliegue de honeypots
+### **Sección 16: Arquitectura Despliegue Honeypots** (Páginas 26-27)
+**Objetivo**: Diseño técnico honeypots
 
-Objetivo: desplegar honeypots de forma aislada, legalmente alineada e integrada con el SIEM para generar inteligencia accionable.
+**Contenido detallado**:
 1. **Plataforma T-Pot All-in-One**:
    ```
    Hardware: Servidor dedicado (bare-metal o VM)
@@ -686,9 +606,10 @@ Objetivo: desplegar honeypots de forma aislada, legalmente alineada e integrada 
    - **Manejo malware**: Análisis sandboxed únicamente, no re-distribución
    - **Law enforcement**: Coordinar con INCIBE para amenazas significativas
 
-## 17. Especificaciones técnicas del HR Portal
+### **Sección 17: Especificaciones Técnicas HR Portal** (Páginas 28-31)
+**Objetivo**: Detalles técnicos portal HR
 
-Objetivo: describir arquitectura, módulos, controles de seguridad, despliegue y DR del portal de RRHH.
+**Contenido detallado**:
 1. **Arquitectura Sistema**:
    ```
    ┌────────────────────────────────────────────────────────┐
@@ -857,46 +778,46 @@ Objetivo: describir arquitectura, módulos, controles de seguridad, despliegue y
    - Audit trail (todas operaciones CUD logged con user_id, timestamp, cambios JSON)
 
 5. **Especificaciones Módulos**:
-
-   **Módulo Empleados** (Fase 3 — completado):
-   - Líneas de código: ~5.500 (backend + web + móvil)
+   
+   **✅ Módulo Empleados** (Phase 3 - COMPLETADO):
+   - Líneas código: ~5,500 (backend + web + mobile)
    - Tests: 82/82 pasando (PHPUnit)
-   - Funcionalidades: CRUD, validación, auditoría, paginación, borrado lógico y restauración
-
-   **Módulo Nóminas** (Planificado — Fase 5):
-   - Motor de cálculo: salario base + horas extra + bonus − deducciones − impuestos
-   - Retenciones IRPF: tablas IRPF España 2024
-   - Seguridad Social: cálculo automático (aportaciones empresa + empleado)
-   - Generación PDF: librería TCPDF con plantilla de nómina
-   - LOC estimado: ~3.000
-
-   **Módulo Vacaciones** (Planificado — Fase 4):
-   - Cálculo anual: 22 días laborables/año (marco legal España)
-   - Flujo de solicitud: empleado → responsable → RRHH (opcional)
-   - Integración calendario: export iCal para Google Calendar/Outlook
-   - Detección de conflictos: evitar solapes dentro del mismo departamento
-   - LOC estimado: ~2.500
-
-   **Módulo Documentos** (Planificado — Fase 6):
-   - Almacenamiento: cifrado en reposo (AES-256), organizado por `employee_id`
-   - Formatos: PDF, JPG, PNG (máx 10MB por fichero)
-   - Solicitudes: RRHH → empleado (ej. “subir NIF actualizado”)
-   - Control de acceso: empleados (solo propios), RRHH (todos)
-   - LOC estimado: ~2.000
-
-   **Módulo Chat** (Planificado — Fase 7):
-   - Tiempo real: WebSocket vía librería Ratchet (PHP)
-   - Canales: RRHH (1:1) y departamento (grupo)
-   - Tipos de mensaje: texto, emojis y adjuntos
-   - Retención: 90 días (minimización GDPR)
-   - LOC estimado: ~3.500
-
-   **Módulo Quejas** (Planificado — Fase 8):
-   - Anonimato: envío anónimo opcional (alineado con GDPR Art. 88)
-   - Categorías: acoso, discriminación, seguridad y ética
-   - Flujo: abierto → en curso → resuelto → cerrado
-   - Acceso: solo RRHH Manager y Admin
-   - LOC estimado: ~1.500
+   - Features: CRUD, validación, audit trail, paginación, soft delete, restore
+   
+   **⏳ Módulo Nóminas** (Planificado - Phase 5):
+   - Engine cálculo: Base salary + horas extra + bonuses - deducciones - taxes
+   - Withholding tax: Tablas IRPF español 2024
+   - Seguridad social: Cálculo automático (contribuciones employer + employee)
+   - Generación PDF: Librería TCPDF con template nómina oficial
+   - Estimated LOC: ~3,000
+   
+   **⏳ Módulo Vacaciones** (Planificado - Phase 4):
+   - Balance anual cálculo: 22 días laborables/año (ley española)
+   - Workflow solicitud: Empleado → Manager → HR (opcional)
+   - Integración calendario: Export iCal para Google Calendar/Outlook
+   - Detección conflicto: Prevenir vacaciones overlapping en mismo departamento
+   - Estimated LOC: ~2,500
+   
+   **⏳ Módulo Documentos** (Planificado - Phase 6):
+   - File storage: Encriptado at rest (AES-256), organizado por employee_id
+   - Tipos soportados: PDF, JPG, PNG (máx 10MB por file)
+   - Solicitudes documentos: HR → Empleado (ej. "Upload NIF scan updated")
+   - Control acceso: Empleados ven documentos propios only, HR ve todos
+   - Estimated LOC: ~2,000
+   
+   **⏳ Módulo Chat** (Planificado - Phase 7):
+   - Real-time: WebSocket vía librería Ratchet PHP
+   - Canales: Chat RRHH (1-on-1 con dept HR), Chat Departamento (group)
+   - Tipos mensaje: Text, emoji, attachments file
+   - Retención: 90 días (minimización data GDPR)
+   - Estimated LOC: ~3,500
+   
+   **⏳ Módulo Quejas** (Planificado - Phase 8):
+   - Anonimato: Opcional anonymous submission (compliance GDPR Art. 88)
+   - Categorías: Harassment, discrimination, safety, ethics
+   - Workflow: Open → In Progress → Resolved → Closed
+   - Acceso: HR Manager + Admin only
+   - Estimated LOC: ~1,500
 
 6. **Arquitectura Despliegue**:
    ```
@@ -934,9 +855,10 @@ Objetivo: describir arquitectura, módulos, controles de seguridad, despliegue y
    - RTO: 2 horas (restore desde backup a servidor standby)
    - RPO: 15 minutos (intervalo shipping WAL)
 
-## 18. Mapeo de cumplimiento (ISO/IEC/GDPR/NIS2)
+### **Sección 18: Mapeo Cumplimiento (ISO/IEC/GDPR)** (Páginas 32-34)
+**Objetivo**: Cómo el proyecto cumple requirements compliance
 
-Objetivo: mapear controles y requisitos regulatorios a entregables y evidencias del proyecto.
+**Contenido detallado**:
 1. **Implementación Controles ISO 27001:2022**:
    
    | Control | Título | Implementación | Status |
@@ -975,7 +897,7 @@ Objetivo: mapear controles y requisitos regulatorios a entregables y evidencias 
    **Consideraciones SL3** (enhancement futuro):
    - Autenticación avanzada (biometrics, smart cards)
    - Comunicación encriptada a nivel device field (actualmente no todos devices soportan)
-   - Coste adicional estimado: +€80.000
+   - Costo adicional estimated: +€80K
 
 3. **Compliance GDPR**:
    
@@ -1020,9 +942,10 @@ Objetivo: mapear controles y requisitos regulatorios a entregables y evidencias 
    **Sanciones por Non-compliance**: Hasta €10M o 2% del turnover worldwide
    **Fecha Enforcement**: 17 octubre 2024 (transposición España diciembre 2024)
 
-## 19. Plan de implementación detallado
+### **Sección 19: Plan Implementación Detallado** (Páginas 35-36)
+**Objetivo**: Timeline detallado con dependencias
 
-Objetivo: definir el cronograma de 10 meses con hitos, dependencias, recursos y criterios de aceptación.
+**Contenido detallado**:
 1. **Cronograma 10 Meses** (8 fases: Discovery → Go-live → Support)
    - **Fase 1 (Meses 1-2)**: Discovery & Planning
      - OT asset inventory completo
@@ -1096,9 +1019,10 @@ Objetivo: definir el cronograma de 10 meses con hitos, dependencias, recursos y 
    - **Ingenieros OT** (40h): PLC security, Purdue Model, incident response
    - **Equipo RRHH** (40h): HR Portal usage, compliance, data protection
 
-## 20. Gestión de riesgos y FMEA
+### **Sección 20: Gestión de Riesgos & FMEA** (Página 37)
+**Objetivo**: Identificación y mitigación riesgos
 
-Objetivo: identificar riesgos de implantación/operación y acordar mitigaciones y planes de rollback.
+**Contenido detallado**:
 1. **Riesgos Implementación**:
    - **Parada producción**: Durante segmentación OT (mitigación: ventanas mantenimiento, Factory I/O testing)
    - **Resistencia cambio**: Staff producción (mitigación: comunicación change management, training)
@@ -1136,9 +1060,10 @@ Objetivo: identificar riesgos de implantación/operación y acordar mitigaciones
    - **Support**: Help desk dedicado durante go-live
    - **Feedback**: Surveys post-training, adjustment procedures
 
-## 21. Anexos técnicos
+### **Sección 21: Anexos Técnicos** (Páginas 38-42)
+**Objetivo**: Documentación técnica detallada
 
-Objetivo: incluir material técnico complementario (diagramas, plantillas y checklists) para operación y auditoría.
+**Contenido detallado**:
 1. **Anexo A: Diagramas Arquitectura**
    - Diagrama A: Topología física (racks, switches, firewalls)
    - Diagrama B: Arquitectura lógica VLAN
@@ -1151,11 +1076,11 @@ Objetivo: incluir material técnico complementario (diagramas, plantillas y chec
    - HR Portal: 3x Dell PowerEdge R250 (nginx + php + postgres)
 
 3. **Anexo C: Lista Materiales (BOQ)**
-   - Licencias software: Wazuh Enterprise (€50.000), Nessus Industrial (€10.000)
-   - Hardware: servidores Dell (€15.000), switches industriales (€25.000), firewalls (€30.000)
-   - Formación: 120h @ €150/h = €18.000
-   - Viajes/alojamiento: €5.000
-   - **Total BOQ**: €153.000 (excluye labor consultores)
+   - Software licenses: Wazuh Enterprise (€50K), Nessus Industrial (€10K)
+   - Hardware: Servers Dell (€15K), switches industrial (€25K), firewalls (€30K)
+   - Training: 120h @ €150/h = €18K
+   - Travel/accommodation: €5K
+   - **Total BOQ**: €153K (excluye labor consultores)
 
 4. **Anexo D: Plantillas Reglas Firewall**
    ```
@@ -1202,10 +1127,37 @@ Objetivo: incluir material técnico complementario (diagramas, plantillas y chec
 
 ---
 
-## Próximos pasos (para decisión y arranque)
+## 📊 **MÉTRICAS CALIDAD FINAL**
 
-1. Validación de alcance: confirmar si el programa se contrata como paquete (Básico/Profesional/Empresarial) o como implantación integral.
-2. Taller de arranque (Kick-off): stakeholders IT/OT/RRHH, calendario de ventanas de cambio, y criterios de aceptación por pilar.
-3. Confirmación de dependencias: accesos, listado de activos, disponibilidad de producción, y requisitos legales (DPIA/retención).
-4. Aprobación del plan de hitos: fechas objetivo y responsables de validación por parte de Zabala Gailetak.
-5. Inicio Fase 1: discovery + inventario OT + arquitectura + SIEM base.
+### **Consistencia**
+- ✅ Figuras presupuesto: €733.95K Year 1, ROI 137.6%
+- ✅ Timeline: 10 meses, 8 fases
+- ✅ Alcance: OT + SIEM + Honeypots + HR Portal
+- ✅ Tecnología: Wazuh SIEM, PHP 8.4, PostgreSQL 16
+
+### **Profesionalismo**
+- ✅ Estructura consultoría (Ejecutivo → Comercial → Técnico)
+- ✅ Lenguaje formal, métricas cuantificables
+- ✅ Riesgos identificados con mitigation
+- ✅ Compliance legal completo (GDPR, NIS2, ISO, IEC)
+
+### **Completitud**
+- ✅ Fuentes: 158 archivos .md referenciados
+- ✅ Detalles técnicos: comandos, configs, endpoints
+- ✅ Casos reales: referencias sector alimentación
+- ✅ Legal: contratos, garantías, SLA profesionales
+
+---
+
+## 🚀 **SIGUIENTE PASOS EJECUCIÓN**
+
+1. **Empieza Sección 7** (paquetes) - establece tono comercial
+2. **Sección 13** (arquitectura Purdue) - diagrama fundamental
+3. **Sección 17** (HR Portal) - usa FASE_3_RESUMEN.md como base
+4. **Revisa consistencia** cada 3-4 secciones
+5. **Final**: formatea markdown profesional
+
+**Tiempo estimado**: 4-6 horas escritura + 2-3 horas revisión
+**Resultado**: Documento board-ready para presentación CEO/CFO
+
+¿Te ayudo a empezar escribiendo alguna sección específica del plan? 🤔
