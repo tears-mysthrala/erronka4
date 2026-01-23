@@ -1,52 +1,107 @@
-# Zerbitzarien Gotortze (Hardening) Prozedura - Zabala Gailetak
+# Server Hardening SOP (Debian 12 Copy-Paste)
 
-## 1. Helburua
+**Target:** All Servers (App, Data, SecOps, OT)
+**User:** Root
 
-Zerbitzari eta sistema eragileen eraso-azalera murriztea,
-segurtasun konfigurazio optimoak ezarriz.
+## 1. Basic System Secure
 
-## 2. Irismena
+Run these commands on every new server immediately after installation.
 
-Linux eta Windows zerbitzari guztiak (Fisikoak eta Birtualak).
+```bash
+# 1. Update & Install Tools
+apt update && apt upgrade -y
+apt install -y ufw fail2ban curl git htop
 
-## 3. Prozedura Orokorra
+# 2. Setup Non-Root User (Interactive)
+adduser admin
+usermod -aG sudo admin
 
-### 3.1 Instalazioa
+# 3. Secure Shared Memory
+echo "tmpfs /run/shm tmpfs defaults,noexec,nosuid 0 0" >> /etc/fstab
+mount -o remount /run/shm
+```
 
-* Erabili bakarrik onartutako irudi ofizialak.
-* Partizioak bereizi: `/boot`, `/home`, `/var`, `/tmp` partizio banatuetan egon 
-behar dira (Linux).
+## 2. SSH Hardening (Critical)
 
-### 3.2 Erabiltzaileak eta Sarbideak
+Prevents root login and password brute-forcing.
 
-* **Root/Admin sarbidea:** Desgaitu root bidezko zuzeneko saioa SSHn 
-(`PermitRootLogin no`).
-* **Pasahitzak:** Gutxienez 12 karaktere,
-konplexutasunarekin. Aldaketa behartu 90 egunean behin.
-* **Erabiltzaileak:** Ezabatu edo desgaitu beharrezkoak ez diren kontuak (`guest`,
-etab.).
-* **Sudo:** Erabili `sudo` pribilegioak igotzeko, ez sartu `root` gisa.
+```bash
+# Create Hardening Config File (Debian 12 method)
+cat <<EOF > /etc/ssh/sshd_config.d/99-hardening.conf
+PermitRootLogin no
+PasswordAuthentication no
+X11Forwarding no
+EOF
 
-### 3.3 Zerbitzuak eta Sareak
+# Restart SSH
+systemctl restart sshd
+```
+*Warning: Ensure you have SSH keys setup for `admin` user before disabling passwords!*
+*If you haven't set up keys yet, temporarily use `PasswordAuthentication yes` and change it later.*
 
-* **Minimizazioa:** Desaktibatu beharrezkoak ez diren zerbitzuak (FTP,
-Telnet, Print Spooler...).
-* **SSH:** Aldatu portu lehenetsia (aukerakoa),
-erabili gako bidezko autentikazioa (Key-based) eta desgaitu pasahitzak.
-* **Suebakia:** Konfiguratu `ufw` (Linux) edo Windows Firewall sarrerako trafiko guztia ukatzeko,
-beharrezkoa dena izan ezik.
+## 3. Host Firewall (UFW) Configuration
 
-### 3.4 Eguneraketak (Patch Management)
+### For ZG-App (Web Server)
+```bash
+ufw default deny incoming
+ufw default allow outgoing
+ufw allow ssh
+ufw allow 80/tcp
+ufw allow 443/tcp
+ufw enable
+```
 
-* Konfiguratu eguneraketa automatikoak segurtasun partxeetarako.
-* Egiaztatu eguneraketak astean behin gutxienez.
+### For ZG-Data (Database)
+```bash
+ufw default deny incoming
+ufw default allow outgoing
+ufw allow ssh
+# Allow Postgres ONLY from App Server
+ufw allow from 192.168.20.10 to any port 5432
+# Allow Redis ONLY from App Server
+ufw allow from 192.168.20.10 to any port 6379
+ufw enable
+```
 
-### 3.5 Monitorizazioa eta Logak
+### For ZG-SecOps (Wazuh)
+```bash
+ufw default deny incoming
+ufw default allow outgoing
+ufw allow ssh
+ufw allow 443/tcp    # Wazuh Dashboard
+ufw allow 1514/tcp   # Agent communication
+ufw allow 1515/tcp   # Enrollment
+ufw enable
+```
 
-* Aktibatu auditoretza logak (`auditd` Linuxen).
-* Birbideratu logak SIEM zerbitzarira (Syslog bidez).
-* Sinkronizatu erlojua NTP bidez (logen koherentziarako).
+### For ZG-OT (Industrial)
+```bash
+ufw default deny incoming
+ufw default allow outgoing
+ufw allow ssh
+ufw allow 8080/tcp   # OpenPLC Web
+ufw allow 502/tcp    # Modbus
+ufw enable
+```
 
-## 4. Egiaztapena
+## 4. Fail2Ban Setup
+Protect SSH from brute force.
 
-* Erabili tresnak gotortze maila neurtzeko (adib. Lynis Linuxen).
+```bash
+# Create local config
+cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+
+# Enable SSH jail
+cat <<EOF >> /etc/fail2ban/jail.local
+[sshd]
+enabled = true
+port = ssh
+filter = sshd
+logpath = /var/log/auth.log
+maxretry = 3
+bantime = 3600
+EOF
+
+systemctl restart fail2ban
+systemctl enable fail2ban
+```

@@ -1,1199 +1,1210 @@
-# Zabala Gailetak - Proiektuaren Dokumentazioa
+# Zabala Gailetak - HR Portal Project Documentation
 
-**Bertsioa:** 1.0  
-**Data:** 2026ko Urtarrila  
-**Proiektua:** Segurtasun Sistema Aurreratua  
-**Egoera:** Inplementazioa Osatuta
-
----
-
-## Dokumentuaren Aurkibidea
-
-1. [Laburpen Exekutiboa](#1-laburpen-exekutiboa)
-2. [Proiektuaren Orokorra](#2-proiektuaren-orokorra)
-3. [Arkitektura Teknikoa](#3-arkitektura-teknikoa)
-4. [Segurtasun Inplementazioa](#4-segurtasun-inplementazioa)
-5. [Aplikazioen Orokorra](#5-aplikazioen-orokorra)
-6. [Hedapen Gida](#6-hedapen-gida-deployment)
-7. [Eragiketak eta Mantentzea](#7-eragiketak-eta-mantentzea)
-8. [Betetzea eta Estandarrak](#8-betetzea-eta-estandarrak)
-9. [Garapen Gidalerroak](#9-garapen-gidalerroak)
-10. [Laguntza eta Kontaktua](#10-laguntza-eta-kontaktua)
+**Version:** 1.0
+**Date:** January 2026
+**Project:** Advanced Security System - HR Portal
+**Status:** Implementation Completed
 
 ---
 
-## 1. Laburpen Exekutiboa
+## Table of Contents
 
-### 1.1 Proiektuaren Helburuak
-
-Zabala Gailetak proiektuaren helburua enpresaren azpiegitura informatikoa modernizatzea
-eta segurtasuna indartzea da. Proiektu honek hurrengo osagaiak biltzen ditu:
-
-- **Backend API**: Segurtasun middleware osatuekin
-- **Web Aplikazioa**: E-commerce plataforma segurua
-- **Mobile Aplikazioa**: iOS eta Android-rako aplikazio segurua
-- **DevOps & CI/CD**: Automatizatutako deployment-a
-- **SIEM Sistema**: Monitorizazio eta alerting
-- **Network Segmentation**: IT eta OT sareen segurtasuna
-
-### 1.2 Negozio Onurak
-
-- **Segurtasun Hobea**: MFA, Rate Limiting, Input Validation
-- **Automatizazioa**: CI/CD pipeline-ak, testing automatikoa
-- **Monitorizazioa**: SIEM sistema, real-time alert-ak
-- **Eskalagarritasuna**: Docker containerization, microservices
-- **Betetzea (Compliance)**: OWASP, ISO 27001, IEC 62443 estandarrak
-
-### 1.3 Metrika Gakoak
-
-| Metrika | Helburua | Unekoa |
-|---------|----------|--------|
-| Security Scans Gainditze-tasa | 95%+ | 100% |
-| Test Coverage (Estaldura) | 80%+ | 85% |
-| Deployment Maiztasuna | Astero | Astero |
-| Detekzio Denbora (MTTD) | < 15min | < 10min |
-| Erantzun Denbora (MTTR) | < 30min | < 20min |
+1. [Executive Summary](#1-executive-summary)
+2. [Project Overview](#2-project-overview)
+3. [Technical Architecture](#3-technical-architecture)
+4. [Security Implementation](#4-security-implementation)
+5. [Application Overview](#5-application-overview)
+6. [Deployment Guide](#6-deployment-guide)
+7. [Operations and Maintenance](#7-operations-and-maintenance)
+8. [Compliance and Standards](#8-compliance-and-standards)
+9. [Development Guidelines](#9-development-guidelines)
+10. [Support and Contact](#10-support-and-contact)
 
 ---
 
-## 2. Proiektuaren Orokorra
+## 1. Executive Summary
 
-### 2.1 Enpresaren Profila
+### 1.1 Project Objectives
 
-**Zabala Gailetak** Euskal Herrian kokatuta dagoen enpresa bat da,
-gaileta eta txokolate ekoizpen, salmenta eta banaketa egiten duena.
+The Zabala Gailetak HR Portal project aims to modernize the company's IT infrastructure and strengthen security through a comprehensive Human Resources management system. The project includes:
 
-**Datuak:**
+- **Backend API**: Advanced security middleware with comprehensive controls
+- **Web Application**: Secure HR management platform with employee portal
+- **Mobile Application**: Android application for remote employee access
+- **DevOps & CI/CD**: Automated deployment and security pipelines
+- **SIEM System**: Centralized monitoring and alerting
+- **Network Segmentation**: Secure IT and OT network separation
 
-- Langileak: 120
-- Produkzioa: 120 langile (gaileta produkzioa)
-- IKT Departamentua: 5 langile
-- Kokapena: Euskal Herria
-- Merkatua: Nazionala eta nazioartekoa
+### 1.2 Business Benefits
 
-### 2.2 Proiektuaren Irismena
+- **Enhanced Security**: MFA, rate limiting, comprehensive input validation
+- **Automation**: CI/CD pipelines, automated testing, security scanning
+- **Monitoring**: SIEM system, real-time alerts, compliance dashboards
+- **Scalability**: Docker containerization, microservices architecture
+- **Compliance**: ISO 27001, GDPR, IEC 62443 standards implementation
 
-Proiektu honek hurrengo eremuak hartzen ditu:
+### 1.3 Key Metrics
 
-#### 2.2.1 Web Aplikazioa
+| Metric | Target | Current |
+|--------|--------|---------|
+| Security Scan Pass Rate | 95%+ | 100% |
+| Test Coverage | 80%+ | 85% |
+| Deployment Frequency | Weekly | Weekly |
+| Mean Time to Detect (MTTD) | < 15min | < 10min |
+| Mean Time to Respond (MTTR) | < 30min | < 20min |
+| ISO 27001 Compliance | 93%+ | 93% |
 
-- Produktu katalogoa
-- Eskaera sistema
-- Erabiltzaileen autentikazioa
-- MFA bi faktoreko autentikazioa
-- Eskaeren kudeaketa
+---
 
-#### 2.2.2 Mobile Aplikazioa
+## 2. Project Overview
 
-- Produktuak arakatzea
-- Eskaerak egitea
-- Autentikazio segurua
-- MFA laguntza
-- Autentikazio biometrikoa
+### 2.1 Company Profile
+
+**Zabala Gailetak** is a Basque company specializing in biscuit and chocolate production, sales, and distribution.
+
+**Key Data:**
+- Employees: 120 total
+- Production: 120 employees (biscuit manufacturing)
+- IT Department: 5 employees
+- Location: Basque Country
+- Market: National and international
+
+### 2.2 Project Scope
+
+The project encompasses the following areas:
+
+#### 2.2.1 Web Application
+- Employee management (CRUD operations)
+- Vacation request system with approvals
+- Payroll consultation (secure access)
+- Document management (secure file upload/download)
+- Internal communication (HR chat, department chat)
+- User authentication with MFA and Passkey support
+- Role-based access control (Admin, HR Manager, Department Head, Employee)
+
+#### 2.2.2 Mobile Application (Android)
+- Employee profile management
+- Vacation requests and status tracking
+- Secure document access
+- Biometric authentication integration
+- Offline capabilities for critical functions
 
 #### 2.2.3 Backend API
+- RESTful API with PSR standards
+- JWT authentication with MFA integration
+- Rate limiting and comprehensive input validation
+- Audit logging for all operations
+- Role-based access control implementation
+- Secure file handling and storage
 
-- RESTful API
-- JWT autentikazioa
-- Rate limiting (tasa mugatzea)
-- Input validation (sarrera balidazioa)
-- Error handling (errore kudeaketa)
+#### 2.2.4 Infrastructure & Security
+- Network segmentation (IT/OT separation)
+- SIEM system with ELK Stack
+- Honeypot implementation for threat detection
+- Industrial control system security (IEC 62443)
+- GDPR compliance with data protection measures
+- ISO 27001 Information Security Management System
 
-#### 2.2.4 Segurtasun Azpiegitura
-
-- SIEM sistema (ELK Stack)
-- Honeypot hedapena
-- Sare segmentazioa
-- Firewall arauak
-- IDS/IPS
-
-#### 2.2.5 DevOps
-
-- CI/CD pipeline
-- Docker containerization
-- Testing automatizatua
-- Security scanning
-- Deployment automatizazioa
-
-### 2.3 Teknologia Stack-a
+### 2.3 Technology Stack
 
 #### Backend
-
-- **Runtime**: Node.js 18+
-- **Framework**: Express.js 4.18+
-- **Autentikazioa**: JWT, Speakeasy (TOTP)
-- **Segurtasuna**: Helmet, CORS, rate-limit
-- **Testing**: Jest, Supertest
+- **Language**: PHP 8.4 with strict typing
+- **Framework**: Custom MVC with PSR standards
+- **Database**: PostgreSQL 16 with encryption
+- **Cache**: Redis 7 for session management
+- **Authentication**: JWT + MFA (TOTP + Passkey)
 
 #### Frontend (Web)
-
-- **Framework**: React 18
+- **Framework**: React 18 with hooks
 - **Routing**: React Router 6
-- **Estiloak**: Styled Components
-- **HTTP Bezeroa**: Axios
-- **Segurtasuna**: DOMPurify, js-cookie
+- **Styling**: styled-components
+- **HTTP Client**: Axios with interceptors
+- **Security**: DOMPurify, Content Security Policy
 
 #### Frontend (Mobile)
+- **Framework**: Kotlin with Jetpack Compose
+- **Architecture**: Clean Architecture + MVI pattern
+- **Networking**: Retrofit with OkHttp
+- **Security**: EncryptedSharedPreferences, BiometricPrompt
+- **Database**: Room with SQLCipher
 
-- **Framework**: React Native
-- **Nabigazioa**: React Navigation
-- **Segurtasuna**: react-native-keychain
-- **Biltegiratzea**: EncryptedStorage
+#### Infrastructure
+- **Containerization**: Docker with security scanning
+- **Orchestration**: Docker Compose for multi-service deployment
+- **Reverse Proxy**: Nginx with SSL/TLS termination
+- **Monitoring**: ELK Stack (Elasticsearch, Logstash, Kibana)
+- **Security**: SIEM, honeypots, network segmentation
 
-#### Azpiegitura
-
-- **Edukiontziak**: Docker, Docker Compose
-- **Proxy**: Nginx
-- **Datu-basea**: MongoDB 7
-- **Cache**: Redis 7
-- **SIEM**: ELK Stack 8.11
-
-#### DevOps
-
-- **CI/CD**: GitHub Actions
-- **Kode Kalitatea**: ESLint, SonarQube
-- **Segurtasun Eskaneatzea**: OWASP ZAP, Dependency Check
-- **Monitorizazioa**: SIEM, Health checks
+#### DevOps & Security
+- **CI/CD**: GitHub Actions with security gates
+- **Code Quality**: ESLint, PHPStan, SonarQube
+- **Security Testing**: SAST (SonarQube), DAST (OWASP ZAP), SCA (OWASP Dependency Check)
+- **Container Security**: Trivy image scanning
+- **Infrastructure Security**: Checkov for IaC validation
 
 ---
 
-## 3. Arkitektura Teknikoa
+## 3. Technical Architecture
 
-### 3.1 Sistema Arkitektura
+### 3.1 System Architecture
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-└──────────────────┬──────────────────┬────────────────────┘
-                   │                  │
-            ┌──────▼──────┐    ┌─────▼─────┐
-            │   Web App   │    │ Mobile App│
-            │  (React)    │    │ (RN)      │
-            └──────┬──────┘    └─────┬─────┘
-                   │                  │
-                   └────────┬─────────┘
-                            │ HTTPS + JWT + MFA
-                    ┌───────▼────────┐
-                    │  Nginx Proxy  │
-                    │   (SSL/TLS)   │
-                    └───────┬────────┘
-                            │
-                    ┌───────▼────────┐
-                    │  Backend API   │
-                    │  (Express)    │
-                    └───────┬────────┘
-                            │
-              ┌─────────────┼─────────────┐
-              │             │             │
-       ┌──────▼───┐  ┌───▼───┐  ┌───▼────┐
-       │ MongoDB  │  │ Redis │  │  SIEM  │
-       └──────────┘  └───────┘  └────────┘
+│                    Internet (Public)                        │
+└─────────────────────┬───────────────────────────────────────┘
+                      │
+           ┌──────────▼──────────┐
+           │   DMZ Zone          │  192.168.100.0/24
+           │                     │
+           │  ┌────────────────┐ │
+           │  │   Nginx Proxy   │ │
+           │  │   (SSL/TLS)     │ │
+           │  └────────────────┘ │
+           └─────────┬───────────┘
+                     │ HTTPS + JWT + MFA
+           ┌─────────▼──────────┐
+           │ User Network       │  192.168.10.0/24
+           │                    │
+           │  ┌────────────────┐ │
+           │  │  User Workstations│ │
+           │  │  (Employee PCs) │ │
+           │  └────────────────┘ │
+           └─────────┬───────────┘
+                     │
+           ┌─────────▼──────────┐
+           │ Server Network     │  192.168.20.0/24
+           │                    │
+           │  ┌────────────────┐ │
+           │  │   HR Portal     │ │
+           │  │   (PHP Backend) │ │
+           │  └────────────────┘ │
+           │  ┌────────────────┐ │
+           │  │ PostgreSQL DB   │ │
+           │  │  (Encrypted)    │ │
+           │  └────────────────┘ │
+           │  ┌────────────────┐ │
+           │  │     Redis       │ │
+           │  │   (Sessions)    │ │
+           │  └────────────────┘ │
+           └─────────┬───────────┘
+                     │
+           ┌─────────▼──────────┐
+           │ Management Network │  192.168.200.0/24
+           │                    │
+           │  ┌────────────────┐ │
+           │  │   SIEM System   │ │
+           │  │   (ELK Stack)   │ │
+           │  └────────────────┘ │
+           │  ┌────────────────┐ │
+           │  │  Honeypots      │ │
+           │  │  (Conpot, Cowrie│ │
+           │  └────────────────┘ │
+           └─────────────────────┘
+                     │
+           ┌─────────▼──────────┐
+           │   OT Network       │  192.168.50.0/24 (Isolated)
+           │                    │
+           │  ┌────────────────┐ │
+           │  │   PLC Systems   │ │
+           │  │   (Siemens S7)  │ │
+           │  └────────────────┘ │
+           │  ┌────────────────┐ │
+           │  │   HMI/SCADA     │ │
+           │  │   Systems       │ │
+           │  └────────────────┘ │
+           └─────────────────────┘
 ```
 
-### 3.2 Sare Arkitektura
+### 3.2 Network Architecture
 
+**VLAN Configuration:**
+- **VLAN 10**: User Network (192.168.10.0/24)
+- **VLAN 20**: Server Network (192.168.20.0/24)
+- **VLAN 50**: OT Network (192.168.50.0/24)
+- **VLAN 100**: DMZ (192.168.100.0/24)
+- **VLAN 200**: Management (192.168.200.0/24)
+
+**Firewall Rules (Critical):**
+```bash
+# DMZ to Internal (Strict)
+allow tcp from 192.168.100.10 to 192.168.20.10 port 8080
+allow tcp from 192.168.100.10 to 192.168.20.20 port 5432
+deny all from 192.168.100.0/24 to 192.168.0.0/16
+
+# User to Server (Controlled)
+allow tcp from 192.168.10.0/24 to 192.168.20.5 port 88,389,445
+allow tcp from 192.168.10.0/24 to 192.168.20.10 port 8080
+deny tcp from 192.168.10.0/24 to 192.168.20.20 port 5432
+
+# OT Isolation (Air Gap)
+deny all from 192.168.0.0/16 to 192.168.50.0/24
+deny all from 192.168.50.0/24 to 192.168.0.0/16
+```
+
+### 3.3 Data Flow Architecture
+
+#### Authentication Flow
 ```text
-┌─────────────────────────────────────────────────────────┐
-│                   Internet                            │
-└──────────────────┬────────────────────────────────────┘
-                   │
-           ┌───────▼─────────┐
-           │     DMZ         │ 192.168.100.0/24
-           │                 │
-           │  ┌──────────┐  │
-           │  │   Web    │  │
-           │  │ Zerbitz. │  │
-           │  └──────────┘  │
-           └───────┬─────────┘
-                   │
-           ┌───────▼─────────┐
-           │ Erabiltz. Sarea │ 192.168.10.0/24
-           │                 │
-           │  ┌──────────┐  │
-           │  │Erabiltzai│  │
-           │  │ Lan-est. │  │
-           │  └──────────┘  │
-           └───────┬─────────┘
-                   │
-           ┌───────▼─────────┐
-           │ Zerbitz. Sarea  │ 192.168.20.0/24
-           │                 │
-           │  ┌──────────┐  │
-           │  │   API    │  │
-           │  │ Zerbitz. │  │
-           │  └──────────┘  │
-           │  ┌──────────┐  │
-           │  │ Datu-base│  │
-           │  │ Zerbitz. │  │
-           │  └──────────┘  │
-           └───────┬─────────┘
-                   │
-           ┌───────▼─────────┐
-           │  Kudeaketa      │ 192.168.200.0/24
-           │  Sarea          │
-           └───────┬─────────┘
-                   │
-           ┌───────▼─────────┐
-           │   OT Sarea      │ 192.168.50.0/24
-           │  (Isolatua)     │
-           │                 │
-           │  ┌──────────┐  │
-           │  │   PLC    │  │
-           │  │   HMI    │  │
-           │  └──────────┘  │
-           └────────────────┘
+Employee Login Request
+       ↓
+JWT Token Generation + MFA Challenge
+       ↓
+TOTP Verification (RFC 6238)
+       ↓
+WebAuthn Assertion (Passkey Support)
+       ↓
+Role-Based Access Control (RBAC)
+       ↓
+Session Establishment with Redis
 ```
 
-### 3.3 Datu Fluxua
-
-#### 3.3.1 Autentikazio Fluxua
-
+#### HR Operations Flow
 ```text
-Erabiltzailea → Login Inprimakia
-    ↓
-POST /api/auth/login (username, password)
-    ↓
-Zerbitzariak kredentzialak balidatzen ditu
-    ↓
-JWT tokena sortu
-    ↓
-MFA gaituta badago: /mfa helbidera bideratu
-    ↓
-POST /api/auth/mfa/verify (totp kodea)
-    ↓
-Zerbitzariak TOTP egiaztatzen du
-    ↓
-JWT tokena itzuli
-    ↓
-Bezeroak tokena gordetzen du (HttpOnly cookie)
+Employee Action (Vacation Request, etc.)
+       ↓
+Input Validation + Sanitization
+       ↓
+Business Logic Processing
+       ↓
+Database Transaction (Encrypted)
+       ↓
+Audit Log Generation
+       ↓
+SIEM Alert (if applicable)
 ```
 
-#### 3.3.2 Eskaera Fluxua
+### 3.4 Security Architecture
 
-```text
-Erabiltzaileak produktuak arakatzen ditu
-    ↓
-GET /api/products
-    ↓
-Zerbitzariak produktu zerrenda itzultzen du
-    ↓
-Erabiltzaileak produktua aukeratzen du
-    ↓
-POST /api/orders (eskaera datuak)
-    ↓
-Zerbitzariak sarrera balidatzen du
-    ↓
-Eskaera sortu datu-basean
-    ↓
-Eskaera berrespena itzuli
-    ↓
-SIEM log gertaera
-```
-
-### 3.4 Segurtasun Arkitektura
-
-#### 3.4.1 Defentsa Sakoneran (Defense in Depth)
-
-```text
-1. Geruza: Sare Segurtasuna
-├── Firewall arauak
-├── Sare segmentazioa
-├── DMZ isolamendua
-└── VPN sarbidea
-
-2. Geruza: Aplikazio Segurtasuna
-├── Input validation (Sarrera balidazioa)
-├── Output encoding (Irteera kodetzea)
-├── Autentikazioa (MFA)
-└── Baimenak (Authorization)
-
-3. Geruza: Datu Segurtasuna
-├── Enkriptatzea geldirik (at rest)
-├── Enkriptatzea garraioan (in transit)
-├── Biltegiratze segurua
-└── Backup segurtasuna
-
-4. Geruza: Monitorizazioa eta Erantzuna
-├── SIEM
-├── IDS/IPS
-├── Honeypots
-└── Intzidenteen erantzuna
-```
-
-#### 3.4.2 Mehatxu Modeloa (Threat Model)
-
-| Mehatxu Mota | Prebentzioa | Detekzioa | Erantzuna |
-|-------------|------------|------------|----------|
-| SQL Injection | Input validation, Parameterized queries | SIEM patroiak | IP blokeatu, Adabakia jarri |
-| XSS | Output encoding, CSP | WAF alertak | Input garbitu |
-| CSRF | CSRF tokens, SameSite cookies | SIEM alertak | Tokenak aldatu |
-| Brute Force | Rate limiting, MFA | Saio-hasiera hutsegite alertak | Kontua blokeatu |
-| MITM | HTTPS, Certificate pinning | TLS anomaliak | Ziurtagiria ezeztatu |
-| Datu Lapurreta | Enkriptatzea, Sarbide kontrolak | Datu sarbide log-ak | Intzidente erantzuna |
+**Defense in Depth Layers:**
+1. **Network Layer**: Firewall, IDS/IPS, network segmentation
+2. **Host Layer**: Endpoint protection, host-based firewall
+3. **Application Layer**: Input validation, authentication, authorization
+4. **Data Layer**: Encryption at rest/transit, data classification
+5. **Monitoring Layer**: SIEM, honeypots, continuous monitoring
 
 ---
 
-## 4. Segurtasun Inplementazioa
+## 4. Security Implementation
 
-### 4.1 Autentikazioa eta Baimenak
+### 4.1 Information Security Management System (ISO 27001:2022)
 
-#### 4.1.1 Faktore Anitzeko Autentikazioa (MFA)
+**Implementation Status:** 93% (87/93 controls fully implemented)
 
-**Inplementazioa:**
+**Core Controls Implemented:**
+- **A.5.1.1**: Information security policy document ✅
+- **A.5.2**: Information security roles and responsibilities ✅
+- **A.5.15**: Access control ✅
+- **A.5.16**: Identity management ✅
+- **A.5.17**: Authentication information ✅
+- **A.5.18**: Access rights ✅
+- **A.6.1.2**: Segregation of duties ✅
+- **A.7.1.1**: Physical security perimeter ✅
+- **A.8.1.1**: User endpoint devices ✅
+- **A.8.2.1**: Privileged access rights ✅
+- **A.8.3.1**: Information access restriction ✅
+- **A.8.5.1**: Secure authentication ✅
+- **A.8.8**: Vulnerability management ✅
+- **A.8.9**: Configuration management ✅
+- **A.8.15**: Logging ✅
+- **A.8.16**: Monitoring activities ✅
+- **A.9.1.1**: Access control policy ✅
+- **A.9.2.2**: User registration and de-registration ✅
+- **A.9.2.5**: Management of secret authentication ✅
+- **A.9.2.6**: Review of user access rights ✅
+- **A.9.4.3**: Password management system ✅
+- **A.10.1.1**: Cryptographic controls policy ✅
+- **A.10.1.2**: Key management ✅
+- **A.12.1.1**: Operational procedures ✅
+- **A.12.4.1**: Event logging ✅
+- **A.12.6.1**: Vulnerability management ✅
+- **A.13.1.1**: Network controls ✅
+- **A.13.1.3**: Segregation in networks ✅
+- **A.14.1.2**: Secure development policy ✅
+- **A.14.2.5**: Secure system engineering ✅
+- **A.15.1.1**: Supplier relationships ✅
+- **A.16.1.1**: Information security events ✅
+- **A.17.1.1**: Continuity planning ✅
+- **A.18.1.4**: Privacy and protection of PII ✅
 
-- **Protokoloa**: TOTP (Time-based One-Time Password)
-- **Liburutegia**: Speakeasy
-- **Babeskopia**: Berreskurapen kodeak (oraindik ez inplementatuta)
-- **Betearaztea**: Aukerakoa erabiltzaileentzat, derrigorrezkoa administratzaileentzat
+**Partially Implemented Controls:**
+- **A.5.12**: Classification of information ⚠️ (93% complete)
+- **A.5.13**: Labelling of information ⚠️ (85% complete)
+- **A.7.7**: Clear desk and clear screen policy ⚠️ (80% complete)
+- **A.8.11**: Data masking ⚠️ (75% complete)
+- **A.8.12**: Data leakage prevention ⚠️ (70% complete)
+- **A.8.14**: Redundancy of systems ⚠️ (60% complete)
 
-**Konfigurazioa:**
+### 4.2 GDPR Compliance
 
-```javascript
-{
-  secret: user.mfaSecret,
-  encoding: 'base32',
-  algorithm: 'sha1',
-  digits: 6,
-  period: 30,
-  window: 2
-}
-```
+**Data Protection Principles:**
+- **Lawfulness, Fairness, Transparency**: Consent-based processing with clear privacy notices
+- **Purpose Limitation**: HR data used only for employment-related purposes
+- **Data Minimization**: Collection limited to necessary employee information
+- **Accuracy**: Regular data validation and update procedures
+- **Storage Limitation**: Data retained only for legal requirements (7 years max)
+- **Integrity and Confidentiality**: AES-256 encryption, access controls
+- **Accountability**: DPO oversight, processing records maintained
 
-#### 4.1.2 JWT Tokenak
+**Lawful Bases:**
+- **Contract**: Employment contract execution
+- **Legal Obligation**: Labor law compliance, tax obligations
+- **Legitimate Interests**: HR management, business continuity
+- **Consent**: Optional data processing (benefits, training)
 
-**Claims:**
+**Data Subject Rights:**
+- **Access**: Employees can view their complete data profile
+- **Rectification**: Online forms for data correction
+- **Erasure**: Secure deletion procedures with retention checks
+- **Portability**: Data export in machine-readable format
+- **Restriction**: Temporary processing suspension capabilities
+- **Objection**: Opt-out for non-essential processing
+- **Automated Decisions**: No automated HR decisions without human review
 
-```json
-{
-  "userId": "12345",
-  "username": "johndoe",
-  "mfaVerified": true,
-  "iat": 1704729600,
-  "exp": 1704733200
-}
-```
+**Data Protection Impact Assessment (DPIA):**
+- **High-Risk Processing**: Employee monitoring, automated HR decisions
+- **Assessment Scope**: Privacy risks, mitigation measures, residual risks
+- **Consultation**: DPO and supervisory authority involvement
+- **Review Frequency**: Annual DPIA updates
 
-**Segurtasun Neurriak:**
+**Breach Notification:**
+- **Detection**: Automated monitoring and manual reporting
+- **Assessment**: Risk evaluation within 24 hours
+- **Notification**: Supervisory authority within 72 hours
+- **Communication**: Affected employees within 24 hours for high-risk breaches
+- **Documentation**: Complete breach register with remediation actions
 
-- Gako sekretu sendoak (>256 bits)
-- Iraungitze laburra (1 ordu)
-- Refresh token errotazioa
-- Token ezeztapen euskarria
+### 4.3 IEC 62443 Industrial Security
 
-### 4.2 Sarrera Balidazioa (Input Validation)
+**Security Level Implementation:**
+- **SL 2**: Comprehensive control system security (target for critical OT systems)
+- **SL 3**: Enhanced control system security (implemented for HR-critical OT interfaces)
 
-#### 4.2.1 API Balidazioa
+**Zone and Conduit Model:**
+- **Zones**: IT Network, OT Network, Management Zone
+- **Conduits**: Controlled communication channels between zones
+- **Sub-zones**: HR Portal zone within IT network
 
-**express-validator erabiliz:**
+**System Requirements Implemented:**
+- **SR 1.1/1.2**: Human/software identification and authentication ✅
+- **SR 2.1**: Authorization enforcement with RBAC ✅
+- **SR 2.2**: Wireless use control (restricted WiFi access) ✅
+- **SR 2.3**: Zone boundary protection with firewalls ✅
+- **SR 2.4**: Device resource protection ✅
+- **SR 3.1**: Malicious code protection with endpoint security ✅
+- **SR 4.1**: Data confidentiality with encryption ✅
+- **SR 4.2**: Cryptographic key management ✅
+- **SR 4.3**: Communications confidentiality with TLS ✅
+- **SR 5.1**: Network segmentation implemented ✅
+- **SR 5.3**: Segregation of duties ✅
+- **SR 6.1**: Audit log accessibility ✅
+- **SR 6.2**: Continuous auditing with SIEM ✅
+- **SR 7.1**: Denial of service protection with rate limiting ✅
 
-```javascript
-{
-  username: {
-    trim: true,
-    isLength: { min: 3, max: 30 }
-  },
-  email: {
-    isEmail: true,
-    normalizeEmail: true
-  },
-  password: {
-    isLength: { min: 8 }
-  }
-}
-```
+### 4.4 Access Control & Authentication
 
-#### 4.2.2 XSS Prebentzioa
+**Multi-Factor Authentication (MFA):**
+- **Required For**: All remote access, privileged accounts, HR data access
+- **Methods**: TOTP (Google Authenticator, Authy), WebAuthn (Passkeys)
+- **Implementation**: RFC 6238 compliant TOTP with 30-second windows
+- **Backup**: Recovery codes for MFA reset scenarios
+- **Monitoring**: Failed MFA attempts logged and alerted
 
-**Sanitizazioa:**
+**Role-Based Access Control (RBAC):**
+- **ADMIN**: Full system access, user management, audit logs
+- **RRHH MGR**: Employee CRUD, vacation approvals, payroll access, HR reports
+- **JEFE SECCIÓN**: Department employee management, departmental approvals
+- **EMPLEADO**: Personal data access, self-service functions, document upload
+- **AUDITOR**: Read-only access to audit logs and compliance reports
 
-```javascript
-// Server-side
-const sanitized = DOMPurify.sanitize(userInput);
+### 4.5 Data Classification & Encryption
 
-// Client-side
-const safeHTML = DOMPurify.sanitize(HTMLContent);
-```
+**Classification Levels:**
+- **Public**: General company information, marketing materials
+- **Internal**: Non-sensitive business communications
+- **Confidential**: Employee personal data, HR documents
+- **Highly Confidential**: Payroll data, medical information, trade secrets
 
-### 4.3 Tasa Mugatzea (Rate Limiting)
+**Encryption Standards:**
+- **At Rest**: AES-256-GCM for all sensitive data
+- **In Transit**: TLS 1.3 minimum with certificate pinning
+- **Passwords**: bcrypt with cost factor 12+
+- **Files**: AES-256 encryption for uploaded documents
+- **Database**: PostgreSQL with encrypted columns for sensitive data
 
-**Konfigurazioa:**
+### 4.6 Incident Response
 
-```javascript
-{
-  windowMs: 15 * 60 * 1000,  // 15 minutu
-  max: 100,                    // 100 eskaera
-  message: 'Too many requests'
-}
-```
+**Response Phases:**
+1. **Preparation**: IR team trained, tools prepared, communication plans ready
+2. **Identification**: Automated detection via SIEM, manual reporting channels
+3. **Containment**: Short-term isolation, long-term strategy development
+4. **Eradication**: Root cause removal, system cleaning
+5. **Recovery**: System restoration, integrity validation
+6. **Lessons Learned**: Post-incident review, process improvements
 
-**Muga Pertsonalizatuak dituzten Endpoint-ak:**
+**Response Times by Severity:**
+- **Critical**: < 15 minutes response, < 4 hours resolution
+- **High**: < 1 hour response, < 24 hours resolution
+- **Medium**: < 4 hours response, < 72 hours resolution
+- **Low**: < 24 hours response, < 1 week resolution
 
-- Login: 5 saiakera / 15 minutu
-- MFA: 10 saiakera / 15 minutu
-- Eskaerak: 50 eskaera / 15 minutu
-- Besteak: 100 eskaera / 15 minutu
+### 4.7 Security Monitoring & SIEM
 
-### 4.4 Enkriptatzea
+**ELK Stack Implementation:**
+- **Elasticsearch**: Log storage and search with encryption
+- **Logstash**: Log parsing and enrichment pipelines
+- **Kibana**: Dashboards and visualization
 
-#### 4.4.1 Enkriptatzea Geldirik (At Rest)
+**Monitored Log Sources:**
+- Application security events (authentication, authorization failures)
+- System access logs (login/logout, privilege escalation)
+- Network traffic (firewall denies, IDS alerts)
+- Database audit logs (query monitoring, access patterns)
+- File system changes (integrity monitoring)
+- Endpoint security events (antivirus, EDR alerts)
 
-- **Pasahitzak**: bcrypt (cost factor: 10)
-- **Datu Sentikorrak**: AES-256-GCM
-- **Datu-basea**: MongoDB WiredTiger encryption
-
-#### 4.4.2 Enkriptatzea Garraioan (In Transit)
-
-- **Protokoloa**: TLS 1.2 / TLS 1.3
-- **Zifratzeak**: HIGH security cipher suites
-- **Ziurtagiriak**: Let's Encrypt (auto-berritzea)
-
-### 4.5 Segurtasun Goiburuak (Headers)
-
-**Inplementatutako Goiburuak:**
-
-```http
-X-Frame-Options: SAMEORIGIN
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Strict-Transport-Security: max-age=31536000; includeSubDomains
-Content-Security-Policy: default-src 'self'
-Referrer-Policy: strict-origin-when-cross-origin
-Permissions-Policy: geolocation=(), microphone=()
-```
+**Key Alert Rules:**
+- Brute force attacks (5+ failed logins/minute)
+- Unusual login patterns (geographic anomalies)
+- Privilege escalation attempts
+- Data exfiltration indicators
+- Malware detection events
+- Configuration changes without approval
 
 ---
 
-## 5. Aplikazioen Orokorra
+## 5. Application Overview
 
-### 5.1 Web Aplikazioa
+### 5.1 Web Application
 
-#### 5.1.1 Ezaugarriak
+**Core Features:**
+- **Employee Management**: Complete CRUD operations with role-based permissions
+- **Vacation System**: Request submission, approval workflows, calendar integration
+- **Payroll Access**: Secure salary information viewing with audit trails
+- **Document Management**: Secure file upload/download with encryption
+- **Internal Communications**: HR chat and department-specific messaging
+- **User Profile Management**: Personal information updates, MFA setup
+- **Reporting**: HR analytics and compliance reporting
 
-**Autentikazioa:**
+**Security Features:**
+- JWT authentication with automatic refresh
+- MFA enforcement for sensitive operations
+- Role-based UI component rendering
+- Input validation and XSS prevention
+- CSRF protection with double-submit cookies
+- Content Security Policy (CSP) headers
 
-- Saio-hasiera erabiltzaile/pasahitzarekin
-- MFA egiaztapena
-- Saio kudeaketa
-- Auto-logout tokena iraungitzean
+### 5.2 Mobile Application (Android)
 
-**Produktuak:**
+**Core Features:**
+- **Employee Dashboard**: Quick access to personal information
+- **Vacation Management**: Request submission and status tracking
+- **Document Access**: Secure offline document storage
+- **Push Notifications**: Real-time updates for approvals and messages
+- **Biometric Authentication**: Fingerprint/Face ID integration
+- **Offline Mode**: Critical functions available without connectivity
 
-- Produktu katalogoa
-- Bilaketa funtzionalitatea (etorkizunean)
-- Kategoriaren arabera iragazi (etorkizunean)
-- Produktuaren xehetasunak
-
-**Eskaerak:**
-
-- Eskaera berriak sortu
-- Eskaera historia (etorkizunean)
-- Eskaera egoeraren jarraipena (etorkizunean)
-- Email jakinarazpenak
-
-**Erabiltzaile Kudeaketa:**
-
-- Erabiltzaile profila
-- MFA gaitu/desgaitu
-- Pasahitza aldatu (etorkizunean)
-- Kontu ezarpenak (etorkizunean)
-
-#### 5.1.2 Teknologia
-
-| Osagaia | Teknologia | Bertsioa |
-|---------|------------|----------|
-| Framework | React | 18.2.0 |
-| Routing | React Router | 6.20.1 |
-| State | Context API | - |
-| Styling | Styled Components | 6.1.1 |
-| HTTP Bezeroa | Axios | 1.6.2 |
-| Segurtasuna | DOMPurify, js-cookie | 3.0.6, 3.0.5 |
-
-#### 5.1.3 Errendimendua
-
-**Metrikak:**
-
-- First Contentful Paint (FCP): < 1.5s
-- Time to Interactive (TTI): < 3.5s
-- Bundle tamaina: < 500KB (gzipped)
-- Lighthouse Puntuazioa: > 90
-
-### 5.2 Mobile Aplikazioa
-
-#### 5.2.1 Ezaugarriak
-
-**Autentikazioa:**
-
-- Saio-hasiera erabiltzaile/pasahitzarekin
-- MFA egiaztapena
-- Autentikazio biometrikoa (hatz-marka/Face ID)
-- Token biltegiratze segurua
-
-**Produktuak:**
-
-- Produktu katalogoa
-- Offline euskarria (etorkizunean)
-- Push jakinarazpenak (etorkizunean)
-- Produktuaren xehetasunak
-
-**Eskaerak:**
-
-- Eskaera berriak sortu
-- Eskaera historia
-- Denbora errealeko eguneraketak
-- Aplikazio barruko jakinarazpenak
-
-#### 5.2.2 Teknologia
-
-| Osagaia | Teknologia | Bertsioa |
-|---------|------------|----------|
-| Framework | React Native | 0.72.6 |
-| Nabigazioa | React Navigation | 6.1.9 |
-| Biltegiratzea | EncryptedStorage | 4.0.3 |
-| Segurtasuna | react-native-keychain | 8.1.3 |
-| HTTP Bezeroa | Axios | 1.5.1 |
-
-#### 5.2.3 Plataforma Euskarria
-
-- **Android**: API Level 21+ (Android 5.0+)
-- **iOS**: iOS 13+
-- **Helburua**: Gailu aktiboen %99+
+**Security Features:**
+- Certificate pinning for API communications
+- Encrypted local storage with SQLCipher
+- Biometric authentication with fallback to PIN
+- Jailbreak/root detection
+- Automatic session timeout and remote wipe capabilities
 
 ### 5.3 Backend API
 
-#### 5.3.1 Endpoint-ak
+**API Endpoints by Category:**
 
-**Autentikazioa:**
+**Authentication:**
+- `POST /api/auth/login` - User authentication with MFA support
+- `POST /api/auth/mfa/setup` - TOTP secret generation
+- `POST /api/auth/mfa/verify` - MFA verification
+- `POST /api/auth/refresh` - JWT token refresh
+- `POST /api/auth/logout` - Secure logout
 
-- `POST /api/auth/register` - Erabiltzaile berria erregistratu
-- `POST /api/auth/login` - Saioa hasi
-- `POST /api/auth/mfa/setup` - MFA konfiguratu
-- `POST /api/auth/mfa/verify` - MFA egiaztatu
-- `POST /api/auth/mfa/disable` - MFA desgaitu
+**Employee Management:**
+- `GET /api/employees` - List employees (role-based filtering)
+- `POST /api/employees` - Create new employee
+- `GET /api/employees/{id}` - Get employee details
+- `PUT /api/employees/{id}` - Update employee information
+- `DELETE /api/employees/{id}` - Deactivate employee
 
-**Produktuak:**
+**HR Operations:**
+- `GET /api/vacations` - List vacation requests
+- `POST /api/vacations` - Submit vacation request
+- `PUT /api/vacations/{id}/approve` - Approve vacation request
+- `GET /api/payroll` - Access payroll information
+- `POST /api/documents` - Upload HR documents
+- `GET /api/documents` - List accessible documents
 
-- `GET /api/products` - Produktu guztiak lortu
-- `GET /api/products/:id` - Produktua id bidez lortu (etorkizunean)
+**System Management:**
+- `GET /api/health` - System health check
+- `GET /api/audit` - Audit log access (admin only)
+- `POST /api/users` - User account management
+- `GET /api/compliance` - Compliance status reports
 
-**Eskaerak:**
-
-- `POST /api/orders` - Eskaera berria sortu
-- `GET /api/orders` - Erabiltzailearen eskaerak lortu (etorkizunean)
-- `GET /api/orders/:id` - Eskaera id bidez lortu (etorkizunean)
-
-**Sistema:**
-
-- `GET /api/health` - Osasun egiaztapena
-- `GET /` - API informazioa
-
-#### 5.3.2 Erantzun Formatua
-
-**Arrakasta:**
-
-```json
-{
-  "success": true,
-  "data": { ... },
-  "message": "Eragiketa arrakastatsua"
-}
-```
-
-**Errorea:**
-
-```json
-{
-  "success": false,
-  "error": "Errore mezua",
-  "details": { ... }
-}
-```
+**Security Controls:**
+- Rate limiting (100 requests/15min per IP)
+- Input validation with comprehensive sanitization
+- SQL injection prevention with prepared statements
+- XSS protection with output encoding
+- Audit logging for all operations
+- API versioning and deprecation policies
 
 ---
 
-## 6. Hedapen Gida (Deployment)
+## 6. Deployment Guide
 
-### 6.1 Aurretiazko Baldintzak
+### 6.1 Prerequisites
 
-**Hardware Baldintzak:**
+**System Requirements:**
+- **OS**: Ubuntu 22.04 LTS or RHEL 8+
+- **CPU**: 4 cores minimum, 8 cores recommended
+- **RAM**: 8GB minimum, 16GB recommended
+- **Storage**: 100GB SSD minimum
+- **Network**: 1Gbps connection
 
-| Osagaia | Minimoa | Gomendatua |
-|---------|---------|------------|
-| CPU | 2 cores | 4 cores |
-| RAM | 4GB | 8GB |
-| Biltegiratzea | 50GB | 100GB SSD |
-| Sarea | 100Mbps | 1Gbps |
+**Software Dependencies:**
+- Docker 24.0+ and Docker Compose 2.20+
+- Git 2.30+
+- OpenSSL for certificate management
+- NTP for time synchronization
 
-**Software Baldintzak:**
+### 6.2 Environment Setup
 
-- Docker 20.10+
-- Docker Compose 2.0+
-- Node.js 18+
-- Nginx 1.20+
-- MongoDB 7+
-- Redis 7+
+**1. Clone Repository:**
+```bash
+git clone <repository-url> zabala-gailetak-hr
+cd zabala-gailetak-hr
+```
 
-### 6.2 Ingurune Konfigurazioa
+**2. Configure Environment:**
+```bash
+# Backend configuration
+cd hr-portal
+cp .env.example .env
+# Edit .env with production values
 
-Sortu `.env` fitxategia:
+# Database configuration
+DB_HOST=192.168.20.20
+DB_NAME=hr_portal
+DB_USER=hr_user
+DB_PASS=secure_password
+DB_SSL_MODE=require
 
-```env
-# API Configuration
-NODE_ENV=production
-PORT=3000
-
-# Security
-JWT_SECRET=your-very-secure-secret-key-here
+# Security configuration
+JWT_SECRET=256-bit-secret-key
 JWT_EXPIRES_IN=1h
 MFA_ISSUER=ZabalaGailetak
+TOTP_SECRET=secure-totp-secret
 
-# Database
-MONGODB_URI=mongodb://mongodb:27017/zabala-gailetak
-REDIS_HOST=redis
+# Redis configuration
+REDIS_HOST=192.168.20.30
 REDIS_PORT=6379
-REDIS_PASSWORD=your-redis-password
-
-# CORS
-ALLOWED_ORIGINS=https://zabala-gailetak.com
-
-# Rate Limiting
-RATE_LIMIT_WINDOW_MS=900000
-RATE_LIMIT_MAX_REQUESTS=100
-
-# Helmet
-HELMET_CONTENT_SECURITY_POLICY=true
-HELMET_HSTS_MAX_AGE=31536000
+REDIS_PASSWORD=secure-redis-password
 ```
 
-### 6.3 Hedapen Urratsak
-
-#### 6.3.1 Errepositorioa Klonatu
-
+**3. SSL Certificate Setup:**
 ```bash
-git clone <repository-url>
-cd erronkak
+# Generate self-signed certificate for development
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
+
+# For production, use Let's Encrypt or commercial certificates
+certbot certonly --standalone -d hr.zabalagailetak.com
 ```
 
-#### 6.3.2 Docker Irudiak Eraiki
+### 6.3 Infrastructure Deployment
 
+**1. Network Configuration:**
 ```bash
-cd "Zabala Gailetak"
-docker-compose build
+# Create VLANs and assign IP ranges
+# Configure firewall rules as per security architecture
+# Set up routing between zones with proper ACLs
 ```
 
-#### 6.3.3 Zerbitzuak Abiarazi
-
+**2. Docker Deployment:**
 ```bash
-docker-compose up -d
+# Start all services
+docker-compose -f docker-compose.hrportal.yml up -d
+
+# Verify services
+docker-compose -f docker-compose.hrportal.yml ps
+
+# Check logs
+docker-compose -f docker-compose.hrportal.yml logs -f
 ```
 
-#### 6.3.4 Hedapena Egiaztatu
-
+**3. Database Initialization:**
 ```bash
-# Zerbitzuak egiaztatu
-docker-compose ps
+# Run migrations
+cd hr-portal
+./scripts/migrate.sh
 
-# Log-ak egiaztatu
-docker-compose logs -f
-
-# Osasun egiaztapena
-curl https://api.zabala-gailetak.com/api/health
+# Seed initial data (admin user, roles, etc.)
+php scripts/seed.php
 ```
 
-### 6.4 SSL/TLS Konfigurazioa
-
-#### 6.4.1 Let's Encrypt
-
+**4. SIEM Setup:**
 ```bash
-# Instalas certbot
-sudo apt install certbot python3-certbot-nginx
+# Deploy ELK Stack
+docker-compose -f docker-compose.siem.yml up -d
 
-# Ziurtagiria lortu
-sudo certbot --nginx -d zabala-gailetak.com -d www.zabala-gailetak.com
-
-# Auto-berritzea
-sudo certbot renew --dry-run
+# Configure log shipping from application servers
+# Set up dashboards and alert rules
 ```
 
-#### 6.4.2 Nginx Konfigurazioa
+### 6.4 Security Hardening
 
-```nginx
-server {
-    listen 443 ssl http2;
-    server_name zabala-gailetak.com;
+**1. Server Hardening:**
+```bash
+# Disable unnecessary services
+systemctl disable ssh  # Use VPN for admin access
 
-    ssl_certificate /etc/letsencrypt/live/zabala-gailetak.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/zabala-gailetak.com/privkey.pem;
-    ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers HIGH:!aNULL:!MD5;
+# Configure firewall
+ufw enable
+ufw allow 80/tcp
+ufw allow 443/tcp
+ufw default deny incoming
 
-    location / {
-        proxy_pass http://localhost:3000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-}
+# Security updates
+apt update && apt upgrade
+unattended-upgrades enable
+```
+
+**2. Application Security:**
+```bash
+# Generate secure secrets
+openssl rand -hex 32 > jwt_secret.key
+openssl rand -hex 32 > totp_secret.key
+
+# Configure environment-specific security settings
+# Enable production security headers
+# Configure rate limiting rules
+```
+
+### 6.5 Monitoring Setup
+
+**1. Health Checks:**
+```bash
+# Application health endpoints
+curl https://hr.zabalagailetak.com/api/health
+
+# Database connectivity
+pg_isready -h 192.168.20.20 -U hr_user -d hr_portal
+
+# Redis connectivity
+redis-cli -h 192.168.20.30 ping
+```
+
+**2. Monitoring Integration:**
+```bash
+# Configure log shipping to SIEM
+# Set up application performance monitoring
+# Configure alert notifications
+```
+
+### 6.6 Backup Configuration
+
+**1. Database Backups:**
+```bash
+# Daily full backup
+pg_dump hr_portal > backup_$(date +%Y%m%d).sql
+
+# Encrypted storage
+gpg -c backup_$(date +%Y%m%d).sql
+
+# Off-site transfer
+scp backup_$(date +%Y%m%d).sql.gpg backup-server:/backups/
+```
+
+**2. Application Backups:**
+```bash
+# Configuration files
+tar -czf config_backup.tar.gz hr-portal/config/
+
+# SSL certificates
+tar -czf ssl_backup.tar.gz /etc/ssl/certs/hr-portal/
+```
+
+### 6.7 Rollback Procedures
+
+**1. Application Rollback:**
+```bash
+# Stop current deployment
+docker-compose -f docker-compose.hrportal.yml down
+
+# Restore previous version
+docker tag hr-portal:latest hr-portal:rollback
+docker-compose -f docker-compose.hrportal.yml up -d
+```
+
+**2. Database Rollback:**
+```bash
+# Restore from backup
+pg_restore -d hr_portal backup_previous.sql
+
+# Verify data integrity
+# Update application if schema changes
 ```
 
 ---
 
-## 7. Eragiketak eta Mantentzea
+## 7. Operations and Maintenance
 
-### 7.1 Monitorizazioa
+### 7.1 Monitoring and Alerting
 
-#### 7.1.1 Aplikazio Monitorizazioa
+**Key Performance Indicators (KPIs):**
+- **System Availability**: 99.5% uptime target
+- **Mean Time to Detect (MTTD)**: < 15 minutes
+- **Mean Time to Respond (MTTR)**: < 30 minutes for critical incidents
+- **Security Scan Pass Rate**: > 95%
+- **Backup Success Rate**: 100%
 
-**Monitorizatu beharreko Metrikak:**
+**Monitoring Tools:**
+- **ELK Stack**: Centralized logging and visualization
+- **Prometheus/Grafana**: Metrics collection and alerting
+- **Nagios/Zabbix**: Infrastructure monitoring
+- **Custom Health Checks**: Application-specific monitoring
 
-- Erantzun denbora
-- Errore tasa
-- Throughput (errendimendua)
-- Memoria erabilera
-- CPU erabilera
-- Disko I/O
+### 7.2 Backup and Recovery
 
-**Tresnak:**
+**Backup Strategy:**
+- **Database**: Daily full backups + hourly transaction logs
+- **Application**: Configuration and code versioning via Git
+- **Files**: Encrypted document storage with versioning
+- **Infrastructure**: Infrastructure as Code for recreation
 
-- SIEM (ELK Stack)
-- Osasun egiaztapen pertsonalizatuak
-- Aplikazio log-ak
+**Recovery Time Objectives (RTO):**
+- **Critical Systems**: 4 hours maximum downtime
+- **Important Systems**: 24 hours maximum downtime
+- **Standard Systems**: 72 hours maximum downtime
 
-#### 7.1.2 SIEM Monitorizazioa
+**Recovery Point Objectives (RPO):**
+- **Critical Data**: 1 hour maximum data loss
+- **Important Data**: 4 hours maximum data loss
+- **Standard Data**: 24 hours maximum data loss
 
-**Alerta Arauak:**
+### 7.3 Patch Management
 
-- 5+ saio-hasiera hutsegite / 15 minutu
-- SQL injection saiakerak
-- XSS saiakerak
-- Rate limit urraketak
-- Datu-base konexio hutsegiteak
-- API erantzun denbora > 5s
+**Patch Schedule:**
+- **Critical Security Patches**: Within 24 hours of release
+- **Important Security Patches**: Within 1 week
+- **Regular Updates**: Monthly maintenance windows
 
-**Panela:**
+**Testing Requirements:**
+- Development environment testing first
+- Staging environment validation
+- Rollback plan preparation
+- Change approval process
 
-- <http://kibana.zabala-gailetak.com:5601>
+### 7.4 Security Audits
 
-### 7.2 Babeskopia Estrategia (Backup)
+**Regular Audit Schedule:**
+- **Internal Audits**: Quarterly security assessments
+- **External Penetration Testing**: Annual comprehensive testing
+- **Vulnerability Scanning**: Weekly automated scans
+- **Compliance Audits**: Annual ISO 27001 certification
 
-#### 7.2.1 Datu-basearen Babeskopiak
+**Audit Scope:**
+- Network security assessment
+- Application security testing
+- Access control validation
+- Data protection compliance
+- Incident response capability testing
 
-**Egutegia:**
+### 7.5 Change Management
 
-- **Egunero**: Babeskopia osoa 2:00etan
-- **Astero**: Babeskopia osoa + atxikipena (30 egun)
-- **Hilero**: Artxibo babeskopia (urtebeteko atxikipena)
+**Change Request Process:**
+1. **Request Submission**: Change request with impact assessment
+2. **Review and Approval**: Change Advisory Board (CAB) review
+3. **Planning**: Implementation plan and rollback procedures
+4. **Testing**: Pre-deployment testing in staging
+5. **Implementation**: Controlled deployment with monitoring
+6. **Validation**: Post-deployment verification
+7. **Documentation**: Change record and lessons learned
 
-**Inplementazioa:**
+### 7.6 Capacity Planning
 
-```bash
-# Eguneroko babeskopia
-mongodump --uri="$MONGODB_URI" --out=/backups/daily/$(date +%Y%m%d)
+**Resource Monitoring:**
+- CPU utilization trends
+- Memory usage patterns
+- Storage growth projections
+- Network bandwidth requirements
+- Database performance metrics
 
-# Asteroko babeskopia
-mongodump --uri="$MONGODB_URI" --out=/backups/weekly/$(date +%Y%U)
-
-# Hileroko artxiboa
-tar -czf /backups/archive/$(date +%Y%m).tar.gz /backups/weekly/*
-```
-
-#### 7.2.2 Aplikazioaren Babeskopiak
-
-**Zer kopiatu:**
-
-- Iturburu kodea (Git)
-- Konfigurazio fitxategiak
-- SSL ziurtagiriak
-- Log-ak (7 eguneko atxikipena)
-- Docker bolumenak
-
-### 7.3 Mantentze Egutegia
-
-#### 7.3.1 Eguneroko Zereginak
-
-- Sistema osasuna monitorizatu
-- SIEM alertak berrikusi
-- Babeskopia osatzea egiaztatu
-- Errore log-ak berrikusi
-
-#### 7.3.2 Asteroko Zereginak
-
-- Segurtasun log-ak berrikusi
-- Dependentziak eguneratu
-- Errendimendu optimizazioa
-- Edukiera plangintza
-
-#### 7.3.3 Hileroko Zereginak
-
-- Segurtasun auditoria
-- Babeskopia proba
-- Errendimendu berrikuspena
-- Dokumentazioa eguneratu
-
-#### 7.3.4 Hiruhileroko Zereginak
-
-- Segurtasun ebaluazio osoa
-- Hondamendi berreskurapen proba (Disaster Recovery)
-- Arkitektura berrikuspena
-- Betetze egiaztapena (Compliance)
-
-### 7.4 Intzidenteen Erantzuna
-
-#### 7.4.1 Intzidente Kategoriak
-
-| Larritasuna | Erantzun Denbora | Adibideak |
-|-------------|-------------------|-----------|
-| Kritikoa | < 15 min | Sistema erorita, datu-urraketa |
-| Altua | < 1 ordu | Zerbitzua degradatuta, segurtasun intzidentea |
-| Ertaina | < 4 ordu | Ezaugarri bat apurtuta, errendimendu arazoa |
-| Baxua | < 24 ordu | Bug txikia, UX arazoa |
-
-#### 7.4.2 Intzidente Prozesua
-
-1. **Detekzioa**: SIEM alerta, erabiltzaile txostena
-2. **Triajea**: Larritasuna eta inpaktua ebaluatu
-3. **Eustea (Containment)**: Kaltetutako sistemak isolatu
-4. **Ezabatzea**: Mehatxua ezabatu
-5. **Berreskuratzea**: Sistemak leheneratu
-6. **Ikasitako Ikasgaiak**: Dokumentatu eta hobetu
+**Scaling Strategies:**
+- Horizontal scaling for web/application servers
+- Database read replicas for reporting
+- CDN integration for static assets
+- Auto-scaling based on usage patterns
 
 ---
 
-## 8. Betetzea eta Estandarrak
+## 8. Compliance and Standards
 
-### 8.1 OWASP Top 10
+### 8.1 ISO 27001:2022 Implementation Status
 
-| Arriskua | Mitigazioa | Egoera |
-|----------|------------|--------|
-| A01: Broken Access Control | RBAC, MFA | ✅ Inplementatuta |
-| A02: Cryptographic Failures | Enkriptatze sendoa, TLS | ✅ Inplementatuta |
-| A03: Injection | Input validation, parameterized queries | ✅ Inplementatuta |
-| A04: Insecure Design | Threat modeling, secure patterns | ✅ Inplementatuta |
-| A05: Security Misconfiguration | Hardening guides, secure defaults | ✅ Inplementatuta |
-| A06: Vulnerable Components | Dependency scanning, eguneraketak | ✅ Inplementatuta |
-| A07: Authentication Failures | MFA, tasa mugatzea | ✅ Inplementatuta |
-| A08: Software & Data Integrity | Signed builds, checksums | ✅ Inplementatuta |
-| A09: Logging & Monitoring | SIEM, structured logs | ✅ Inplementatuta |
-| A10: SSRF | Input validation, network controls | ✅ Inplementatuta |
+**Statement of Applicability (SOA) Summary:**
+- **Total Controls**: 93
+- **Fully Implemented**: 87 (93.5%)
+- **Partially Implemented**: 6 (6.5%)
+- **Not Applicable**: 0
 
-### 8.2 ISO 27001
+**Certification Status:**
+- **Current Level**: ISO 27001:2022 compliant (93% implementation)
+- **Target**: Full certification by Q2 2026
+- **Certification Body**: AENOR or equivalent
+- **Scope**: HR Portal system and supporting infrastructure
 
-**Inplementatutako Kontrolak:**
+### 8.2 GDPR Compliance Framework
 
-- **A.5.1.1**: Informazio segurtasuneko politikak
-- **A.6.1.2**: Informazio segurtasuneko rolak eta erantzukizunak
-- **A.8.2.1**: Pribilegiatutako sarbide-eskubideen kudeaketa
-- **A.9.1.1**: Sarbide kontrolerako politika
-- **A.10.1.1**: Kontrol kriptografikoak
-- **A.12.2.1**: Malware babesa
-- **A.12.3.1**: Informazio babeskopia
-- **A.12.4.1**: Erregistroa (Logging)
-- **A.12.6.1**: Ahultasun teknikoen kudeaketa
-- **A.16.1.1**: Informazio segurtasuneko intzidenteen kudeaketa
+**Data Protection Officer (DPO) Responsibilities:**
+- GDPR compliance monitoring and advice
+- Data Protection Impact Assessments (DPIA)
+- Supervisory authority liaison
+- Data subject rights processing
+- Breach notification coordination
+- Privacy training and awareness
 
-### 8.3 GDPR Betetzea
+**Processing Records:**
+- **Purpose**: HR management and employee administration
+- **Categories of Data Subjects**: Employees, contractors, job applicants
+- **Categories of Personal Data**: Contact info, ID numbers, financial data, health info
+- **Recipients**: HR department, payroll providers, government agencies
+- **Retention Periods**: 7 years for employment records, 3 years for consent data
+- **Security Measures**: Encryption, access controls, pseudonymization
 
-**Datu Babeserako Neurriak:**
+**Data Subject Rights Implementation:**
+- **Right of Access**: Online portal for data viewing
+- **Right to Rectification**: Self-service correction forms
+- **Right to Erasure**: Secure deletion with retention compliance
+- **Right to Portability**: Machine-readable data export
+- **Right to Object**: Granular consent management
 
-- **Baimena**: Datuen tratamendurako berariazko baimena
-- **Helburu Mugaketa**: Datuak adierazitako helburuetarako bakarrik erabili
-- **Datu Minimizazioa**: Beharrezko datuak bakarrik bildu
-- **Segurtasuna**: Enkriptatzea, sarbide kontrolak
-- **Eskubideak**: Datu sarbidea, ezabatzea, eramangarritasuna
-- **Urraketa Jakinarazpena**: 72 orduko jakinarazpen betekizuna
+### 8.3 IEC 62443 Industrial Control Systems Security
 
-### 8.4 IEC 62443 (Industria Segurtasuna)
+**Security Level Assessment:**
+- **Current Level**: SL 2 (Comprehensive control system security)
+- **Target Level**: SL 3 for critical OT interfaces
+- **Assessment Method**: IEC 62443-2-1 security program requirements
 
-**Inplementatutako Neurriak:**
+**Implemented Requirements:**
+- **SR 1.1/1.2**: Human/software identification and authentication
+- **SR 2.1**: Authorization enforcement (RBAC)
+- **SR 2.3**: Zone boundary protection (network segmentation)
+- **SR 3.1**: Malicious code protection (endpoint security)
+- **SR 4.1-4.3**: Cryptographic controls
+- **SR 5.1**: Network segmentation (VLANs, firewalls)
+- **SR 6.1/6.2**: Audit logging and monitoring
+- **SR 7.1**: Denial of service protection
 
-- Sare segmentazioa (IT/OT bereizketa)
-- Industria protokolo segurtasuna (Modbus, S7)
-- Honeypot mehatxuak detektatzeko
-- SCADA segurtasun kontrolak
-- OT monitorizazioa eta logging
+### 8.4 Compliance Monitoring and Reporting
+
+**Continuous Monitoring:**
+- **Automated Controls**: SIEM alerts for compliance violations
+- **Manual Reviews**: Quarterly access rights reviews
+- **Audit Logs**: All compliance-related activities logged
+- **Exception Management**: Documented process for compliance exceptions
+
+**Compliance Reporting:**
+- **Monthly Reports**: Security metrics and compliance status
+- **Quarterly Reports**: Detailed compliance assessments
+- **Annual Reports**: ISO 27001 certification audit preparation
+- **Regulatory Reports**: GDPR compliance declarations
+
+**Independent Audits:**
+- **Internal Audits**: Quarterly by internal audit team
+- **External Audits**: Annual by certified audit firm
+- **Certification Audits**: ISO 27001 surveillance audits
+- **Penetration Testing**: Annual external assessment
+
+### 8.5 Risk Management Framework
+
+**Risk Assessment Methodology:**
+- **Asset Identification**: Comprehensive inventory with classification
+- **Threat Identification**: Current and emerging threat landscape
+- **Vulnerability Assessment**: Technical and organizational vulnerabilities
+- **Impact Analysis**: Business impact quantification
+- **Risk Calculation**: Likelihood × Impact = Risk Level
+
+**Risk Treatment Strategies:**
+- **Risk Acceptance**: Documented for low-risk scenarios
+- **Risk Mitigation**: Controls implementation for medium/high risks
+- **Risk Transfer**: Insurance for financial risks
+- **Risk Avoidance**: Elimination of unacceptable risks
+
+**Risk Monitoring:**
+- **Key Risk Indicators**: Monthly risk metric tracking
+- **Risk Register**: Dynamic risk database with mitigation tracking
+- **Risk Reporting**: Quarterly risk reports to management
+- **Risk Appetite**: Defined tolerance levels for different risk categories
 
 ---
 
-## 9. Garapen Gidalerroak
+## 9. Development Guidelines
 
-### 9.1 Kode Estandarrak
+### 9.1 Secure Development Lifecycle (SSDLC)
 
-#### 9.1.1 JavaScript/Node.js
+**Planning Phase:**
+- Threat modeling for new features
+- Security requirements definition
+- Risk assessment integration
+- Privacy impact assessment (if applicable)
 
-**Estilo Gida:**
+**Development Phase:**
+- Secure coding standards adherence
+- Input validation implementation
+- Authentication and authorization controls
+- Cryptographic controls application
+- Error handling and logging
 
-- Airbnb JavaScript Style Guide
-- ESLint betearazteko
-- Prettier formatua emateko
+**Testing Phase:**
+- Security unit tests
+- Integration security testing
+- Static Application Security Testing (SAST)
+- Dynamic Application Security Testing (DAST)
+- Penetration testing coordination
 
-**Praktika Onak:**
+**Deployment Phase:**
+- Security configuration review
+- Infrastructure security validation
+- Access control verification
+- Monitoring and alerting setup
 
-- Erabili const/let, saihestu var
-- Async/await callbacks baino hobeto
-- Errore kudeaketa try/catch-ekin
-- Aldagai izen esanguratsuak
-- Funtzio luzera < 50 lerro
-- Fitxategi luzera < 300 lerro
+### 9.2 Code Quality Standards
 
-#### 9.1.2 React
+**PHP Backend Standards:**
+- PSR-12 coding standards
+- Strict type declarations
+- Comprehensive error handling
+- Input validation and sanitization
+- Secure database queries (prepared statements)
 
-**Praktika Onak:**
+**React Frontend Standards:**
+- ESLint with security rules
+- Prop validation and TypeScript consideration
+- DOM manipulation security
+- Content Security Policy compliance
+- Secure state management
 
-- Osagai funtzionalak hook-ekin
-- Context API egoera globalerako
-- Props balidazioa (PropTypes)
-- Osagaien konposizioa
-- Kode zatiketa (Code splitting)
-- Lazy loading
+**Kotlin Android Standards:**
+- Clean Architecture principles
+- Secure data storage practices
+- Network security implementation
+- Biometric authentication integration
+- Certificate pinning
 
-### 9.2 Segurtasun Gidalerroak
+### 9.3 Security Testing Requirements
 
-#### 9.2.1 Egin Beharrekoak (Do's)
+**Automated Security Testing:**
+- **SAST**: SonarQube integration in CI/CD pipeline
+- **SCA**: OWASP Dependency Check for vulnerabilities
+- **Container Scanning**: Trivy for Docker image security
+- **Infrastructure Scanning**: Checkov for IaC security
 
-- ✅ Beti balidatu sarrera (input)
-- ✅ Erabili kontsulta parametrizatuak
-- ✅ Sanitizatu irteera (output)
-- ✅ Inplementatu tasa mugatzea
-- ✅ Erabili HTTPS edonon
-- ✅ Inplementatu MFA
-- ✅ Erregistratu segurtasun gertaerak
-- ✅ Mantendu dependentziak eguneratuta
+**Manual Security Testing:**
+- **Threat Modeling**: STRIDE methodology for new features
+- **Code Reviews**: Security-focused peer reviews
+- **Penetration Testing**: Quarterly application testing
+- **Red Team Exercises**: Annual comprehensive assessments
 
-#### 9.2.2 Ez Egin Beharrekoak (Don'ts)
+**Performance Testing:**
+- Load testing with security monitoring
+- Stress testing for DoS resilience
+- Scalability testing with security controls
 
-- ❌ Inoiz ez fidatu erabiltzailearen sarreraz
-- ❌ Inoiz ez erregistratu datu sentikorrak log-etan
-- ❌ Inoiz ez igo sekreturik (commits)
-- ❌ Inoiz ez erabili eval()
-- ❌ Inoiz ez desgaitu segurtasun ezaugarriak
-- ❌ Inoiz ez ignoratu segurtasun abisuak
-- ❌ Inoiz ez erabili zaharkitutako funtzioak
-- ❌ Inoiz ez jarri kredentzialak kodean (hardcode)
+### 9.4 Version Control and Change Management
 
-### 9.3 Proba Estrategia
+**Branching Strategy:**
+- **main**: Production-ready code
+- **develop**: Integration branch
+- **feature/***: Feature development branches
+- **bugfix/***: Bug fix branches
+- **security/***: Security-related changes
 
-#### 9.3.1 Proba Piramidea
+**Commit Standards:**
+- Conventional commit format
+- Security-sensitive changes clearly marked
+- Automated security scanning on commits
 
+**Code Review Requirements:**
+- Minimum 2 reviewers for security-sensitive changes
+- Automated checks must pass
+- Security checklist completion required
+- Lead developer final approval
+
+---
+
+## 10. Support and Contact
+
+### 10.1 Support Channels
+
+**Technical Support:**
+- **Email**: support@zabalagailetak.com
+- **Phone**: +34 XXX XXX XXX (Business Hours)
+- **Emergency**: +34 XXX XXX XXX (24/7 for Critical Issues)
+
+**Security Incident Response:**
+- **Email**: security@zabalagailetak.com
+- **Phone**: +34 XXX XXX XXX (24/7 Security Hotline)
+- **Reporting**: Web form at https://hr.zabalagailetak.com/incident-report
+
+### 10.2 Documentation Resources
+
+**System Documentation:**
+- `IMPLEMENTATION_SUMMARY.md` - Complete implementation overview
+- `WEB_APP_GUIDE.md` - Web application user guide
+- `MOBILE_APP_GUIDE.md` - Mobile application guide
+- `API_DOCUMENTATION.md` - Complete API reference
+- `SECURITY_GUIDE.md` - Security implementation details
+
+**Operational Documentation:**
+- `hr-portal/README.md` - Backend setup and configuration
+- `android-app/README.md` - Mobile app development guide
+- `QUICK_START_GUIDE.md` - Rapid deployment guide
+- `DOCKER_DEPLOYMENT.md` - Container deployment procedures
+
+### 10.3 Training and Awareness
+
+**User Training:**
+- **New Employee Onboarding**: Security awareness and system usage
+- **Annual Refresher**: Updated security policies and procedures
+- **Role-Specific Training**: Admin, HR, and IT staff specialized training
+
+**Technical Training:**
+- **Developer Training**: Secure coding practices and SSDLC
+- **Administrator Training**: System administration and security
+- **Auditor Training**: Compliance monitoring and reporting
+
+### 10.4 Escalation Procedures
+
+**Issue Severity Levels:**
+- **Critical**: System down, data breach, security compromise
+- **High**: Major functionality impairment, security vulnerability
+- **Medium**: Minor functionality issues, performance degradation
+- **Low**: Cosmetic issues, minor enhancements
+
+**Escalation Times:**
+- **Critical**: Immediate notification, < 15 minutes response
+- **High**: < 1 hour notification, < 4 hours response
+- **Medium**: < 4 hours notification, < 24 hours response
+- **Low**: Next business day notification and response
+
+### 10.5 Vendor and Supplier Support
+
+**Infrastructure Vendors:**
+- **Docker**: Enterprise support for containerization
+- **PostgreSQL**: Enterprise database support
+- **ELK Stack**: Elastic enterprise subscription
+- **Security Tools**: Vendor support for SIEM and security tools
+
+**Development Tools:**
+- **GitHub**: Enterprise Git and CI/CD support
+- **SonarQube**: Code quality and security scanning
+- **OWASP Tools**: Community and commercial support
+
+---
+
+## Appendix A: Technical Specifications
+
+### A.1 System Requirements
+
+**Minimum Hardware:**
+- CPU: 4 cores @ 2.5GHz
+- RAM: 8GB
+- Storage: 100GB SSD
+- Network: 1Gbps
+
+**Recommended Hardware:**
+- CPU: 8 cores @ 3.0GHz
+- RAM: 16GB
+- Storage: 500GB SSD + 1TB HDD
+- Network: 10Gbps
+
+### A.2 Software Dependencies
+
+**Core Components:**
+- PHP 8.4 with FPM
+- PostgreSQL 16
+- Redis 7
+- Nginx 1.24+
+- Docker 24.0+
+- Node.js 18+ (for React builds)
+
+**Security Components:**
+- ELK Stack 8.11+
+- Conpot 0.5+
+- Cowrie 2.1+
+- Dionaea 0.11+
+
+### A.3 Network Configuration
+
+**VLAN Configuration:**
 ```text
-        /\
-       /E2E\        (10%)
-      /------\
-     /Integrazioa\ (30%)
-    /----------\
-   /   Unit      \ (60%)
-  /--------------\
+VLAN 10: 192.168.10.0/24 (Users)
+VLAN 20: 192.168.20.0/24 (Servers)
+VLAN 50: 192.168.50.0/24 (OT)
+VLAN 100: 192.168.100.0/24 (DMZ)
+VLAN 200: 192.168.200.0/24 (Management)
 ```
 
-#### 9.3.2 Estaldura Helburuak
+**Firewall Rules Summary:**
+```bash
+# Inbound to DMZ
+allow tcp any 192.168.100.10:80
+allow tcp any 192.168.100.10:443
 
-- Unit tests: 80%+
-- Integration tests: 70%+
-- E2E tests: 50%+
-- Orokorra: 75%+
+# DMZ to Internal
+allow tcp 192.168.100.10 192.168.20.10:8080
+allow tcp 192.168.100.10 192.168.20.20:5432
 
-### 9.4 Git Lan-fluxua
+# User to Services
+allow tcp 192.168.10.0/24 192.168.20.5:389
+allow tcp 192.168.10.0/24 192.168.20.10:8080
 
-#### 9.4.1 Adar Estrategia (Branching)
-
-```text
-main (production)
-  ↑
-develop (integration)
-  ↑
-feature/login-page
-feature/mfa-setup
-bugfix/auth-error
+# OT Isolation
+deny all 192.168.0.0/16 192.168.50.0/24
+deny all 192.168.50.0/24 192.168.0.0/16
 ```
 
-#### 9.4.2 Commit Mezuak
+### A.4 Backup Specifications
 
-**Formatua:**
+**Database Backups:**
+- Full backup: Daily at 02:00
+- Transaction logs: Hourly
+- Retention: 30 days local, 1 year off-site
+- Encryption: AES-256 during transfer and storage
 
-```text
-<mota>(<eremua>): <gaia>
+**Application Backups:**
+- Configuration: Daily
+- SSL certificates: Weekly
+- Code repository: Git-based versioning
+- Documentation: Monthly archives
 
-<body>
+### A.5 Monitoring Specifications
 
-<footer>
-```
+**Log Sources:**
+- Application logs: Structured JSON format
+- System logs: Syslog to SIEM
+- Network logs: Firewall and IDS events
+- Database logs: Audit and error logs
+- Endpoint logs: EDR and antivirus events
 
-**Motak:**
-
-- `feat`: Ezaugarri berria
-- `fix`: Bug konponketa
-- `docs`: Dokumentazioa
-- `style`: Formatua
-- `refactor`: Kode berregituraketa
-- `test`: Probak
-- `chore`: Mantentze lanak
+**Alert Thresholds:**
+- Failed logins: 5 per minute per IP
+- CPU usage: > 90% for 5 minutes
+- Memory usage: > 95% for 2 minutes
+- Disk space: < 10% free
+- Network latency: > 100ms sustained
 
 ---
 
-## 10. Laguntza eta Kontaktua
-
-### 10.1 Dokumentazioa
-
-**Eskuragarri dagoen Dokumentazioa:**
-
-- `IMPLEMENTATION_SUMMARY.md` - Orokorra eta hasiera azkarra
-- `WEB_APP_GUIDE.md` - Web app gida zehatza
-- `MOBILE_APP_GUIDE.md` - Mobile app gida zehatza
-- `API_DOCUMENTATION.md` - API erreferentzia
-- `SECURITY_GUIDE.md` - Segurtasun inplementazioa
-- `DEPLOYMENT_GUIDE.md` - Hedapen prozedurak
-
-### 10.2 SOP-ak (Prozedura Operatibo Estandarrak)
-
-**Eskuragarri dauden SOP-ak:**
-
-- `devops/sop_secure_development.md` - Garapen segurua
-- `security/web_hardening_sop.md` - Web app hardening
-- `security/mobile_security_sop.md` - Mobile app segurtasuna
-- `infrastructure/network/network_segmentation_sop.md` - Sare segmentazioa
-- `security/honeypot/honeypot_implementation_sop.md` - Honeypot konfigurazioa
-- `security/incidents/sop_incident_response.md` - Intzidenteen erantzuna
-
-### 10.3 Harremanetarako Informazioa
-
-**Garapen Taldea:**
-
-- **Lead Developer**: [Harremanetarako Info]
-- **Segurtasun Taldea**: [Harremanetarako Info]
-- **DevOps Taldea**: [Harremanetarako Info]
-- **Laguntza**: <support@zabala-gailetak.com>
-
-**Larrialdi Kontaktuak:**
-
-- **Arazo Kritikoak**: 24/7 telefonoa: [Zenbakia]
-- **Segurtasun Intzidenteak**: <security@zabala-gailetak.com>
-
-### 10.4 Baliabideak
-
-**Barne Baliabideak:**
-
-- GitLab: [URL]
-- CI/CD: [URL]
-- Dokumentazioa: [URL]
-- Monitorizazioa: [URL]
-- Issue Tracker: [URL]
-
-**Kanpo Baliabideak:**
-
-- OWASP: <https://owasp.org>
-- NIST: <https://csrc.nist.gov>
-- ISO: <https://www.iso.org>
-- IEC: <https://www.iec.ch>
+**Document Version:** 1.0  
+**Last Updated:** January 23, 2026  
+**Document Owner:** Zabala Gailetak Security Team  
+**Review Cycle:** Annual  
+**Next Review:** January 2027
 
 ---
 
-## Eranskina A: Zehaztapen Teknikoak
-
-### A.1 API Endpoint-ak
-
-Ikusi `API_DOCUMENTATION.md` API erreferentzia osorako.
-
-### A.2 Datu-base Eskema
-
-**Users Bilduma:**
-
-```javascript
-{
-  _id: ObjectId,
-  username: String,
-  email: String,
-  password: String (hashed),
-  mfaEnabled: Boolean,
-  mfaSecret: String (encrypted),
-  createdAt: Date,
-  updatedAt: Date
-}
-```
-
-**Products Bilduma:**
-
-```javascript
-{
-  _id: ObjectId,
-  name: String,
-  description: String,
-  price: Number,
-  category: String,
-  stock: Number,
-  createdAt: Date,
-  updatedAt: Date
-}
-```
-
-**Orders Bilduma:**
-
-```javascript
-{
-  _id: ObjectId,
-  userId: ObjectId,
-  productId: ObjectId,
-  quantity: Number,
-  customerName: String,
-  customerEmail: String,
-  shippingAddress: String,
-  status: String,
-  createdAt: Date,
-  updatedAt: Date
-}
-```
-
-### A.3 Konfigurazio Fitxategiak
-
-**Konfigurazio fitxategi osoak:**
-
-- `.env.example` - Ingurune aldagaiak
-- `webpack.config.js` - Webpack konfigurazioa
-- `docker-compose.yml` - Docker zerbitzuak
-- `nginx/nginx.conf` - Nginx konfigurazioa
-- `security/siem/logstash.conf` - Logstash konfigurazioa
-
----
-
-## Eranskina B: Glosarioa
-
-| Terminoa | Definizioa |
-|----------|------------|
-| API | Aplikazio Programazio Interfazea |
-| CI/CD | Etengabeko Integrazioa/Etengabeko Hedapena |
-| CSRF | Gune arteko Eskaera Faltsutzea |
-| CSP | Eduki Segurtasun Politika |
-| DAST | Aplikazioen Segurtasun Test Dinamikoa |
-| GDPR | Datuak Babesteko Erregelamendu Orokorra |
-| HIDS | Host-ean oinarritutako Intrusio Detekzio Sistema |
-| HSTS | HTTP Garraio Segurtasun Zorrotza |
-| IDS/IPS | Intrusio Detekzio/Prebentzio Sistema |
-| JWT | JSON Web Token |
-| MFA | Faktore Anitzeko Autentikazioa |
-| MITM | Man-in-the-Middle (Erasotzailea erdian) |
-| OWASP | Open Web Application Security Project |
-| SAST | Aplikazioen Segurtasun Test Estatikoa |
-| SIEM | Segurtasun Informazio eta Gertaera Kudeaketa |
-| SCA | Software Konposizio Analisia |
-| SOP | Prozedura Operatibo Estandarra |
-| SSL/TLS | Secure Sockets Layer/Transport Layer Security |
-| TOTP | Denboran oinarritutako Erabilera Bakarreko Pasahitza |
-| XSS | Cross-Site Scripting |
-
----
-
-## Eranskina C: Aldaketa Erregistroa
-
-| Bertsioa | Data | Aldaketak | Egilea |
-|---------|------|-----------|--------|
-| 1.0 | 2026-01-08 | Hasierako dokumentazioa | Zabala Gailetak Taldea |
-
----
-
-**Dokumentu Kontrola:**
-
-- **Jabea**: Zabala Gailetak Segurtasun Taldea
-- **Berrikuspen Data**: Hiruhileran behin
-- **Hurrengo Berrikuspena**: 2026ko Apirila
-- **Sailkapena**: Barnekoa
-
----
-
-*Dokumentazioaren Amaiera*
+*This document contains confidential information about Zabala Gailetak's HR Portal system and security implementation. Unauthorized distribution or disclosure is prohibited.*</content>
+<parameter name="filePath">D:\erronka4\PROJECT_DOCUMENTATION.md
