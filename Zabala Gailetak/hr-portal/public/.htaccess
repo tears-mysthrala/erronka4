@@ -32,11 +32,7 @@
 # Disable directory browsing
 Options -Indexes
 
-# Protect sensitive files
-<FilesMatch "^\.">
-    Order allow,deny
-    Deny from all
-</FilesMatch>
+ErrorDocument 429 /429.html
 
 <FilesMatch "(composer\.json|composer\.lock|\.env)$">
     Order allow,deny
