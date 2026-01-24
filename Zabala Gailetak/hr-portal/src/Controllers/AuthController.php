@@ -517,7 +517,7 @@ class AuthController
         $accessToken = $this->tokenManager->generateAccessToken($user);
         $refreshToken = $this->tokenManager->generateRefreshToken($user['id']);
 
-        // Crear sesión en Redis
+        // Crear sesión nativa
         $sessionId = $this->sessionManager->createSession($user['id'], [
             'email' => $user['email'],
             'role' => $user['role'],

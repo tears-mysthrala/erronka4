@@ -7,17 +7,6 @@ parameters:
         - vendor (?)
         - node_modules (?)
     
-    # Ignore missing extensions and unused properties (due to skeleton/WIP nature)
-    ignoreErrors:
-        - '#Undefined type.*Redis#'
-        - '#Parameter .* of .* has invalid type.*Redis#'
-        - '#has unknown class.*Redis as its type#'
-        - '#unknown class OTPHP\\TOTP#'
-        - '#Property .* is never read, only written#'
-        - '#Result of && is always false#'
-        - '#evaluate to false#'
-        - '#Offset .* on string\|null#'
-    
     # Allow dynamic properties in tests
     reportUnmatchedIgnoredErrors: false
     

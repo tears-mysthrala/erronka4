@@ -25,11 +25,19 @@ if ($router === null) {
 // Initialize services
 $db = $GLOBALS['app']->getDatabase();
 
+$tokenManager = new TokenManager([
+    'jwt_secret' => $_ENV['JWT_SECRET'] ?? 'change_this_secret_key',
+    'jwt_issuer' => $_ENV['APP_URL'] ?? 'http://localhost:8080',
+    'jwt_access_expiry' => 3600,
+    'jwt_refresh_expiry' => 604800
+]);
+
 // Session Manager (Native PHP Sessions)
-$sessionManager = new \ZabalaGailetak\HrPortal\Auth\NativeSessionManager([
+$sessionManager = new SessionManager([
     'session_prefix' => 'hrportal:',
     'session_ttl' => (int)($_ENV['SESSION_LIFETIME'] ?? 28800)
 ]);
+
 $totpService = new TOTPService();
 $authController = new AuthController($db, $tokenManager, $sessionManager, $totpService);
 

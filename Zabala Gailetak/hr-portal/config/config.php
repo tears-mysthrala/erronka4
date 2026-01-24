@@ -32,13 +32,6 @@ return [
         ],
     ],
     
-    'redis' => [
-        'host' => $env('REDIS_HOST', 'localhost'),
-        'port' => (int)$env('REDIS_PORT', 6379),
-        'password' => $env('REDIS_PASSWORD'),
-        'database' => (int)$env('REDIS_DB', 0),
-    ],
-    
     'session' => [
         'lifetime' => (int)$env('SESSION_LIFETIME', 28800), // 8 hours
         'cookie_name' => 'HRPORTAL_SESSION',

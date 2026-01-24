@@ -104,25 +104,6 @@ class TOTPService
     }
 
     /**
-     * Verifica si un código ya fue usado recientemente (anti-replay)
-     * @param \Redis $redis Redis instance
-     */
-    public function isCodeRecentlyUsed(string $userId, string $code, object $redis): bool
-    {
-        $key = "mfa_used:{$userId}:{$code}";
-        $exists = $redis->exists($key);
-
-        if ($exists) {
-            return true;
-        }
-
-        // Marcar como usado durante el periodo del código
-        $redis->setex($key, $this->period * 2, '1');
-
-        return false;
-    }
-
-    /**
      * Genera códigos de respaldo para recuperación
      */
     public function generateBackupCodes(int $count = 10): array
