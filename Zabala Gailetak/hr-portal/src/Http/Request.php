@@ -47,10 +47,23 @@ class Request
      */
     public static function fromGlobals(): self
     {
+        // Polyfill for getallheaders() if not available (e.g. FPM/Nginx)
+        if (!function_exists('getallheaders')) {
+            $headers = [];
+            foreach ($_SERVER as $name => $value) {
+                if (str_starts_with($name, 'HTTP_')) {
+                    $headerName = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))));
+                    $headers[$headerName] = $value;
+                }
+            }
+        } else {
+            $headers = getallheaders() ?: [];
+        }
+
         return new self(
             $_SERVER['REQUEST_METHOD'] ?? 'GET',
             $_SERVER['REQUEST_URI'] ?? '/',
-            getallheaders() ?: [],
+            $headers,
             $_GET,
             $_POST,
             $_FILES,
