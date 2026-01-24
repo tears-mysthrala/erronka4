@@ -15,6 +15,8 @@ use ZabalaGailetak\HrPortal\Auth\TokenManager;
 use ZabalaGailetak\HrPortal\Auth\SessionManager;
 use ZabalaGailetak\HrPortal\Auth\MFA\TOTPService;
 use ZabalaGailetak\HrPortal\Database\Database;
+use ZabalaGailetak\HrPortal\Controllers\Web\WebAuthController;
+use ZabalaGailetak\HrPortal\Controllers\Web\WebDashboardController;
 
 $router = $GLOBALS['app']->getRouter() ?? null;
 
@@ -25,6 +27,7 @@ if ($router === null) {
 // Initialize services
 $db = $GLOBALS['app']->getDatabase();
 
+// 1. Instantiate TokenManager (Missing in previous commit!)
 $tokenManager = new TokenManager([
     'jwt_secret' => $_ENV['JWT_SECRET'] ?? 'change_this_secret_key',
     'jwt_issuer' => $_ENV['APP_URL'] ?? 'http://localhost:8080',
@@ -32,28 +35,25 @@ $tokenManager = new TokenManager([
     'jwt_refresh_expiry' => 604800
 ]);
 
-// Session Manager (Native PHP Sessions)
+// 2. Instantiate SessionManager (Native)
 $sessionManager = new SessionManager([
     'session_prefix' => 'hrportal:',
     'session_ttl' => (int)($_ENV['SESSION_LIFETIME'] ?? 28800)
 ]);
 
+// 3. Instantiate Services
 $totpService = new TOTPService();
+
+// 4. Instantiate Controllers
 $authController = new AuthController($db, $tokenManager, $sessionManager, $totpService);
 
-// Employee controller
 $accessControl = new \ZabalaGailetak\HrPortal\Auth\AccessControl();
 $employeeController = new \ZabalaGailetak\HrPortal\Controllers\EmployeeController($db, $accessControl);
 
-// Vacation controller
 $auditLogger = new \ZabalaGailetak\HrPortal\Services\AuditLogger($db);
 $vacationService = new \ZabalaGailetak\HrPortal\Services\VacationService($db);
 $vacationController = new \ZabalaGailetak\HrPortal\Controllers\VacationController($vacationService, $auditLogger);
 
-use ZabalaGailetak\HrPortal\Controllers\Web\WebAuthController;
-use ZabalaGailetak\HrPortal\Controllers\Web\WebDashboardController;
-
-// Initialize Web Controllers
 $webAuthController = new WebAuthController($db);
 $webDashboardController = new WebDashboardController();
 
@@ -72,7 +72,6 @@ $router->get('/logout', [$webAuthController, 'logout']);
 
 // Protected Routes
 $router->get('/dashboard', [$webDashboardController, 'index']);
-// $router->get('/employees', [$webEmployeeController, 'index']); // TODO: Implement
 
 // ============================================================================
 // API Routes
