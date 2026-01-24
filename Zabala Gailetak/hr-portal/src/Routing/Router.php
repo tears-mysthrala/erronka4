@@ -9,13 +9,13 @@ use ZabalaGailetak\HrPortal\Http\Response;
 
 /**
  * Application Router
- * 
+ *
  * Handles HTTP routing and dispatching
  */
 class Router
 {
     private array $routes = [];
-    
+
     /**
      * Register a GET route
      */
@@ -23,7 +23,7 @@ class Router
     {
         $this->addRoute('GET', $path, $handler);
     }
-    
+
     /**
      * Register a POST route
      */
@@ -31,7 +31,7 @@ class Router
     {
         $this->addRoute('POST', $path, $handler);
     }
-    
+
     /**
      * Register a PUT route
      */
@@ -39,7 +39,7 @@ class Router
     {
         $this->addRoute('PUT', $path, $handler);
     }
-    
+
     /**
      * Register a DELETE route
      */
@@ -47,7 +47,7 @@ class Router
     {
         $this->addRoute('DELETE', $path, $handler);
     }
-    
+
     /**
      * Add a route
      */
@@ -60,7 +60,7 @@ class Router
             'pattern' => $this->compilePattern($path),
         ];
     }
-    
+
     /**
      * Compile path pattern to regex
      */
@@ -70,7 +70,7 @@ class Router
         $pattern = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '([^/]+)', $path);
         return '#^' . $pattern . '$#';
     }
-    
+
     /**
      * Dispatch request to appropriate handler
      */
@@ -78,18 +78,18 @@ class Router
     {
         $method = $request->getMethod();
         $uri = $request->getUri();
-        
+
         foreach ($this->routes as $route) {
             if ($route['method'] !== $method) {
                 continue;
             }
-            
+
             if (preg_match($route['pattern'], $uri, $matches)) {
                 array_shift($matches); // Remove full match
-                
+
                 try {
                     $handler = $route['handler'];
-                    
+
                     // If handler is array [ClassName::class, 'method'], instantiate the controller
                     if (is_array($handler) && count($handler) === 2) {
                         [$class, $method] = $handler;
@@ -97,13 +97,13 @@ class Router
                             $handler = [new $class(), $method];
                         }
                     }
-                    
+
                     $response = call_user_func_array($handler, array_merge([$request], $matches));
-                    
+
                     if (!$response instanceof Response) {
                         throw new \RuntimeException('Handler must return Response instance');
                     }
-                    
+
                     return $response;
                 } catch (\Throwable $e) {
                     error_log('Route handler error: ' . $e->getMessage());
@@ -113,7 +113,7 @@ class Router
                 }
             }
         }
-        
+
         // No route matched - 404
         return Response::json([
             'error' => 'Not found'

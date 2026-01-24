@@ -18,7 +18,7 @@ class CSRFMiddleware
         if ($request->isGet() || str_starts_with($request->getUri(), '/api/')) {
             return null;
         }
-        
+
         // TODO: Implement CSRF token validation
         return null;
     }

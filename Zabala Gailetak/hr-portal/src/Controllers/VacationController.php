@@ -11,7 +11,7 @@ use ZabalaGailetak\HrPortal\Services\AuditLogger;
 
 /**
  * VacationController
- * 
+ *
  * Handles vacation and leave requests
  */
 class VacationController
@@ -34,7 +34,7 @@ class VacationController
         $year = $request->getQuery('year') ?? (int)date('Y');
 
         $balance = $this->vacationService->getBalance($user['employee_id'], (int)$year);
-        
+
         if (!$balance) {
             $balance = $this->vacationService->initializeBalance($user['employee_id'], (int)$year);
         }
@@ -57,7 +57,7 @@ class VacationController
         }
 
         $balance = $this->vacationService->getBalance($employeeId, (int)$year);
-        
+
         if (!$balance) {
             $balance = $this->vacationService->initializeBalance($employeeId, (int)$year);
         }
@@ -367,7 +367,7 @@ class VacationController
         $user = $request->getAttribute('user');
         $year = $request->getQuery('year') ? (int)$request->getQuery('year') : null;
         $month = $request->getQuery('month') ? (int)$request->getQuery('month') : null;
-        
+
         $departmentId = null;
         // If manager, only show their department
         if ($user['role'] === 'JEFE_SECCION' && isset($user['department'])) {

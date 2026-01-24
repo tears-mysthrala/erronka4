@@ -6,7 +6,7 @@ namespace ZabalaGailetak\HrPortal\Models;
 
 /**
  * VacationRequest Model
- * 
+ *
  * Represents a vacation request from an employee
  */
 class VacationRequest
@@ -35,7 +35,8 @@ class VacationRequest
         public ?string $rejectionReason = null,
         public ?string $createdAt = null,
         public ?string $updatedAt = null
-    ) {}
+    ) {
+    }
 
     /**
      * Create from database row

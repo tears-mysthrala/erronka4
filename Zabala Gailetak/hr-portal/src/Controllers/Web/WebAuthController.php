@@ -23,7 +23,7 @@ class WebAuthController
         if (isset($_SESSION['user_id'])) {
             return Response::redirect('/dashboard');
         }
-        
+
         return Response::view('auth/login');
     }
 
@@ -35,15 +35,15 @@ class WebAuthController
 
         // TODO: Use real authentication logic from Services/AuthService
         // This is a simplified migration example
-        
+
         // Simulating DB check for now (Replace with real Auth logic)
         // In a real scenario: $user = $this->authService->authenticate($email, $password);
-        
+
         if ($email === 'admin@zabala.com' && $password === 'password') {
             $_SESSION['user_id'] = 1;
             $_SESSION['user_name'] = 'Admin User';
             $_SESSION['role'] = 'admin';
-            
+
             return Response::redirect('/dashboard');
         }
 

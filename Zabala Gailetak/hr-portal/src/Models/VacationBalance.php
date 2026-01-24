@@ -6,7 +6,7 @@ namespace ZabalaGailetak\HrPortal\Models;
 
 /**
  * VacationBalance Model
- * 
+ *
  * Represents an employee's vacation days balance for a specific year
  */
 class VacationBalance

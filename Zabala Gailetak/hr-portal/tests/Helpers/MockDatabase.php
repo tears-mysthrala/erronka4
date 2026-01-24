@@ -15,37 +15,37 @@ class MockDatabase
 {
     private array $data = [];
     private array $lastQuery = [];
-    
+
     /**
      * Simulate query execution
      */
     public function query(string $sql, array $params = []): PDOStatement|false
     {
         $this->lastQuery = ['sql' => $sql, 'params' => $params];
-        
+
         // Return mock PDOStatement
         $stmt = $this->createMock(PDOStatement::class);
         $stmt->method('execute')->willReturn(true);
         $stmt->method('fetchAll')->willReturn([]);
-        
+
         return $stmt;
     }
-    
+
     /**
      * Prepare a statement
      */
     public function prepare(string $sql): PDOStatement|false
     {
         $this->lastQuery = ['sql' => $sql];
-        
+
         $stmt = $this->createMock(PDOStatement::class);
         $stmt->method('execute')->willReturn(true);
         $stmt->method('fetchAll')->willReturn([]);
         $stmt->method('fetch')->willReturn(false);
-        
+
         return $stmt;
     }
-    
+
     /**
      * Execute a prepared statement
      */
@@ -54,7 +54,7 @@ class MockDatabase
         // Return mock data based on the query
         return [];
     }
-    
+
     /**
      * Begin transaction
      */
@@ -62,7 +62,7 @@ class MockDatabase
     {
         return true;
     }
-    
+
     /**
      * Commit transaction
      */
@@ -70,7 +70,7 @@ class MockDatabase
     {
         return true;
     }
-    
+
     /**
      * Rollback transaction
      */
@@ -78,7 +78,7 @@ class MockDatabase
     {
         return true;
     }
-    
+
     /**
      * Get last query for debugging
      */
@@ -86,7 +86,7 @@ class MockDatabase
     {
         return $this->lastQuery;
     }
-    
+
     /**
      * Set mock data for testing
      */
@@ -94,7 +94,7 @@ class MockDatabase
     {
         $this->data[$table] = $data;
     }
-    
+
     /**
      * Get mock data
      */
@@ -102,7 +102,7 @@ class MockDatabase
     {
         return $this->data[$table] ?? [];
     }
-    
+
     /**
      * Helper to create mock objects
      */
@@ -110,7 +110,7 @@ class MockDatabase
     {
         return new class {
             private array $methods = [];
-            
+
             public function __call(string $name, array $arguments)
             {
                 if (isset($this->methods[$name])) {
@@ -118,12 +118,12 @@ class MockDatabase
                 }
                 return $this;
             }
-            
+
             public function method(string $name): self
             {
                 return $this;
             }
-            
+
             public function willReturn($value): self
             {
                 return $this;

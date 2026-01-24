@@ -25,7 +25,7 @@ class VacationWorkflowTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         // Mock database for integration tests
         $this->db = $this->createMock(Database::class);
         $auditLogger = $this->createMock(AuditLogger::class);
@@ -228,7 +228,7 @@ class VacationWorkflowTest extends TestCase
         // Check final balance
         $balance = $this->vacationService->getBalance($this->testEmployeeId, 2026);
         $totalUsed = $request1->totalDays + $request2->totalDays;
-        
+
         $this->assertEquals($totalUsed, $balance->usedDays);
         $this->assertEquals(0, $balance->pendingDays);
         $this->assertEquals(22.0 - $totalUsed, $balance->availableDays);
@@ -270,7 +270,7 @@ class VacationWorkflowTest extends TestCase
     {
         $this->markTestSkipped('Requires full database integration for end-to-end testing');
         $this->vacationService->initializeBalance($this->testEmployeeId, 2026, 22.0);
-        
+
         $request = $this->vacationService->createRequest(
             $this->testEmployeeId,
             '2026-06-01',

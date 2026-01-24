@@ -25,18 +25,18 @@ class VacationServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         // Mock database
         $this->db = $this->createMock(Database::class);
         $this->auditLogger = $this->createMock(AuditLogger::class);
-        
+
         // Configure database mock
         $this->configureDatabaseMock();
-        
+
         $this->vacationService = new VacationService($this->db, $this->auditLogger);
         $this->testEmployeeIds = [1 => 100, 2 => 101];
     }
-    
+
     private function configureDatabaseMock(): void
     {
         // Mock PDOStatement
@@ -44,7 +44,7 @@ class VacationServiceTest extends TestCase
         $stmt->method('execute')->willReturn(true);
         $stmt->method('fetchAll')->willReturn([]);
         $stmt->method('fetch')->willReturn(false);
-        
+
         // Mock basic database methods to return success
         $this->db->method('prepare')->willReturn($stmt);
         $this->db->method('query')->willReturn($stmt);
@@ -353,7 +353,7 @@ class VacationServiceTest extends TestCase
             '2026-07-05',
             'Test'
         );
-        
+
         $this->vacationService->approveByManager($request->id, $managerId, 'OK');
         $this->vacationService->approveByHR($request->id, $managerId, 'OK');
 
@@ -393,13 +393,13 @@ class VacationServiceTest extends TestCase
         $this->markTestSkipped('Requires full database integration');
         // This test assumes public_holidays table has 2026 Basque holidays
         // If holiday data is not seeded, this test may need adjustment
-        
+
         // For a more robust test, we can check that holidays are excluded
         // when they fall on business days
-        
+
         // Example: If we know Jan 1, 2026 is a holiday (Wednesday)
         // Jan 1-3 should count as only 2 business days (Thu, Fri)
-        
+
         $days = $this->vacationService->calculateBusinessDays('2026-01-01', '2026-01-03');
         // Jan 1 (Wed - holiday), Jan 2 (Thu), Jan 3 (Fri)
         // Should be 2 days if Jan 1 is a holiday

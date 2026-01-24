@@ -19,7 +19,7 @@ class Request
     private array $cookies;
     private ?string $body;
     private array $attributes = []; // For storing request-level data
-    
+
     public function __construct(
         string $method,
         string $uri,
@@ -41,7 +41,7 @@ class Request
         $this->cookies = $cookies;
         $this->body = $body;
     }
-    
+
     /**
      * Create request from PHP globals
      */
@@ -59,40 +59,40 @@ class Request
             file_get_contents('php://input') ?: null
         );
     }
-    
+
     public function getMethod(): string
     {
         return $this->method;
     }
-    
+
     public function getUri(): string
     {
         return parse_url($this->uri, PHP_URL_PATH) ?: '/';
     }
-    
+
     public function getQuery(?string $key = null, mixed $default = null): mixed
     {
         if ($key === null) {
             return $this->query;
         }
-        
+
         return $this->query[$key] ?? $default;
     }
-    
+
     public function getPost(?string $key = null, mixed $default = null): mixed
     {
         if ($key === null) {
             return $this->post;
         }
-        
+
         return $this->post[$key] ?? $default;
     }
-    
+
     public function getHeader(string $name): ?string
     {
         return $this->headers[$name] ?? null;
     }
-    
+
     /**
      * Get header line (PSR-7 compatible)
      */
@@ -100,31 +100,31 @@ class Request
     {
         return $this->headers[$name] ?? '';
     }
-    
+
     public function getHeaders(): array
     {
         return $this->headers;
     }
-    
+
     public function getCookie(string $name, mixed $default = null): mixed
     {
         return $this->cookies[$name] ?? $default;
     }
-    
+
     public function getBody(): ?string
     {
         return $this->body;
     }
-    
+
     public function getJsonBody(): ?array
     {
         if ($this->body === null) {
             return null;
         }
-        
+
         return json_decode($this->body, true);
     }
-    
+
     /**
      * Get parsed body (JSON or form data)
      */
@@ -133,37 +133,37 @@ class Request
         if ($this->isJson()) {
             return $this->getJsonBody();
         }
-        
+
         // For form data, return POST array
         return $this->post;
     }
-    
+
     public function isJson(): bool
     {
         $contentType = $this->getHeader('Content-Type');
         return $contentType !== null && str_contains($contentType, 'application/json');
     }
-    
+
     public function isGet(): bool
     {
         return $this->method === 'GET';
     }
-    
+
     public function isPost(): bool
     {
         return $this->method === 'POST';
     }
-    
+
     public function isPut(): bool
     {
         return $this->method === 'PUT';
     }
-    
+
     public function isDelete(): bool
     {
         return $this->method === 'DELETE';
     }
-    
+
     /**
      * Set an attribute (mutable)
      */
@@ -171,7 +171,7 @@ class Request
     {
         $this->attributes[$name] = $value;
     }
-    
+
     /**
      * Create new request with attribute (immutable PSR-7)
      */
@@ -181,7 +181,7 @@ class Request
         $new->attributes[$name] = $value;
         return $new;
     }
-    
+
     /**
      * Get an attribute
      */
@@ -189,7 +189,7 @@ class Request
     {
         return $this->attributes[$name] ?? $default;
     }
-    
+
     /**
      * Get all attributes
      */

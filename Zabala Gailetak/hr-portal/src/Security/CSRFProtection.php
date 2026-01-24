@@ -10,7 +10,7 @@ namespace ZabalaGailetak\HrPortal\Security;
 class CSRFProtection
 {
     private const TOKEN_LENGTH = 32;
-    
+
     /**
      * Generate CSRF token
      */
@@ -18,7 +18,7 @@ class CSRFProtection
     {
         return bin2hex(random_bytes(self::TOKEN_LENGTH));
     }
-    
+
     /**
      * Validate CSRF token
      */
@@ -27,10 +27,10 @@ class CSRFProtection
         if (!isset($_SESSION['csrf_token'])) {
             return false;
         }
-        
+
         return hash_equals($_SESSION['csrf_token'], $token);
     }
-    
+
     /**
      * Get or create CSRF token for session
      */
@@ -39,7 +39,7 @@ class CSRFProtection
         if (!isset($_SESSION['csrf_token'])) {
             $_SESSION['csrf_token'] = self::generateToken();
         }
-        
+
         return $_SESSION['csrf_token'];
     }
 }

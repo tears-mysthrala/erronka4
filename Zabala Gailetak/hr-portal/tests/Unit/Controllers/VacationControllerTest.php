@@ -14,7 +14,7 @@ use ZabalaGailetak\HrPortal\Models\VacationBalance;
 use ZabalaGailetak\HrPortal\Models\VacationRequest;
 
 /**
- * Tests for VacationController  
+ * Tests for VacationController
  */
 class VacationControllerTest extends TestCase
 {
@@ -25,7 +25,7 @@ class VacationControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         // Mock services
         $this->vacationService = $this->createMock(VacationService::class);
         $this->auditLogger = $this->createMock(AuditLogger::class);
@@ -66,7 +66,7 @@ class VacationControllerTest extends TestCase
 
         $this->assertInstanceOf(Response::class, $response);
         $this->assertEquals(200, $response->getStatusCode());
-        
+
         $data = json_decode($response->getBody(), true);
         $this->assertArrayHasKey('data', $data);
         $this->assertEquals($employeeId, $data['data']['employee_id']);
@@ -164,7 +164,7 @@ class VacationControllerTest extends TestCase
         // Simulate POST request
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_SESSION['user'] = ['employee_id' => $employeeId, 'role' => 'EMPLEADO'];
-        
+
         // Mock request body
         $this->mockRequestBody($requestData);
 
@@ -185,7 +185,7 @@ class VacationControllerTest extends TestCase
         $this->markTestSkipped('Requires HTTP Request/Response mocking');
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_SESSION['user'] = ['employee_id' => 1, 'role' => 'EMPLEADO'];
-        
+
         // Missing end_date
         $this->mockRequestBody([
             'start_date' => '2026-07-01'
@@ -226,7 +226,7 @@ class VacationControllerTest extends TestCase
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_SESSION['user'] = ['employee_id' => $managerId, 'role' => 'JEFE_SECCION'];
-        
+
         $this->mockRequestBody([]);
 
         $response = $this->controller->approveByManager($requestId);
@@ -264,7 +264,7 @@ class VacationControllerTest extends TestCase
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_SESSION['user'] = ['employee_id' => $hrId, 'role' => 'RRHH_MGR'];
-        
+
         $this->mockRequestBody([]);
 
         $response = $this->controller->approveByHR($requestId);
@@ -300,7 +300,7 @@ class VacationControllerTest extends TestCase
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_SESSION['user'] = ['employee_id' => $approverId, 'role' => 'JEFE_SECCION'];
-        
+
         $this->mockRequestBody(['reason' => $reason]);
 
         $response = $this->controller->rejectRequest($requestId);
@@ -394,7 +394,7 @@ class VacationControllerTest extends TestCase
     private function mockRequestBody(array $data): void
     {
         $_POST = $data;
-        
+
         // Also set php://input for JSON
         global $mockInput;
         $mockInput = json_encode($data);

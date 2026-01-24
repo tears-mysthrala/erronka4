@@ -14,7 +14,7 @@ use DatePeriod;
 
 /**
  * VacationService
- * 
+ *
  * Business logic for vacation management
  */
 class VacationService
@@ -39,9 +39,9 @@ class VacationService
             'employee_id' => $employeeId,
             'year' => $year
         ]);
-        
+
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         return $data ? VacationBalance::fromArray($data) : null;
     }
 
@@ -84,7 +84,7 @@ class VacationService
         // Check if employee has enough available days
         $year = (int)date('Y', strtotime($startDate));
         $balance = $this->getBalance($employeeId, $year);
-        
+
         if (!$balance) {
             $balance = $this->initializeBalance($employeeId, $year);
         }
@@ -100,7 +100,7 @@ class VacationService
             VALUES (:employee_id, :start_date, :end_date, :total_days, :notes, :status)
             RETURNING *
         ');
-        
+
         $stmt->execute([
             'employee_id' => $employeeId,
             'start_date' => $startDate,
@@ -352,7 +352,7 @@ class VacationService
             WHERE vr.id = :id
         ');
         $stmt->execute(['id' => $id]);
-        
+
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
         return $data ? VacationRequest::fromArray($data) : null;
     }
@@ -415,7 +415,7 @@ class VacationService
     public function getCalendar(?int $departmentId = null, ?int $year = null, ?int $month = null): array
     {
         $year = $year ?? (int)date('Y');
-        
+
         $sql = '
             SELECT vr.*, 
                    e.first_name, e.last_name, e.department

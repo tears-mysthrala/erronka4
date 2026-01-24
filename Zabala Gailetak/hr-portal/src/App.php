@@ -16,7 +16,7 @@ use ZabalaGailetak\HrPortal\Middleware\CSRFMiddleware;
 
 /**
  * Main Application Class
- * 
+ *
  * Handles application initialization and request/response lifecycle
  */
 class App
@@ -24,22 +24,22 @@ class App
     private Router $router;
     private Database $database;
     private array $middleware = [];
-    
+
     public function __construct()
     {
         // Initialize database connection
         $this->database = new Database();
-        
+
         // Initialize router
         $this->router = new Router();
-        
+
         // Register global middleware
         $this->registerMiddleware();
-        
+
         // Load routes
         $this->loadRoutes();
     }
-    
+
     /**
      * Register global middleware
      */
@@ -51,7 +51,7 @@ class App
             new CSRFMiddleware(),
         ];
     }
-    
+
     /**
      * Load application routes
      */
@@ -60,7 +60,7 @@ class App
         $GLOBALS['app'] = $this;
         require ROOT_PATH . '/config/routes.php';
     }
-    
+
     /**
      * Run the application
      */
@@ -68,19 +68,19 @@ class App
     {
         // Create request from globals
         $request = Request::fromGlobals();
-        
+
         // Process through middleware stack
         $response = $this->processMiddleware($request);
-        
+
         // If no middleware handled the request, pass to router
         if ($response === null) {
             $response = $this->router->dispatch($request);
         }
-        
+
         // Send response
         $this->sendResponse($response);
     }
-    
+
     /**
      * Process request through middleware stack
      */
@@ -92,10 +92,10 @@ class App
                 return $response;
             }
         }
-        
+
         return null;
     }
-    
+
     /**
      * Send HTTP response
      */
@@ -103,16 +103,16 @@ class App
     {
         // Set status code
         http_response_code($response->getStatusCode());
-        
+
         // Set headers
         foreach ($response->getHeaders() as $name => $value) {
             header("$name: $value");
         }
-        
+
         // Output body
         echo $response->getBody();
     }
-    
+
     /**
      * Get router instance
      */
@@ -120,7 +120,7 @@ class App
     {
         return $this->router;
     }
-    
+
     /**
      * Get database instance
      */

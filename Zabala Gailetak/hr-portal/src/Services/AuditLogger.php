@@ -9,18 +9,18 @@ use Exception;
 
 /**
  * Audit Logger Service
- * 
+ *
  * Registra todos los cambios realizados en el sistema para auditoría
  */
 class AuditLogger
 {
     private Database $db;
-    
+
     public function __construct(Database $db)
     {
         $this->db = $db;
     }
-    
+
     /**
      * Registrar creación de entidad
      */
@@ -50,7 +50,7 @@ class AuditLogger
             requestId: $requestId
         );
     }
-    
+
     /**
      * Registrar actualización de entidad
      */
@@ -74,16 +74,16 @@ class AuditLogger
                 $changedFields[] = $field;
             }
         }
-        
+
         // Si no hay cambios, no registrar
         if (empty($changedFields)) {
             return true;
         }
-        
+
         // Filtrar solo los campos que cambiaron
         $filteredOldValues = array_intersect_key($oldValues, array_flip($changedFields));
         $filteredNewValues = array_intersect_key($newValues, array_flip($changedFields));
-        
+
         return $this->log(
             entityType: $entityType,
             entityId: $entityId,
@@ -99,7 +99,7 @@ class AuditLogger
             requestId: $requestId
         );
     }
-    
+
     /**
      * Registrar eliminación (soft delete)
      */
@@ -129,7 +129,7 @@ class AuditLogger
             requestId: $requestId
         );
     }
-    
+
     /**
      * Registrar restauración
      */
@@ -159,7 +159,7 @@ class AuditLogger
             requestId: $requestId
         );
     }
-    
+
     /**
      * Método interno para registrar en la base de datos
      */
@@ -187,9 +187,9 @@ class AuditLogger
                 :action, :old_values, :new_values, :changed_fields,
                 :ip_address, :user_agent, :request_id
             )';
-            
+
             $stmt = $this->db->prepare($sql);
-            
+
             $result = $stmt->execute([
                 'entity_type' => $entityType,
                 'entity_id' => $entityId,
@@ -204,16 +204,15 @@ class AuditLogger
                 'user_agent' => $userAgent,
                 'request_id' => $requestId
             ]);
-            
+
             return $result !== false;
-            
         } catch (Exception $e) {
             error_log('Error logging audit: ' . $e->getMessage());
             // No lanzar excepción para no interrumpir el flujo normal
             return false;
         }
     }
-    
+
     /**
      * Obtener historial de una entidad
      */
@@ -231,35 +230,34 @@ class AuditLogger
                 WHERE entity_type = :entity_type AND entity_id = :entity_id
                 ORDER BY created_at DESC
                 LIMIT :limit';
-            
+
             $stmt = $this->db->prepare($sql);
             $stmt->execute([
                 'entity_type' => $entityType,
                 'entity_id' => $entityId,
                 'limit' => $limit
             ]);
-            
+
             $logs = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-            
+
             // Decodificar JSON
             foreach ($logs as &$log) {
                 $log['old_values'] = $log['old_values'] ? json_decode($log['old_values'], true) : null;
                 $log['new_values'] = $log['new_values'] ? json_decode($log['new_values'], true) : null;
-                
+
                 // Convertir array PostgreSQL a PHP array
                 if ($log['changed_fields']) {
                     $log['changed_fields'] = $this->parsePostgresArray($log['changed_fields']);
                 }
             }
-            
+
             return $logs;
-            
         } catch (Exception $e) {
             error_log('Error getting entity history: ' . $e->getMessage());
             return [];
         }
     }
-    
+
     /**
      * Obtener historial de un usuario
      */
@@ -274,27 +272,26 @@ class AuditLogger
                     new_values, changed_fields, created_at
                 FROM audit_logs
                 WHERE user_id = :user_id';
-            
+
             $params = ['user_id' => $userId, 'limit' => $limit];
-            
+
             if ($entityType) {
                 $sql .= ' AND entity_type = :entity_type';
                 $params['entity_type'] = $entityType;
             }
-            
+
             $sql .= ' ORDER BY created_at DESC LIMIT :limit';
-            
+
             $stmt = $this->db->prepare($sql);
             $stmt->execute($params);
-            
+
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-            
         } catch (Exception $e) {
             error_log('Error getting user activity: ' . $e->getMessage());
             return [];
         }
     }
-    
+
     /**
      * Parsear array de PostgreSQL
      */
@@ -302,15 +299,15 @@ class AuditLogger
     {
         // Quitar llaves externas
         $pgArray = trim($pgArray, '{}');
-        
+
         if (empty($pgArray)) {
             return [];
         }
-        
+
         // Separar por comas
         return explode(',', $pgArray);
     }
-    
+
     /**
      * Generar ID de request único
      */
@@ -318,7 +315,7 @@ class AuditLogger
     {
         return bin2hex(random_bytes(16));
     }
-    
+
     /**
      * Obtener IP del cliente
      */
@@ -330,7 +327,7 @@ class AuditLogger
             'HTTP_X_REAL_IP',         // Nginx
             'REMOTE_ADDR'             // Direct
         ];
-        
+
         foreach ($headers as $header) {
             if (!empty($_SERVER[$header])) {
                 $ip = $_SERVER[$header];
@@ -341,10 +338,10 @@ class AuditLogger
                 return $ip;
             }
         }
-        
+
         return null;
     }
-    
+
     /**
      * Obtener User Agent
      */

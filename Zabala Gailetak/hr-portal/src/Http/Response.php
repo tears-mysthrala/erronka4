@@ -12,14 +12,14 @@ class Response
     private int $statusCode;
     private array $headers;
     private string $body;
-    
+
     public function __construct(string $body = '', int $statusCode = 200, array $headers = [])
     {
         $this->body = $body;
         $this->statusCode = $statusCode;
         $this->headers = $headers;
     }
-    
+
     /**
      * Create a JSON response
      */
@@ -31,7 +31,7 @@ class Response
             ['Content-Type' => 'application/json']
         );
     }
-    
+
     /**
      * Create an HTML response
      */
@@ -51,26 +51,26 @@ class Response
     {
         // Extract data to make variables available in view
         extract($data);
-        
+
         // Start buffering
         ob_start();
-        
+
         // Define path relative to project root
         $fullPath = dirname(__DIR__, 2) . '/public/views/' . $viewPath . '.php';
-        
+
         if (!file_exists($fullPath)) {
             // Fallback for development debugging
             return self::html("View not found: $viewPath", 500);
         }
-        
+
         require $fullPath;
-        
+
         // Get content
         $content = ob_get_clean();
-        
+
         return self::html($content, $statusCode);
     }
-    
+
     /**
      * Create a redirect response
      */
@@ -82,29 +82,29 @@ class Response
             ['Location' => $url]
         );
     }
-    
+
     public function getStatusCode(): int
     {
         return $this->statusCode;
     }
-    
+
     public function getHeaders(): array
     {
         return $this->headers;
     }
-    
+
     public function getBody(): string
     {
         return $this->body;
     }
-    
+
     public function withHeader(string $name, string $value): self
     {
         $clone = clone $this;
         $clone->headers[$name] = $value;
         return $clone;
     }
-    
+
     public function withStatus(int $statusCode): self
     {
         $clone = clone $this;

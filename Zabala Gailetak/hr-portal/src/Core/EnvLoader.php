@@ -14,7 +14,7 @@ class EnvLoader
 {
     /**
      * Load environment variables from .env file.
-     * 
+     *
      * @param string $path Path to directory containing .env file
      */
     public static function load(string $path): void

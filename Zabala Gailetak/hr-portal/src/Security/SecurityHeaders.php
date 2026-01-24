@@ -23,7 +23,7 @@ class SecurityHeaders
             'Content-Security-Policy' => self::getCSP(),
         ];
     }
-    
+
     /**
      * Get Content Security Policy
      */
@@ -38,7 +38,7 @@ class SecurityHeaders
             "connect-src 'self'",
             "frame-ancestors 'self'",
         ];
-        
+
         return implode('; ', $directives);
     }
 }

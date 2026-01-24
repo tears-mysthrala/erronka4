@@ -9,19 +9,19 @@ use PDOException;
 
 /**
  * Database Connection Manager
- * 
+ *
  * Manages PostgreSQL database connection with connection pooling
  */
 class Database
 {
     private static ?PDO $connection = null;
     private array $config;
-    
+
     public function __construct()
     {
         $this->config = require ROOT_PATH . '/config/config.php';
     }
-    
+
     /**
      * Get database connection (singleton pattern)
      */
@@ -30,10 +30,10 @@ class Database
         if (self::$connection === null) {
             $this->connect();
         }
-        
+
         return self::$connection;
     }
-    
+
     /**
      * Establish database connection
      */
@@ -41,7 +41,7 @@ class Database
     {
         $dbConfig = $this->config['database'];
         $driver = $dbConfig['driver'] ?? 'pgsql';
-        
+
         if ($driver === 'pgsql') {
             $dsn = sprintf(
                 'pgsql:host=%s;port=%d;dbname=%s',
@@ -57,7 +57,7 @@ class Database
                 $dbConfig['database']
             );
         }
-        
+
         try {
             self::$connection = new PDO(
                 $dsn,
@@ -74,7 +74,7 @@ class Database
             throw new \RuntimeException('Database connection failed');
         }
     }
-    
+
     /**
      * Execute a query
      */
@@ -83,10 +83,10 @@ class Database
         $connection = $this->getConnection();
         $stmt = $connection->prepare($sql);
         $stmt->execute($params);
-        
+
         return $stmt;
     }
-    
+
     /**
      * Prepare a statement
      */
@@ -94,7 +94,7 @@ class Database
     {
         return $this->getConnection()->prepare($sql);
     }
-    
+
     /**
      * Begin transaction
      */
@@ -102,7 +102,7 @@ class Database
     {
         $this->getConnection()->beginTransaction();
     }
-    
+
     /**
      * Commit transaction
      */
@@ -110,7 +110,7 @@ class Database
     {
         $this->getConnection()->commit();
     }
-    
+
     /**
      * Rollback transaction
      */
@@ -118,7 +118,7 @@ class Database
     {
         $this->getConnection()->rollBack();
     }
-    
+
     /**
      * Get last insert ID
      */
