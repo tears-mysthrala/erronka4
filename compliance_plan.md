@@ -1,1199 +1,1053 @@
-# Zabala Gailetak Compliance Implementation Plan
+# Plan de Cumplimiento - Erronka 4
+## Zabala Gailetak - Portal RRHH
 
-**Version:** 1.0  
-**Date:** January 23, 2026  
-**Project:** HR Portal - Complete Compliance Implementation  
-**Status:** Implementation Planning Complete
-
----
-
-## Executive Summary
-
-This plan outlines the complete compliance implementation for Zabala Gailetak's HR Portal project, ensuring full adherence to ISO 27001:2022, GDPR, and IEC 62443 standards. Based on my analysis, the project has:
-
-**Current Status:**
-- ✅ **93% ISO 27001 compliance** (87/93 controls) with excellent Basque documentation
-- ✅ **Strong GDPR foundation** with privacy notices, DPIA templates, and data processing registers
-- ✅ **Core security implementations**: MFA, RBAC, JWT, audit logging, CSRF protection
-- ⚠️ **6 partially implemented controls** need completion (DLP, data masking, geo-redundancy, classification)
-- ❌ **Code is in Spanish/English** - needs complete translation to Basque
-
-**Implementation Scope:**
-1. **Complete documentation gaps** (Priority 1)
-2. **Translate all code to Basque** (Priority 1)
-3. **Implement missing security controls** (Priority 2)
-4. **Add automated compliance validation** (Priority 3)
-5. **Create compliance dashboard** (Priority 3)
+**Versión:** 2.0  
+**Fecha:** 24 de Enero de 2026  
+**Proyecto:** Portal de Recursos Humanos - Cumplimiento ER4 Completo  
+**Equipo:** 4 personas  
+**Duración:** 6 horas × 46 sesiones = 276 horas totales
 
 ---
 
-## Detailed Gap Analysis
+## Resumen Ejecutivo
 
-### 1. Documentation Gaps (Identified)
+Este plan garantiza el cumplimiento completo de todos los requisitos del **Erronka 4** del curso de Ciberseguridad, cubriendo las 6 áreas técnicas principales y las competencias transversales requeridas.
 
-#### 1.1 ISO 27001 - Missing/Incomplete Documentation
+### Estado Actual del Proyecto
 
-| Control | Status | Missing Elements |
-|---------|--------|------------------|
-| A.5.12 - Information Classification | ⚠️ Partial | - Complete data classification matrix<br>- Classification marking templates<br>- Classification procedures for new data |
-| A.5.13 - Information Labeling | ⚠️ Partial | - Document watermarking procedures<br>- Email classification labels<br>- Physical document marking guidelines |
-| A.7.7 - Clear Desk/Screen | ⚠️ Partial | - Audit procedures<br>- Enforcement guidelines<br>- Awareness campaign materials |
-| A.8.11 - Data Masking | ⚠️ Partial | - Data masking procedures for all environments<br>- Test data generation guidelines<br>- Pseudonymization rules |
-| A.8.12 - DLP | ⚠️ Partial | - Complete DLP policy<br>- DLP implementation guide<br>- DLP monitoring procedures |
-| A.8.14 - Redundancy | ⚠️ Partial | - Geographic redundancy architecture<br>- Failover procedures<br>- Disaster recovery testing plan |
+**✅ Completado (85%):**
+- Infraestructura base (PHP 8.4 + PostgreSQL 16 + Android Kotlin)
+- Sistema de autenticación JWT + MFA
+- Control de acceso basado en roles (RBAC)
+- Auditoría y logging completo
+- Documentación SGSI en euskara
+- Cumplimiento GDPR base
 
-#### 1.2 GDPR - Missing Documentation
+**⚠️ En Progreso (10%):**
+- Segmentación de red completa
+- Sistema SIEM configurado
+- Hardening OT (área de producción)
 
-| Requirement | Status | Missing Elements |
-|-------------|--------|------------------|
-| Data Protection Training | ❌ Missing | - Training materials in Basque<br>- Training schedule<br>- Assessment/quiz materials |
-| Consent Management | ❌ Missing | - Consent recording system documentation<br>- Consent withdrawal procedures<br>- Consent audit procedures |
-| Data Portability | ❌ Missing | - Data export format specifications<br>- Export procedures<br>- Testing documentation |
-| Legitimate Interest Assessment (LIA) | ❌ Missing | - LIA templates<br>- LIA register<br>- Balancing test procedures |
-| Vendor Data Processing Agreements | ⚠️ Partial | - DPA templates in Basque<br>- Vendor assessment checklist<br>- Sub-processor management |
-
-#### 1.3 IEC 62443 - Missing Documentation
-
-| Requirement | Status | Missing Elements |
-|-------------|--------|------------------|
-| OT Security Zones | ⚠️ Partial | - Complete zone architecture diagrams<br>- Inter-zone communication rules<br>- Zone security level documentation |
-| Control System Patch Management | ❌ Missing | - OT-specific patch procedures<br>- Testing protocols for PLC/SCADA<br>- Rollback procedures |
-| Industrial Network Monitoring | ⚠️ Partial | - OT-specific SIEM rules<br>- Protocol anomaly detection<br>- Baseline traffic profiles |
+**❌ Pendiente (5%):**
+- Análisis forense completo
+- Hacking ético (auditoría externa)
+- Procedimientos de respuesta a incidentes completos
 
 ---
 
-### 2. Code Translation Gaps
+## Mapeo de Requisitos ER4 vs Implementación
 
-**Current State:** PHP/Kotlin code uses **Spanish/English** for:
-- Class names, function names, variable names
-- Code comments
-- Error messages
-- Log messages
-- Database column names
-- API endpoint names
+### 1. Zibersegurtasuneko Gertakariak (Incidentes de Ciberseguridad)
 
-**Required Translation:** **ALL** code elements must be translated to **Basque (euskara)**
+#### RA3: Investigación de Incidentes
 
-#### 2.1 PHP Backend Translation Scope
+| Requisito | Estado | Implementación | Evidencia |
+|-----------|--------|----------------|-----------|
+| **RA3.a** - Fases del proceso de recogida y análisis de evidencias | ✅ 100% | Procedimiento documentado en `incidente_erantzun_plana.md` | Fase 1: Detección → Fase 2: Contención → Fase 3: Erradicación → Fase 4: Recuperación |
+| **RA3.b** - Recogida segura de evidencias | ✅ 100% | Scripts de captura forense + cadena de custodia | `scripts/ebidentzia_bildu.sh` |
+| **RA3.c** - Análisis de evidencias | ⚠️ 80% | SIEM básico configurado, falta correlación avanzada | Elastic Stack + reglas de correlación |
+| **RA3.d** - Investigación de incidentes | ⚠️ 70% | Playbooks básicos, falta integración MISP | 5 playbooks documentados |
+| **RA3.e** - Intercambio de información sobre incidentes | ⚠️ 60% | Plantillas de notificación, falta integración INCIBE | Plantillas en `compliance/gorabeherak/` |
 
-| Component | Files | Translation Scope |
-|-----------|-------|-------------------|
-| Classes | 25 PHP files | Class names, method names, properties, comments |
-| Comments | All PHP files | Complete docblock and inline comment translation |
-| Variables | All PHP files | All variable names (following euskara naming conventions) |
-| Error Messages | All exceptions | User-facing and internal error messages |
-| Log Messages | All log calls | Audit log messages and system logs |
-| Database | Schema + queries | Table names, column names, stored procedures |
-| API Responses | All controllers | JSON response messages and field names |
+**Acciones Requeridas:**
+1. Completar integración SIEM con reglas de correlación avanzadas
+2. Implementar plataforma MISP para threat intelligence
+3. Establecer canal formal con INCIBE-CERT
+4. Crear procedimiento de lecciones aprendidas post-incidente
 
-**Estimated Lines:** ~10,000 lines of PHP code to translate
+#### RA4: Medidas Ciber-resilientes
 
-#### 2.2 Kotlin Android Translation Scope
+| Requisito | Estado | Implementación |
+|-----------|--------|----------------|
+| **RA4.a** - Procedimientos operativos detallados | ✅ 90% | 12 POPs documentados en euskara |
+| **RA4.b** - Respuestas ciber-resilientes | ⚠️ 70% | Plan BCP/DR básico, falta automatización |
+| **RA4.c** - Flujo de escalado interno/externo | ✅ 100% | Matriz de escalado + contactos INCIBE |
+| **RA4.d** - Recuperación de servicios | ⚠️ 75% | Backups diarios, falta HA completo |
+| **RA4.e** - Registro de lecciones aprendidas | ✅ 100% | Plantilla + base de datos de incidentes |
 
-| Component | Files | Translation Scope |
-|-----------|-------|-------------------|
-| Classes | 15+ Kotlin files | Class names, function names, properties |
-| UI Strings | strings.xml | All user-facing strings |
-| Comments | All Kotlin files | Complete comment translation |
-| Variables | All Kotlin files | Variable and constant names |
-| Error Messages | Exception handling | All error messages |
+#### RA5: Detección y Documentación
 
-**Estimated Lines:** ~5,000 lines of Kotlin code to translate
-
-#### 2.3 Database Schema Translation
-
-| Element | Count | Translation Scope |
-|---------|-------|-------------------|
-| Tables | ~20 tables | All table names |
-| Columns | ~150 columns | All column names |
-| Constraints | ~30 constraints | Constraint names |
-| Indexes | ~25 indexes | Index names |
-| Stored Procedures | TBD | Procedure names and comments |
+| Requisito | Estado | Implementación |
+|-----------|--------|----------------|
+| **RA5.a** - Procedimiento de notificación oportuna | ✅ 100% | SLA: 30 min críticos, 2h altos, 8h medios |
+| **RA5.b** - Notificación adecuada a responsables | ✅ 100% | Sistema de alertas multi-canal (email, SMS, Slack) |
 
 ---
 
-### 3. Missing Security Implementations
+### 2. Sareak eta Sistemak Gotortzea (Hardening de Redes y Sistemas)
 
-#### 3.1 Data Loss Prevention (DLP)
+#### RA3: Diseño de Planes de Seguridad
 
-**Missing:**
-- Email DLP rules implementation
-- Web upload filtering
-- Endpoint DLP agent deployment
-- USB/removable media control
-- Screen capture prevention
-- Print monitoring
+| Requisito | Estado | Implementación | Evidencia |
+|-----------|--------|----------------|-----------|
+| **RA3.a** - Identificación de activos, amenazas y vulnerabilidades | ✅ 100% | Inventario completo de 87 activos | `compliance/sgsi/aktibo_inbentarioa.xlsx` |
+| **RA3.b** - Evaluación de medidas de seguridad actuales | ✅ 100% | Gap analysis ISO 27001 completado | 87/93 controles (93%) |
+| **RA3.c** - Análisis de riesgos | ✅ 100% | Metodología MAGERIT v3 aplicada | 23 riesgos identificados |
+| **RA3.d** - Priorización de medidas técnicas | ✅ 100% | Matriz de priorización por riesgo | 3 críticas, 8 altas, 12 medias |
+| **RA3.e** - Plan de medidas de seguridad | ✅ 100% | Plan de implementación 22 semanas | Este documento |
 
-**Required Implementation:**
-- DLP policy engine in PHP
-- File content scanning module
-- Integration with SIEM for alerts
+#### RA7: Configuración de Dispositivos de Seguridad
 
-#### 3.2 Data Masking & Anonymization
+| Requisito | Estado | Implementación |
+|-----------|--------|----------------|
+| **RA7.a** - Configuración de dispositivos perimetrales | ✅ 100% | pfSense configurado con HA |
+| **RA7.b** - Tipos de cortafuegos | ✅ 100% | Stateful firewall + WAF (ModSecurity) |
+| **RA7.c** - Políticas y reglas de filtrado | ✅ 100% | 47 reglas de firewall documentadas |
 
-**Missing:**
-- Automated data masking for non-production environments
-- PII pseudonymization functions
-- Test data generation tools
-- Masking verification tests
+#### RA8: Seguridad de Sistemas Informáticos
 
-**Required Implementation:**
-- Database masking functions
-- API data transformation layer
-- Masking configuration management
+| Requisito | Estado | Implementación |
+|-----------|--------|----------------|
+| **RA8.a** - Configuración BIOS/UEFI | ✅ 100% | Secure Boot + TPM habilitados |
+| **RA8.b** - Preparación para instalación | ✅ 100% | Imágenes base hardened (CIS Benchmarks) |
+| **RA8.c** - Configuración de sistema | ✅ 100% | Ansible playbooks para hardening |
 
-#### 3.3 Geographic Redundancy
+#### RA9: Minimización de Exposición
 
-**Missing:**
-- Secondary datacenter/region configuration
-- Automated failover mechanisms
-- Cross-region data replication
-- DR testing automation
+| Requisito | Estado | Implementación |
+|-----------|--------|----------------|
+| **RA9.a** - Eliminación de servicios innecesarios | ✅ 100% | Análisis con Lynis + eliminación |
+| **RA9.b** - Configuración de características nativas | ✅ 100% | SELinux enforcing + AppArmor |
 
-**Required Implementation:**
-- Multi-region PostgreSQL replication
-- Redis cluster configuration
-- Application layer redundancy
-- Automated DR testing scripts
+#### RA10: Integración IT/OT
 
-#### 3.4 Encryption Enhancements
+| Requisito | Estado | Implementación | **CRÍTICO PARA ZABALA** |
+|-----------|--------|----------------|-------------------------|
+| **RA10.a** - Informe de amenazas OT y medidas defensivas | ⚠️ 60% | Análisis inicial completado | **PENDIENTE: Informe detallado** |
+| **RA10.b** - Segmentación por capas (Purdue Model) | ⚠️ 50% | Diseño completado, falta implementación | **PENDIENTE: VLANs OT** |
+| **RA10.c** - Medidas de seguridad para dispositivos OT | ⚠️ 40% | Inventario PLC/HMI, falta hardening | **PENDIENTE: Hardening OT** |
 
-**Missing:**
-- Field-level encryption for highly sensitive data
-- Key rotation automation
-- HSM integration for key management
-- Encryption key escrow procedures
-
-**Required Implementation:**
-- Application-level encryption layer
-- Key management service
-- Automated key rotation
-- Key backup and recovery
-
----
-
-### 4. Automated Compliance Monitoring
-
-**Missing:**
-- Compliance dashboard
-- Automated control testing
-- Policy compliance scanning
-- Compliance reporting automation
-- Evidence collection automation
-
-**Required Implementation:**
-- Compliance monitoring platform
-- Automated test scripts
-- Evidence repository
-- Compliance reporting dashboard
-
----
-
-## Implementation Plan - Phased Approach
-
-### Phase 1: Documentation Completion (Weeks 1-4)
-
-**Objective:** Complete all missing compliance documentation in Basque
-
-#### Week 1: ISO 27001 Documentation
-
-**Tasks:**
-1. **Data Classification Framework** (2 days)
-   - Complete data classification matrix
-   - Create classification marking templates
-   - Document classification procedures
-   - Create classification decision tree
-
-2. **Clear Desk/Screen Policy Enhancement** (1 day)
-   - Create audit procedures document
-   - Develop enforcement guidelines
-   - Create awareness posters in Basque
-
-3. **Data Masking Procedures** (2 days)
-   - Complete data masking policy
-   - Document masking procedures for each environment
-   - Create test data generation guidelines
-   - Document pseudonymization rules
-
-**Deliverables:**
-- `Zabala Gailetak/compliance/sgsi/sailkapen_eskuliburua.md` (Classification Manual)
-- `Zabala Gailetak/compliance/sgsi/mahai_garbi_politika_v2.md`
-- `Zabala Gailetak/compliance/sgsi/datu_maskaratze_prozedura.md`
-
-#### Week 2: GDPR Documentation
-
-**Tasks:**
-1. **Consent Management System Documentation** (2 days)
-   - Consent recording system architecture
-   - Consent withdrawal procedures
-   - Consent audit trail specifications
-
-2. **Data Portability Documentation** (1 day)
-   - Data export format specifications (JSON/CSV)
-   - Export procedures and validation
-   - Testing and validation procedures
-
-3. **Vendor Data Processing Agreements** (2 days)
-   - DPA template in Basque
-   - Vendor assessment checklist
-   - Sub-processor management procedures
-
-**Deliverables:**
-- `Zabala Gailetak/compliance/gdpr/baimena_kudeaketa_sistema.md`
-- `Zabala Gailetak/compliance/gdpr/datu_eramangarritasuna.md`
-- `Zabala Gailetak/compliance/gdpr/hornitzaile_akordio_txantiloia.md`
-
-#### Week 3: IEC 62443 Industrial Security Documentation
-
-**Tasks:**
-1. **OT Security Zones Complete Documentation** (2 days)
-   - Complete zone architecture diagrams (using Mermaid/PlantUML)
-   - Inter-zone communication rules matrix
-   - Zone security level specifications (SL-1 through SL-4)
-
-2. **Control System Patch Management** (2 days)
-   - OT-specific patch procedures
-   - Testing protocols for PLC/SCADA systems
-   - Rollback procedures and emergency patches
-
-3. **Industrial Network Monitoring** (1 day)
-   - OT-specific SIEM rules
-   - Protocol anomaly detection rules
-   - Baseline traffic profile documentation
-
-**Deliverables:**
-- `Zabala Gailetak/infrastructure/ot/segurtasun_zonak_arkitektura.md`
-- `Zabala Gailetak/infrastructure/ot/adabaki_kudeaketa_ot.md`
-- `Zabala Gailetak/security/siem/ot_monitorizazio_arauak.md`
-
-#### Week 4: Training & Awareness Documentation
-
-**Tasks:**
-1. **Security Awareness Training Materials** (2 days)
-   - Create training presentation in Basque
-   - Develop quiz/assessment materials
-   - Create awareness posters and infographics
-
-2. **Data Protection Training Program** (2 days)
-   - GDPR training curriculum
-   - Training schedule and attendance tracking
-   - Role-specific training materials
-
-3. **Compliance Dashboard Design** (1 day)
-   - Dashboard wireframes
-   - Metrics and KPI definitions
-   - Reporting requirements
-
-**Deliverables:**
-- `Zabala Gailetak/compliance/training/segurtasun_prestakuntza_materiala.md`
-- `Zabala Gailetak/compliance/training/gdpr_prestakuntza_programa.md`
-- `Zabala Gailetak/compliance/monitoring/betetze_panela_diseinua.md`
-
----
-
-### Phase 2: Code Translation to Basque (Weeks 5-10)
-
-**Objective:** Translate ALL code (PHP, Kotlin, JavaScript, SQL) to Basque
-
-#### Week 5-6: PHP Backend Translation - Core Classes
-
-**Translation Strategy:**
-
-```php
-// BEFORE (Spanish/English):
-class AuthController {
-    private Database $db;
-    private TokenManager $tokenManager;
-    
-    public function login(Request $request): Response {
-        // Validate credentials
-        $email = $request->input('email');
-        // ... authentication logic
-    }
-}
-
-// AFTER (Euskara):
-class AutentifikazioKontroladorea {
-    private DatuBasea $db;
-    private TokenKudeatzailea $tokenKudeatzailea;
-    
-    public function saioa_hasi(Eskaera $eskaera): Erantzuna {
-        // Kredentzialak balioztatu
-        $eposta = $eskaera->sarrera('eposta');
-        // ... autentifikazio logika
-    }
-}
-```
-
-**Tasks:**
-1. **Day 1-2: Create Euskara Naming Conventions Document**
-   - Define naming patterns for classes (ex: Controller = Kontroladorea)
-   - Define naming patterns for methods (ex: getUserData = erabiltzaile_datuak_lortu)
-   - Create glossary of common terms (database = datu-basea, user = erabiltzailea)
-
-2. **Day 3-10: Translate Core Classes** (Priority order)
-   - `App.php` → `Aplikazioa.php`
-   - `Database.php` → `DatuBasea.php`
-   - `Request.php` → `Eskaera.php`
-   - `Response.php` → `Erantzuna.php`
-   - `Router.php` → `Bideratzailea.php`
-   - Authentication classes (Auth folder)
-   - Controllers (Controllers folder)
-   - Models (Models folder)
-   - Middleware (Middleware folder)
-   - Services (Services folder)
-
-**Deliverables:**
-- `Zabala Gailetak/docs/euskara_kodeketa_gida.md` (Euskara Coding Guide)
-- Translated PHP classes (25 files)
-- Updated autoloader configuration
-- Updated composer.json namespaces
-
-#### Week 7-8: Database Schema Translation
-
-**Tasks:**
-1. **Create Migration Scripts** (2 days)
-   - Generate ALTER TABLE scripts to rename tables
-   - Generate ALTER COLUMN scripts to rename columns
-   - Create views for backward compatibility (if needed)
-
-2. **Execute Schema Migration** (1 day)
-   - Backup production database
-   - Execute migration scripts in staging
-   - Validate data integrity
-   - Execute in production
-
-3. **Update All SQL Queries** (4 days)
-   - Update all PHP queries with new table/column names
-   - Update stored procedures
-   - Update database views
-   - Update indexes
-
-**Example Translation:**
-
-```sql
--- BEFORE:
-CREATE TABLE employees (
-    id SERIAL PRIMARY KEY,
-    first_name VARCHAR(100),
-    last_name VARCHAR(100),
-    email VARCHAR(255) UNIQUE,
-    department_id INTEGER,
-    hire_date DATE
-);
-
--- AFTER:
-CREATE TABLE langileak (
-    id SERIAL PRIMARY KEY,
-    izena VARCHAR(100),
-    abizena VARCHAR(100),
-    eposta VARCHAR(255) UNIQUE,
-    saila_id INTEGER,
-    kontratazio_data DATE
-);
-```
-
-**Deliverables:**
-- Database migration scripts
-- Updated schema documentation in Basque
-- Backward compatibility views (if required)
-
-#### Week 9-10: Kotlin Android App Translation
-
-**Tasks:**
-1. **Translate Kotlin Classes** (3 days)
-   - Data models
-   - API service interfaces
-   - ViewModels
-   - Use cases
-   - Repositories
-
-2. **Translate UI Strings** (1 day)
-   - Update `strings.xml` with Basque translations
-   - Create string resource naming conventions
-
-3. **Translate Comments & Documentation** (1 day)
-   - All KDoc comments
-   - Inline comments
-   - README files
-
-**Example Translation:**
-
-```kotlin
-// BEFORE:
-data class User(
-    val id: Int,
-    val firstName: String,
-    val lastName: String,
-    val email: String,
-    val role: UserRole
-)
-
-// AFTER:
-data class Erabiltzailea(
-    val id: Int,
-    val izena: String,
-    val abizena: String,
-    val eposta: String,
-    val rola: ErabiltzaileRola
-)
-```
-
-**Deliverables:**
-- Translated Kotlin files (15+ files)
-- Updated `strings.xml` in Basque
-- Updated Gradle configurations
-
----
-
-### Phase 3: Security Controls Implementation (Weeks 11-16)
-
-**Objective:** Implement the 6 partially implemented ISO 27001 controls
-
-#### Week 11-12: Data Loss Prevention (DLP) - A.8.12
-
-**Tasks:**
-1. **DLP Policy Engine Implementation** (3 days)
-   - Create DLP configuration framework
-   - Implement pattern matching for PII
-   - Create content scanning engine
-   - Integration with file upload handlers
-
-2. **Email DLP Module** (2 days)
-   - Integrate with email server (Postfix/Exim)
-   - Create email content scanning rules
-   - Implement blocking/quarantine logic
-
-3. **Endpoint DLP Controls** (2 days)
-   - USB device control implementation
-   - Screen capture prevention
-   - Print monitoring integration
-
-4. **DLP SIEM Integration** (1 day)
-   - Send DLP events to SIEM
-   - Create DLP alert rules
-   - Create DLP dashboard in Kibana
-
-**Code Example (PHP DLP Engine):**
-
-```php
-/**
- * Datu Galera Prebentzioa (DLP) Motorra
- */
-class DGPMotorra {
-    private array $ereduak = [];
-    
-    /**
-     * Fitxategi bat eskaneatu eduki sentikorrentzat
-     */
-    public function fitxategia_eskaneatu(string $fitxategiBidea): DGPEmaitza {
-        $edukia = file_get_contents($fitxategiBidea);
-        
-        // DNI/NIF ereduak
-        if (preg_match('/\d{8}[A-Z]/', $edukia)) {
-            return new DGPEmaitza(
-                blokeatuta: true,
-                arrazoia: 'DNI zenbakia detektatu da',
-                arriskuMaila: 'ALTUA'
-            );
-        }
-        
-        // Kreditu txartel zenbakiak
-        if ($this->kreditu_txartela_detektatu($edukia)) {
-            return new DGPEmaitza(
-                blokeatuta: true,
-                arrazoia: 'Kreditu txartel zenbakia detektatu da',
-                arriskuMaila: 'KRITIKOA'
-            );
-        }
-        
-        return new DGPEmaitza(blokeatuta: false);
-    }
-    
-    private function kreditu_txartela_detektatu(string $testua): bool {
-        // Luhn algoritmoa implementatu
-        // ...
-    }
-}
-```
-
-**Deliverables:**
-- `Zabala Gailetak/hr-portal/src/Segurtasuna/DGPMotorra.php`
-- DLP configuration files
-- SIEM integration
-- DLP documentation in Basque
-
-#### Week 13: Data Masking Implementation - A.8.11
-
-**Tasks:**
-1. **Create Data Masking Library** (2 days)
-   - PII masking functions (NIF, email, phone)
-   - Database-level masking triggers
-   - API response masking middleware
-
-2. **Non-Production Data Masking Automation** (2 days)
-   - Create automated masking scripts for staging/dev
-   - Implement test data generation
-   - Validate masked data integrity
-
-3. **Masking Audit Trail** (1 day)
-   - Log all masking operations
-   - Create masking report
-   - Integration with audit log system
-
-**Code Example (PHP Masking):**
-
-```php
-/**
- * Datu Maskaratze Zerbitzua
- */
-class DatuMaskaratzeZerbitzua {
-    /**
-     * NIF maskaratu
-     * Adibidea: 12345678A → ****5678A
-     */
-    public function nif_maskaratu(string $nif): string {
-        if (strlen($nif) !== 9) {
-            return $nif;
-        }
-        
-        return str_repeat('*', 4) . substr($nif, 4);
-    }
-    
-    /**
-     * Eposta maskaratu
-     * Adibidea: jon.doe@example.com → j***e@example.com
-     */
-    public function eposta_maskaratu(string $eposta): string {
-        [$erabiltzailea, $domeinua] = explode('@', $eposta);
-        
-        if (strlen($erabiltzailea) <= 2) {
-            return $eposta;
-        }
-        
-        $maskaratua = $erabiltzailea[0] . 
-                      str_repeat('*', strlen($erabiltzailea) - 2) . 
-                      $erabiltzailea[strlen($erabiltzailea) - 1];
-        
-        return $maskaratua . '@' . $domeinua;
-    }
-    
-    /**
-     * Datu-base taula osoa maskaratu
-     */
-    public function taula_maskaratu(string $taulIzena, array $zutabeak): void {
-        // Maskaratzeko SQL sententziak sortu
-        // ...
-    }
-}
-```
-
-**Deliverables:**
-- `Zabala Gailetak/hr-portal/src/Segurtasuna/DatuMaskaratzeZerbitzua.php`
-- Automated masking scripts
-- Masking documentation
-
-#### Week 14-15: Geographic Redundancy - A.8.14
-
-**Tasks:**
-1. **Multi-Region Architecture Design** (2 days)
-   - Design primary + secondary region architecture
-   - Define RTO/RPO requirements
-   - Create failover decision matrix
-
-2. **PostgreSQL Replication Setup** (2 days)
-   - Configure streaming replication
-   - Setup automatic failover with Patroni
-   - Test replication lag monitoring
-
-3. **Application Layer Redundancy** (2 days)
-   - Configure multi-region load balancer
-   - Implement health checks
-   - Session replication (Redis Cluster)
-
-4. **Automated DR Testing** (2 days)
-   - Create DR testing scripts
-   - Automate failover testing
-   - Document DR procedures
-
-**Architecture Diagram:**
+**ACCIONES CRÍTICAS OT (Zabala Gailetak - Producción de Galletas):**
 
 ```
-┌─────────────────────────────────────────────┐
-│          EREMU NAGUSIA (PRIMARY)            │
-│          Donostia Datacenter                │
-│                                              │
-│  ┌──────────────┐  ┌──────────────┐        │
-│  │  PostgreSQL  │  │    Redis     │        │
-│  │   (Master)   │  │  (Master)    │        │
-│  └──────┬───────┘  └──────┬───────┘        │
-│         │ Streaming       │ Replication     │
-│         │ Replication     │                 │
-└─────────┼─────────────────┼─────────────────┘
-          │                 │
-          │ Async           │ Sync
-          │                 │
-┌─────────▼─────────────────▼─────────────────┐
-│      BIGARREN EREMUA (SECONDARY)            │
-│          Bilbo Datacenter                   │
-│                                              │
-│  ┌──────────────┐  ┌──────────────┐        │
-│  │  PostgreSQL  │  │  (Standby)   │        │
-│  │              │  │              │        │
-│  └──────────────┘  └──────────────┘        │
-└─────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────┐
+│  MODELO PURDUE - ZABALA GAILETAK                    │
+├─────────────────────────────────────────────────────┤
+│  Nivel 5: Enpresa Sarea (Enterprise)               │
+│    • ERP                                            │
+│    • Portal RRHH                                    │
+│    • Email, CRM                                     │
+├─────────────────────────────────────────────────────┤
+│  Nivel 4: Negozio Planifikazioa (Business)         │
+│    • MES (Manufacturing Execution System)           │
+│    • Produktu Diseinua                              │
+├─────────────────────────────────────────────────────┤
+│  Nivel 3: Fabrika Operazioak (Operations)          │
+│    • SCADA Sistema                                  │
+│    • HMI Panelak                                    │
+│    • Historian                                      │
+├─────────────────────────────────────────────────────┤
+│  Nivel 2: Kontrola (Supervision)                   │
+│    • PLC (Programmable Logic Controllers)           │
+│    • Nahasketa Kontrola                             │
+│    • Tenperatura/Presioa Sensoreak                  │
+├─────────────────────────────────────────────────────┤
+│  Nivel 1: Prozesu Kontrola (Control)               │
+│    • I/O Moduluak                                   │
+│    • Aktuadoreak                                    │
+│    • Labe Kontrola                                  │
+├─────────────────────────────────────────────────────┤
+│  Nivel 0: Prozesu Fisikoa (Physical)               │
+│    • Nahasketa Makinak                              │
+│    • Labeak                                         │
+│    • Konbeiadoreak                                  │
+└─────────────────────────────────────────────────────┘
 ```
 
-**Deliverables:**
-- Multi-region infrastructure code
-- Failover automation scripts
-- DR testing documentation
-- Monitoring dashboards for replication
+**Implementar:**
+1. **Segmentación de Red OT:**
+   - VLAN 10: Enpresa (IT)
+   - VLAN 20: MES
+   - VLAN 30: SCADA/HMI
+   - VLAN 40: PLC/Control
+   - VLAN 50: Sensores/Actuadores
 
-#### Week 16: Information Classification & Labeling - A.5.12 & A.5.13
+2. **Firewall Industrial (IEC 62443):**
+   - Zona IT → DMZ → OT (unidireccional preferred)
+   - Whitelist de protocolos: Modbus TCP, OPC UA
+   - Inspección profunda de paquetes industriales
 
-**Tasks:**
-1. **Implement Document Classification System** (2 days)
-   - Create classification metadata storage
-   - Implement document watermarking
-   - Email classification headers
+3. **Hardening de PLCs:**
+   - Cambio de contraseñas por defecto
+   - Desactivar servicios no usados
+   - Actualización de firmware
+   - Control de acceso físico
 
-2. **Classification Enforcement** (2 days)
-   - Access control based on classification
-   - Automatic classification for new documents
-   - Classification audit trail
+---
 
-3. **User Interface Integration** (1 day)
-   - Add classification selector to upload forms
-   - Display classification labels in UI
-   - Classification filtering in searches
+### 3. Ekoizpen Seguruan Jartzea (Desarrollo Seguro)
 
-**Code Example (Classification System):**
+#### RA1-RA3: Programación Orientada a Objetos
 
-```php
-/**
- * Informazio Sailkapen Sistema
- */
-class SailkapenSistema {
-    // Sailkapen mailak
-    public const PUBLIKOA = 'PUBLIKOA';
-    public const BARNEKOA = 'BARNEKOA';
-    public const KONFIDENTZIALA = 'KONFIDENTZIALA';
-    public const OSO_KONFIDENTZIALA = 'OSO_KONFIDENTZIALA';
-    
-    /**
-     * Dokumentu bati sailkapena esleitu
-     */
-    public function dokumentua_sailkatu(
-        int $dokumentuId, 
-        string $sailkapena,
-        string $justifikazioa
-    ): void {
-        // Sailkapena balioztatu
-        if (!in_array($sailkapena, $this->sailkapen_balioak())) {
-            throw new SailkapenEzegokia("Sailkapen baliogabea: {$sailkapena}");
-        }
-        
-        // Datu-basean gorde
-        $this->db->query(
-            'UPDATE dokumentuak 
-             SET sailkapena = :sailkapena,
-                 sailkapen_justifikazioa = :justifikazioa,
-                 sailkapen_data = NOW()
-             WHERE id = :id',
-            [
-                'id' => $dokumentuId,
-                'sailkapena' => $sailkapena,
-                'justifikazioa' => $justifikazioa
-            ]
-        );
-        
-        // Auditoria erregistroa sortu
-        $this->auditoria->erregistratu(
-            'DOKUMENTUA_SAILKATU',
-            ['dokumentu_id' => $dokumentuId, 'sailkapena' => $sailkapena]
-        );
-    }
-    
-    /**
-     * Dokumentuari ur-marka gehitu
-     */
-    public function ur_marka_gehitu(string $fitxategiBidea, string $sailkapena): void {
-        // PDF ur-marka
-        // ...
-    }
-}
+| Requisito | Estado | Implementación |
+|-----------|--------|----------------|
+| **RA1** - Fundamentos OOP | ✅ 100% | Código PHP 8.4 full OOP con PSR-4 |
+| **RA2** - Clases y constructores | ✅ 100% | 25 clases con constructores documentados |
+| **RA3** - Herencia y polimorfismo | ✅ 100% | Jerarquía de clases implementada |
+
+#### RA5: Nivel de Seguridad de Aplicaciones
+
+| Requisito | Estado | Implementación |
+|-----------|--------|----------------|
+| **RA5.a** - Niveles de verificación (ASVS) | ✅ 100% | OWASP ASVS Level 2 implementado |
+| **RA5.b** - Identificar nivel requerido | ✅ 100% | Portal RRHH = ASVS Level 2 (datos sensibles) |
+
+#### RA6: Vulnerabilidades Web
+
+| Requisito | Estado | Implementación | Protección |
+|-----------|--------|----------------|------------|
+| **RA6.a** - Validación de entradas | ✅ 100% | Validación server-side + client-side | Contra XSS, SQLi |
+| **RA6.b** - Detección de inyecciones | ✅ 100% | Prepared statements + CSP headers | Contra SQLi, XSS |
+| **RA6.c** - Algoritmos criptográficos seguros | ✅ 100% | bcrypt (passwords) + AES-256-GCM (datos) | OWASP Top 10 A02:2021 |
+
+**Checklist OWASP Top 10 (2021):**
+
+- ✅ **A01:2021 - Broken Access Control**: RBAC implementado, pruebas de autorización
+- ✅ **A02:2021 - Cryptographic Failures**: TLS 1.3, bcrypt, AES-256
+- ✅ **A03:2021 - Injection**: Prepared statements, validación estricta
+- ✅ **A04:2021 - Insecure Design**: Threat modeling completado
+- ✅ **A05:2021 - Security Misconfiguration**: Hardening con CIS Benchmarks
+- ✅ **A06:2021 - Vulnerable Components**: Dependabot + actualizaciones mensuales
+- ✅ **A07:2021 - Identification and Authentication**: MFA obligatorio, JWT
+- ✅ **A08:2021 - Software and Data Integrity**: Code signing, SRI
+- ✅ **A09:2021 - Security Logging**: Logging completo + SIEM
+- ✅ **A10:2021 - SSRF**: Whitelist de URLs, validación
+
+#### RA7: Seguridad Móvil
+
+| Requisito | Estado | Implementación |
+|-----------|--------|----------------|
+| **RA7.a** - Modelos de permisos móviles | ✅ 100% | Android 15 runtime permissions |
+| **RA7.b** - Almacenamiento seguro | ✅ 100% | EncryptedSharedPreferences + Keystore |
+
+**Seguridad Android Implementada:**
+- Certificate pinning (anti MITM)
+- Root detection
+- Debugger detection
+- ProGuard/R8 ofuscación
+- Biometric authentication
+
+#### RA8: Sistemas de Despliegue Seguro
+
+| Requisito | Estado | Implementación |
+|-----------|--------|----------------|
+| **RA8.a** - DevOps/DevSecOps | ✅ 100% | Pipeline CI/CD con GitHub Actions |
+| **RA8.b** - Control de versiones | ✅ 100% | Git + GitFlow workflow |
+| **RA8.c** - Integración continua | ✅ 100% | Tests automáticos + SAST + DAST |
+
+**Pipeline DevSecOps:**
+
+```yaml
+# .github/workflows/security-scan.yml
+Pausoak:
+1. Kodea Eskaneatu (SAST)
+   - SonarQube
+   - PHPStan (nivel 9)
+   - Psalm
+   
+2. Dependentziak Eskaneatu
+   - OWASP Dependency Check
+   - Snyk
+   
+3. Sekretoak Detektatu
+   - GitLeaks
+   - TruffleHog
+   
+4. Container Eskaneatu
+   - Trivy
+   - Grype
+   
+5. DAST Eskaneatu
+   - OWASP ZAP
+   - Nuclei
+   
+6. Kode Kalitatea
+   - PHPUnit (90%+ coverage)
+   - PHP_CodeSniffer (PSR-12)
 ```
 
-**Deliverables:**
-- Classification system implementation
-- Document watermarking module
-- Classification UI components
-- Classification documentation
-
 ---
 
-### Phase 4: Automated Compliance Monitoring (Weeks 17-20)
+### 4. Auzitegi-analisi Informatikoa (Análisis Forense)
 
-**Objective:** Implement automated compliance validation and monitoring
+| Requisito | Estado | Implementación | **PENDIENTE** |
+|-----------|--------|----------------|---------------|
+| **RA2** - Análisis forense en PCs | ⚠️ 30% | Procedimiento básico documentado | Falta práctica + herramientas |
+| **RA3** - Análisis forense móvil | ⚠️ 20% | Plantilla de cadena de custodia | Falta formación en Cellebrite |
+| **RA4** - Análisis forense Cloud | ⚠️ 40% | Logs de Google Cloud capturados | Falta análisis avanzado |
+| **RA5** - Análisis forense IoT | ❌ 0% | No aplicable (sin IoT en RRHH) | N/A |
+| **RA6** - Documentación pericial | ⚠️ 50% | Plantilla de informe pericial | Falta validación legal |
 
-#### Week 17-18: Compliance Monitoring Platform
+**ACCIONES REQUERIDAS (Análisis Forense):**
 
-**Tasks:**
-1. **Create Compliance Database Schema** (1 day)
-   - Controls table
-   - Evidence table
-   - Audit findings table
-   - Compliance scores table
+**Escenario de Práctica:** Simulación de ransomware en entorno de laboratorio
 
-2. **Implement Automated Control Testing** (4 days)
-   - Password policy compliance checker
-   - Access control audit scripts
-   - Encryption verification scripts
-   - Log retention compliance checker
-   - Backup verification scripts
+**Fase 1: Preparación (Semana 1)**
+```bash
+# 1. Crear entorno de laboratorio aislado
+$ docker-compose -f docker-compose.forensics-lab.yml up -d
 
-3. **Evidence Collection Automation** (2 days)
-   - Screenshot capture for manual controls
-   - Log export automation
-   - Configuration snapshot automation
+# 2. Instalar herramientas forenses
+$ sudo apt install sleuthkit autopsy foremost bulk_extractor
 
-**Code Example (Automated Control Testing):**
-
-```php
-/**
- * Betetze Proba Automatikoak
- */
-class BetetzeProbak {
-    /**
-     * A.8.5 - Autentifikazio Segurua
-     * Balioztatu pasahitz politika betetzea
-     */
-    public function pasahitz_politika_probatu(): ProbaEmaitza {
-        $emaitzak = [];
-        
-        // Konplexutasuna egiaztatu
-        $ahulPasahitzak = $this->db->query(
-            "SELECT COUNT(*) as kopurua FROM erabiltzaileak
-             WHERE LENGTH(pasahitz_hash) < 60" // bcrypt hash-ak gutxienez 60 karaktere
-        );
-        
-        if ($ahulPasahitzak['kopurua'] > 0) {
-            $emaitzak[] = new ProbaHutsegitea(
-                'Pasahitz ahulak aurkitu dira',
-                gravitatea: 'ALTUA'
-            );
-        }
-        
-        // MFA betetzea
-        $mfaGabeak = $this->db->query(
-            "SELECT COUNT(*) as kopurua FROM erabiltzaileak
-             WHERE rola IN ('admin', 'hr_manager')
-             AND mfa_gaituta = FALSE"
-        );
-        
-        if ($mfaGabeak['kopurua'] > 0) {
-            $emaitzak[] = new ProbaHutsegitea(
-                'Pribilegiodun erabiltzaileak MFA gabe',
-                gravitatea: 'KRITIKOA'
-            );
-        }
-        
-        return new ProbaEmaitza(
-            kontrol_id: 'A.8.5',
-            egoeraOna: empty($emaitzak),
-            hutsegiteak: $emaitzak
-        );
-    }
-    
-    /**
-     * A.8.15 - Erregistro (Logging)
-     * Balioztatu log atxikipena
-     */
-    public function log_atxikipen_probatu(): ProbaEmaitza {
-        // Egiaztatu log-ak 2 urte artean gordeta daudela
-        $zaharregoData = $this->db->query(
-            "SELECT MIN(data) as min_data FROM auditoria_erregistroak"
-        );
-        
-        $zaharregoDiff = (new DateTime())->diff(new DateTime($zaharregoData['min_data']));
-        
-        if ($zaharregoDiff->y < 2) {
-            return new ProbaEmaitza(
-                kontrol_id: 'A.8.15',
-                egoeraOna: true,
-                mezua: 'Log atxikipena zuzena (2+ urte)'
-            );
-        }
-        
-        return new ProbaEmaitza(
-            kontrol_id: 'A.8.15',
-            egoeraOna: false,
-            hutsegiteak: [
-                new ProbaHutsegitea(
-                    'Log atxikipena 2 urte baino gutxiago',
-                    gravitatea: 'ERTAINA'
-                )
-            ]
-        );
-    }
-}
+# 3. Preparar sistema de captura
+$ sudo dd if=/dev/sda of=/mnt/evidence/disk.img bs=4M conv=sync,noerror
+$ sha256sum /mnt/evidence/disk.img > disk.img.sha256
 ```
 
-**Deliverables:**
-- `Zabala Gailetak/hr-portal/src/Betetze/BetetzeProbak.php`
-- Automated test suite (20+ controls)
-- Evidence collection scripts
-- Test execution scheduler
+**Fase 2: Análisis (Semana 2)**
+1. **RA2.a - Análisis de sistemas de ficheros:**
+   - Montar imagen forense (read-only)
+   - Analizar MFT (Master File Table) NTFS
+   - Recuperar ficheros eliminados con `foremost`
+   - Analizar metadatos con `exiftool`
 
-#### Week 19-20: Compliance Dashboard
+2. **RA2.b - Recuperación de ficheros eliminados:**
+   - Usar Autopsy para timeline analysis
+   - Recuperar Shadow Copies
+   - Analizar papelera de reciclaje
 
-**Tasks:**
-1. **Dashboard Backend API** (2 days)
-   - Compliance score calculation
-   - Control status endpoints
-   - Evidence management API
-   - Audit trail API
+3. **RA2.c - Análisis de malware:**
+   - Extraer muestras sospechosas
+   - Análisis estático (strings, PE headers)
+   - Análisis dinámico (sandboxing con Cuckoo)
+   - Análisis de comportamiento (IOCs - Indicators of Compromise)
 
-2. **Dashboard Frontend** (3 days)
-   - Control status visualization
-   - Compliance score gauge
-   - Evidence repository interface
-   - Audit findings list
+**Fase 3: Android Forensics (Semana 3)**
+1. **RA3.a - Proceso de adquisición:**
+   ```bash
+   # Captura lógica (sin root)
+   $ adb backup -apk -shared -all -f backup.ab
+   
+   # Captura física (con root)
+   $ adb shell
+   # dd if=/dev/block/mmcblk0 of=/sdcard/device.img
+   ```
 
-3. **Reporting Engine** (2 days)
-   - Generate compliance reports (PDF)
-   - Automated report scheduling
-   - Report distribution via email
+2. **RA3.b - Extracción y análisis:**
+   - Analizar WhatsApp DBs (msgstore.db)
+   - Extraer historial de llamadas
+   - Recuperar fotos eliminadas
+   - Análisis de geolocalización
 
-**Dashboard Features:**
+**Fase 4: Cloud Forensics (Semana 4)**
+1. **RA4.a - Estrategia de análisis Cloud:**
+   - Capturar logs de Google Workspace
+   - Analizar audit logs de AWS
+   - Preservar evidencias volátiles (memoria, network captures)
+
+2. **RA4.b - Identificar causa, alcance e impacto:**
+   - Timeline de eventos
+   - Análisis de lateral movement
+   - Identificar data exfiltration
+
+**Fase 5: Informe Pericial (Semana 5)**
+1. **RA6.a - Definir alcance del informe:**
+   - Identificar destinatario (juez, fiscal, abogado)
+   - Establecer objetivos del informe
+   - Definir preguntas a responder
+
+2. **RA6.b - Normativa legal:**
+   - Ley de Enjuiciamiento Criminal (LECrim)
+   - Código Penal - Delitos informáticos
+   - RGPD - Tratamiento de datos personales
+   - Cadena de custodia
+
+**Entregables Forenses:**
+- `compliance/forense/prozedura_forensikoa.md`
+- `compliance/forense/kustodio_katea_txantiloia.md`
+- `compliance/forense/peritaje_txosten_txantiloia.md`
+- Informe de práctica de ransomware (caso simulado)
+
+---
+
+### 5. Hacking Etikoa (Hacking Ético)
+
+| Requisito | Estado | Implementación | **AUDITORÍA EXTERNA** |
+|-----------|--------|----------------|-----------------------|
+| **RA2** - Ataques a redes inalámbricas | ⚠️ 60% | WiFi corporativo con WPA3-Enterprise | Falta auditoría externa |
+| **RA3** - Ataques a redes y sistemas | ⚠️ 50% | Análisis de vulnerabilidades con Nessus | Falta pentest completo |
+| **RA4** - Post-explotación | ❌ 0% | No realizado | Pendiente auditoría |
+| **RA5** - Ataques a aplicaciones web | ⚠️ 70% | OWASP ZAP automático | Falta pentesting manual |
+| **RA6** - Análisis de apps móviles | ⚠️ 40% | Análisis estático con MobSF | Falta reversing completo |
+
+**PLAN DE AUDITORÍA DE SEGURIDAD (Hacking Ético):**
+
+**Contratar empresa externa certificada** (OSCP, CEH) para auditoría completa:
+
+**Fase 1: Reconocimiento (Semana 1)**
+- ✅ Recopilación pasiva de información (OSINT)
+- ✅ Mapeo de red interna/externa
+- ✅ Identificación de activos críticos
+
+**Fase 2: Análisis de Vulnerabilidades (Semana 2)**
+```bash
+# RA3.a - Reconocimiento pasivo
+$ whois zabalagailetak.com
+$ nslookup zabalagailetak.com
+$ theHarvester -d zabalagailetak.com -b google
+
+# RA3.b - Reconocimiento activo (con autorización)
+$ nmap -sV -sC -O -p- 192.168.100.0/24
+$ nikto -h https://portal.zabalagailetak.com
+$ masscan -p1-65535 192.168.100.0/24 --rate=1000
+```
+
+**Fase 3: Explotación (Semana 3)**
+- ⚠️ **RA4.a** - Administración remota (Metasploit, Empire)
+- ⚠️ **RA4.b** - Cracking de contraseñas (Hashcat, John the Ripper)
+- ⚠️ Privilege escalation
+- ⚠️ Lateral movement
+
+**Fase 4: Web Application Pentesting (Semana 4)**
+```bash
+# RA5.a - Identificar sistemas de autenticación
+$ whatweb https://portal.zabalagailetak.com
+$ wappalyzer
+
+# RA5.b - Buscar y explotar vulnerabilidades web
+$ sqlmap -u "https://portal.zabalagailetak.com/api/employees?id=1" --batch
+$ xsser -u "https://portal.zabalagailetak.com/search" --auto
+$ nikto -h https://portal.zabalagailetak.com -Tuning x 6
+```
+
+**Fase 5: Mobile App Pentesting (Semana 5)**
+```bash
+# RA6.a - Análisis estático
+$ apktool d ZabalaRRHH.apk
+$ grep -r "api_key" ZabalaRRHH/
+$ jadx ZabalaRRHH.apk # Decompilación
+
+# RA6.b - Análisis de comunicaciones
+$ mitmproxy # Interceptar tráfico HTTPS
+$ frida -U -f com.zabalagailetak.rrhh # Dynamic instrumentation
+```
+
+**Fase 6: Wireless Pentesting (Semana 6)**
+```bash
+# RA2.a - Modos de tarjeta inalámbrica
+$ airmon-ng start wlan0
+
+# RA2.b - Técnicas de encriptación
+$ airodump-ng wlan0mon # Capturar tráfico
+$ aircrack-ng -w /usr/share/wordlists/rockyou.txt captura.cap
+```
+
+**Entregables de Auditoría:**
+- Informe ejecutivo (para dirección)
+- Informe técnico detallado (para IT)
+- Lista priorizada de vulnerabilidades (CVSS scores)
+- Plan de remediación
+- Re-test tras correcciones
+
+**Coste estimado:** 12.000€ - 18.000€ (empresa externa)
+
+---
+
+### 6. Araudia (Normativa y Compliance)
+
+#### RA1: Puntos de Aplicación de Cumplimiento
+
+| Requisito | Estado | Implementación |
+|-----------|--------|----------------|
+| **RA1.a** - Bases de cumplimiento normativo | ✅ 100% | ISO 27001:2022 + GDPR + ENS |
+| **RA1.b** - Principios de buen gobierno | ✅ 100% | Código ético + políticas documentadas |
+
+#### RA2: Legislación Aplicable
+
+| Requisito | Estado | Implementación |
+|-----------|--------|----------------|
+| **RA2.a** - Normativa principal | ✅ 100% | LOPD-GDD, LSSI-CE, Código Penal |
+| **RA2.b** - Recomendaciones por tipo de organización | ✅ 100% | Guías CCN-CERT aplicadas |
+
+#### RA4: Protección de Datos Personales
+
+| Requisito | Estado | Implementación |
+|-----------|--------|----------------|
+| **RA4.a** - Fuentes jurídicas GDPR | ✅ 100% | Reglamento (UE) 2016/679 + LOPD-GDD |
+| **RA4.b** - Principios de protección de datos | ✅ 100% | 6 principios GDPR implementados |
+
+**Principios GDPR Implementados:**
+
+1. ✅ **Licitud, lealtad y transparencia**
+   - Avisos de privacidad claros
+   - Base legal identificada para cada tratamiento
+   - Información accesible en euskara
+
+2. ✅ **Limitación de la finalidad**
+   - Registro de Actividades de Tratamiento (RAT)
+   - Finalidades específicas documentadas
+   - No reutilización incompatible
+
+3. ✅ **Minimización de datos**
+   - Solo datos necesarios para RRHH
+   - Revisión periódica de formularios
+   - Eliminación de campos innecesarios
+
+4. ✅ **Exactitud**
+   - Procedimiento de actualización de datos
+   - Derecho de rectificación implementado
+   - Validación de datos en formularios
+
+5. ✅ **Limitación del plazo de conservación**
+   - Plazos de conservación definidos:
+     - Datos de nómina: 4 años (fiscal)
+     - Datos de contratación: 4 años (laboral)
+     - Datos de candidatos no seleccionados: 1 año
+   - Eliminación automática tras vencimiento
+
+6. ✅ **Integridad y confidencialidad**
+   - Cifrado en tránsito (TLS 1.3)
+   - Cifrado en reposo (AES-256)
+   - Control de acceso RBAC
+   - Auditoría completa
+
+**Derechos ARCO-POL Implementados:**
+
+- ✅ **Acceso**: API `/api/datu-pertsonalak/nireakoak`
+- ✅ **Rectificación**: Formulario de actualización
+- ✅ **Supresión**: "Derecho al olvido" con excepciones legales
+- ✅ **Oposición**: Formulario de oposición
+- ✅ **Portabilidad**: Exportación JSON/CSV
+- ✅ **Limitación del tratamiento**: Flag en base de datos
+
+**Evaluación de Impacto (EIPD/DPIA):**
+
+```markdown
+# EIPD - Portal RRHH Zabala Gailetak
+
+## 1. Descripción del tratamiento
+- Datos personales: Nombre, DNI, email, teléfono, nóminas, contratos
+- Datos especiales (Categoría especial): Datos de salud (bajas médicas)
+- Finalidad: Gestión de RRHH
+- Legitimación: Contrato laboral + obligación legal
+
+## 2. Necesidad y proporcionalidad
+✅ Necesario para gestión laboral
+✅ Proporcional (solo datos necesarios)
+✅ Minimización aplicada
+
+## 3. Riesgos identificados
+| Riesgo | Probabilidad | Impacto | Medida mitigadora |
+|--------|-------------|---------|-------------------|
+| Acceso no autorizado | Media | Alto | MFA obligatorio + RBAC |
+| Fuga de datos | Baja | Muy Alto | Cifrado + DLP + Auditoría |
+| Ransomware | Media | Alto | Backups offline + EDR |
+
+## 4. Conclusión
+✅ Riesgos residuales aceptables tras medidas implementadas
+✅ No se requiere consulta previa a AEPD
+```
+
+#### RA5: Normativa de Ciberseguridad
+
+| Requisito | Estado | Implementación |
+|-----------|--------|----------------|
+| **RA5.a** - Plan de revisión de normativa | ✅ 100% | Revisión trimestral + suscripción BOE |
+| **RA5.b** - Consulta de bases de datos jurídicas | ✅ 100% | Acceso a INCIBE + CCN-CERT + AEPD |
+
+**Normativa Aplicable Revisada:**
+
+- ✅ **Reglamento (UE) 2016/679 (GDPR)**
+- ✅ **Ley Orgánica 3/2018 (LOPD-GDD)**
+- ✅ **Real Decreto 311/2022 (ENS - Esquema Nacional de Seguridad)**
+- ✅ **Directiva NIS2 (transpuesta a legislación española)**
+- ✅ **Código Penal - Delitos informáticos (arts. 197-201)**
+- ✅ **Ley 34/2002 (LSSI-CE) - Servicios de la Sociedad de la Información**
+
+---
+
+## Competencias Transversales (Zeharkakoak)
+
+### Evaluación y Ponderación
+
+**Distribución de Notas:**
+- **Nota de equipo (Competencias Técnicas):** 50%
+- **Nota individual (Competencias Transversales):** 50%
+
+#### 1. Autonomía (25% - Evaluado por Profesores)
+
+**Criterios de Evaluación:**
+
+| Nivel | Descripción | Puntuación |
+|-------|-------------|------------|
+| **Excelente** | Capacidad de resolver problemas complejos sin supervisión. Toma decisiones técnicas fundamentadas. | 9-10 |
+| **Notable** | Requiere supervisión ocasional. Resuelve la mayoría de problemas de forma independiente. | 7-8 |
+| **Aprobado** | Requiere supervisión regular. Resuelve problemas básicos de forma autónoma. | 5-6 |
+| **Insuficiente** | Dependencia constante del profesor. No toma iniciativas. | 0-4 |
+
+**Evidencias de Autonomía:**
+- Resolución de problemas técnicos sin intervención del profesor
+- Investigación de tecnologías no explicadas en clase
+- Propuestas de mejora técnica documentadas
+- Debugging avanzado sin ayuda
+
+#### 2. Implicación (25% - Evaluado por Profesores y Estudiantes)
+
+**Criterios de Evaluación:**
+
+| Aspecto | Indicadores | Peso |
+|---------|------------|------|
+| **Asistencia** | >95% asistencia = 10 pts, <80% = 0 pts | 30% |
+| **Puntualidad** | Llegadas tarde <3 = 10 pts, >10 = 0 pts | 20% |
+| **Participación** | Contribuciones activas en clase y equipo | 30% |
+| **Calidad del trabajo** | Esfuerzo y dedicación visible en entregas | 20% |
+
+**Auto-evaluación de Implicación (Estudiantes):**
 
 ```
-╔════════════════════════════════════════════════════════════╗
-║        ZABALA GAILETAK - BETETZE PANELA                    ║
-╠════════════════════════════════════════════════════════════╣
-║                                                             ║
-║  ISO 27001 Betetzea: ████████████░░ 93%                   ║
-║  GDPR Betetzea:      ██████████████ 100%                  ║
-║  IEC 62443 Betetzea: ████████░░░░░░ 78%                   ║
-║                                                             ║
-║  ┌─────────────────────────────────────────────────────┐  ║
-║  │ KONTROL EGOERA LABURPENA                            │  ║
-║  ├─────────────────────────────────────────────────────┤  ║
-║  │  ✅ Inplementatuta:          87 kontrol             │  ║
-║  │  ⚠️  Partzialki:              6 kontrol             │  ║
-║  │  ❌ Ez inplementatuta:        0 kontrol             │  ║
-║  └─────────────────────────────────────────────────────┘  ║
-║                                                             ║
-║  ┌─────────────────────────────────────────────────────┐  ║
-║  │ AZKEN AUDITORIA AURKIKUNTZAK                        │  ║
-║  ├─────────────────────────────────────────────────────┤  ║
-║  │  • A.7.7 - Mahai garbia politika hobetzea           │  ║
-║  │  • A.8.11 - Datu maskaratzea hedatu                │  ║
-║  │  • A.8.14 - Erredundantzia geografikoa             │  ║
-║  └─────────────────────────────────────────────────────┘  ║
-║                                                             ║
-║  [📊 Txosten Osoa]  [📋 Ebidentzia Biltegia]              ║
-╚════════════════════════════════════════════════════════════╝
+Escala 1-10:
+- Asistencia y puntualidad: ___/10
+- Participación en reuniones de equipo: ___/10
+- Calidad de mis contribuciones: ___/10
+- Cumplimiento de deadlines: ___/10
+
+Promedio: ___/10
 ```
 
-**Deliverables:**
-- Compliance dashboard (React app)
-- Backend API for compliance data
-- PDF report generator
-- Dashboard documentation
+#### 3. Comunicación Oral (20% - Presentación)
+
+**Criterios de Evaluación de la Presentación Final:**
+
+| Aspecto | Excelente (9-10) | Notable (7-8) | Aprobado (5-6) | Insuficiente (0-4) |
+|---------|------------------|---------------|----------------|---------------------|
+| **Claridad** | Explicación cristalina, sin ambigüedades | Explicación clara con detalles menores | Explicación comprensible con confusiones | Explicación confusa |
+| **Estructura** | Lógica impecable, fácil de seguir | Buena estructura con transiciones | Estructura básica | Sin estructura clara |
+| **Dominio técnico** | Responde todas las preguntas con seguridad | Responde mayoría de preguntas | Responde preguntas básicas | No domina la materia |
+| **Uso de apoyos visuales** | Diapositivas excepcionales, demos en vivo | Diapositivas buenas, alguna demo | Diapositivas básicas | Diapositivas pobres o sin ellas |
+| **Euskara técnico** | Terminología técnica correcta en euskara | Buen uso con algún anglicismo | Uso básico, muchos anglicismos | Uso incorrecto |
+
+**Estructura de Presentación Recomendada (30 min):**
+
+1. **Introducción (3 min)**
+   - Contexto del proyecto
+   - Objetivos del erronka
+   - Alcance de la solución
+
+2. **Arquitectura y Diseño (8 min)**
+   - Diagrama de arquitectura
+   - Decisiones técnicas clave
+   - Justificación de tecnologías
+
+3. **Implementación de Seguridad (10 min)**
+   - Controles ISO 27001 implementados
+   - Cumplimiento GDPR
+   - Hardening de sistemas
+   - Demo en vivo de seguridad (MFA, RBAC, auditoría)
+
+4. **Desarrollo Seguro y DevSecOps (5 min)**
+   - Pipeline CI/CD con seguridad integrada
+   - Pruebas de seguridad automatizadas
+   - Demo de análisis SAST/DAST
+
+5. **Análisis Forense y Respuesta a Incidentes (3 min)**
+   - Procedimientos implementados
+   - Caso práctico simulado (ransomware)
+
+6. **Conclusiones y Lecciones Aprendidas (1 min)**
+   - Logros principales
+   - Retos superados
+   - Mejoras futuras
+
+**Q&A (10-15 min adicionales)**
+
+#### 4. Trabajo en Equipo (30%)
+
+**Criterios de Evaluación:**
+
+| Aspecto | Indicadores | Peso |
+|---------|------------|------|
+| **Colaboración** | Ayuda activa a compañeros, comparte conocimiento | 30% |
+| **Resolución de conflictos** | Maneja desacuerdos de forma constructiva | 20% |
+| **Cumplimiento de compromisos** | Entrega tareas asignadas a tiempo | 30% |
+| **Comunicación interna** | Mantiene al equipo informado, usa canales adecuados | 20% |
+
+**Evaluación Inter-pares (Anónima):**
+
+```
+Evalúa a cada compañero de equipo (escala 1-10):
+
+Compañero 1: [Nombre]
+- Colaboración y ayuda mutua: ___/10
+- Calidad de su trabajo: ___/10
+- Cumplimiento de plazos: ___/10
+- Comunicación efectiva: ___/10
+- Comentarios adicionales: ________________
+
+[Repetir para cada compañero]
+
+Promedio del equipo: ___/10
+```
 
 ---
 
-### Phase 5: Training & Rollout (Weeks 21-22)
+## Desarrollo y Evaluación del Proyecto
 
-**Objective:** Train staff and deploy compliance implementations
+### Planificación (20% de Desarrollo)
 
-#### Week 21: Staff Training
+**Entregables de Planificación:**
 
-**Tasks:**
-1. **IT Team Training** (2 days)
-   - New Basque codebase orientation
-   - DLP system operation
-   - Compliance monitoring platform
-   - Incident response procedures
+1. **Plan de Proyecto (Semana 1)**
+   - ✅ Diagrama de Gantt (46 sesiones)
+   - ✅ Reparto de tareas por miembro
+   - ✅ Hitos y deadlines
+   - ✅ Identificación de dependencias
 
-2. **HR Team Training** (1 day)
-   - GDPR compliance procedures
-   - Data subject rights handling
-   - Consent management
-   - Breach notification procedures
+**Ejemplo de Planificación:**
 
-3. **General Employee Training** (2 days)
-   - Security awareness (Basque materials)
-   - Data protection basics
-   - Clear desk policy
-   - Incident reporting
+```
+SEMANA 1-2: Fundación y Diseño
+├─ Tarea 1.1: Análisis de requisitos ER4 [Jon - 6h]
+├─ Tarea 1.2: Diseño de arquitectura [Ane - 8h]
+├─ Tarea 1.3: Diseño de base de datos [Mikel - 6h]
+└─ Tarea 1.4: Plan de seguridad inicial [Leire - 6h]
 
-**Deliverables:**
-- Training materials in Basque
-- Training completion certificates
-- Training feedback surveys
+SEMANA 3-6: Implementación Backend
+├─ Tarea 2.1: API REST [Jon + Ane - 20h]
+├─ Tarea 2.2: Autenticación MFA [Mikel - 12h]
+├─ Tarea 2.3: Sistema de auditoría [Leire - 10h]
+└─ Tarea 2.4: Testing unitario [Todos - 8h]
 
-#### Week 22: Production Deployment & Validation
+[... continuar para 46 sesiones]
+```
 
-**Tasks:**
-1. **Staged Rollout** (3 days)
-   - Deploy to staging environment
-   - Execute UAT (User Acceptance Testing)
-   - Performance testing
-   - Security testing
+2. **Registro de Riesgos del Proyecto**
 
-2. **Production Deployment** (1 day)
-   - Database migration
-   - Application deployment
-   - Configuration validation
-   - Smoke testing
+| Riesgo | Probabilidad | Impacto | Mitigación | Responsable |
+|--------|-------------|---------|------------|-------------|
+| Miembro del equipo enferma | Media | Alto | Documentación clara + pair programming | Todos |
+| Tecnología no funciona como esperado | Baja | Alto | PoC temprano + alternativas identificadas | Jon |
+| Retrasos en entregas | Alta | Medio | Buffer de 10% en estimaciones | Ane |
 
-3. **Post-Deployment Validation** (1 day)
-   - Compliance checks
-   - Security scan
-   - Performance monitoring
-   - User feedback collection
+### Documentación (40% de Desarrollo)
 
-**Deliverables:**
-- Deployment runbook
-- Rollback procedures
-- Go-live checklist
-- Post-deployment validation report
+**Entregables de Documentación (Todo en Euskara):**
 
----
+1. **Documentación Técnica**
+   - ✅ README.md completo
+   - ✅ Guía de instalación paso a paso
+   - ✅ Documentación de API (OpenAPI/Swagger)
+   - ✅ Diagramas de arquitectura (Mermaid/PlantUML)
+   - ✅ Manual de usuario (web + móvil)
 
-## Resource Allocation
+2. **Documentación de Seguridad**
+   - ✅ Plan de Seguridad (este documento)
+   - ✅ Políticas de seguridad (12 documentos)
+   - ✅ Procedimientos operativos (POPs)
+   - ✅ Matriz de riesgos
+   - ✅ Plan de respuesta a incidentes
+   - ✅ EIPD (DPIA)
 
-### Team Requirements
+3. **Documentación de Cumplimiento**
+   - ✅ Registro de Actividades de Tratamiento (RAT)
+   - ✅ Evidencias de controles ISO 27001
+   - ✅ Checklist OWASP
+   - ✅ Informe de análisis forense (caso simulado)
 
-| Role | Allocation | Responsibilities |
-|------|-----------|-----------------|
-| **Security Architect** | Full-time (22 weeks) | Architecture design, security controls, compliance oversight |
-| **Senior Backend Developer** | Full-time (16 weeks) | PHP code translation, DLP implementation, compliance APIs |
-| **Database Administrator** | Half-time (4 weeks) | Schema translation, replication setup, performance tuning |
-| **Android Developer** | Full-time (2 weeks) | Kotlin code translation, mobile security |
-| **DevOps Engineer** | Half-time (6 weeks) | Geo-redundancy setup, automation, monitoring |
-| **Technical Writer** | Half-time (4 weeks) | Documentation in Basque, procedure writing |
-| **Compliance Specialist** | Half-time (22 weeks) | Policy development, audit preparation, training |
-| **Translator (Native Euskara)** | As needed | Code/documentation review, terminology validation |
+**Criterios de Calidad de Documentación:**
 
-### Estimated Effort
+- **Completitud:** Cubre todos los aspectos del proyecto
+- **Claridad:** Lenguaje técnico preciso en euskara
+- **Estructura:** Organización lógica con índices
+- **Actualización:** Refleja el estado actual del proyecto
+- **Utilidad:** Permite a un tercero entender y reproducir el trabajo
 
-| Phase | Duration | Effort (Person-Days) |
-|-------|----------|----------------------|
-| Phase 1: Documentation | 4 weeks | 40 days |
-| Phase 2: Code Translation | 6 weeks | 120 days |
-| Phase 3: Security Controls | 6 weeks | 90 days |
-| Phase 4: Compliance Monitoring | 4 weeks | 60 days |
-| Phase 5: Training & Rollout | 2 weeks | 30 days |
-| **TOTAL** | **22 weeks** | **340 days** |
+### Puntos de Control / Seguimiento (40% de Desarrollo)
 
----
+**Puntos de Control Obligatorios:**
 
-## Success Criteria
+| Sesión | Hito | Entregables | % Completado |
+|--------|------|-------------|--------------|
+| **Sesión 10** | Checkpoint 1 | Diseño completo + Plan de seguridad | 20% |
+| **Sesión 20** | Checkpoint 2 | Backend funcional + Auth MFA | 45% |
+| **Sesión 30** | Checkpoint 3 | App móvil + SIEM configurado | 70% |
+| **Sesión 40** | Checkpoint 4 | Testing completo + Documentación | 90% |
+| **Sesión 46** | Entrega Final | Proyecto completo + Presentación | 100% |
 
-### Completion Metrics
+**Formato de Checkpoint (15 min por equipo):**
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| ISO 27001 Control Implementation | 100% (93/93) | All controls fully implemented |
-| GDPR Compliance Score | 100% | All requirements documented & implemented |
-| IEC 62443 Compliance | 100% | OT security fully documented |
-| Code Translation | 100% | All PHP/Kotlin/SQL in Basque |
-| Automated Tests Coverage | 90%+ | Compliance tests automated |
-| Documentation Completeness | 100% | All gaps filled, in Basque |
-| Training Completion | 100% | All staff trained and certified |
+1. Demo en vivo (5 min)
+2. Revisión de código (3 min)
+3. Estado de documentación (2 min)
+4. Q&A y feedback (5 min)
 
-### Quality Gates
+**Rúbrica de Evaluación de Checkpoints:**
 
-Each phase must pass these gates before proceeding:
-
-**Phase 1 Gate:**
-- ✅ All documentation reviewed by compliance specialist
-- ✅ Basque language validated by native speaker
-- ✅ Documentation approved by management
-
-**Phase 2 Gate:**
-- ✅ All code translated and reviewed
-- ✅ Unit tests pass with translated code
-- ✅ No performance degradation
-- ✅ Database migration tested successfully
-
-**Phase 3 Gate:**
-- ✅ All security controls tested
-- ✅ Penetration testing passed
-- ✅ No critical vulnerabilities
-- ✅ Performance benchmarks met
-
-**Phase 4 Gate:**
-- ✅ Compliance dashboard functional
-- ✅ Automated tests running on schedule
-- ✅ Reports generating correctly
-- ✅ Evidence collection working
-
-**Phase 5 Gate:**
-- ✅ All training completed
-- ✅ Production deployment successful
-- ✅ No critical issues in first week
-- ✅ Compliance validated
+| Aspecto | Peso | Criterio |
+|---------|------|----------|
+| Funcionalidad demo | 40% | ¿Funciona lo mostrado? ¿Sin bugs críticos? |
+| Calidad de código | 30% | ¿Código limpio? ¿Buenas prácticas? ¿Tests? |
+| Progreso vs plan | 20% | ¿Se cumple el cronograma? |
+| Documentación actualizada | 10% | ¿Documentación al día? |
 
 ---
 
-## Risks & Mitigation
+## Cronograma Detallado (46 Sesiones)
 
-### High-Priority Risks
+### Enero 2026
 
-| Risk | Impact | Probability | Mitigation Strategy |
-|------|--------|-------------|---------------------|
-| **Code translation breaks functionality** | High | Medium | • Extensive unit testing<br>• Staged rollout<br>• Parallel running (old vs new)<br>• Comprehensive regression testing |
-| **Database migration causes downtime** | High | Low | • Practice migrations in staging<br>• Create rollback scripts<br>• Schedule during maintenance window<br>• Use online migration tools |
-| **Performance degradation** | Medium | Low | • Performance benchmarking<br>• Load testing before production<br>• Database query optimization<br>• Caching strategies |
-| **Euskara terminology inconsistency** | Medium | Medium | • Create comprehensive glossary<br>• Native speaker review<br>• Consistent naming conventions<br>• Documentation standards |
-| **Staff resistance to changes** | Medium | Medium | • Early communication<br>• Comprehensive training<br>• Involve key stakeholders<br>• Phased adoption |
-| **Compliance audit failure** | High | Low | • Internal pre-audit<br>• External consultant review<br>• Gap analysis before audit<br>• Evidence preparation |
+| Fecha | Sesión | Actividad | Entregable |
+|-------|--------|-----------|------------|
+| 7 Ene | 1 | Presentación Erronka 3 (clase) | - |
+| 8 Ene | 2 | Clase teórica | - |
+| 9 Ene | 3 | Clase teórica | - |
+| 12-23 Ene | 4-9 | Clases teóricas | - |
+| 26-29 Ene | - | **EXÁMENES** | - |
+| 30 Ene | 10 | Erronka 4 - Propuesta | **Propuesta proyecto** |
 
----
+### Febrero 2026
 
-## Deliverables Summary
+| Fecha | Actividad | Hito |
+|-------|-----------|------|
+| 2-6 Feb | Sesiones 11-15: Análisis y Diseño | Arquitectura definida |
+| 9-13 Feb | Sesiones 16-20: Implementación Backend | **Checkpoint 1** (20%) |
+| 16-18 Feb | JAI EGUNAK (festivos) | - |
+| 19-20 Feb | Sesiones 21-22: Continuación Backend | - |
+| 23-27 Feb | Sesiones 23-27: Seguridad + SIEM | MFA implementado |
 
-### Documentation (Phase 1)
+### Marzo 2026
 
-1. **ISO 27001 SGSI Documents** (Basque)
-   - [ ] Data Classification Manual
-   - [ ] Clear Desk Policy v2
-   - [ ] Data Masking Procedures
-   - [ ] DLP Policy
-   - [ ] Geographic Redundancy Architecture
-
-2. **GDPR Documents** (Basque)
-   - [ ] Consent Management System Documentation
-   - [ ] Data Portability Procedures
-   - [ ] Vendor DPA Template
-   - [ ] Legitimate Interest Assessments
-   - [ ] Training Materials
-
-3. **IEC 62443 Documents** (Basque)
-   - [ ] OT Security Zones Architecture
-   - [ ] Control System Patch Management
-   - [ ] Industrial Network Monitoring Rules
-
-### Code & Implementation (Phases 2-4)
-
-4. **Translated Codebase**
-   - [ ] 25 PHP classes translated to Basque
-   - [ ] 15+ Kotlin files translated
-   - [ ] Database schema translated (20+ tables, 150+ columns)
-   - [ ] All comments and documentation in Basque
-   - [ ] API responses in Basque
-
-5. **Security Implementations**
-   - [ ] DLP Engine (PHP)
-   - [ ] Data Masking Service (PHP)
-   - [ ] Geographic Redundancy Setup
-   - [ ] Classification System
-   - [ ] Enhanced Encryption Layer
-
-6. **Compliance Platform**
-   - [ ] Automated compliance testing suite
-   - [ ] Compliance dashboard (React)
-   - [ ] Evidence repository
-   - [ ] Report generator (PDF)
-   - [ ] Compliance API
-
-### Operations (Phase 5)
-
-7. **Training & Documentation**
-   - [ ] IT Team training materials
-   - [ ] HR Team training materials
-   - [ ] General staff security awareness training
-   - [ ] Training completion certificates
-
-8. **Deployment Artifacts**
-   - [ ] Deployment runbook
-   - [ ] Rollback procedures
-   - [ ] Go-live checklist
-   - [ ] Post-deployment validation report
+| Fecha | Actividad | Hito |
+|-------|-----------|------|
+| 2-6 Mar | Sesiones 28-32: App Android | **Checkpoint 2** (45%) |
+| 9-13 Mar | Sesiones 33-37: Hardening OT | Segmentación red completada |
+| 16-20 Mar | Sesiones 38-42: Testing + Forense | **Checkpoint 3** (70%) |
+| 23 Mar | Sesión 43: Auditoría de seguridad | Informe pentesting |
+| 24 Mar | **PRESENTACIÓN ERRONKA 4** | **Entrega final** |
 
 ---
 
-## Maintenance & Continuous Improvement
+## Entregables Finales
 
-### Ongoing Activities (Post-Implementation)
+### Estructura de Entrega (GitHub Repository)
 
-**Monthly:**
-- Run automated compliance tests
-- Review compliance dashboard
-- Update risk assessments
-- Security awareness communications
+```
+erronka4/
+├── README.md                          # Resumen del proyecto
+├── COMPLIANCE_PLAN.md                 # Este documento
+├── Zabala Gailetak/
+│   ├── hr-portal/                    # Backend PHP
+│   │   ├── src/                      # Código fuente en euskara
+│   │   ├── tests/                    # Tests PHPUnit (90%+ coverage)
+│   │   ├── config/                   # Configuraciones
+│   │   ├── migrations/               # Migraciones DB
+│   │   └── docs/                     # Documentación técnica
+│   │
+│   ├── android-app/                  # App móvil Android
+│   │   ├── app/src/main/kotlin/      # Código Kotlin en euskara
+│   │   ├── app/src/test/             # Tests unitarios
+│   │   └── docs/                     # Documentación Android
+│   │
+│   ├── infrastructure/               # Infraestructura
+│   │   ├── docker/                   # Docker Compose files
+│   │   ├── ansible/                  # Playbooks de hardening
+│   │   ├── terraform/                # IaC para cloud
+│   │   └── ot/                       # Configuración OT
+│   │
+│   ├── security/                     # Seguridad
+│   │   ├── siem/                     # Configuración SIEM
+│   │   ├── dlp/                      # DLP policies
+│   │   ├── firewall/                 # Reglas pfSense
+│   │   └── pentest/                  # Informes de pentesting
+│   │
+│   └── compliance/                   # Cumplimiento
+│       ├── sgsi/                     # ISO 27001 docs
+│       ├── gdpr/                     # GDPR docs
+│       ├── forense/                  # Procedimientos forenses
+│       ├── gorabeherak/              # Respuesta a incidentes
+│       └── training/                 # Materiales de formación
+│
+├── docs/
+│   ├── arquitectura/                 # Diagramas de arquitectura
+│   ├── manuales/                     # Manuales de usuario
+│   └── presentacion/                 # Presentación final (PDF + PPT)
+│
+└── scripts/
+    ├── setup/                        # Scripts de instalación
+    ├── backup/                       # Scripts de backup
+    └── monitoring/                   # Scripts de monitorización
+```
 
-**Quarterly:**
-- Internal compliance audit
-- Update policies and procedures
-- Disaster recovery testing
-- Access rights review
-- Security training refresher
+### Checklist de Entrega Final
 
-**Annually:**
-- External ISO 27001 audit
-- GDPR compliance assessment
-- Penetration testing
-- BCP/DR full test
-- Policy comprehensive review
+**Código y Funcionalidad:**
+- [ ] Todo el código en euskara (PHP, Kotlin, SQL)
+- [ ] Tests unitarios con >90% coverage
+- [ ] Tests de integración pasando
+- [ ] Pipeline CI/CD funcional
+- [ ] Sin vulnerabilidades críticas (SAST/DAST)
+- [ ] Performance benchmarks cumplidos
 
-### Continuous Monitoring
+**Seguridad:**
+- [ ] 93 controles ISO 27001 implementados (100%)
+- [ ] GDPR compliance completo
+- [ ] MFA obligatorio funcionando
+- [ ] RBAC implementado y probado
+- [ ] Auditoría completa funcionando
+- [ ] SIEM configurado con alertas
+- [ ] DLP operativo
+- [ ] Hardening aplicado (CIS Benchmarks)
 
-**Automated Daily Checks:**
-- Password policy compliance
-- MFA enforcement
-- Log retention compliance
-- Backup verification
-- Access control validation
-- Encryption verification
+**OT/IEC 62443:**
+- [ ] Segmentación de red OT implementada
+- [ ] Firewall industrial configurado
+- [ ] PLCs hardened
+- [ ] Monitorización OT en SIEM
 
-**Real-time Monitoring:**
-- SIEM alerts (24/7)
-- DLP policy violations
-- Failed authentication attempts
-- Privilege escalation attempts
-- Data access anomalies
+**Análisis Forense:**
+- [ ] Procedimientos documentados
+- [ ] Caso práctico completado (ransomware simulado)
+- [ ] Informe pericial template
+- [ ] Cadena de custodia implementada
+
+**Hacking Ético:**
+- [ ] Informe de auditoría externa
+- [ ] Vulnerabilidades identificadas corregidas
+- [ ] Re-test completado
+- [ ] Certificado de auditoría
+
+**Documentación:**
+- [ ] Toda la documentación en euskara
+- [ ] README completo con instrucciones
+- [ ] Documentación API (OpenAPI)
+- [ ] Manuales de usuario
+- [ ] Políticas de seguridad (12 docs)
+- [ ] Procedimientos operativos (15+ POPs)
+- [ ] EIPD completada
+
+**Presentación:**
+- [ ] Diapositivas preparadas (euskara)
+- [ ] Demo en vivo probada
+- [ ] Q&A anticipated
+- [ ] Tiempo controlado (30 min)
 
 ---
 
-## Support & Governance
+## Criterios de Éxito del Proyecto
 
-### Project Governance
+### Objetivos Técnicos
 
-**Steering Committee:**
-- CEO (Executive Sponsor)
-- CISO (Project Lead)
-- IT Director
-- HR Director
-- Legal Counsel
-- DPO (Data Protection Officer)
+✅ **Sistema Funcional:**
+- Portal web RRHH completo (login, gestión empleados, vacaciones, nóminas, chat)
+- App móvil Android funcional con todas las features
+- API REST completa y documentada
+- Base de datos PostgreSQL optimizada
 
-**Weekly Status Meetings:**
-- Progress review
-- Risk assessment
-- Issue resolution
-- Decision making
+✅ **Seguridad Robusta:**
+- Cumplimiento ISO 27001:2022 al 100%
+- Cumplimiento GDPR al 100%
+- Sin vulnerabilidades críticas o altas
+- MFA obligatorio para todos los usuarios
+- Cifrado end-to-end
 
-**Monthly Executive Updates:**
-- Progress report
-- Budget review
-- Risk register review
-- Milestone tracking
+✅ **Operacional:**
+- Disponibilidad >99.5%
+- Tiempo de respuesta API <200ms (p95)
+- Backups automáticos diarios
+- Monitorización 24/7 con alertas
 
-### Contact Points
+### Objetivos de Aprendizaje
 
-| Role | Responsibility | Contact |
-|------|---------------|---------|
-| **CISO** | Overall compliance, security architecture | ciso@zabalagailetak.com |
-| **IT Director** | Technical implementation, infrastructure | it@zabalagailetak.com |
-| **DPO** | GDPR compliance, data protection | dpo@zabalagailetak.com |
-| **Project Manager** | Schedule, resources, coordination | pm@zabalagailetak.com |
+✅ **Competencias Técnicas Adquiridas:**
+- Diseño e implementación de SGSI
+- Hardening de sistemas y redes
+- Desarrollo seguro (OWASP)
+- Análisis forense digital
+- Pentesting ético
+- Cumplimiento normativo (GDPR, ISO 27001)
+
+✅ **Competencias Transversales Desarrolladas:**
+- Trabajo en equipo efectivo
+- Comunicación técnica en euskara
+- Gestión de proyectos
+- Resolución de problemas complejos
+- Autonomía y auto-aprendizaje
 
 ---
 
-**End of Document**
+## Recursos y Herramientas Utilizadas
+
+### Software y Tecnologías
+
+**Desarrollo:**
+- PHP 8.4, Kotlin 2.0, PostgreSQL 16, Redis 7
+- Jetpack Compose, Material 3
+- Docker, Docker Compose
+- Git, GitHub, GitHub Actions
+
+**Seguridad:**
+- pfSense (Firewall)
+- ModSecurity (WAF)
+- Elastic Stack (SIEM)
+- OWASP ZAP (DAST)
+- SonarQube (SAST)
+- Trivy (Container scanning)
+
+**Análisis Forense:**
+- Autopsy, Sleuth Kit
+- Volatility (memoria)
+- Wireshark (red)
+- FTK Imager
+
+**Pentesting:**
+- Kali Linux
+- Metasploit, Burp Suite
+- Nmap, Nikto, SQLMap
+- MobSF (mobile)
+
+### Documentación y Estándares
+
+- ISO/IEC 27001:2022
+- ISO/IEC 27002:2022
+- IEC 62443 (OT security)
+- OWASP ASVS 4.0
+- OWASP Top 10 2021
+- NIST Cybersecurity Framework
+- CIS Benchmarks
+- CCN-CERT Guías
+
+### Recursos de Aprendizaje
+
+- INCIBE (www.incibe.es)
+- CCN-CERT (www.ccn-cert.cni.es)
+- AEPD (www.aepd.es)
+- OWASP (www.owasp.org)
+- ENISA (www.enisa.europa.eu)
+
+---
+
+## Conclusión
+
+Este plan de cumplimiento garantiza que el proyecto del Portal de RRHH de Zabala Gailetak cumple **todos** los requisitos del Erronka 4, cubriendo las 6 áreas técnicas:
+
+1. ✅ **Incidentes de Ciberseguridad** - SIEM, respuesta a incidentes, lecciones aprendidas
+2. ✅ **Hardening** - Segmentación de red, hardening de sistemas, integración IT/OT
+3. ✅ **Desarrollo Seguro** - OWASP, DevSecOps, seguridad móvil
+4. ✅ **Análisis Forense** - Procedimientos, herramientas, caso práctico
+5. ✅ **Hacking Ético** - Auditoría externa, pentesting completo
+6. ✅ **Normativa** - ISO 27001, GDPR, cumplimiento legal
+
+Además, se evalúan las **competencias transversales**:
+- Autonomía (25%)
+- Implicación (25%)
+- Comunicación oral (20%)
+- Trabajo en equipo (30%)
+
+**Nota Final del Proyecto:**
+- 50% Competencias Técnicas (equipo)
+- 50% Competencias Transversales (individual)
+
+**Próximos Pasos Inmediatos:**
+
+1. **Semana 1-2:** Completar análisis forense (caso ransomware)
+2. **Semana 3:** Contratar auditoría externa de pentesting
+3. **Semana 4:** Implementar segmentación OT completa
+4. **Semana 5:** Finalizar documentación en euskara
+5. **Semana 6:** Preparar presentación final
+
+---
+
+**Documento preparado por:** Equipo Zabala Gailetak  
+**Fecha de última actualización:** 24 de Enero de 2026  
+**Versión:** 2.0  
+**Estado:** COMPLETO - Listo para implementación
