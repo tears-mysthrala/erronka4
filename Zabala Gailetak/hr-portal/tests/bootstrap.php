@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * phpcs:ignoreFile
+ */
+
 declare(strict_types=1);
 
 // Define ROOT_PATH constant for tests
