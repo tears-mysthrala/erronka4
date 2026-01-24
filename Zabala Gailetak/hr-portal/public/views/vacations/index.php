@@ -40,6 +40,43 @@
     </div>
 </div>
 
+<?php if (!empty($pendingApprovals)): ?>
+<div class="mt-5">
+    <h3>Solicitudes Pendientes de Aprobación</h3>
+    <div class="table-responsive">
+        <table class="table table-hover table-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th>Empleado</th>
+                    <th>Desde</th>
+                    <th>Hasta</th>
+                    <th>Días</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($pendingApprovals as $req): ?>
+                <tr>
+                    <td><?= htmlspecialchars($req->employeeFirstName . ' ' . $req->employeeLastName) ?></td>
+                    <td><?= htmlspecialchars(date('d/m/Y', strtotime($req->startDate))) ?></td>
+                    <td><?= htmlspecialchars(date('d/m/Y', strtotime($req->endDate))) ?></td>
+                    <td><?= number_format($req->totalDays, 1) ?></td>
+                    <td>
+                        <form action="/vacations/approve/<?= $req->id ?>" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-success">Aprobar</button>
+                        </form>
+                        <form action="/vacations/reject/<?= $req->id ?>" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-danger">Rechazar</button>
+                        </form>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<?php endif; ?>
+
 <h3>Historial de Solicitudes</h3>
 <div class="table-responsive">
     <table class="table table-striped table-sm">

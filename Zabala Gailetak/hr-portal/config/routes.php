@@ -72,8 +72,22 @@ $router->get('/logout', [$webAuthController, 'logout']);
 
 // Protected Routes
 $router->get('/dashboard', [$webDashboardController, 'index']);
-$router->get('/employees', [$webDashboardController, 'employees']);
-$router->get('/vacations', [$webDashboardController, 'vacations']);
+// Employees
+$router->get('/employees', [$webEmployeeController, 'index']);
+$router->get('/employees/create', [$webEmployeeController, 'createForm']);
+$router->post('/employees/create', [$webEmployeeController, 'create']);
+$router->get('/employees/show/{id}', [$webEmployeeController, 'show']);
+$router->get('/employees/edit/{id}', [$webEmployeeController, 'editForm']);
+$router->post('/employees/edit/{id}', [$webEmployeeController, 'update']);
+$router->post('/employees/delete/{id}', [$webEmployeeController, 'delete']);
+$router->get('/employees/export', [$webEmployeeController, 'export']);
+
+// Vacations
+$router->get('/vacations', [$webVacationController, 'index']);
+$router->get('/vacations/request', [$webVacationController, 'requestForm']);
+$router->post('/vacations/request', [$webVacationController, 'create']);
+$router->post('/vacations/approve/{id}', [$webVacationController, 'approve']);
+$router->post('/vacations/reject/{id}', [$webVacationController, 'reject']);
 
 // ============================================================================
 // API Routes

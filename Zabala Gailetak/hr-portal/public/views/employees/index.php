@@ -39,6 +39,9 @@
                         <span class="badge bg-secondary">Inactivo</span>
                     <?php endif; ?>
                 </td>
+                <td>
+                    <a href="/employees/show/<?= $employee['id'] ?>" class="btn btn-sm btn-outline-info">Ver</a>
+                </td>
             </tr>
             <?php endforeach; ?>
             <?php if (empty($employees)): ?>
