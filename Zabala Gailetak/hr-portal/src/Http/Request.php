@@ -80,7 +80,20 @@ class Request
 
     public function getUri(): string
     {
-        return parse_url($this->uri, PHP_URL_PATH) ?: '/';
+        $uri = parse_url($this->uri, PHP_URL_PATH) ?: '/';
+        
+        // Remove base path if deploying in a subdirectory
+        // Usually obtained from SCRIPT_NAME
+        $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+        $basePath = dirname($scriptName);
+        
+        if ($basePath !== '/' && $basePath !== '\\' && !empty($basePath)) {
+            if (str_starts_with($uri, $basePath)) {
+                $uri = substr($uri, strlen($basePath));
+            }
+        }
+        
+        return '/' . ltrim($uri, '/');
     }
 
     public function getQuery(?string $key = null, mixed $default = null): mixed
