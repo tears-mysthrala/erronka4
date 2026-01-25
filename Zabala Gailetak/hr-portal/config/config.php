@@ -12,17 +12,17 @@ return [
         'name' => $env('APP_NAME', 'HR Portal'),
         'env' => $env('APP_ENV', 'production'),
         'debug' => filter_var($env('APP_DEBUG', false), FILTER_VALIDATE_BOOLEAN),
-        'url' => $env('APP_URL', 'http://localhost'),
+        'url' => $env('APP_URL', 'https://zabala-gailetak.infinityfreeapp.com'),
         'timezone' => 'Europe/Madrid',
         'locale' => 'eu',
     ],
     
     'database' => [
-        'driver' => $env('DB_DRIVER', 'pgsql'),
-        'host' => $env('DB_HOST', 'localhost'),
-        'port' => (int)$env('DB_PORT', 5432),
-        'database' => $env('DB_NAME', 'hr_portal'),
-        'username' => $env('DB_USER', 'hr_user'),
+        'driver' => $env('DB_DRIVER', 'mysql'),
+        'host' => $env('DB_HOST', 'sql107.infinityfree.com'),
+        'port' => (int)$env('DB_PORT', 3306),
+        'database' => $env('DB_NAME', 'if0_40982238_zabala_gailetak'),
+        'username' => $env('DB_USER', 'if0_40982238'),
         'password' => $env('DB_PASSWORD', ''),
         'charset' => 'utf8',
         'options' => [

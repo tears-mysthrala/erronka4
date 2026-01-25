@@ -87,30 +87,23 @@ class Router
             if (preg_match($route['pattern'], $uri, $matches)) {
                 array_shift($matches); // Remove full match
 
-                try {
-                    $handler = $route['handler'];
+                $handler = $route['handler'];
 
-                    // If handler is array [ClassName::class, 'method'], instantiate the controller
-                    if (is_array($handler) && count($handler) === 2) {
-                        [$class, $method] = $handler;
-                        if (is_string($class) && class_exists($class)) {
-                            $handler = [new $class(), $method];
-                        }
+                // If handler is array [ClassName::class, 'method'], instantiate the controller
+                if (is_array($handler) && count($handler) === 2) {
+                    [$class, $method] = $handler;
+                    if (is_string($class) && class_exists($class)) {
+                        $handler = [new $class(), $method];
                     }
-
-                    $response = call_user_func_array($handler, array_merge([$request], $matches));
-
-                    if (!$response instanceof Response) {
-                        throw new \RuntimeException('Handler must return Response instance');
-                    }
-
-                    return $response;
-                } catch (\Throwable $e) {
-                    error_log('Route handler error: ' . $e->getMessage());
-                    return Response::json([
-                        'error' => 'Internal server error'
-                    ], 500);
                 }
+
+                $response = call_user_func_array($handler, array_merge([$request], $matches));
+
+                if (!$response instanceof Response) {
+                    throw new \RuntimeException('Handler must return Response instance');
+                }
+
+                return $response;
             }
         }
 
