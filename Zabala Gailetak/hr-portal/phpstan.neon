@@ -4,7 +4,9 @@ parameters:
         - src
         - tests
     excludePaths:
-        - vendor
+        analyseAndScan:
+            - vendor (?)
+            - node_modules (?)
     
     # Allow dynamic properties in tests
     reportUnmatchedIgnoredErrors: false
@@ -15,5 +17,6 @@ parameters:
 
     # Ignore missing dependencies in CI environment
     ignoreErrors:
-        - '#unknown class OTPHP\\\/TOTP#'
-        - '#Call to static method .* on an unknown class OTPHP\\\/TOTP#'
+        - '#unknown class OTPHP\TOTP#'
+        - '#Call to static method .* on an unknown class OTPHP\TOTP#'
+
