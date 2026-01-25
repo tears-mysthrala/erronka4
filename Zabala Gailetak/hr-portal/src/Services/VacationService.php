@@ -55,13 +55,11 @@ class VacationService
             return $existing;
         }
 
-        $id = bin2hex(random_bytes(16)); // Simple UUID v4 alternative
         $stmt = $this->db->prepare('
-            INSERT INTO vacation_balances (id, employee_id, year, total_days)
-            VALUES (:id, :employee_id, :year, :total_days)
+            INSERT INTO vacation_balances (employee_id, year, total_days)
+            VALUES (:employee_id, :year, :total_days)
         ');
         $stmt->execute([
-            'id' => $id,
             'employee_id' => $employeeId,
             'year' => $year,
             'total_days' => $totalDays
@@ -94,16 +92,15 @@ class VacationService
             throw new \Exception('Opor egun nahikorik ez dago / No hay suficientes días disponibles');
         }
 
-        $id = bin2hex(random_bytes(16));
         // Create request
         $stmt = $this->db->prepare('
             INSERT INTO vacation_requests 
-            (id, employee_id, start_date, end_date, total_days, notes, status)
-            VALUES (:id, :employee_id, :start_date, :end_date, :total_days, :notes, :status)
+            (employee_id, start_date, end_date, total_days, notes, status)
+            VALUES (:employee_id, :start_date, :end_date, :total_days, :notes, :status)
+            RETURNING id
         ');
 
         $stmt->execute([
-            'id' => $id,
             'employee_id' => $employeeId,
             'start_date' => $startDate,
             'end_date' => $endDate,
@@ -111,6 +108,8 @@ class VacationService
             'notes' => $notes,
             'status' => VacationRequest::STATUS_PENDING
         ]);
+
+        $id = $stmt->fetchColumn();
 
         return $this->getRequest($id);
     }

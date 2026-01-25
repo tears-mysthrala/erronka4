@@ -89,7 +89,7 @@ class WebVacationController
         }
 
         try {
-            $this->vacationService->approveByHR((int)$id, (int)$_SESSION['user_id'], "Aprobado desde panel web");
+            $this->vacationService->approveByHR($id, $_SESSION['user_id'], "Aprobado desde panel web");
             return Response::redirect('/vacations');
         } catch (Exception $e) {
             return Response::redirect('/vacations');
@@ -105,7 +105,7 @@ class WebVacationController
 
         $reason = $request->getParsedBody()['reason'] ?? 'Rechazado por el administrador';
         try {
-            $this->vacationService->reject((int)$id, (int)$_SESSION['user_id'], $reason);
+            $this->vacationService->reject($id, $_SESSION['user_id'], $reason);
             return Response::redirect('/vacations');
         } catch (Exception $e) {
             return Response::redirect('/vacations');

@@ -33,7 +33,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "API_BASE_URL", "\"https://hr.zabalagailetak.com/api/\"")
+            buildConfigField("String", "API_BASE_URL", "\"https://zabala-gailetak.infinityfreeapp.com/api/\"")
         }
         debug {
             isMinifyEnabled = false

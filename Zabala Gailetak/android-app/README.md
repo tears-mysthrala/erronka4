@@ -104,7 +104,7 @@ app/
 El endpoint de la API se configura en `build.gradle.kts`:
 
 - **Debug**: `http://10.0.2.2:8080/api/` (localhost desde emulador)
-- **Release**: `https://hr.zabalagailetak.com/api/`
+- **Release**: `http://zabalagailetak.rf.gd/api/` (InfinityFree)
 
 Para cambiar la URL en desarrollo, edita la variable `API_BASE_URL` en el buildType debug.
 

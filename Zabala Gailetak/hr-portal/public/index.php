@@ -9,6 +9,15 @@ declare(strict_types=1);
  * @author Zabala Gailetak
  */
 
+// Initialize session for web interface
+if (session_status() === PHP_SESSION_NONE) {
+    session_start([
+        'cookie_httponly' => true,
+        'cookie_secure' => isset($_SERVER['HTTPS']),
+        'cookie_samesite' => 'Lax',
+    ]);
+}
+
 use ZabalaGailetak\HrPortal\App;
 
 // Define root path

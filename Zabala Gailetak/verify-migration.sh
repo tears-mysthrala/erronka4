@@ -62,9 +62,9 @@ echo ""
 echo -e "${BLUE}2. Archivos del Backend${NC}"
 echo ""
 
-check "composer.json" "[ -f 'Zabala Gailetak/hr-portal/composer.json' ]"
-check "Dockerfile PHP" "[ -f 'Zabala Gailetak/hr-portal/Dockerfile' ]"
+check "ClassLoader nativo" "[ -f 'Zabala Gailetak/hr-portal/src/Core/ClassLoader.php' ]"
 check "Front controller" "[ -f 'Zabala Gailetak/hr-portal/public/index.php' ]"
+check "Vistas SSR" "[ -d 'Zabala Gailetak/hr-portal/public/views' ]"
 check "App.php principal" "[ -f 'Zabala Gailetak/hr-portal/src/App.php' ]"
 check "Router" "[ -f 'Zabala Gailetak/hr-portal/src/Routing/Router.php' ]"
 check "Database class" "[ -f 'Zabala Gailetak/hr-portal/src/Database/Database.php' ]"
@@ -129,8 +129,6 @@ if command -v php &> /dev/null; then
     PHP_VERSION=$(php -r 'echo PHP_VERSION;')
     echo "  → Versión PHP: $PHP_VERSION"
 fi
-
-check_warning "Composer instalado" "command -v composer"
 
 echo ""
 echo -e "${BLUE}======================================${NC}"

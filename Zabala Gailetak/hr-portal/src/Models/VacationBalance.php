@@ -35,7 +35,7 @@ class VacationBalance
     {
         return new self(
             id: $data['id'] ?? null,
-            employeeId: isset($data['employee_id']) ? (int)$data['employee_id'] : null,
+            employeeId: $data['employee_id'] ?? null,
             year: isset($data['year']) ? (int)$data['year'] : null,
             totalDays: isset($data['total_days']) ? (float)$data['total_days'] : 22.0,
             usedDays: isset($data['used_days']) ? (float)$data['used_days'] : 0.0,

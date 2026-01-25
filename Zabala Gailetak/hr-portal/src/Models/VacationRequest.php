@@ -45,7 +45,7 @@ class VacationRequest
     {
         $request = new self(
             id: $data['id'] ?? null,
-            employeeId: isset($data['employee_id']) ? (int)$data['employee_id'] : null,
+            employeeId: $data['employee_id'] ?? null,
             startDate: $data['start_date'] ?? null,
             endDate: $data['end_date'] ?? null,
             totalDays: isset($data['total_days']) ? (float)$data['total_days'] : null,
@@ -53,10 +53,10 @@ class VacationRequest
             status: $data['status'] ?? self::STATUS_PENDING,
             notes: $data['notes'] ?? null,
             managerApprovalDate: $data['manager_approval_date'] ?? null,
-            managerApprovalBy: isset($data['manager_approval_by']) ? (int)$data['manager_approval_by'] : null,
+            managerApprovalBy: $data['manager_approval_by'] ?? null,
             managerApprovalNotes: $data['manager_approval_notes'] ?? null,
             hrApprovalDate: $data['hr_approval_date'] ?? null,
-            hrApprovalBy: isset($data['hr_approval_by']) ? (int)$data['hr_approval_by'] : null,
+            hrApprovalBy: $data['hr_approval_by'] ?? null,
             hrApprovalNotes: $data['hr_approval_notes'] ?? null,
             rejectionReason: $data['rejection_reason'] ?? null,
             createdAt: $data['created_at'] ?? null,

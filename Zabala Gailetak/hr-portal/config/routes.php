@@ -56,6 +56,8 @@ $vacationController = new \ZabalaGailetak\HrPortal\Controllers\VacationControlle
 
 $webAuthController = new WebAuthController($db);
 $webDashboardController = new WebDashboardController();
+$webEmployeeController = new \ZabalaGailetak\HrPortal\Controllers\Web\WebEmployeeController($db);
+$webVacationController = new \ZabalaGailetak\HrPortal\Controllers\Web\WebVacationController($db, $vacationService);
 
 // ============================================================================
 // Web Routes (Server Side Rendering)
@@ -72,6 +74,7 @@ $router->get('/logout', [$webAuthController, 'logout']);
 
 // Protected Routes
 $router->get('/dashboard', [$webDashboardController, 'index']);
+
 // Employees
 $router->get('/employees', [$webEmployeeController, 'index']);
 $router->get('/employees/create', [$webEmployeeController, 'createForm']);
@@ -121,22 +124,6 @@ $router->post('/api/employees', [$employeeController, 'create']);
 $router->put('/api/employees/{id}', [$employeeController, 'update']);
 $router->delete('/api/employees/{id}', [$employeeController, 'delete']);
 $router->post('/api/employees/{id}/restore', [$employeeController, 'restore']);
-
-$router->get('/api/employees/{id}', function (Request $request, string $id): Response {
-    return Response::json(['message' => "Get employee $id - TODO"]);
-});
-
-$router->post('/api/employees', function (Request $request): Response {
-    return Response::json(['message' => 'Create employee - TODO']);
-});
-
-$router->put('/api/employees/{id}', function (Request $request, string $id): Response {
-    return Response::json(['message' => "Update employee $id - TODO"]);
-});
-
-$router->delete('/api/employees/{id}', function (Request $request, string $id): Response {
-    return Response::json(['message' => "Delete employee $id - TODO"]);
-});
 
 // API Vacations
 $router->get('/api/vacations/balance', [$vacationController, 'getBalance']);

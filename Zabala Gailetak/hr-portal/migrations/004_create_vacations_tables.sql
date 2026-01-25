@@ -1,27 +1,51 @@
 -- Migration: Create vacation request tables
 -- Date: 2026-01-15
+-- Description: Fixed schema to use UUIDs and align with 001_init_schema
 
--- Table: vacation_balances
--- Stores annual vacation days balance for each employee
-CREATE TABLE IF NOT EXISTS vacation_balances (
-    id SERIAL PRIMARY KEY,
-    employee_id INTEGER NOT NULL,
-    year INTEGER NOT NULL,
-    total_days DECIMAL(5,2) NOT NULL DEFAULT 22.0,
-    used_days DECIMAL(5,2) NOT NULL DEFAULT 0.0,
-    pending_days DECIMAL(5,2) NOT NULL DEFAULT 0.0,
-    available_days DECIMAL(5,2) GENERATED ALWAYS AS (total_days - used_days - pending_days) STORED,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE,
-    UNIQUE(employee_id, year)
-);
+-- 1. Fix vacation_balances if it exists (from 001), or create it
+DO $$ 
+BEGIN
+    -- Check if table exists
+    IF EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'vacation_balances') THEN
+        -- Alter columns to support decimals if they are integers
+        ALTER TABLE vacation_balances ALTER COLUMN total_days TYPE DECIMAL(5,2);
+        ALTER TABLE vacation_balances ALTER COLUMN used_days TYPE DECIMAL(5,2);
+        
+        -- Add pending_days if not exists (001 used generated pending_days? No, 001 had generated pending_days)
+        -- 001: pending_days INTEGER GENERATED ALWAYS AS (total_days - used_days) STORED
+        -- We want pending_days to be a real column we can update via triggers, OR keep it generated?
+        -- The trigger update_vacation_balance tries to UPDATE pending_days. You cannot update a GENERATED column.
+        -- So we must DROP the generated column and make it a normal column.
+        
+        ALTER TABLE vacation_balances DROP COLUMN IF EXISTS pending_days;
+        ALTER TABLE vacation_balances ADD COLUMN IF NOT EXISTS pending_days DECIMAL(5,2) DEFAULT 0.0;
+        
+        -- Ensure available_days generated column exists
+        ALTER TABLE vacation_balances DROP COLUMN IF EXISTS available_days;
+        ALTER TABLE vacation_balances ADD COLUMN available_days DECIMAL(5,2) GENERATED ALWAYS AS (total_days - used_days - pending_days) STORED;
+        
+    ELSE
+        -- Create table if it doesn't exist
+        CREATE TABLE vacation_balances (
+            id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+            employee_id UUID NOT NULL,
+            year INTEGER NOT NULL,
+            total_days DECIMAL(5,2) NOT NULL DEFAULT 22.0,
+            used_days DECIMAL(5,2) NOT NULL DEFAULT 0.0,
+            pending_days DECIMAL(5,2) NOT NULL DEFAULT 0.0,
+            available_days DECIMAL(5,2) GENERATED ALWAYS AS (total_days - used_days - pending_days) STORED,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE,
+            UNIQUE(employee_id, year)
+        );
+    END IF;
+END $$;
 
--- Table: vacation_requests
--- Stores vacation requests from employees
+-- 2. Create vacation_requests (replaces 'vacations' concept from 001 if any, but we use a new table name to avoid conflict/confusion)
 CREATE TABLE IF NOT EXISTS vacation_requests (
-    id SERIAL PRIMARY KEY,
-    employee_id INTEGER NOT NULL,
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    employee_id UUID NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     total_days DECIMAL(5,2) NOT NULL,
@@ -29,10 +53,10 @@ CREATE TABLE IF NOT EXISTS vacation_requests (
     status VARCHAR(20) NOT NULL DEFAULT 'PENDING',
     notes TEXT,
     manager_approval_date TIMESTAMP,
-    manager_approval_by INTEGER,
+    manager_approval_by UUID,
     manager_approval_notes TEXT,
     hr_approval_date TIMESTAMP,
-    hr_approval_by INTEGER,
+    hr_approval_by UUID,
     hr_approval_notes TEXT,
     rejection_reason TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -45,8 +69,7 @@ CREATE TABLE IF NOT EXISTS vacation_requests (
     CONSTRAINT chk_total_days CHECK (total_days > 0)
 );
 
--- Table: vacation_types
--- Catalog of vacation types (annual, sick leave, personal, etc.)
+-- 3. Vacation Types
 CREATE TABLE IF NOT EXISTS vacation_types (
     id SERIAL PRIMARY KEY,
     code VARCHAR(50) UNIQUE NOT NULL,
@@ -58,7 +81,6 @@ CREATE TABLE IF NOT EXISTS vacation_types (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Insert default vacation types
 INSERT INTO vacation_types (code, name_eu, name_es, requires_approval, max_consecutive_days) VALUES
 ('ANNUAL', 'Urteko oporrak', 'Vacaciones anuales', true, NULL),
 ('SICK', 'Gaixotasuna', 'Baja por enfermedad', false, NULL),
@@ -69,8 +91,7 @@ INSERT INTO vacation_types (code, name_eu, name_es, requires_approval, max_conse
 ('FAMILY', 'Familia arrazoiak', 'Motivos familiares', true, 5)
 ON CONFLICT (code) DO NOTHING;
 
--- Table: public_holidays
--- Spanish and Basque public holidays
+-- 4. Public Holidays
 CREATE TABLE IF NOT EXISTS public_holidays (
     id SERIAL PRIMARY KEY,
     holiday_date DATE NOT NULL,
@@ -84,7 +105,6 @@ CREATE TABLE IF NOT EXISTS public_holidays (
     UNIQUE(holiday_date)
 );
 
--- Insert 2026 public holidays for Basque Country
 INSERT INTO public_holidays (holiday_date, name_eu, name_es, is_national, is_regional) VALUES
 ('2026-01-01', 'Urteberri Eguna', 'Año Nuevo', true, false),
 ('2026-01-06', 'Erregeen Eguna', 'Reyes Magos', true, false),
@@ -100,22 +120,20 @@ INSERT INTO public_holidays (holiday_date, name_eu, name_es, is_national, is_reg
 ('2026-12-25', 'Gabonak', 'Navidad', true, false)
 ON CONFLICT (holiday_date) DO NOTHING;
 
--- Indexes for performance
-CREATE INDEX idx_vacation_balances_employee ON vacation_balances(employee_id);
-CREATE INDEX idx_vacation_balances_year ON vacation_balances(year);
-CREATE INDEX idx_vacation_requests_employee ON vacation_requests(employee_id);
-CREATE INDEX idx_vacation_requests_status ON vacation_requests(status);
-CREATE INDEX idx_vacation_requests_dates ON vacation_requests(start_date, end_date);
-CREATE INDEX idx_public_holidays_date ON public_holidays(holiday_date);
-CREATE INDEX idx_public_holidays_year ON public_holidays(year);
+-- 5. Indexes
+CREATE INDEX IF NOT EXISTS idx_vacation_balances_employee ON vacation_balances(employee_id);
+CREATE INDEX IF NOT EXISTS idx_vacation_balances_year ON vacation_balances(year);
+CREATE INDEX IF NOT EXISTS idx_vacation_requests_employee ON vacation_requests(employee_id);
+CREATE INDEX IF NOT EXISTS idx_vacation_requests_status ON vacation_requests(status);
+CREATE INDEX IF NOT EXISTS idx_vacation_requests_dates ON vacation_requests(start_date, end_date);
+CREATE INDEX IF NOT EXISTS idx_public_holidays_date ON public_holidays(holiday_date);
+CREATE INDEX IF NOT EXISTS idx_public_holidays_year ON public_holidays(year);
 
--- Function: Update vacation balance
+-- 6. Triggers
 CREATE OR REPLACE FUNCTION update_vacation_balance()
 RETURNS TRIGGER AS $$
 BEGIN
-    -- Recalculate pending and used days when request status changes
     IF NEW.status = 'APPROVED' THEN
-        -- Move from pending to used
         UPDATE vacation_balances
         SET 
             pending_days = pending_days - NEW.total_days,
@@ -124,7 +142,6 @@ BEGIN
         WHERE employee_id = NEW.employee_id 
           AND year = EXTRACT(YEAR FROM NEW.start_date);
     ELSIF NEW.status = 'REJECTED' OR NEW.status = 'CANCELLED' THEN
-        -- Return days to available
         UPDATE vacation_balances
         SET 
             pending_days = pending_days - NEW.total_days,
@@ -132,7 +149,6 @@ BEGIN
         WHERE employee_id = NEW.employee_id 
           AND year = EXTRACT(YEAR FROM NEW.start_date);
     ELSIF (TG_OP = 'INSERT' OR OLD.status != 'PENDING') AND NEW.status = 'PENDING' THEN
-        -- Mark days as pending
         UPDATE vacation_balances
         SET 
             pending_days = pending_days + NEW.total_days,
@@ -145,7 +161,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Trigger: Update balance when request status changes
+DROP TRIGGER IF EXISTS trg_vacation_request_status ON vacation_requests;
 CREATE TRIGGER trg_vacation_request_status
 AFTER INSERT OR UPDATE OF status ON vacation_requests
 FOR EACH ROW
@@ -163,13 +179,10 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Trigger: Create vacation balance when employee is created
+-- Trigger on employees table (ensure it exists)
+DROP TRIGGER IF EXISTS trg_employee_vacation_init ON employees;
 CREATE TRIGGER trg_employee_vacation_init
 AFTER INSERT ON employees
 FOR EACH ROW
 EXECUTE FUNCTION initialize_vacation_balance();
 
-COMMENT ON TABLE vacation_balances IS 'Annual vacation day balances per employee';
-COMMENT ON TABLE vacation_requests IS 'Employee vacation requests with approval workflow';
-COMMENT ON TABLE vacation_types IS 'Catalog of vacation/leave types';
-COMMENT ON TABLE public_holidays IS 'Spanish and Basque Country public holidays';
