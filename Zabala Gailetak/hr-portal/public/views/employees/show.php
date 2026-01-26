@@ -3,8 +3,29 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Ficha de Empleado</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
-        <a href="/employees/edit/<?= $employee['id'] ?>" class="btn btn-sm btn-outline-primary me-2">Editar</a>
-        <a href="/employees" class="btn btn-sm btn-outline-secondary">Volver</a>
+        <?php 
+        $canEdit = ($auth['role'] === 'admin') || 
+                  ($auth['role'] === 'hr_manager' && $employee['role'] !== 'admin') ||
+                  ($auth['role'] === 'department_head' && $employee['department_id'] === $auth['department_id']) ||
+                  ($employee['user_id'] === $auth['user_id']); // Self-edit
+        ?>
+        
+        <?php if ($canEdit): ?>
+            <a href="/employees/edit/<?= $employee['id'] ?>" class="btn btn-sm btn-outline-primary me-2">
+                <i class="bi bi-pencil"></i> Editar
+            </a>
+        <?php endif; ?>
+        
+        <?php if ($auth['role'] === 'admin' && $employee['role'] !== 'admin'): ?>
+            <a href="/employees/delete/<?= $employee['id'] ?>" class="btn btn-sm btn-outline-danger me-2" 
+               onclick="return confirm('¿Estás seguro de eliminar a este empleado? Esta acción desactivará su cuenta.')">
+                <i class="bi bi-trash"></i> Eliminar
+            </a>
+        <?php endif; ?>
+        
+        <a href="/employees" class="btn btn-sm btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Volver
+        </a>
     </div>
 </div>
 
@@ -50,8 +71,27 @@
                 </div>
                 <hr>
                 <div class="row">
+                    <div class="col-sm-3"><p class="mb-0">Rol Sistema</p></div>
+                    <div class="col-sm-9">
+                        <span class="badge bg-<?= $employee['role'] === 'admin' ? 'danger' : ($employee['role'] === 'hr_manager' ? 'warning' : ($employee['role'] === 'department_head' ? 'info' : 'secondary')) ?>">
+                            <?= htmlspecialchars(ucfirst(str_replace('_', ' ', $employee['role']))) ?>
+                        </span>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3"><p class="mb-0">Puesto</p></div>
+                    <div class="col-sm-9"><p class="text-muted mb-0"><?= htmlspecialchars($employee['position']) ?></p></div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3"><p class="mb-0">Departamento</p></div>
+                    <div class="col-sm-9"><p class="text-muted mb-0"><?= htmlspecialchars($employee['department_name'] ?? 'Sin departamento') ?></p></div>
+                </div>
+                <hr>
+                <div class="row">
                     <div class="col-sm-3"><p class="mb-0">Fecha Contratación</p></div>
-                    <div class="col-sm-9"><p class="text-muted mb-0"><?= htmlspecialchars($employee['hire_date']) ?></p></div>
+                    <div class="col-sm-9"><p class="text-muted mb-0"><?= date('d/m/Y', strtotime($employee['hire_date'])) ?></p></div>
                 </div>
             </div>
         </div>

@@ -118,7 +118,7 @@ class EmployeeController
 
             // Filtro por estado activo
             if ($active !== null) {
-                $whereConditions[] = 'e.active = :active';
+                $whereConditions[] = 'e.is_active = :active';
                 $params['active'] = $active === 'true' || $active === '1';
             }
 
@@ -146,7 +146,7 @@ class EmployeeController
                     e.nif,
                     e.position,
                     e.hire_date,
-                    e.active,
+                    e.is_active,
                     e.user_id,
                     u.email,
                     u.role,
@@ -431,7 +431,7 @@ class EmployeeController
             $allowedFields = [
                 'first_name', 'last_name', 'nif', 'position', 'phone',
                 'address', 'city', 'postal_code', 'country', 'hire_date',
-                'department_id', 'salary', 'bank_account', 'active'
+                'department_id', 'salary', 'bank_account', 'is_active'
             ];
 
             $updates = [];
@@ -536,7 +536,7 @@ class EmployeeController
 
             // Soft delete: marcar como inactivo
             $stmt = $this->db->prepare(
-                'UPDATE employees SET active = false, updated_at = NOW() WHERE id = :id'
+                'UPDATE employees SET is_active = false, updated_at = NOW() WHERE id = :id'
             );
             $stmt->execute(['id' => $id]);
 
@@ -602,7 +602,7 @@ class EmployeeController
             }
 
             $stmt = $this->db->prepare(
-                'UPDATE employees SET active = true, updated_at = NOW() WHERE id = :id'
+                'UPDATE employees SET is_active = true, updated_at = NOW() WHERE id = :id'
             );
             $stmt->execute(['id' => $id]);
 

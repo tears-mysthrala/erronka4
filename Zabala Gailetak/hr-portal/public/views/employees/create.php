@@ -25,6 +25,20 @@
         <label for="position" class="form-label">Puesto</label>
         <input type="text" class="form-control" id="position" name="position">
     </div>
+    <?php if ($auth['role'] === 'admin'): ?>
+    <div class="col-md-6">
+        <label for="role" class="form-label">Rol en el Sistema</label>
+        <select class="form-select" id="role" name="role">
+            <option value="employee">Empleado</option>
+            <option value="department_head">Jefe de Departamento</option>
+            <option value="hr_manager">Responsable de RRHH</option>
+            <option value="admin">Administrador</option>
+        </select>
+        <div class="form-text">Selecciona el nivel de acceso que tendrá este usuario en el sistema.</div>
+    </div>
+    <?php else: ?>
+    <input type="hidden" name="role" value="employee">
+    <?php endif; ?>
     <div class="col-md-6">
         <label for="department_id" class="form-label">Departamento</label>
         <select class="form-select" id="department_id" name="department_id">
@@ -43,9 +57,23 @@
         <input type="number" class="form-control" id="salary" name="salary" step="0.01">
     </div>
     
+    <div class="col-12">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="send_welcome_email" id="send_welcome_email" checked>
+            <label class="form-check-label" for="send_welcome_email">
+                Enviar email de bienvenida con credenciales
+            </label>
+            <div class="form-text">Se enviará un email con las instrucciones de acceso al sistema.</div>
+        </div>
+    </div>
+    
     <div class="col-12 mt-4">
-        <button class="btn btn-primary" type="submit">Guardar Empleado</button>
-        <a href="/employees" class="btn btn-outline-secondary">Cancelar</a>
+        <button class="btn btn-primary" type="submit">
+            <i class="bi bi-person-plus"></i> Guardar Empleado
+        </button>
+        <a href="/employees" class="btn btn-outline-secondary">
+            <i class="bi bi-x-circle"></i> Cancelar
+        </a>
     </div>
 </form>
 

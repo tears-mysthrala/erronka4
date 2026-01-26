@@ -63,7 +63,7 @@ $vacationController = new \ZabalaGailetak\HrPortal\Controllers\VacationControlle
 
 $webAuthController = new WebAuthController($db);
 $webDashboardController = new WebDashboardController();
-$webEmployeeController = new \ZabalaGailetak\HrPortal\Controllers\Web\WebEmployeeController($db);
+$webEmployeeController = new \ZabalaGailetak\HrPortal\Controllers\Web\WebEmployeeController($db, $accessControl);
 $webVacationController = new \ZabalaGailetak\HrPortal\Controllers\Web\WebVacationController($db, $vacationService);
 
 // ============================================================================
@@ -91,6 +91,11 @@ $router->get('/employees/edit/{id}', [$webEmployeeController, 'editForm']);
 $router->post('/employees/edit/{id}', [$webEmployeeController, 'update']);
 $router->post('/employees/delete/{id}', [$webEmployeeController, 'delete']);
 $router->get('/employees/export', [$webEmployeeController, 'export']);
+
+// Profile Management (Admin Self-Edit)
+$router->get('/employees/profile', [$webEmployeeController, 'profile']);
+$router->get('/employees/profile/edit', [$webEmployeeController, 'editProfileForm']);
+$router->post('/employees/profile/update', [$webEmployeeController, 'updateProfile']);
 
 // Vacations
 $router->get('/vacations', [$webVacationController, 'index']);
