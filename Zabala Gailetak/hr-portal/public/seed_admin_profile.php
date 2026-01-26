@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * Web Admin Profile Seeder
  * 
- * Access via: /seed_admin_profile.php
+ * Access via: /seed_admin_profile.php?key=seed_admin_2024
  * Creates the admin@zabalagailetak.com user with complete employee profile
  * Designed for web execution on shared hosting like InfinityFree
  */
@@ -26,11 +24,28 @@ echo "🌱 Starting admin profile seeder (Web Mode)...\n";
 echo "📅 Date: " . date('Y-m-d H:i:s') . "\n";
 echo "🌐 IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown') . "\n\n";
 
-// Include autoloader
-if (file_exists(__DIR__ . '/vendor/autoload.php')) {
-    require_once __DIR__ . '/vendor/autoload.php';
-} else {
-    echo "❌ Autoloader not found at vendor/autoload.php\n";
+// Include autoloader (check parent directory for vendor)
+$autoloaderPaths = [
+    __DIR__ . '/../vendor/autoload.php',  // From public/ to project root
+    __DIR__ . '/vendor/autoload.php',     // From public/ to public/vendor
+    dirname(__DIR__, 2) . '/vendor/autoload.php' // From public/ up two levels
+];
+
+$autoloaderFound = false;
+foreach ($autoloaderPaths as $path) {
+    if (file_exists($path)) {
+        require_once $path;
+        echo "✅ Autoloader found at: " . basename(dirname($path)) . "/autoload.php\n";
+        $autoloaderFound = true;
+        break;
+    }
+}
+
+if (!$autoloaderFound) {
+    echo "❌ Autoloader not found in any of these paths:\n";
+    foreach ($autoloaderPaths as $path) {
+        echo "   - $path\n";
+    }
     exit(1);
 }
 
