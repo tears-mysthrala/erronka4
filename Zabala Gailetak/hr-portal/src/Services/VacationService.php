@@ -77,41 +77,106 @@ class VacationService
         string $endDate,
         ?string $notes = null
     ): VacationRequest {
-        // Calculate business days (excluding weekends and public holidays)
-        $totalDays = $this->calculateBusinessDays($startDate, $endDate);
+        try {
+            // Validate dates
+            if (empty($startDate) || empty($endDate)) {
+                throw new \Exception('Las fechas de inicio y fin son obligatorias');
+            }
 
-        // Check if employee has enough available days
-        $year = (int)date('Y', strtotime($startDate));
-        $balance = $this->getBalance($employeeId, $year);
+            $startTimestamp = strtotime($startDate);
+            $endTimestamp = strtotime($endDate);
+            $todayTimestamp = strtotime(date('Y-m-d'));
 
-        if (!$balance) {
-            $balance = $this->initializeBalance($employeeId, $year);
+            if ($startTimestamp === false || $endTimestamp === false) {
+                throw new \Exception('Las fechas proporcionadas no son válidas');
+            }
+
+            if ($startTimestamp > $endTimestamp) {
+                throw new \Exception('La fecha de inicio no puede ser posterior a la fecha de fin');
+            }
+
+            if ($startTimestamp < $todayTimestamp) {
+                throw new \Exception('No se pueden solicitar vacaciones para fechas pasadas');
+            }
+
+            // Calculate business days (excluding weekends and public holidays)
+            $totalDays = $this->calculateBusinessDays($startDate, $endDate);
+
+            if ($totalDays <= 0) {
+                throw new \Exception('El período seleccionado no contiene días laborables válidos');
+            }
+
+            // Check if employee has enough available days
+            $year = (int)date('Y', $startTimestamp);
+            $balance = $this->getBalance($employeeId, $year);
+
+            if (!$balance) {
+                $balance = $this->initializeBalance($employeeId, $year);
+            }
+
+            if ($balance->availableDays < $totalDays) {
+                throw new \Exception("No tienes suficientes días disponibles. Disponibles: {$balance->availableDays}, Solicitados: {$totalDays}");
+            }
+
+            // Check for overlapping requests
+            $overlapCheck = $this->db->prepare('
+                SELECT COUNT(*) FROM vacation_requests 
+                WHERE employee_id = :employee_id 
+                AND status IN (:pending_status, :manager_approved_status, :approved_status)
+                AND (
+                    (start_date <= :start_date AND end_date >= :start_date) OR
+                    (start_date <= :end_date AND end_date >= :end_date) OR
+                    (start_date >= :start_date AND end_date <= :end_date)
+                )
+            ');
+
+            $overlapCheck->execute([
+                'employee_id' => $employeeId,
+                'start_date' => $startDate,
+                'end_date' => $endDate,
+                'pending_status' => VacationRequest::STATUS_PENDING,
+                'manager_approved_status' => VacationRequest::STATUS_MANAGER_APPROVED,
+                'approved_status' => VacationRequest::STATUS_APPROVED
+            ]);
+
+            if ($overlapCheck->fetchColumn() > 0) {
+                throw new \Exception('Ya tienes una solicitud de vacaciones para este período o que se solapa con estas fechas');
+            }
+
+            // Create request
+            $stmt = $this->db->prepare('
+                INSERT INTO vacation_requests 
+                (employee_id, start_date, end_date, total_days, notes, status, request_date)
+                VALUES (:employee_id, :start_date, :end_date, :total_days, :notes, :status, CURRENT_DATE)
+                RETURNING id
+            ');
+
+            $result = $stmt->execute([
+                'employee_id' => $employeeId,
+                'start_date' => $startDate,
+                'end_date' => $endDate,
+                'total_days' => $totalDays,
+                'notes' => $notes,
+                'status' => VacationRequest::STATUS_PENDING
+            ]);
+
+            if (!$result) {
+                $errorInfo = $stmt->errorInfo();
+                throw new \Exception('Error al crear la solicitud: ' . ($errorInfo[2] ?? 'Error desconocido'));
+            }
+
+            $id = $stmt->fetchColumn();
+
+            if (!$id) {
+                throw new \Exception('No se pudo obtener el ID de la solicitud creada');
+            }
+
+            return $this->getRequest($id);
+
+        } catch (\Exception $e) {
+            error_log("Error en createRequest: " . $e->getMessage());
+            throw $e;
         }
-
-        if ($balance->availableDays < $totalDays) {
-            throw new \Exception('Opor egun nahikorik ez dago / No hay suficientes días disponibles');
-        }
-
-        // Create request
-        $stmt = $this->db->prepare('
-            INSERT INTO vacation_requests 
-            (employee_id, start_date, end_date, total_days, notes, status)
-            VALUES (:employee_id, :start_date, :end_date, :total_days, :notes, :status)
-            RETURNING id
-        ');
-
-        $stmt->execute([
-            'employee_id' => $employeeId,
-            'start_date' => $startDate,
-            'end_date' => $endDate,
-            'total_days' => $totalDays,
-            'notes' => $notes,
-            'status' => VacationRequest::STATUS_PENDING
-        ]);
-
-        $id = $stmt->fetchColumn();
-
-        return $this->getRequest($id);
     }
 
     /**

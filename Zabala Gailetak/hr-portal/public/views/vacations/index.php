@@ -4,10 +4,18 @@
     <h1 class="h2">Mis Vacaciones (<?= $year ?>)</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <a href="/vacations/request" class="btn btn-sm btn-primary">
-            Solicitar Vacaciones
+            <i class="fas fa-plus"></i> Solicitar Vacaciones
         </a>
     </div>
 </div>
+
+<?php if (isset($_SESSION['success_message'])): ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <?= htmlspecialchars($_SESSION['success_message']) ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <?php unset($_SESSION['success_message']); ?>
+<?php endif; ?>
 
 <?php if (isset($error)): ?>
     <div class="alert alert-warning"><?= htmlspecialchars($error) ?></div>

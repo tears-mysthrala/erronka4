@@ -65,19 +65,49 @@ class WebVacationController
         $employeeId = $this->getCurrentEmployeeId();
 
         if (!$employeeId) {
-            return Response::redirect('/vacations');
+            return Response::view('vacations/create', [
+                'errors' => ['system' => 'No se pudo identificar al empleado actual']
+            ]);
+        }
+
+        // Validate input data
+        $errors = [];
+        
+        if (empty($data['start_date'])) {
+            $errors['start_date'] = 'La fecha de inicio es obligatoria';
+        }
+        
+        if (empty($data['end_date'])) {
+            $errors['end_date'] = 'La fecha de fin es obligatoria';
+        }
+        
+        if (!empty($errors)) {
+            return Response::view('vacations/create', [
+                'errors' => $errors,
+                'old' => $data
+            ]);
         }
 
         try {
-            $this->vacationService->createRequest(
+            $vacationRequest = $this->vacationService->createRequest(
                 $employeeId,
                 $data['start_date'],
                 $data['end_date'],
                 $data['notes'] ?? null
             );
+            
+            // Add success message to session
+            $_SESSION['success_message'] = 'Solicitud de vacaciones creada correctamente. Folio: ' . $vacationRequest->id;
+            
             return Response::redirect('/vacations');
+            
         } catch (Exception $e) {
-            return Response::view('vacations/create', ['errors' => ['system' => $e->getMessage()]]);
+            error_log("Vacation request creation error: " . $e->getMessage());
+            
+            return Response::view('vacations/create', [
+                'errors' => ['system' => $e->getMessage()],
+                'old' => $data
+            ]);
         }
     }
 
