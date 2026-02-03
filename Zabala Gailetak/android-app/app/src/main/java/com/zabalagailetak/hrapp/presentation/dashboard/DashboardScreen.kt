@@ -29,6 +29,9 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
+import androidx.compose.ui.tooling.preview.Preview
+import com.zabalagailetak.hrapp.presentation.ui.theme.ZabalaGaileTakHRTheme
+
 /**
  * Dashboard Screen - Main hub with innovative design
  * Features: Cards with gradients, quick actions, stats overview
@@ -262,6 +265,14 @@ fun DashboardScreen(
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DashboardPreview() {
+    ZabalaGaileTakHRTheme {
+        DashboardScreen({}, {}, {})
     }
 }
 

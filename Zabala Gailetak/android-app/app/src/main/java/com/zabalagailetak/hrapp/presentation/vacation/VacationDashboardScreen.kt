@@ -22,10 +22,12 @@ import com.zabalagailetak.hrapp.domain.model.VacationStatus
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+import androidx.compose.ui.tooling.preview.Preview
+import com.zabalagailetak.hrapp.presentation.ui.theme.ZabalaGaileTakHRTheme
+
 /**
  * Vacation Dashboard Screen - Shows balance and requests
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VacationDashboardScreen(
     viewModel: VacationViewModel,
@@ -38,6 +40,22 @@ fun VacationDashboardScreen(
         viewModel.loadDashboard()
     }
 
+    VacationDashboardContent(
+        uiState = uiState,
+        onNavigateToNewRequest = onNavigateToNewRequest,
+        onNavigateToRequestDetail = onNavigateToRequestDetail,
+        onCancelRequest = { viewModel.cancelRequest(it) }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun VacationDashboardContent(
+    uiState: VacationUiState,
+    onNavigateToNewRequest: () -> Unit,
+    onNavigateToRequestDetail: (Int) -> Unit,
+    onCancelRequest: (Int) -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -129,13 +147,32 @@ fun VacationDashboardScreen(
                             VacationRequestCard(
                                 request = request,
                                 onClick = { onNavigateToRequestDetail(request.id!!) },
-                                onCancel = { viewModel.cancelRequest(request.id!!) }
+                                onCancel = { onCancelRequest(request.id!!) }
                             )
                         }
                     }
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun VacationDashboardPreview() {
+    ZabalaGaileTakHRTheme {
+        VacationDashboardContent(
+            uiState = VacationUiState(
+                balance = VacationBalance(2026, 25, 10, 2, 13),
+                requests = listOf(
+                    VacationRequest(1, 101, "2026-07-01", "2026-07-15", 15, VacationStatus.APPROVED, "Suge oporrak"),
+                    VacationRequest(2, 101, "2026-12-24", "2026-12-31", 5, VacationStatus.PENDING, "Gabonak")
+                )
+            ),
+            onNavigateToNewRequest = {},
+            onNavigateToRequestDetail = {},
+            onCancelRequest = {}
+        )
     }
 }
 

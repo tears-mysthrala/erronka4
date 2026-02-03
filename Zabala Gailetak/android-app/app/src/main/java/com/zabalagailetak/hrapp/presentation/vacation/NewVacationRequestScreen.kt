@@ -16,13 +16,40 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
+import androidx.compose.ui.tooling.preview.Preview
+import com.zabalagailetak.hrapp.presentation.ui.theme.ZabalaGaileTakHRTheme
+
 /**
  * New Vacation Request Screen
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewVacationRequestScreen(
     viewModel: VacationViewModel,
+    onNavigateBack: () -> Unit
+) {
+    val uiState by viewModel.uiState.collectAsState()
+    
+    // Success/Error handling
+    LaunchedEffect(uiState.createSuccess) {
+        if (uiState.createSuccess) {
+            onNavigateBack()
+        }
+    }
+
+    NewVacationRequestContent(
+        uiState = uiState,
+        onCreateRequest = { startDate, endDate, notes ->
+            viewModel.createRequest(startDate, endDate, notes)
+        },
+        onNavigateBack = onNavigateBack
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NewVacationRequestContent(
+    uiState: VacationUiState,
+    onCreateRequest: (String, String, String?) -> Unit,
     onNavigateBack: () -> Unit
 ) {
     var startDate by remember { mutableStateOf(LocalDate.now()) }
@@ -34,8 +61,6 @@ fun NewVacationRequestScreen(
     val calculatedDays = remember(startDate, endDate) {
         calculateBusinessDays(startDate, endDate)
     }
-    
-    val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
         topBar = {
@@ -205,10 +230,10 @@ fun NewVacationRequestScreen(
                 
                 Button(
                     onClick = {
-                        viewModel.createRequest(
-                            startDate = startDate.toString(),
-                            endDate = endDate.toString(),
-                            notes = notes.ifBlank { null }
+                        onCreateRequest(
+                            startDate.toString(),
+                            endDate.toString(),
+                            notes.ifBlank { null }
                         )
                     },
                     modifier = Modifier.weight(1f),
@@ -222,13 +247,6 @@ fun NewVacationRequestScreen(
                     } else {
                         Text("Eskaera Bidali")
                     }
-                }
-            }
-
-            // Success/Error handling
-            LaunchedEffect(uiState.createSuccess) {
-                if (uiState.createSuccess) {
-                    onNavigateBack()
                 }
             }
 
@@ -247,6 +265,46 @@ fun NewVacationRequestScreen(
             }
         }
     }
+
+    // Date Pickers
+    if (showStartDatePicker) {
+        DatePickerDialog(
+            onDismissRequest = { showStartDatePicker = false },
+            confirmButton = {
+                TextButton(onClick = { showStartDatePicker = false }) {
+                    Text("OK")
+                }
+            }
+        ) {
+            Text("Date picker implementation here", modifier = Modifier.padding(24.dp))
+        }
+    }
+
+    if (showEndDatePicker) {
+        DatePickerDialog(
+            onDismissRequest = { showEndDatePicker = false },
+            confirmButton = {
+                TextButton(onClick = { showEndDatePicker = false }) {
+                    Text("OK")
+                }
+            }
+        ) {
+            Text("Date picker implementation here", modifier = Modifier.padding(24.dp))
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun NewVacationRequestPreview() {
+    ZabalaGaileTakHRTheme {
+        NewVacationRequestContent(
+            uiState = VacationUiState(),
+            onCreateRequest = { _, _, _ -> },
+            onNavigateBack = {}
+        )
+    }
+}
 
     // Date Pickers
     if (showStartDatePicker) {

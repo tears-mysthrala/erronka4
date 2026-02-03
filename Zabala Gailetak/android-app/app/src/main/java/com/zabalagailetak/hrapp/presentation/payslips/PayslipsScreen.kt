@@ -24,6 +24,9 @@ import com.zabalagailetak.hrapp.presentation.ui.theme.*
 import java.text.NumberFormat
 import java.util.*
 
+import androidx.compose.ui.tooling.preview.Preview
+import com.zabalagailetak.hrapp.presentation.ui.theme.ZabalaGaileTakHRTheme
+
 /**
  * Payslips Screen - Display employee payslips
  */
@@ -84,6 +87,14 @@ fun PayslipsScreen(
                 )
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PayslipsScreenPreview() {
+    ZabalaGaileTakHRTheme {
+        PayslipsScreen({})
     }
 }
 
@@ -364,6 +375,14 @@ fun PayslipDetailScreen(
                 )
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PayslipDetailScreenPreview() {
+    ZabalaGaileTakHRTheme {
+        PayslipDetailScreen(1, {})
     }
 }
 

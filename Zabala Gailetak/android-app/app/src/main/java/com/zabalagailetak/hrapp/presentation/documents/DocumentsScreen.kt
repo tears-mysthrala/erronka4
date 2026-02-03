@@ -20,6 +20,9 @@ import com.zabalagailetak.hrapp.domain.model.Document
 import com.zabalagailetak.hrapp.domain.model.DocumentCategory
 import com.zabalagailetak.hrapp.presentation.ui.theme.*
 
+import androidx.compose.ui.tooling.preview.Preview
+import com.zabalagailetak.hrapp.presentation.ui.theme.ZabalaGaileTakHRTheme
+
 /**
  * Documents Screen - Display employee documents
  */
@@ -103,6 +106,14 @@ fun DocumentsScreen() {
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DocumentsScreenPreview() {
+    ZabalaGaileTakHRTheme {
+        DocumentsScreen()
     }
 }
 
