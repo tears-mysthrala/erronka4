@@ -28,11 +28,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.zabalagailetak.hrapp.presentation.ui.theme.*
 import kotlin.math.sin
 
+import androidx.compose.ui.tooling.preview.Preview
+
 /**
  * Login Screen with innovative design
  * Features: Animated gradient background, glassmorphism, smooth animations
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     viewModel: AuthViewModel = hiltViewModel(),
@@ -41,6 +42,32 @@ fun LoginScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     
+    // Handle navigation
+    LaunchedEffect(uiState.loginSuccess) {
+        if (uiState.loginSuccess) {
+            onLoginSuccess()
+            viewModel.resetLoginState()
+        }
+    }
+    
+    LaunchedEffect(uiState.mfaRequired) {
+        if (uiState.mfaRequired) {
+            onMfaRequired()
+        }
+    }
+    
+    LoginContent(
+        uiState = uiState,
+        onLogin = { username, password -> viewModel.login(username, password) }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LoginContent(
+    uiState: AuthUiState,
+    onLogin: (String, String) -> Unit
+) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
@@ -56,20 +83,6 @@ fun LoginScreen(
         ),
         label = "gradient_offset"
     )
-    
-    // Handle navigation
-    LaunchedEffect(uiState.loginSuccess) {
-        if (uiState.loginSuccess) {
-            onLoginSuccess()
-            viewModel.resetLoginState()
-        }
-    }
-    
-    LaunchedEffect(uiState.mfaRequired) {
-        if (uiState.mfaRequired) {
-            onMfaRequired()
-        }
-    }
     
     Box(
         modifier = Modifier
@@ -240,7 +253,7 @@ fun LoginScreen(
                         keyboardActions = KeyboardActions(
                             onDone = {
                                 if (username.isNotBlank() && password.isNotBlank()) {
-                                    viewModel.login(username, password)
+                                    onLogin(username, password)
                                 }
                             }
                         )
@@ -252,7 +265,7 @@ fun LoginScreen(
                     Button(
                         onClick = {
                             if (username.isNotBlank() && password.isNotBlank()) {
-                                viewModel.login(username, password)
+                                onLogin(username, password)
                             }
                         },
                         modifier = Modifier
@@ -329,6 +342,39 @@ fun LoginScreen(
                 )
             }
         }
+    }
+}
+
+@Preview(showBackground = true, name = "Light")
+@Composable
+fun LoginPreview() {
+    ZabalaGaileTakHRTheme {
+        LoginContent(
+            uiState = AuthUiState(),
+            onLogin = { _, _ -> }
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "With Loading")
+@Composable
+fun LoginPreviewLoading() {
+    ZabalaGaileTakHRTheme {
+        LoginContent(
+            uiState = AuthUiState(isLoading = true),
+            onLogin = { _, _ -> }
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "With Error")
+@Composable
+fun LoginPreviewError() {
+    ZabalaGaileTakHRTheme {
+        LoginContent(
+            uiState = AuthUiState(error = "Kredenzialak okerrak dira"),
+            onLogin = { _, _ -> }
+        )
     }
 }
 

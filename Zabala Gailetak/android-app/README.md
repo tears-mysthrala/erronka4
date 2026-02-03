@@ -168,11 +168,36 @@ Para firmar la app en release:
 2. Configurar signing en `build.gradle.kts`
 3. Build release
 
+## 🎨 Previews en Android Studio
+
+Esta app incluye **Compose Previews** para todas las pantallas principales, permitiéndote visualizar la UI sin ejecutar la app.
+
+### Acceso rápido a Previews
+
+- ✅ **LoginScreen**: 3 variantes (normal, loading, error)
+- ✅ **DashboardScreen**: Vista principal
+- ✅ **DocumentsScreen**: Lista de documentos
+- ✅ **PayslipsScreen**: Nóminas (2 variantes)
+- ✅ **ProfileScreen**: Perfil de usuario
+- ✅ **VacationDashboardScreen**: Dashboard de vacaciones
+- ✅ **NewVacationRequestScreen**: Solicitud nueva (2 variantes)
+
+**Documentación completa**: Ver [PREVIEWS_GUIDE.md](PREVIEWS_GUIDE.md)
+
+### Verificar Previews
+
+```bash
+./verify-previews.sh
+```
+
+Este script verifica que todos los archivos tengan previews configurados correctamente.
+
 ## 📚 Documentación
 
 - [API Documentation](/docs/API.md)
 - [Security Guidelines](/docs/SECURITY.md)
 - [Architecture](/docs/ARCHITECTURE.md)
+- [Previews Guide](PREVIEWS_GUIDE.md) - **Cómo usar Compose Previews**
 
 ## 👥 Contribuir
 
@@ -185,4 +210,4 @@ Propietario - Zabala Gailetak
 ---
 
 **Versión**: 1.0.0  
-**Última actualización**: Enero 2026
+**Última actualización**: Febrero 2026

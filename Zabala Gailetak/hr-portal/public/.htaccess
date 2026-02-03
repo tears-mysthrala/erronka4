@@ -4,17 +4,17 @@
 RewriteEngine On
 
 # Redirect to HTTPS (enabled for production)
-RewriteCond % { HTTPS } off
-RewriteRule ^(.*)$ https://% { HTTP_HOST }/$1 [R=301, L]
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
 # Handle Authorization Header
-RewriteCond % { HTTP:Authorization } .
-RewriteRule .* - [E=HTTP_AUTHORIZATION:% { HTTP:Authorization }]
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
 # Redirect all requests to index.php
-RewriteCond % { REQUEST_FILENAME } !-f
-RewriteCond % { REQUEST_FILENAME } !-d
-RewriteRule ^(.*)$ index.php [QSA, L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
 </IfModule>
 
 # Security Headers
@@ -41,6 +41,6 @@ Options -Indexes
 ErrorDocument 429 /429.html
 
 <FilesMatch "(composer\.json|composer\.lock|\.env)$">
-Order allow, deny
-Deny from all
+    Order allow,deny
+    Deny from all
 </FilesMatch>

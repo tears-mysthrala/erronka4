@@ -29,6 +29,9 @@ import com.zabalagailetak.hrapp.presentation.profile.ProfileScreen
 import com.zabalagailetak.hrapp.presentation.vacation.VacationDashboardScreen
 import com.zabalagailetak.hrapp.presentation.vacation.NewVacationRequestScreen
 
+import androidx.compose.ui.tooling.preview.Preview
+import com.zabalagailetak.hrapp.presentation.ui.theme.ZabalaGaileTakHRTheme
+
 /**
  * Main navigation host for the app
  */
@@ -202,6 +205,14 @@ fun BottomNavigationBar(navController: NavHostController) {
                 )
             )
         }
+    }
+}
+
+@Preview
+@Composable
+fun BottomNavigationBarPreview() {
+    ZabalaGaileTakHRTheme {
+        BottomNavigationBar(navController = rememberNavController())
     }
 }
 

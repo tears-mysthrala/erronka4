@@ -24,6 +24,9 @@ import com.zabalagailetak.hrapp.presentation.ui.theme.*
 import java.text.NumberFormat
 import java.util.*
 
+import androidx.compose.ui.tooling.preview.Preview
+import com.zabalagailetak.hrapp.presentation.ui.theme.ZabalaGaileTakHRTheme
+
 /**
  * Payslips Screen - Display employee payslips
  */
@@ -84,6 +87,14 @@ fun PayslipsScreen(
                 )
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PayslipsScreenPreview() {
+    ZabalaGaileTakHRTheme {
+        PayslipsScreen({})
     }
 }
 
@@ -367,6 +378,14 @@ fun PayslipDetailScreen(
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun PayslipDetailScreenPreview() {
+    ZabalaGaileTakHRTheme {
+        PayslipDetailScreen(1, {})
+    }
+}
+
 @Composable
 fun PayslipDetailItem(
     label: String,
@@ -416,4 +435,27 @@ fun PayslipDetailItem(
 private fun formatCurrency(amount: Float): String {
     val format = NumberFormat.getCurrencyInstance(Locale("eu", "ES"))
     return format.format(amount)
+}
+
+@Preview(showBackground = true, name = "Default")
+@Composable
+fun PayslipsScreenPreview() {
+    ZabalaGaileTakHRTheme {
+        PayslipsScreen({})
+    }
+}
+
+@Preview(showBackground = true, name = "Empty State")
+@Composable
+fun PayslipsScreenEmptyPreview() {
+    ZabalaGaileTakHRTheme {
+        Box(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.background)
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text("Ez dago nominik")
+        }
+    }
 }

@@ -22,10 +22,12 @@ import com.zabalagailetak.hrapp.domain.model.VacationStatus
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+import androidx.compose.ui.tooling.preview.Preview
+import com.zabalagailetak.hrapp.presentation.ui.theme.ZabalaGaileTakHRTheme
+
 /**
  * Vacation Dashboard Screen - Shows balance and requests
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VacationDashboardScreen(
     viewModel: VacationViewModel,
@@ -38,6 +40,22 @@ fun VacationDashboardScreen(
         viewModel.loadDashboard()
     }
 
+    VacationDashboardContent(
+        uiState = uiState,
+        onNavigateToNewRequest = onNavigateToNewRequest,
+        onNavigateToRequestDetail = onNavigateToRequestDetail,
+        onCancelRequest = { viewModel.cancelRequest(it) }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun VacationDashboardContent(
+    uiState: VacationUiState,
+    onNavigateToNewRequest: () -> Unit,
+    onNavigateToRequestDetail: (Int) -> Unit,
+    onCancelRequest: (Int) -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -129,13 +147,32 @@ fun VacationDashboardScreen(
                             VacationRequestCard(
                                 request = request,
                                 onClick = { onNavigateToRequestDetail(request.id!!) },
-                                onCancel = { viewModel.cancelRequest(request.id!!) }
+                                onCancel = { onCancelRequest(request.id!!) }
                             )
                         }
                     }
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun VacationDashboardPreview() {
+    ZabalaGaileTakHRTheme {
+        VacationDashboardContent(
+            uiState = VacationUiState(
+                balance = VacationBalance(2026, 25, 10, 2, 13),
+                requests = listOf(
+                    VacationRequest(1, 101, "2026-07-01", "2026-07-15", 15, VacationStatus.APPROVED, "Suge oporrak"),
+                    VacationRequest(2, 101, "2026-12-24", "2026-12-31", 5, VacationStatus.PENDING, "Gabonak")
+                )
+            ),
+            onNavigateToNewRequest = {},
+            onNavigateToRequestDetail = {},
+            onCancelRequest = {}
+        )
     }
 }
 
@@ -334,5 +371,52 @@ private fun formatDate(dateString: String): String {
         date.format(DateTimeFormatter.ofPattern("MMM d"))
     } catch (e: Exception) {
         dateString
+    }
+}
+
+@Preview(showBackground = true, name = "Light")
+@Composable
+fun VacationDashboardScreenPreview() {
+    ZabalaGaileTakHRTheme {
+        // Mock state
+        val mockVacationBalance = VacationBalance(
+            totalDays = 30,
+            usedDays = 10,
+            remainingDays = 20,
+            pendingDays = 5
+        )
+        
+        val mockRequests = listOf(
+            VacationRequest(
+                id = 1,
+                employeeId = 101,
+                startDate = "2024-03-01",
+                endDate = "2024-03-10",
+                daysRequested = 10,
+                reason = "Udareetara joatea",
+                status = VacationStatus.APPROVED,
+                createdAt = "2024-02-01"
+            ),
+            VacationRequest(
+                id = 2,
+                employeeId = 101,
+                startDate = "2024-04-15",
+                endDate = "2024-04-20",
+                daysRequested = 5,
+                reason = "Ostera",
+                status = VacationStatus.PENDING,
+                createdAt = "2024-02-10"
+            )
+        )
+        
+        // Display simplified version
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .padding(16.dp)
+        ) {
+            Text("Ostalagunaren iruzkina: $mockVacationBalance")
+        }
     }
 }
