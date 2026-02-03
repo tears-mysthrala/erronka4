@@ -6,6 +6,7 @@ import com.zabalagailetak.hrapp.data.api.*
 import com.zabalagailetak.hrapp.data.auth.AuthInterceptor
 import com.zabalagailetak.hrapp.data.auth.TokenStore
 import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Named
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,9 +37,10 @@ object NetworkModule {
     @Singleton
     fun provideAuthInterceptor(tokenStore: TokenStore): AuthInterceptor = AuthInterceptor(tokenStore)
 
-    // OkHttp client used for auth calls (refresh) - has no Authenticator and no AuthInterceptor to avoid recursion
+    // Auth OkHttp client (no authenticator, only logging) used for refresh calls
     @Provides
     @Singleton
+    @Named("authClient")
     fun provideAuthOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
@@ -47,7 +49,8 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideAuthRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    @Named("authRetrofit")
+    fun provideAuthRetrofit(@Named("authClient") okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.API_BASE_URL)
             .client(okHttpClient)
@@ -55,16 +58,20 @@ object NetworkModule {
             .build()
     }
 
-    // Authenticator will be provided after AuthApiService is available
+    // Provide the RefreshAuthenticator using a Retrofit instance that does NOT depend on the main API client,
+    // to avoid cyclic injection. Create an AuthApiService from the authRetrofit here.
     @Provides
     @Singleton
-    fun provideRefreshAuthenticator(authApi: AuthApiService, tokenStore: TokenStore): com.zabalagailetak.hrapp.data.auth.RefreshAuthenticator {
+    fun provideRefreshAuthenticator(@Named("authRetrofit") authRetrofit: Retrofit, tokenStore: TokenStore): com.zabalagailetak.hrapp.data.auth.RefreshAuthenticator {
+        val authApi = authRetrofit.create(AuthApiService::class.java)
         return com.zabalagailetak.hrapp.data.auth.RefreshAuthenticator(authApi, tokenStore)
     }
 
+    // API OkHttp client (has AuthInterceptor and Authenticator)
     @Provides
     @Singleton
-    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor, authInterceptor: AuthInterceptor, refreshAuthenticator: com.zabalagailetak.hrapp.data.auth.RefreshAuthenticator): OkHttpClient {
+    @Named("apiClient")
+    fun provideApiOkHttpClient(loggingInterceptor: HttpLoggingInterceptor, authInterceptor: AuthInterceptor, refreshAuthenticator: com.zabalagailetak.hrapp.data.auth.RefreshAuthenticator): OkHttpClient {
         return OkHttpClient.Builder()
             .authenticator(refreshAuthenticator)
             .addInterceptor(authInterceptor)
@@ -74,7 +81,8 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    @Named("apiRetrofit")
+    fun provideApiRetrofit(@Named("apiClient") okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.API_BASE_URL)
             .client(okHttpClient)
@@ -84,31 +92,31 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideVacationApiService(retrofit: Retrofit): VacationApiService {
+    fun provideVacationApiService(@Named("apiRetrofit") retrofit: Retrofit): VacationApiService {
         return retrofit.create(VacationApiService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideAuthApiService(retrofit: Retrofit): AuthApiService {
+    fun provideAuthApiService(@Named("apiRetrofit") retrofit: Retrofit): AuthApiService {
         return retrofit.create(AuthApiService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideEmployeeApiService(retrofit: Retrofit): EmployeeApiService {
+    fun provideEmployeeApiService(@Named("apiRetrofit") retrofit: Retrofit): EmployeeApiService {
         return retrofit.create(EmployeeApiService::class.java)
     }
 
     @Provides
     @Singleton
-    fun providePayslipApiService(retrofit: Retrofit): PayslipApiService {
+    fun providePayslipApiService(@Named("apiRetrofit") retrofit: Retrofit): PayslipApiService {
         return retrofit.create(PayslipApiService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideDocumentApiService(retrofit: Retrofit): DocumentApiService {
+    fun provideDocumentApiService(@Named("apiRetrofit") retrofit: Retrofit): DocumentApiService {
         return retrofit.create(DocumentApiService::class.java)
     }
 }
