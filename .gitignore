@@ -16,3 +16,25 @@ Thumbs.db
 .idea
 .vscode
 *.swp
+
+# Gradle
+.gradle/
+build/
+gradle.properties
+local.properties
+*.iml
+*.ipr
+*.iws
+
+# Android
+app/build/
+app/release/
+*.apk
+*.aab
+*.aar
+
+# Kotlin
+.kotlin/
+
+# Lint
+lint-baseline.xml
