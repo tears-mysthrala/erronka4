@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Script para corregir roles y configuración del usuario admin
  * 
@@ -20,13 +21,13 @@ define('ROOT_PATH', dirname(__DIR__));
 if (file_exists(ROOT_PATH . '/.env')) {
     $envFile = file_get_contents(ROOT_PATH . '/.env');
     $lines = explode("\n", $envFile);
-    
+
     foreach ($lines as $line) {
         $line = trim($line);
         if (empty($line) || str_starts_with($line, '#')) {
             continue;
         }
-        
+
         if (str_contains($line, '=')) {
             list($key, $value) = explode('=', $line, 2);
             $key = trim($key);
@@ -50,49 +51,49 @@ try {
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     ]);
-    
+
     echo "✅ Conexión a base de datos exitosa<br><br>";
-    
+
     // Step 1: Check current state
     echo "<h2>📋 Estado Actual:</h2>";
     $stmt = $pdo->prepare('SELECT id, email, role, account_locked, mfa_enabled, failed_login_attempts FROM users WHERE email = ?');
     $stmt->execute(['admin@zabalagailetak.com']);
     $admin = $stmt->fetch();
-    
+
     if (!$admin) {
         echo "❌ Usuario admin NO encontrado<br>";
         exit;
     }
-    
+
     echo "<pre>";
     print_r($admin);
     echo "</pre>";
-    
+
     // Step 2: Fix role to uppercase
     echo "<h2>🔧 Actualizando rol a mayúsculas...</h2>";
     $stmt = $pdo->prepare('UPDATE users SET role = ? WHERE email = ? AND role != ?');
     $stmt->execute(['ADMIN', 'admin@zabalagailetak.com', 'ADMIN']);
     echo "✅ Rol actualizado (filas afectadas: " . $stmt->rowCount() . ")<br><br>";
-    
+
     // Step 3: Unlock account and reset failed attempts
     echo "<h2>🔓 Desbloqueando cuenta y reseteando intentos fallidos...</h2>";
     $stmt = $pdo->prepare('UPDATE users SET account_locked = 0, failed_login_attempts = 0 WHERE email = ?');
     $stmt->execute(['admin@zabalagailetak.com']);
     echo "✅ Cuenta desbloqueada (filas afectadas: " . $stmt->rowCount() . ")<br><br>";
-    
+
     // Step 4: Verify password hash
     echo "<h2>🔑 Verificando contraseña...</h2>";
     $stmt = $pdo->prepare('SELECT password_hash FROM users WHERE email = ?');
     $stmt->execute(['admin@zabalagailetak.com']);
     $result = $stmt->fetch();
-    
+
     $testPassword = 'secure_password_123';
     $hashMatch = password_verify($testPassword, $result['password_hash']);
-    
+
     echo "Hash en BD: <code>" . htmlspecialchars(substr($result['password_hash'], 0, 30)) . "...</code><br>";
     echo "Contraseña de prueba: <code>$testPassword</code><br>";
     echo "Verificación: " . ($hashMatch ? "✅ <strong>CORRECTA</strong>" : "❌ <strong>INCORRECTA</strong>") . "<br><br>";
-    
+
     // If password doesn't match, regenerate it
     if (!$hashMatch) {
         echo "<h2>🔄 Regenerando hash de contraseña...</h2>";
@@ -102,7 +103,7 @@ try {
         echo "✅ Contraseña actualizada<br>";
         echo "Nueva contraseña: <code>$testPassword</code><br><br>";
     }
-    
+
     // Step 5: Update all roles to uppercase
     echo "<h2>🔄 Actualizando todos los roles a mayúsculas...</h2>";
     $roleUpdates = [
@@ -112,7 +113,7 @@ try {
         'empleado' => 'EMPLEADO',
         'auditor' => 'AUDITOR'
     ];
-    
+
     foreach ($roleUpdates as $old => $new) {
         $stmt = $pdo->prepare('UPDATE users SET role = ? WHERE LOWER(role) = ?');
         $stmt->execute([$new, $old]);
@@ -121,22 +122,22 @@ try {
         }
     }
     echo "<br>";
-    
+
     // Step 6: Show final state
     echo "<h2>✅ Estado Final:</h2>";
     $stmt = $pdo->prepare('SELECT id, email, role, account_locked, mfa_enabled, failed_login_attempts FROM users WHERE email = ?');
     $stmt->execute(['admin@zabalagailetak.com']);
     $admin = $stmt->fetch();
-    
+
     echo "<pre>";
     print_r($admin);
     echo "</pre>";
-    
+
     // Step 7: Show all users
     echo "<h2>👥 Todos los usuarios:</h2>";
     $stmt = $pdo->query('SELECT id, email, role, account_locked FROM users ORDER BY created_at');
     $users = $stmt->fetchAll();
-    
+
     echo "<table border='1' cellpadding='5' cellspacing='0'>";
     echo "<tr><th>Email</th><th>Role</th><th>Locked</th></tr>";
     foreach ($users as $u) {
@@ -148,7 +149,7 @@ try {
         echo "</tr>";
     }
     echo "</table>";
-    
+
     echo "<hr>";
     echo "<h2 style='color: green;'>✅ ¡Configuración completada!</h2>";
     echo "<p>Ahora puedes:</p>";
@@ -156,7 +157,6 @@ try {
     echo "<li>Eliminar este archivo por seguridad</li>";
     echo "<li>Probar el login con: <code>admin@zabalagailetak.com</code> / <code>secure_password_123</code></li>";
     echo "</ol>";
-    
 } catch (PDOException $e) {
     echo "<h2 style='color: red;'>❌ Error:</h2>";
     echo "<pre style='color: red;'>" . htmlspecialchars($e->getMessage()) . "</pre>";
