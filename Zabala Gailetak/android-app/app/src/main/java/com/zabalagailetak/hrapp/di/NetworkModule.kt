@@ -1,6 +1,8 @@
 package com.zabalagailetak.hrapp.di
 
 import android.content.Context
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.zabalagailetak.hrapp.BuildConfig
 import com.zabalagailetak.hrapp.data.api.*
 import com.zabalagailetak.hrapp.data.auth.AuthInterceptor
@@ -20,6 +22,14 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson {
+        return GsonBuilder()
+            .setLenient()
+            .create()
+    }
 
     @Provides
     @Singleton
@@ -50,11 +60,11 @@ object NetworkModule {
     @Provides
     @Singleton
     @Named("authRetrofit")
-    fun provideAuthRetrofit(@Named("authClient") okHttpClient: OkHttpClient): Retrofit {
+    fun provideAuthRetrofit(@Named("authClient") okHttpClient: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.API_BASE_URL)
             .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
 
@@ -82,11 +92,11 @@ object NetworkModule {
     @Provides
     @Singleton
     @Named("apiRetrofit")
-    fun provideApiRetrofit(@Named("apiClient") okHttpClient: OkHttpClient): Retrofit {
+    fun provideApiRetrofit(@Named("apiClient") okHttpClient: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.API_BASE_URL)
             .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
 

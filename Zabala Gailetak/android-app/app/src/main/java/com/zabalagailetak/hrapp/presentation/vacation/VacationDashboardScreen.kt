@@ -24,12 +24,10 @@ import java.time.format.DateTimeFormatter
 
 import androidx.compose.ui.tooling.preview.Preview
 import com.zabalagailetak.hrapp.presentation.ui.theme.ZabalaGaileTakHRTheme
-import android.annotation.TargetApi
 
 /**
  * Vacation Dashboard Screen - Shows balance and requests
  */
-@TargetApi(26)
 @Composable
 fun VacationDashboardScreen(
     viewModel: VacationViewModel,
@@ -165,33 +163,10 @@ fun VacationDashboardPreview() {
     ZabalaGaileTakHRTheme {
         VacationDashboardContent(
             uiState = VacationUiState(
-                balance = VacationBalance(
-                    employeeId = 101,
-                    year = 2026,
-                    totalDays = 25f,
-                    usedDays = 10f,
-                    pendingDays = 2f,
-                    availableDays = 13f
-                ),
+                balance = VacationBalance(employeeId = 101, year = 2026, totalDays = 25f, usedDays = 10f, pendingDays = 2f, availableDays = 13f),
                 requests = listOf(
-                    VacationRequest(
-                        id = 1,
-                        employeeId = 101,
-                        startDate = "2026-07-01",
-                        endDate = "2026-07-15",
-                        totalDays = 15f,
-                        status = VacationStatus.APPROVED,
-                        notes = "Suge oporrak"
-                    ),
-                    VacationRequest(
-                        id = 2,
-                        employeeId = 101,
-                        startDate = "2026-12-24",
-                        endDate = "2026-12-31",
-                        totalDays = 5f,
-                        status = VacationStatus.PENDING,
-                        notes = "Gabonak"
-                    )
+                    VacationRequest(id = 1, employeeId = 101, startDate = "2026-07-01", endDate = "2026-07-15", totalDays = 15f, status = VacationStatus.APPROVED, notes = "Suge oporrak"),
+                    VacationRequest(id = 2, employeeId = 101, startDate = "2026-12-24", endDate = "2026-12-31", totalDays = 5f, status = VacationStatus.PENDING, notes = "Gabonak")
                 )
             ),
             onNavigateToNewRequest = {},
@@ -396,54 +371,5 @@ private fun formatDate(dateString: String): String {
         date.format(DateTimeFormatter.ofPattern("MMM d"))
     } catch (e: Exception) {
         dateString
-    }
-}
-
-@Preview(showBackground = true, name = "Light")
-@Composable
-fun VacationDashboardScreenPreview() {
-    ZabalaGaileTakHRTheme {
-        // Mock state
-        val mockVacationBalance = VacationBalance(
-            employeeId = 101,
-            year = 2024,
-            totalDays = 30f,
-            usedDays = 10f,
-            pendingDays = 5f,
-            availableDays = 15f
-        )
-        
-        val mockRequests = listOf(
-            VacationRequest(
-                id = 1,
-                employeeId = 101,
-                startDate = "2024-03-01",
-                endDate = "2024-03-10",
-                totalDays = 10f,
-                status = VacationStatus.APPROVED,
-                notes = "Udareetara joatea",
-                createdAt = "2024-02-01"
-            ),
-            VacationRequest(
-                id = 2,
-                employeeId = 101,
-                startDate = "2024-04-15",
-                endDate = "2024-04-20",
-                totalDays = 5f,
-                status = VacationStatus.PENDING,
-                notes = "Ostera",
-                createdAt = "2024-02-10"
-            )
-        )
-        
-        // Display simplified version
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
-                .padding(16.dp)
-        ) {
-            Text("Ostalagunaren iruzkina: $mockVacationBalance")
-        }
     }
 }

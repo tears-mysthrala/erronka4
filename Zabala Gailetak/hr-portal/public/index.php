@@ -71,26 +71,33 @@ try {
     $app = new App();
     $app->run();
 } catch (\Throwable $e) {
-    // Log error
+    // Log error internally
     error_log($e->getMessage());
 
-    // Show error page
+    // Ensure JSON response for API consistency
+    header('Content-Type: application/json');
     http_response_code(500);
 
+    $response = [
+        'error' => 'Internal Server Error',
+        'code' => 500
+    ];
+
+    // If in debug mode, include detailed error information
     if ($appDebug) {
-        echo '<h1>Error</h1>';
-        echo '<pre>' . htmlspecialchars($e->getMessage()) . '</pre>';
-        echo '<pre>' . htmlspecialchars($e->getTraceAsString()) . '</pre>';
+        $response['message'] = $e->getMessage();
+        $response['trace'] = $e->getTraceAsString();
+        $response['file'] = $e->getFile();
+        $response['line'] = $e->getLine();
     } else {
-        // Friendly error page for missing config
+        // User-friendly messages for production
         if (str_contains($e->getMessage(), 'SQLSTATE') || str_contains($e->getMessage(), 'Connection refused')) {
-            echo '<h1>Servicio No Disponible</h1>';
-            echo '<p>No se ha podido conectar con la base de datos. Por favor, verifica el archivo <code>.env</code>.</p>';
-            echo '<hr>';
-            echo '<small>Si eres el administrador, sube el archivo .env via FTP.</small>';
+            $response['message'] = 'No se ha podido conectar con la base de datos.';
         } else {
-            echo '<h1>500 Internal Server Error</h1>';
-            echo '<p>An unexpected error occurred. Please try again later.</p>';
+            $response['message'] = 'Ha ocurrido un error inesperado.';
         }
     }
+
+    echo json_encode($response);
+    exit;
 }
