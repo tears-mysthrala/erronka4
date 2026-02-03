@@ -124,7 +124,7 @@ $router->get('/api/test/db', function (Request $request) use ($db): Response {
         $env = function ($key, $default = null) {
             return $_ENV[$key] ?? $_SERVER[$key] ?? getenv($key) ?: $default;
         };
-        
+
         $config = [
             'driver' => $env('DB_DRIVER', 'mysql'),
             'host' => $env('DB_HOST', 'localhost'),
@@ -133,20 +133,20 @@ $router->get('/api/test/db', function (Request $request) use ($db): Response {
             'user' => $env('DB_USER', 'root'),
             'has_password' => !empty($env('DB_PASSWORD')),
         ];
-        
+
         // Test connection
         $stmt = $db->query('SELECT DATABASE() as db, VERSION() as version');
         $serverInfo = $stmt->fetch();
-        
+
         // Test users table
         $stmt = $db->query('SELECT COUNT(*) as count FROM users');
         $userCount = $stmt->fetch();
-        
+
         // Test admin user
         $stmt = $db->prepare('SELECT id, email, role, account_locked FROM users WHERE email = ?');
         $stmt->execute(['admin@zabalagailetak.com']);
         $admin = $stmt->fetch();
-        
+
         return Response::json([
             'status' => 'success',
             'message' => 'Database connection successful',
@@ -171,6 +171,81 @@ $router->get('/api/test/db', function (Request $request) use ($db): Response {
                 'port' => $env('DB_PORT', '3306'),
                 'database' => $env('DB_NAME', 'hr_portal'),
             ]
+        ], 500);
+    }
+});
+
+// Login Diagnostic Endpoint
+$router->post('/api/test/login', function (Request $request) use ($db): Response {
+    try {
+        $data = $request->getParsedBody();
+        $email = $data['email'] ?? '';
+        $password = $data['password'] ?? '';
+
+        if (empty($email) || empty($password)) {
+            return Response::json([
+                'status' => 'error',
+                'step' => 'validation',
+                'message' => 'Email y contraseña son requeridos'
+            ], 400);
+        }
+
+        // Step 1: Find user
+        $stmt = $db->prepare('SELECT id, email, password_hash, role, account_locked, mfa_enabled FROM users WHERE email = ?');
+        $stmt->execute([$email]);
+        $user = $stmt->fetch();
+
+        if (!$user) {
+            return Response::json([
+                'status' => 'error',
+                'step' => 'user_lookup',
+                'message' => 'Usuario no encontrado',
+                'email_searched' => $email
+            ], 401);
+        }
+
+        // Step 2: Check account status
+        if ($user['account_locked']) {
+            return Response::json([
+                'status' => 'error',
+                'step' => 'account_status',
+                'message' => 'Cuenta bloqueada',
+                'user_id' => $user['id']
+            ], 403);
+        }
+
+        // Step 3: Verify password
+        $passwordMatch = password_verify($password, $user['password_hash']);
+
+        if (!$passwordMatch) {
+            return Response::json([
+                'status' => 'error',
+                'step' => 'password_verification',
+                'message' => 'Contraseña incorrecta',
+                'user_id' => $user['id'],
+                'hash_starts_with' => substr($user['password_hash'], 0, 7),
+                'password_length' => strlen($password)
+            ], 401);
+        }
+
+        // Success
+        return Response::json([
+            'status' => 'success',
+            'message' => 'Login diagnostic passed',
+            'user' => [
+                'id' => $user['id'],
+                'email' => $user['email'],
+                'role' => $user['role'],
+                'mfa_enabled' => (bool)$user['mfa_enabled']
+            ]
+        ]);
+    } catch (\Exception $e) {
+        return Response::json([
+            'status' => 'error',
+            'step' => 'exception',
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine()
         ], 500);
     }
 });
