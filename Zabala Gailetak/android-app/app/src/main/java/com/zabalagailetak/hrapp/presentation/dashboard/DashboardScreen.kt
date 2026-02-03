@@ -28,6 +28,7 @@ import com.zabalagailetak.hrapp.presentation.ui.theme.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import android.annotation.TargetApi
 
 import androidx.compose.ui.tooling.preview.Preview
 import com.zabalagailetak.hrapp.presentation.ui.theme.ZabalaGaileTakHRTheme
@@ -37,6 +38,7 @@ import com.zabalagailetak.hrapp.presentation.ui.theme.ZabalaGaileTakHRTheme
  * Features: Cards with gradients, quick actions, stats overview
  */
 @OptIn(ExperimentalMaterial3Api::class)
+@TargetApi(26)
 @Composable
 fun DashboardScreen(
     onNavigateToVacations: () -> Unit,

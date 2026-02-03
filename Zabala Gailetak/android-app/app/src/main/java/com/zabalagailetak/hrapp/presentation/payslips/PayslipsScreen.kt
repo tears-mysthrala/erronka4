@@ -88,17 +88,7 @@ fun PayslipsScreen(
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PayslipsScreenPreview() {
-    ZabalaGaileTakHRTheme {
-        PayslipsScreen({})
-    }
-}
-
-/**
+}/**
  * Summary card showing latest payslip info
  */
 @Composable

@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import android.annotation.TargetApi
 
 import androidx.compose.ui.tooling.preview.Preview
 import com.zabalagailetak.hrapp.presentation.ui.theme.ZabalaGaileTakHRTheme
