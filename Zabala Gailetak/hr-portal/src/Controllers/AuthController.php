@@ -105,9 +105,9 @@ class AuthController
 
             // Verificar contraseña
             $passwordMatch = password_verify($password, $user['password_hash']);
-            error_log("Password verification: " . ($passwordMatch ? 'SUCCESS' : 'FAILED') . 
-                     " (hash starts with: " . substr($user['password_hash'], 0, 7) . ")");
-            
+            error_log("Password verification: " . ($passwordMatch ? 'SUCCESS' : 'FAILED') .
+                " (hash starts with: " . substr($user['password_hash'], 0, 7) . ")");
+
             if (!$passwordMatch) {
                 // Incrementar intentos fallidos
                 $this->incrementFailedAttempts($user['id']);
