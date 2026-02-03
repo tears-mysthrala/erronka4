@@ -117,6 +117,64 @@ $router->get('/api/health', function (Request $request): Response {
     ]);
 });
 
+// Database Connection Test (Diagnostic)
+$router->get('/api/test/db', function (Request $request) use ($db): Response {
+    try {
+        // Get configuration
+        $env = function ($key, $default = null) {
+            return $_ENV[$key] ?? $_SERVER[$key] ?? getenv($key) ?: $default;
+        };
+        
+        $config = [
+            'driver' => $env('DB_DRIVER', 'mysql'),
+            'host' => $env('DB_HOST', 'localhost'),
+            'port' => $env('DB_PORT', '3306'),
+            'database' => $env('DB_NAME', 'hr_portal'),
+            'user' => $env('DB_USER', 'root'),
+            'has_password' => !empty($env('DB_PASSWORD')),
+        ];
+        
+        // Test connection
+        $stmt = $db->query('SELECT DATABASE() as db, VERSION() as version');
+        $serverInfo = $stmt->fetch();
+        
+        // Test users table
+        $stmt = $db->query('SELECT COUNT(*) as count FROM users');
+        $userCount = $stmt->fetch();
+        
+        // Test admin user
+        $stmt = $db->prepare('SELECT id, email, role, account_locked FROM users WHERE email = ?');
+        $stmt->execute(['admin@zabalagailetak.com']);
+        $admin = $stmt->fetch();
+        
+        return Response::json([
+            'status' => 'success',
+            'message' => 'Database connection successful',
+            'config' => $config,
+            'server' => $serverInfo,
+            'users_count' => (int)$userCount['count'],
+            'admin_exists' => $admin !== false,
+            'admin_info' => $admin ? [
+                'id' => $admin['id'],
+                'email' => $admin['email'],
+                'role' => $admin['role'],
+                'locked' => (bool)$admin['account_locked']
+            ] : null
+        ]);
+    } catch (\Exception $e) {
+        return Response::json([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+            'config' => [
+                'driver' => $env('DB_DRIVER', 'mysql'),
+                'host' => $env('DB_HOST', 'localhost'),
+                'port' => $env('DB_PORT', '3306'),
+                'database' => $env('DB_NAME', 'hr_portal'),
+            ]
+        ], 500);
+    }
+});
+
 // API Auth
 $router->post('/api/auth/login', [$authController, 'login']);
 $router->post('/api/auth/logout', [$authController, 'logout']);
