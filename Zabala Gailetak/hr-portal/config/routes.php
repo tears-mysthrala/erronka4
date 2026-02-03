@@ -37,7 +37,7 @@ if ($jwtSecret === null) {
 
 $tokenManager = new TokenManager([
     'jwt_secret' => $jwtSecret,
-    'jwt_issuer' => $_ENV['APP_URL'] ?? 'http://localhost:8080',
+    'jwt_issuer' => $_ENV['APP_URL'] ?? 'https://zabala-gailetak.infinityfreeapp.com',
     'jwt_access_expiry' => 3600,
     'jwt_refresh_expiry' => 604800
 ]);

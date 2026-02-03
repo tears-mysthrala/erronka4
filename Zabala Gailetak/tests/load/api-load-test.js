@@ -16,7 +16,7 @@ export let options = {
   },
 };
 
-const BASE_URL = __ENV.API_URL || 'http://localhost:8080/api';
+const BASE_URL = __ENV.API_URL || 'https://zabala-gailetak.infinityfreeapp.com/api';
 
 export default function () {
   // 1. Home/Ping
@@ -36,21 +36,21 @@ export default function () {
   };
 
   let loginRes = http.post(`${BASE_URL}/auth/login`, loginPayload, params);
-  
+
   check(loginRes, {
     'login success': (r) => r.status === 200 || r.status === 401, // 401 allowed if user not seeded
   });
 
   if (loginRes.status === 200) {
     const token = loginRes.json('access_token');
-    
+
     // 3. Authenticated Request - Employee List
     let authParams = {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
     };
-    
+
     let employeesRes = http.get(`${BASE_URL}/employees`, authParams);
     check(employeesRes, {
       'get employees success': (r) => r.status === 200,

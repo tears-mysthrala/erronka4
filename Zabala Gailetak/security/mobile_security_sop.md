@@ -119,7 +119,7 @@ Ziurtatu API dei guztiak HTTPS bidez egiten direla eta ziurtagiri baliogabeak ba
 
 ```javascript
 const apiClient = axios.create({
-  baseURL: 'https://api.zabala-gailetak.com',
+  baseURL: 'https://zabala-gailetak.infinityfreeapp.com',
   timeout: 10000,
   httpsAgent: new https.Agent({
     rejectUnauthorized: true

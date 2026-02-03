@@ -1,32 +1,38 @@
 # Apache configuration for HR Portal
 
 <IfModule mod_rewrite.c>
-    RewriteEngine On
+RewriteEngine On
     
-    # Redirect to HTTPS (uncomment in production)
-    # RewriteCond %{HTTPS} off
-    # RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+# Redirect to HTTPS (uncomment in production)
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
     
-    # Handle Authorization Header
-    RewriteCond %{HTTP:Authorization} .
-    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+# Handle Authorization Header
+RewriteCond % { HTTP:Authorization } .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:% { HTTP:Authorization }]
     
-    # Redirect all requests to index.php
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php [QSA,L]
+# Redirect all requests to index.php
+RewriteCond % { REQUEST_FILENAME } !-f
+RewriteCond % { REQUEST_FILENAME } !-d
+RewriteRule ^(.*)$ index.php [QSA, L]
 </IfModule>
 
 # Security Headers
 <IfModule mod_headers.c>
-    Header set X-Content-Type-Options "nosniff"
-    Header set X-Frame-Options "SAMEORIGIN"
-    Header set X-XSS-Protection "1; mode=block"
-    Header set Referrer-Policy "strict-origin-when-cross-origin"
-    Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+Header set X-Content-Type-Options "nosniff"
+Header set X-Frame-Options "SAMEORIGIN"
+Header set X-XSS-Protection "1; mode=block"
+Header set Referrer-Policy "strict-origin-when-cross-origin"
+Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
     
-    # Content Security Policy (adjust as needed)
-    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'self'"
+# Content Security Policy (adjust as needed)
+Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://zabala-gailetak.infinityfreeapp.com; frame-ancestors 'self'"
+
+# CORS: allow browser clients from the production domain to call the API
+Header always set Access-Control-Allow-Origin "https://zabala-gailetak.infinityfreeapp.com"
+Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+Header always set Access-Control-Allow-Headers "Authorization,Content-Type,X-Requested-With"
+Header always set Access-Control-Allow-Credentials "true"
 </IfModule>
 
 # Disable directory browsing
@@ -35,6 +41,6 @@ Options -Indexes
 ErrorDocument 429 /429.html
 
 <FilesMatch "(composer\.json|composer\.lock|\.env)$">
-    Order allow,deny
-    Deny from all
+Order allow, deny
+Deny from all
 </FilesMatch>

@@ -112,7 +112,7 @@ Total: ~1,400 líneas de código
 class ApiClient {
   constructor() {
     this.client = axios.create({
-      baseURL: 'http://localhost:8080/api',
+      baseURL: 'https://zabala-gailetak.infinityfreeapp.com/api',
       headers: { 'Content-Type': 'application/json' }
     });
     

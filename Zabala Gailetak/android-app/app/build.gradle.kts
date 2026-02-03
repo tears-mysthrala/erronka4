@@ -22,7 +22,7 @@ android {
             useSupportLibrary = true
         }
 
-        buildConfigField("String", "API_BASE_URL", "\"http://localhost:8080/api/\"")
+        buildConfigField("String", "API_BASE_URL", "\"https://zabala-gailetak.infinityfreeapp.com/api/\"")
     }
 
     buildTypes {

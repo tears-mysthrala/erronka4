@@ -786,7 +786,7 @@ Para producción, configurar en `app.config.js`:
 export default {
   expo: {
     extra: {
-      apiUrl: process.env.API_URL || 'https://api.zabalagailetak.eus/api',
+      apiUrl: process.env.API_URL || 'https://zabala-gailetak.infinityfreeapp.com/api',
     }
   }
 };
@@ -823,7 +823,7 @@ await SecureStore.setItemAsync('token', jwt);
 ### HTTPS en Producción
 
 **Desarrollo**: `http://192.168.1.100:8080` (OK)  
-**Producción**: `https://api.zabalagailetak.eus` (OBLIGATORIO)
+**Producción**: `https://zabala-gailetak.infinityfreeapp.com` (OBLIGATORIO)
 
 Configurar certificado SSL/TLS en backend.
 

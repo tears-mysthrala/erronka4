@@ -717,7 +717,7 @@ curl -X POST https://api.zabala-gailetak.com/api/orders \
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'https://api.zabala-gailetak.com/api',
+  baseURL: 'https://zabala-gailetak.infinityfreeapp.com/api',
   timeout: 10000
 });
 
