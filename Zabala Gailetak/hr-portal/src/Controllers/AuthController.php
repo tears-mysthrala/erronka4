@@ -67,8 +67,12 @@ class AuthController
             $email = $data['email'] ?? '';
             $password = $data['password'] ?? '';
 
+            // Log login attempt
+            error_log("Login attempt for email: $email");
+
             // Validar datos
             if (empty($email) || empty($password)) {
+                error_log("Login failed: Email or password empty");
                 return Response::json([
                     'error' => 'Email y contraseña son requeridos'
                 ], 400);
@@ -83,20 +87,28 @@ class AuthController
             $user = $stmt->fetch();
 
             if (!$user) {
+                error_log("Login failed: User not found - $email");
                 return Response::json([
                     'error' => 'Credenciales inválidas'
                 ], 401);
             }
 
+            error_log("User found: " . $user['email'] . " (Role: " . $user['role'] . ")");
+
             // Verificar si la cuenta está bloqueada
             if ($user['account_locked']) {
+                error_log("Login failed: Account locked - " . $user['email']);
                 return Response::json([
                     'error' => 'Cuenta bloqueada. Contacta con el administrador'
                 ], 403);
             }
 
             // Verificar contraseña
-            if (!password_verify($password, $user['password_hash'])) {
+            $passwordMatch = password_verify($password, $user['password_hash']);
+            error_log("Password verification: " . ($passwordMatch ? 'SUCCESS' : 'FAILED') . 
+                     " (hash starts with: " . substr($user['password_hash'], 0, 7) . ")");
+            
+            if (!$passwordMatch) {
                 // Incrementar intentos fallidos
                 $this->incrementFailedAttempts($user['id']);
 
@@ -107,6 +119,8 @@ class AuthController
 
             // Reset intentos fallidos
             $this->resetFailedAttempts($user['id']);
+
+            error_log("Login successful for: " . $user['email']);
 
             // Si tiene MFA habilitado, devolver token temporal
             if ($user['mfa_enabled']) {
@@ -137,6 +151,7 @@ class AuthController
                 'session_id' => $tokens['session_id']
             ], 200);
         } catch (Exception $e) {
+            error_log("Login exception: " . $e->getMessage());
             return Response::json([
                 'error' => 'Error en el login: ' . $e->getMessage()
             ], 500);
