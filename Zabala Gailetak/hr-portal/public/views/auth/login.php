@@ -7,12 +7,13 @@
                 <h3 class="text-danger">Zabala Gailetak</h3>
                 <p class="text-muted">HR Portal Access</p>
             </div>
-            
+
             <?php if (isset($error)): ?>
                 <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
             <?php endif; ?>
 
             <form action="/login" method="POST">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token ?? '') ?>">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" class="form-control" id="email" name="email" required autofocus>

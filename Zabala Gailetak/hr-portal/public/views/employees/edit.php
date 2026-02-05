@@ -10,17 +10,18 @@
 </div>
 
 <?php if (!empty($errors)): ?>
-<div class="alert alert-danger">
-    <h6><i class="bi bi-exclamation-triangle"></i> Se encontraron errores:</h6>
-    <ul class="mb-0">
-        <?php foreach ($errors as $field => $error): ?>
-            <li><?= htmlspecialchars($error) ?></li>
-        <?php endforeach; ?>
-    </ul>
-</div>
+    <div class="alert alert-danger">
+        <h6><i class="bi bi-exclamation-triangle"></i> Se encontraron errores:</h6>
+        <ul class="mb-0">
+            <?php foreach ($errors as $field => $error): ?>
+                <li><?= htmlspecialchars($error) ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
 <?php endif; ?>
 
 <form action="/employees/edit/<?= $employee['id'] ?>" method="POST" class="row g-3">
+    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token ?? '') ?>">
     <div class="col-md-6">
         <label class="form-label">Nombre</label>
         <input type="text" class="form-control" name="first_name" value="<?= htmlspecialchars($old['first_name'] ?? $employee['first_name']) ?>" required>
@@ -45,16 +46,16 @@
         <input type="text" class="form-control" name="position" value="<?= htmlspecialchars($old['position'] ?? $employee['position']) ?>">
     </div>
     <?php if ($auth['role'] === 'admin'): ?>
-    <div class="col-md-6">
-        <label class="form-label">Rol en el Sistema</label>
-        <select class="form-select" name="role">
-            <option value="employee" <?= ($old['role'] ?? $employee['role']) === 'employee' ? 'selected' : '' ?>>Empleado</option>
-            <option value="department_head" <?= ($old['role'] ?? $employee['role']) === 'department_head' ? 'selected' : '' ?>>Jefe de Departamento</option>
-            <option value="hr_manager" <?= ($old['role'] ?? $employee['role']) === 'hr_manager' ? 'selected' : '' ?>>Responsable de RRHH</option>
-            <option value="admin" <?= ($old['role'] ?? $employee['role']) === 'admin' ? 'selected' : '' ?>>Administrador</option>
-        </select>
-        <div class="form-text">⚠️ Cambiar el rol afecta los permisos del usuario en todo el sistema.</div>
-    </div>
+        <div class="col-md-6">
+            <label class="form-label">Rol en el Sistema</label>
+            <select class="form-select" name="role">
+                <option value="employee" <?= ($old['role'] ?? $employee['role']) === 'employee' ? 'selected' : '' ?>>Empleado</option>
+                <option value="department_head" <?= ($old['role'] ?? $employee['role']) === 'department_head' ? 'selected' : '' ?>>Jefe de Departamento</option>
+                <option value="hr_manager" <?= ($old['role'] ?? $employee['role']) === 'hr_manager' ? 'selected' : '' ?>>Responsable de RRHH</option>
+                <option value="admin" <?= ($old['role'] ?? $employee['role']) === 'admin' ? 'selected' : '' ?>>Administrador</option>
+            </select>
+            <div class="form-text">⚠️ Cambiar el rol afecta los permisos del usuario en todo el sistema.</div>
+        </div>
     <?php endif; ?>
     <div class="col-md-6">
         <label class="form-label">Departamento</label>
@@ -85,29 +86,29 @@
 </form>
 
 <?php if ($auth['role'] === 'admin' && $employee['role'] !== 'admin'): ?>
-<div class="mt-5 pt-3 border-top">
-    <div class="card border-danger">
-        <div class="card-header bg-danger text-white">
-            <h5 class="card-title mb-0">
-                <i class="bi bi-exclamation-triangle"></i> Zona Peligrosa
-            </h5>
-        </div>
-        <div class="card-body">
-            <p class="mb-3">La eliminación de un empleado es una acción que desactivará su acceso al sistema. El empleado no podrá iniciar sesión pero sus datos permanecerán en el sistema para registros históricos.</p>
-            
-            <div class="alert alert-warning" role="alert">
-                <i class="bi bi-info-circle"></i>
-                <strong>Importante:</strong> Esta acción es reversible. Un administrador puede reactivar la cuenta del empleado si es necesario.
+    <div class="mt-5 pt-3 border-top">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-exclamation-triangle"></i> Zona Peligrosa
+                </h5>
             </div>
-            
-            <form action="/employees/delete/<?= $employee['id'] ?>" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas desactivar al empleado '<?= htmlspecialchars($employee['first_name'] . ' ' . $employee['last_name']) ?>\'?');">
-                <button type="submit" class="btn btn-danger">
-                    <i class="bi bi-person-x"></i> Desactivar Empleado
-                </button>
-            </form>
+            <div class="card-body">
+                <p class="mb-3">La eliminación de un empleado es una acción que desactivará su acceso al sistema. El empleado no podrá iniciar sesión pero sus datos permanecerán en el sistema para registros históricos.</p>
+
+                <div class="alert alert-warning" role="alert">
+                    <i class="bi bi-info-circle"></i>
+                    <strong>Importante:</strong> Esta acción es reversible. Un administrador puede reactivar la cuenta del empleado si es necesario.
+                </div>
+
+                <form action="/employees/delete/<?= $employee['id'] ?>" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas desactivar al empleado '<?= htmlspecialchars($employee['first_name'] . ' ' . $employee['last_name']) ?>\'?');">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-person-x"></i> Desactivar Empleado
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 <?php endif; ?>
 
 <?php require dirname(__DIR__) . '/layouts/footer.php'; ?>

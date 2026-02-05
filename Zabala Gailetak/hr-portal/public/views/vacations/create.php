@@ -10,9 +10,10 @@
     </div>
 <?php endif; ?>
 
-    <div class="card">
+<div class="card">
     <div class="card-body">
         <form action="/vacations/request" method="POST" class="row g-3">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token ?? '') ?>">
             <div class="col-md-6">
                 <label for="start_date" class="form-label">Fecha Inicio</label>
                 <input type="date" class="form-control" id="start_date" name="start_date" required min="<?= date('Y-m-d') ?>" value="<?= htmlspecialchars($old['start_date'] ?? '') ?>">
@@ -31,7 +32,7 @@
                 <label for="notes" class="form-label">Notas / Motivo (Opcional)</label>
                 <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Indica el motivo de tus vacaciones si lo deseas..."><?= htmlspecialchars($old['notes'] ?? '') ?></textarea>
             </div>
-            
+
             <div class="col-12 mt-4">
                 <button class="btn btn-primary" type="submit">
                     <i class="fas fa-paper-plane"></i> Enviar Solicitud
@@ -45,26 +46,26 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const startDate = document.getElementById('start_date');
-    const endDate = document.getElementById('end_date');
-    
-    startDate.addEventListener('change', function() {
-        endDate.min = this.value;
-        if (endDate.value && endDate.value < this.value) {
-            endDate.value = this.value;
-        }
+    document.addEventListener('DOMContentLoaded', function() {
+        const startDate = document.getElementById('start_date');
+        const endDate = document.getElementById('end_date');
+
+        startDate.addEventListener('change', function() {
+            endDate.min = this.value;
+            if (endDate.value && endDate.value < this.value) {
+                endDate.value = this.value;
+            }
+        });
+
+        // Add date validation
+        endDate.addEventListener('change', function() {
+            if (this.value && startDate.value && this.value < startDate.value) {
+                this.setCustomValidity('La fecha fin no puede ser anterior a la fecha de inicio');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
     });
-    
-    // Add date validation
-    endDate.addEventListener('change', function() {
-        if (this.value && startDate.value && this.value < startDate.value) {
-            this.setCustomValidity('La fecha fin no puede ser anterior a la fecha de inicio');
-        } else {
-            this.setCustomValidity('');
-        }
-    });
-});
 </script>
 
 <?php require dirname(__DIR__) . '/layouts/footer.php'; ?>

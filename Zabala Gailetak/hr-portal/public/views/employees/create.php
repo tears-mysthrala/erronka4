@@ -5,6 +5,7 @@
 </div>
 
 <form action="/employees/create" method="POST" class="row g-3 needs-validation" novalidate>
+    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token ?? '') ?>">
     <div class="col-md-6">
         <label for="first_name" class="form-label">Nombre</label>
         <input type="text" class="form-control" id="first_name" name="first_name" required>
@@ -26,18 +27,18 @@
         <input type="text" class="form-control" id="position" name="position">
     </div>
     <?php if ($auth['role'] === 'admin'): ?>
-    <div class="col-md-6">
-        <label for="role" class="form-label">Rol en el Sistema</label>
-        <select class="form-select" id="role" name="role">
-            <option value="employee">Empleado</option>
-            <option value="department_head">Jefe de Departamento</option>
-            <option value="hr_manager">Responsable de RRHH</option>
-            <option value="admin">Administrador</option>
-        </select>
-        <div class="form-text">Selecciona el nivel de acceso que tendrá este usuario en el sistema.</div>
-    </div>
+        <div class="col-md-6">
+            <label for="role" class="form-label">Rol en el Sistema</label>
+            <select class="form-select" id="role" name="role">
+                <option value="employee">Empleado</option>
+                <option value="department_head">Jefe de Departamento</option>
+                <option value="hr_manager">Responsable de RRHH</option>
+                <option value="admin">Administrador</option>
+            </select>
+            <div class="form-text">Selecciona el nivel de acceso que tendrá este usuario en el sistema.</div>
+        </div>
     <?php else: ?>
-    <input type="hidden" name="role" value="employee">
+        <input type="hidden" name="role" value="employee">
     <?php endif; ?>
     <div class="col-md-6">
         <label for="department_id" class="form-label">Departamento</label>
@@ -56,7 +57,7 @@
         <label for="salary" class="form-label">Salario Bruto Anual</label>
         <input type="number" class="form-control" id="salary" name="salary" step="0.01">
     </div>
-    
+
     <div class="col-12">
         <div class="form-check">
             <input class="form-check-input" type="checkbox" name="send_welcome_email" id="send_welcome_email" checked>
@@ -66,7 +67,7 @@
             <div class="form-text">Se enviará un email con las instrucciones de acceso al sistema.</div>
         </div>
     </div>
-    
+
     <div class="col-12 mt-4">
         <button class="btn btn-primary" type="submit">
             <i class="bi bi-person-plus"></i> Guardar Empleado

@@ -1,6 +1,7 @@
 <?php ?>
 <!DOCTYPE html>
 <html lang="eu">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/style.css">
 </head>
+
 <body>
     <div class="header">
         <h1>📊 Zabala Gailetak - Giza Baliabideak</h1>
@@ -25,8 +27,8 @@
 
     <div class="container">
         <div class="breadcrumb">
-            <a href="/dashboard">Hasiera</a> / 
-            <a href="/employees">Langileak</a> / 
+            <a href="/dashboard">Hasiera</a> /
+            <a href="/employees">Langileak</a> /
             <span><?= $isEdit ? 'Editatu' : 'Berria Sortu' ?></span>
         </div>
 
@@ -47,10 +49,11 @@
         <?php endif; ?>
 
         <form id="employee-form" method="POST" action="<?= $isEdit ? '/employees/' . $employee['id'] : '/employees' ?>" class="form-container">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token ?? '') ?>">
             <?php if ($isEdit): ?>
                 <input type="hidden" name="_method" value="PUT">
             <?php endif; ?>
-            
+
             <!-- Personal Information -->
             <div class="form-section">
                 <h3 class="section-title">📋 Informazio Pertsonala</h3>
@@ -59,44 +62,41 @@
                         <label class="form-label" for="first_name">
                             Izena <span class="required">*</span>
                         </label>
-                        <input 
-                            type="text" 
-                            id="first_name" 
-                            name="first_name" 
+                        <input
+                            type="text"
+                            id="first_name"
+                            name="first_name"
                             class="form-input"
                             value="<?= htmlspecialchars($employee['first_name'] ?? '') ?>"
-                            required
-                        >
+                            required>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="last_name">
                             Abizena <span class="required">*</span>
                         </label>
-                        <input 
-                            type="text" 
-                            id="last_name" 
-                            name="last_name" 
+                        <input
+                            type="text"
+                            id="last_name"
+                            name="last_name"
                             class="form-input"
                             value="<?= htmlspecialchars($employee['last_name'] ?? '') ?>"
-                            required
-                        >
+                            required>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="nif">
                             NAN <span class="required">*</span>
                         </label>
-                        <input 
-                            type="text" 
-                            id="nif" 
-                            name="nif" 
+                        <input
+                            type="text"
+                            id="nif"
+                            name="nif"
                             class="form-input"
                             value="<?= htmlspecialchars($employee['nif'] ?? '') ?>"
                             pattern="[0-9]{8}[A-Z]"
                             placeholder="12345678A"
-                            required
-                        >
+                            required>
                         <span class="form-help">Formatua: 8 zenbaki + letra</span>
                     </div>
 
@@ -104,14 +104,13 @@
                         <label class="form-label" for="birth_date">
                             Jaiotza Data <span class="required">*</span>
                         </label>
-                        <input 
-                            type="date" 
-                            id="birth_date" 
-                            name="birth_date" 
+                        <input
+                            type="date"
+                            id="birth_date"
+                            name="birth_date"
                             class="form-input"
                             value="<?= $employee['birth_date'] ?? '' ?>"
-                            required
-                        >
+                            required>
                     </div>
 
                     <div class="form-group">
@@ -130,14 +129,13 @@
                         <label class="form-label" for="nationality">
                             Nazionalitatea
                         </label>
-                        <input 
-                            type="text" 
-                            id="nationality" 
-                            name="nationality" 
+                        <input
+                            type="text"
+                            id="nationality"
+                            name="nationality"
                             class="form-input"
                             value="<?= htmlspecialchars($employee['nationality'] ?? '') ?>"
-                            placeholder="Espainiako"
-                        >
+                            placeholder="Espainiako">
                     </div>
                 </div>
             </div>
@@ -150,83 +148,77 @@
                         <label class="form-label" for="email">
                             Email <span class="required">*</span>
                         </label>
-                        <input 
-                            type="email" 
-                            id="email" 
-                            name="email" 
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
                             class="form-input"
                             value="<?= htmlspecialchars($employee['email'] ?? '') ?>"
-                            required
-                        >
+                            required>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="phone">
                             Telefonoa
                         </label>
-                        <input 
-                            type="tel" 
-                            id="phone" 
-                            name="phone" 
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
                             class="form-input"
                             value="<?= htmlspecialchars($employee['phone'] ?? '') ?>"
-                            placeholder="+34 600 000 000"
-                        >
+                            placeholder="+34 600 000 000">
                     </div>
 
                     <div class="form-group full-width">
                         <label class="form-label" for="address">
                             Helbidea
                         </label>
-                        <input 
-                            type="text" 
-                            id="address" 
-                            name="address" 
+                        <input
+                            type="text"
+                            id="address"
+                            name="address"
                             class="form-input"
                             value="<?= htmlspecialchars($employee['address'] ?? '') ?>"
-                            placeholder="Kale Nagusia, 123"
-                        >
+                            placeholder="Kale Nagusia, 123">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="city">
                             Hiria
                         </label>
-                        <input 
-                            type="text" 
-                            id="city" 
-                            name="city" 
+                        <input
+                            type="text"
+                            id="city"
+                            name="city"
                             class="form-input"
-                            value="<?= htmlspecialchars($employee['city'] ?? '') ?>"
-                        >
+                            value="<?= htmlspecialchars($employee['city'] ?? '') ?>">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="postal_code">
                             Posta Kodea
                         </label>
-                        <input 
-                            type="text" 
-                            id="postal_code" 
-                            name="postal_code" 
+                        <input
+                            type="text"
+                            id="postal_code"
+                            name="postal_code"
                             class="form-input"
                             value="<?= htmlspecialchars($employee['postal_code'] ?? '') ?>"
                             pattern="[0-9]{5}"
-                            placeholder="20000"
-                        >
+                            placeholder="20000">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="province">
                             Probintzia
                         </label>
-                        <input 
-                            type="text" 
-                            id="province" 
-                            name="province" 
+                        <input
+                            type="text"
+                            id="province"
+                            name="province"
                             class="form-input"
-                            value="<?= htmlspecialchars($employee['province'] ?? '') ?>"
-                        >
+                            value="<?= htmlspecialchars($employee['province'] ?? '') ?>">
                     </div>
                 </div>
             </div>
@@ -239,40 +231,37 @@
                         <label class="form-label" for="emergency_contact_name">
                             Izena
                         </label>
-                        <input 
-                            type="text" 
-                            id="emergency_contact_name" 
-                            name="emergency_contact_name" 
+                        <input
+                            type="text"
+                            id="emergency_contact_name"
+                            name="emergency_contact_name"
                             class="form-input"
-                            value="<?= htmlspecialchars($employee['emergency_contact_name'] ?? '') ?>"
-                        >
+                            value="<?= htmlspecialchars($employee['emergency_contact_name'] ?? '') ?>">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="emergency_contact_phone">
                             Telefonoa
                         </label>
-                        <input 
-                            type="tel" 
-                            id="emergency_contact_phone" 
-                            name="emergency_contact_phone" 
+                        <input
+                            type="tel"
+                            id="emergency_contact_phone"
+                            name="emergency_contact_phone"
                             class="form-input"
-                            value="<?= htmlspecialchars($employee['emergency_contact_phone'] ?? '') ?>"
-                        >
+                            value="<?= htmlspecialchars($employee['emergency_contact_phone'] ?? '') ?>">
                     </div>
 
                     <div class="form-group full-width">
                         <label class="form-label" for="emergency_contact_relationship">
                             Harremana
                         </label>
-                        <input 
-                            type="text" 
-                            id="emergency_contact_relationship" 
-                            name="emergency_contact_relationship" 
+                        <input
+                            type="text"
+                            id="emergency_contact_relationship"
+                            name="emergency_contact_relationship"
                             class="form-input"
                             value="<?= htmlspecialchars($employee['emergency_contact_relationship'] ?? '') ?>"
-                            placeholder="Senarra, alaba, anaia..."
-                        >
+                            placeholder="Senarra, alaba, anaia...">
                     </div>
                 </div>
             </div>
@@ -299,28 +288,26 @@
                         <label class="form-label" for="position">
                             Lanpostua <span class="required">*</span>
                         </label>
-                        <input 
-                            type="text" 
-                            id="position" 
-                            name="position" 
+                        <input
+                            type="text"
+                            id="position"
+                            name="position"
                             class="form-input"
                             value="<?= htmlspecialchars($employee['position'] ?? '') ?>"
-                            required
-                        >
+                            required>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="hire_date">
                             Hasiera Data <span class="required">*</span>
                         </label>
-                        <input 
-                            type="date" 
-                            id="hire_date" 
-                            name="hire_date" 
+                        <input
+                            type="date"
+                            id="hire_date"
+                            name="hire_date"
                             class="form-input"
                             value="<?= $employee['hire_date'] ?? '' ?>"
-                            required
-                        >
+                            required>
                     </div>
 
                     <div class="form-group">
@@ -340,31 +327,29 @@
                         <label class="form-label" for="salary">
                             Soldata (€)
                         </label>
-                        <input 
-                            type="number" 
-                            id="salary" 
-                            name="salary" 
+                        <input
+                            type="number"
+                            id="salary"
+                            name="salary"
                             class="form-input"
                             value="<?= htmlspecialchars($employee['salary'] ?? '') ?>"
                             min="0"
                             step="0.01"
-                            placeholder="25000.00"
-                        >
+                            placeholder="25000.00">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="iban">
                             IBAN
                         </label>
-                        <input 
-                            type="text" 
-                            id="iban" 
-                            name="iban" 
+                        <input
+                            type="text"
+                            id="iban"
+                            name="iban"
                             class="form-input"
                             value="<?= htmlspecialchars($employee['iban'] ?? '') ?>"
                             pattern="[A-Z]{2}[0-9]{22}"
-                            placeholder="ES0000000000000000000000"
-                        >
+                            placeholder="ES0000000000000000000000">
                         <span class="form-help">Formatua: ES + 22 zenbaki</span>
                     </div>
 
@@ -382,13 +367,12 @@
 
                     <div class="form-group">
                         <label class="form-label checkbox-group">
-                            <input 
-                                type="checkbox" 
-                                id="active" 
-                                name="active" 
+                            <input
+                                type="checkbox"
+                                id="active"
+                                name="active"
                                 value="1"
-                                <?= ($employee['active'] ?? true) ? 'checked' : '' ?>
-                            >
+                                <?= ($employee['active'] ?? true) ? 'checked' : '' ?>>
                             <span>Aktiboa</span>
                         </label>
                     </div>
@@ -428,7 +412,7 @@
         document.getElementById('nif').addEventListener('blur', function() {
             const nif = this.value.toUpperCase();
             const nifRegex = /^[0-9]{8}[A-Z]$/;
-            
+
             if (nif && !nifRegex.test(nif)) {
                 this.classList.add('input-error');
                 alert('NAN formatua okerra. Erabili: 12345678A');
@@ -441,7 +425,7 @@
         document.getElementById('iban').addEventListener('blur', function() {
             const iban = this.value.toUpperCase();
             const ibanRegex = /^[A-Z]{2}[0-9]{22}$/;
-            
+
             if (iban && !ibanRegex.test(iban)) {
                 this.classList.add('input-error');
                 alert('IBAN formatua okerra. Erabili: ES0000000000000000000000');
@@ -461,4 +445,5 @@
         });
     </script>
 </body>
+
 </html>

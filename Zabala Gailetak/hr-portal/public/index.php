@@ -9,20 +9,12 @@ declare(strict_types=1);
  * @author Zabala Gailetak
  */
 
-// CORS / Preflight handling (for mobile/web clients)
-$allowedOrigin = 'https://zabala-gailetak.infinityfreeapp.com';
-if (isset($_SERVER['HTTP_ORIGIN'])) {
-    $origin = $_SERVER['HTTP_ORIGIN'];
-} else {
-    $origin = $allowedOrigin;
-}
-header('Access-Control-Allow-Origin: ' . $allowedOrigin);
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Authorization, Content-Type, X-Requested-With');
-header('Access-Control-Allow-Credentials: false');
-
-// Preflight request: return 204 and exit early
+// Preflight request: return 204 and exit early (for API clients)
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('Access-Control-Allow-Origin: https://zabala-gailetak.infinityfreeapp.com');
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+    header('Access-Control-Allow-Headers: Authorization, Content-Type, X-Requested-With, X-CSRF-Token');
+    header('Access-Control-Allow-Credentials: false');
     http_response_code(204);
     exit;
 }
