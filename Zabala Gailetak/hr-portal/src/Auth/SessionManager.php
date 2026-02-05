@@ -42,6 +42,11 @@ class SessionManager
         $_SESSION[$this->prefix . 'last_activity'] = time();
         $_SESSION[$this->prefix . 'data'] = $data;
 
+        // Generate new CSRF token for the session
+        if (!isset($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
+
         return session_id();
     }
 

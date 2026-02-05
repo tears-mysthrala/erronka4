@@ -49,6 +49,11 @@ class Response
      */
     public static function view(string $viewPath, array $data = [], int $statusCode = 200): self
     {
+        // Automatically inject CSRF token into all views
+        if (session_status() === PHP_SESSION_ACTIVE && isset($_SESSION['csrf_token'])) {
+            $data['csrf_token'] = $_SESSION['csrf_token'];
+        }
+
         // Extract data to make variables available in view
         extract($data);
 
