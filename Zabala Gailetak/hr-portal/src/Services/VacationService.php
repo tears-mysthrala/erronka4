@@ -55,17 +55,38 @@ class VacationService
             return $existing;
         }
 
+        // Generate UUID for the new balance record
+        $uuid = $this->generateUUID();
+
         $stmt = $this->db->prepare('
-            INSERT INTO vacation_balances (employee_id, year, total_days)
-            VALUES (:employee_id, :year, :total_days)
+            INSERT INTO vacation_balances (id, employee_id, year, total_days)
+            VALUES (:id, :employee_id, :year, :total_days)
         ');
         $stmt->execute([
+            'id' => $uuid,
             'employee_id' => $employeeId,
             'year' => $year,
             'total_days' => $totalDays
         ]);
 
         return $this->getBalance($employeeId, $year);
+    }
+
+    /**
+     * Generate UUID v4
+     */
+    private function generateUUID(): string
+    {
+        // Use random_bytes for better randomness
+        $data = random_bytes(16);
+        
+        // Set version to 0100
+        $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+        // Set bits 6-7 to 10
+        $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+        
+        // Output the 36 character UUID
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
 
     /**
@@ -152,14 +173,16 @@ class VacationService
             }
 
             // Create request
+            $uuid = $this->generateUUID();
+            
             $stmt = $this->db->prepare('
                 INSERT INTO vacation_requests 
-                (employee_id, start_date, end_date, total_days, notes, status, request_date)
-                VALUES (:employee_id, :start_date, :end_date, :total_days, :notes, :status, CURRENT_DATE)
-                RETURNING id
+                (id, employee_id, start_date, end_date, total_days, notes, status, request_date)
+                VALUES (:id, :employee_id, :start_date, :end_date, :total_days, :notes, :status, CURDATE())
             ');
 
             $result = $stmt->execute([
+                'id' => $uuid,
                 'employee_id' => $employeeId,
                 'start_date' => $startDate,
                 'end_date' => $endDate,
@@ -173,13 +196,7 @@ class VacationService
                 throw new \Exception('Error al crear la solicitud: ' . ($errorInfo[2] ?? 'Error desconocido'));
             }
 
-            $id = $stmt->fetchColumn();
-
-            if (!$id) {
-                throw new \Exception('No se pudo obtener el ID de la solicitud creada');
-            }
-
-            return $this->getRequest($id);
+            return $this->getRequest($uuid);
 
         } catch (\Exception $e) {
             error_log("Error en createRequest: " . $e->getMessage());
