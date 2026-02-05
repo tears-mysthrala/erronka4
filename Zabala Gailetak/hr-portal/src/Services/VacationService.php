@@ -196,6 +196,21 @@ class VacationService
                 throw new \Exception('Error al crear la solicitud: ' . ($errorInfo[2] ?? 'Error desconocido'));
             }
 
+            // ✅ UPDATE BALANCE: Increment pending_days (since no triggers on InfinityFree)
+            $updateBalance = $this->db->prepare('
+                UPDATE vacation_balances 
+                SET pending_days = pending_days + :total_days,
+                    updated_at = CURRENT_TIMESTAMP
+                WHERE employee_id = :employee_id 
+                AND year = :year
+            ');
+            
+            $updateBalance->execute([
+                'total_days' => $totalDays,
+                'employee_id' => $employeeId,
+                'year' => $year
+            ]);
+
             return $this->getRequest($uuid);
 
         } catch (\Exception $e) {
@@ -344,6 +359,9 @@ class VacationService
             'id' => $requestId
         ]);
 
+        // ✅ NO CHANGE to balance: days remain in pending_days
+        // (waiting for HR final approval)
+
         return $this->getRequest($requestId);
     }
 
@@ -378,6 +396,27 @@ class VacationService
             'id' => $requestId
         ]);
 
+        // ✅ UPDATE BALANCE: Move days from pending to used
+        $year = (int)date('Y', strtotime($request->startDate));
+        $totalDays = $request->totalDays;
+        
+        // Using positional parameters to avoid duplicate named parameter issue
+        $updateBalance = $this->db->prepare('
+            UPDATE vacation_balances 
+            SET pending_days = pending_days - ?,
+                used_days = used_days + ?,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE employee_id = ? 
+            AND year = ?
+        ');
+        
+        $updateBalance->execute([
+            $totalDays,      // pending_days -
+            $totalDays,      // used_days +
+            $request->employeeId,
+            $year
+        ]);
+
         return $this->getRequest($requestId);
     }
 
@@ -386,6 +425,11 @@ class VacationService
      */
     public function reject(string|int $requestId, string|int $approverId, string $reason): VacationRequest
     {
+        $request = $this->getRequest($requestId);
+        if (!$request) {
+            throw new \Exception('Eskaera ez da aurkitu / Solicitud no encontrada');
+        }
+
         $stmt = $this->db->prepare('
             UPDATE vacation_requests
             SET status = :status,
@@ -399,6 +443,26 @@ class VacationService
             'reason' => $reason,
             'id' => $requestId
         ]);
+
+        // ✅ UPDATE BALANCE: Release pending_days (only if was PENDING or MANAGER_APPROVED)
+        if ($request->status === VacationRequest::STATUS_PENDING || 
+            $request->status === VacationRequest::STATUS_MANAGER_APPROVED) {
+            
+            $year = (int)date('Y', strtotime($request->startDate));
+            $updateBalance = $this->db->prepare('
+                UPDATE vacation_balances 
+                SET pending_days = pending_days - :total_days,
+                    updated_at = CURRENT_TIMESTAMP
+                WHERE employee_id = :employee_id 
+                AND year = :year
+            ');
+            
+            $updateBalance->execute([
+                'total_days' => $request->totalDays,
+                'employee_id' => $request->employeeId,
+                'year' => $year
+            ]);
+        }
 
         return $this->getRequest($requestId);
     }
