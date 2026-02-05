@@ -5,46 +5,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zabala Gailetak - HR Portal</title>
-    <link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .navbar-brand {
-            font-weight: 700;
-            color: #dc3545 !important;
-        }
-
-        .card {
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-            border: none;
-        }
-    </style>
+    <!-- Font Awesome (CDN permitido por CSP) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <!-- Industrial Design System v2 (PHP con MIME correcto + Day/Night Mode) -->
+    <link rel="stylesheet" href="/assets/css/industrial-v2.php">
 </head>
 
 <body>
     <?php if (isset($_SESSION['user_id'])): ?>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-            <div class="container-fluid">
-                <a class="navbar-brand text-uppercase" href="/dashboard">ZABALA GAILETAK</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/employees">Empleados</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/vacations">Vacaciones</a></li>
-                    </ul>
-                    <div class="d-flex align-items-center">
-                        <span class="navbar-text text-white me-3">Hola, <?= htmlspecialchars($_SESSION['user_name'] ?? 'Admin') ?></span>
-                        <a href="/logout" class="btn btn-outline-light btn-sm">Cerrar Sesión</a>
+        <nav class="navbar-industrial">
+            <div style="max-width: 1400px; margin: 0 auto; padding: 0 var(--space-6); display: flex; align-items: center; justify-content: space-between;">
+                <a class="navbar-brand-industrial" href="/dashboard">
+                    <div class="brand-icon">
+                        <i class="fas fa-industry"></i>
+                    </div>
+                    Zabala Gailetak
+                </a>
+                
+                <ul class="nav-links-industrial">
+                    <li>
+                        <a class="nav-link-industrial <?= ($_SERVER['REQUEST_URI'] === '/dashboard' ? 'active' : '') ?>" href="/dashboard">
+                            <i class="fas fa-chart-line"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link-industrial <?= (strpos($_SERVER['REQUEST_URI'], '/employees') !== false ? 'active' : '') ?>" href="/employees">
+                            <i class="fas fa-users"></i>
+                            Empleados
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link-industrial <?= (strpos($_SERVER['REQUEST_URI'], '/vacations') !== false ? 'active' : '') ?>" href="/vacations">
+                            <i class="fas fa-umbrella-beach"></i>
+                            Vacaciones
+                        </a>
+                    </li>
+                </ul>
+                
+                <div style="display: flex; align-items: center; gap: var(--space-3);">
+                    <!-- Theme Toggle -->
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                        <i class="fas fa-sun theme-icon-light"></i>
+                        <i class="fas fa-moon theme-icon-dark"></i>
+                    </button>
+                    
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            <?= strtoupper(substr($_SESSION['user_name'] ?? 'A', 0, 1)) ?>
+                        </div>
+                        <div class="user-info">
+                            <div class="user-name"><?= htmlspecialchars($_SESSION['user_name'] ?? 'Admin') ?></div>
+                            <div class="user-role"><?= htmlspecialchars($_SESSION['user_role'] ?? 'Administrator') ?></div>
+                        </div>
+                        <a href="/logout" class="btn-ghost-industrial" style="margin-left: var(--space-4);">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </a>
                     </div>
                 </div>
             </div>
         </nav>
     <?php endif; ?>
-    <div class="container"><?php /* Container se cierra en footer.php */ ?>

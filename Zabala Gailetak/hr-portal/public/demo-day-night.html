@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zabala Gailetak - Day/Night Mode Demo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/industrial-v2.php">
+    <style>
+        .demo-section {
+            margin-bottom: var(--space-12);
+            padding: var(--space-6);
+            background: var(--bg-card);
+            border: 1px solid var(--border-base);
+            border-radius: var(--radius-lg);
+        }
+        .demo-title {
+            font-size: var(--text-2xl);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-4);
+            padding-bottom: var(--space-3);
+            border-bottom: 2px solid var(--border-base);
+        }
+        .demo-subtitle {
+            font-size: var(--text-sm);
+            color: var(--text-tertiary);
+            margin-bottom: var(--space-6);
+        }
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-4);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar-industrial">
+        <div style="max-width: 1400px; width: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;">
+            <a class="navbar-brand" href="#">
+                <span class="brand-logo">
+                    <i class="fas fa-industry"></i>
+                </span>
+                <span class="brand-text">Zabala Gailetak</span>
+                <span class="brand-subtitle">Demo Completo</span>
+            </a>
+            
+            <ul class="navbar-nav">
+                <li><a href="#" class="nav-link-industrial active"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="#" class="nav-link-industrial"><i class="fas fa-users"></i> Empleados</a></li>
+                <li><a href="#" class="nav-link-industrial"><i class="fas fa-umbrella-beach"></i> Vacaciones</a></li>
+            </ul>
+            
+            <div style="display: flex; align-items: center; gap: var(--space-3);">
+                <!-- Theme Toggle -->
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-sun theme-icon-light"></i>
+                    <i class="fas fa-moon theme-icon-dark"></i>
+                </button>
+                
+                <div class="user-profile">
+                    <div class="user-avatar">D</div>
+                    <div class="user-info">
+                        <div class="user-name">Demo User</div>
+                        <div class="user-role">Administrator</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="dashboard-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">
+                    <i class="fas fa-palette"></i>
+                    Sistema de Diseño Industrial v2
+                </h1>
+                <p class="page-subtitle">Demostración completa de componentes con modo día/noche</p>
+            </div>
+            <div class="page-actions">
+                <button class="btn-industrial btn-secondary-industrial">
+                    <i class="fas fa-download"></i>
+                    Exportar
+                </button>
+                <button class="btn-industrial btn-primary-industrial">
+                    <i class="fas fa-plus"></i>
+                    Nuevo
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="demo-section">
+            <h2 class="demo-title">📊 Tarjetas de Estadísticas</h2>
+            <p class="demo-subtitle">Tarjetas con iconos coloridos y tendencias</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card-industrial animate-fade-in">
+                    <div class="stat-icon-wrapper" style="background: linear-gradient(135deg, rgba(185, 28, 28, 0.1), rgba(185, 28, 28, 0.05));">
+                        <i class="fas fa-users" style="color: var(--primary);"></i>
+                    </div>
+                    <div class="stat-details">
+                        <div class="stat-label">Total Empleados</div>
+                        <div class="stat-value">247</div>
+                        <div class="stat-trend stat-trend-positive">
+                            <i class="fas fa-arrow-up"></i>
+                            +12 este mes
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card-industrial animate-fade-in animate-delay-1">
+                    <div class="stat-icon-wrapper" style="background: linear-gradient(135deg, rgba(234, 88, 12, 0.1), rgba(234, 88, 12, 0.05));">
+                        <i class="fas fa-calendar-check" style="color: var(--accent);"></i>
+                    </div>
+                    <div class="stat-details">
+                        <div class="stat-label">Asistencia Hoy</div>
+                        <div class="stat-value">98.5%</div>
+                        <div class="stat-trend stat-trend-positive">
+                            <i class="fas fa-arrow-up"></i>
+                            +2.3% vs ayer
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card-industrial animate-fade-in animate-delay-2">
+                    <div class="stat-icon-wrapper" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05));">
+                        <i class="fas fa-clock" style="color: var(--color-blue);"></i>
+                    </div>
+                    <div class="stat-details">
+                        <div class="stat-label">Solicitudes Pendientes</div>
+                        <div class="stat-value">23</div>
+                        <div class="stat-trend stat-trend-neutral">
+                            <i class="fas fa-equals"></i>
+                            Sin cambios
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card-industrial animate-fade-in animate-delay-3">
+                    <div class="stat-icon-wrapper" style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));">
+                        <i class="fas fa-umbrella-beach" style="color: var(--color-green);"></i>
+                    </div>
+                    <div class="stat-details">
+                        <div class="stat-label">Vacaciones Aprobadas</div>
+                        <div class="stat-value">156</div>
+                        <div class="stat-trend stat-trend-negative">
+                            <i class="fas fa-arrow-down"></i>
+                            -8 vs mes pasado
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="demo-section">
+            <h2 class="demo-title">🔘 Botones</h2>
+            <p class="demo-subtitle">Diferentes variantes de botones industriales</p>
+            
+            <div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
+                <button class="btn-industrial btn-primary-industrial">
+                    <i class="fas fa-check"></i>
+                    Primario
+                </button>
+                <button class="btn-industrial btn-secondary-industrial">
+                    <i class="fas fa-cog"></i>
+                    Secundario
+                </button>
+                <button class="btn-industrial btn-ghost-industrial">
+                    <i class="fas fa-ghost"></i>
+                    Fantasma
+                </button>
+                <button class="btn-industrial btn-success-industrial">
+                    <i class="fas fa-check-circle"></i>
+                    Éxito
+                </button>
+                <button class="btn-industrial btn-danger-industrial">
+                    <i class="fas fa-trash"></i>
+                    Peligro
+                </button>
+                <button class="btn-industrial btn-primary-industrial btn-sm">
+                    <i class="fas fa-star"></i>
+                    Pequeño
+                </button>
+            </div>
+        </div>
+
+        <!-- Badges -->
+        <div class="demo-section">
+            <h2 class="demo-title">🏷️ Badges</h2>
+            <p class="demo-subtitle">Etiquetas para estados y categorías</p>
+            
+            <div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
+                <span class="table-badge table-badge-primary">
+                    <i class="fas fa-user"></i>
+                    Admin
+                </span>
+                <span class="table-badge table-badge-secondary">
+                    <i class="fas fa-hashtag"></i>
+                    EMP-001
+                </span>
+                <span class="table-badge table-badge-success">
+                    <i class="fas fa-check-circle"></i>
+                    Activo
+                </span>
+                <span class="table-badge table-badge-danger">
+                    <i class="fas fa-times-circle"></i>
+                    Inactivo
+                </span>
+                <span class="table-badge table-badge-warning">
+                    <i class="fas fa-hourglass-half"></i>
+                    Pendiente
+                </span>
+                <span class="table-badge table-badge-accent">
+                    <i class="fas fa-fire"></i>
+                    Premium
+                </span>
+            </div>
+        </div>
+
+        <!-- Alerts -->
+        <div class="demo-section">
+            <h2 class="demo-title">⚠️ Alertas</h2>
+            <p class="demo-subtitle">Mensajes de notificación</p>
+            
+            <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+                <div class="alert-industrial alert-success-industrial">
+                    <i class="fas fa-check-circle"></i>
+                    ¡Operación completada con éxito! Los cambios se han guardado correctamente.
+                </div>
+                <div class="alert-industrial alert-warning-industrial">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Atención: Esta acción requiere confirmación adicional.
+                </div>
+                <div class="alert-industrial alert-danger-industrial">
+                    <i class="fas fa-times-circle"></i>
+                    Error: No se pudo completar la operación. Por favor, inténtalo de nuevo.
+                </div>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="demo-section">
+            <h2 class="demo-title">📋 Tabla Industrial</h2>
+            <p class="demo-subtitle">Tabla con avatares, badges y acciones</p>
+            
+            <div class="widget-card-industrial">
+                <div class="widget-header">
+                    <h3 class="widget-title">
+                        <i class="fas fa-users"></i>
+                        Empleados Recientes
+                    </h3>
+                    <span class="badge-industrial badge-primary-industrial">
+                        5 empleados
+                    </span>
+                </div>
+                <div class="widget-body" style="padding: 0;">
+                    <div class="table-container-industrial">
+                        <table class="table-industrial">
+                            <thead>
+                                <tr>
+                                    <th><i class="fas fa-hashtag"></i> ID</th>
+                                    <th><i class="fas fa-user"></i> Nombre</th>
+                                    <th><i class="fas fa-envelope"></i> Email</th>
+                                    <th><i class="fas fa-briefcase"></i> Puesto</th>
+                                    <th><i class="fas fa-shield-alt"></i> Rol</th>
+                                    <th><i class="fas fa-toggle-on"></i> Estado</th>
+                                    <th><i class="fas fa-cog"></i> Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="table-badge table-badge-secondary">EMP-001</span></td>
+                                    <td>
+                                        <div class="table-user">
+                                            <div class="table-avatar">J</div>
+                                            <span class="table-user-name">Juan Pérez</span>
+                                        </div>
+                                    </td>
+                                    <td><a href="#" class="table-link">juan@zabala.com</a></td>
+                                    <td>Director General</td>
+                                    <td><span class="table-badge table-badge-danger">Admin</span></td>
+                                    <td><span class="table-badge table-badge-success"><i class="fas fa-check-circle"></i> Activo</span></td>
+                                    <td>
+                                        <div class="table-actions">
+                                            <button class="table-action" title="Ver"><i class="fas fa-eye"></i></button>
+                                            <button class="table-action" title="Editar"><i class="fas fa-edit"></i></button>
+                                            <button class="table-action table-action-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="table-badge table-badge-secondary">EMP-002</span></td>
+                                    <td>
+                                        <div class="table-user">
+                                            <div class="table-avatar">M</div>
+                                            <span class="table-user-name">María García</span>
+                                        </div>
+                                    </td>
+                                    <td><a href="#" class="table-link">maria@zabala.com</a></td>
+                                    <td>Jefa de RRHH</td>
+                                    <td><span class="table-badge table-badge-primary">HR Manager</span></td>
+                                    <td><span class="table-badge table-badge-success"><i class="fas fa-check-circle"></i> Activo</span></td>
+                                    <td>
+                                        <div class="table-actions">
+                                            <button class="table-action" title="Ver"><i class="fas fa-eye"></i></button>
+                                            <button class="table-action" title="Editar"><i class="fas fa-edit"></i></button>
+                                            <button class="table-action table-action-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="table-badge table-badge-secondary">EMP-003</span></td>
+                                    <td>
+                                        <div class="table-user">
+                                            <div class="table-avatar">C</div>
+                                            <span class="table-user-name">Carlos López</span>
+                                        </div>
+                                    </td>
+                                    <td><a href="#" class="table-link">carlos@zabala.com</a></td>
+                                    <td>Jefe de Producción</td>
+                                    <td><span class="table-badge table-badge-accent">Dept. Head</span></td>
+                                    <td><span class="table-badge table-badge-warning"><i class="fas fa-hourglass-half"></i> Pendiente</span></td>
+                                    <td>
+                                        <div class="table-actions">
+                                            <button class="table-action" title="Ver"><i class="fas fa-eye"></i></button>
+                                            <button class="table-action" title="Editar"><i class="fas fa-edit"></i></button>
+                                            <button class="table-action table-action-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Color Palette -->
+        <div class="demo-section">
+            <h2 class="demo-title">🎨 Paleta de Colores</h2>
+            <p class="demo-subtitle">Colores corporativos y del sistema</p>
+            
+            <div class="demo-grid">
+                <div style="padding: var(--space-4); background: var(--primary); color: white; border-radius: var(--radius-md); text-align: center; font-weight: 600;">
+                    Primary<br>#B91C1C
+                </div>
+                <div style="padding: var(--space-4); background: var(--accent); color: white; border-radius: var(--radius-md); text-align: center; font-weight: 600;">
+                    Accent<br>#EA580C
+                </div>
+                <div style="padding: var(--space-4); background: var(--success); color: white; border-radius: var(--radius-md); text-align: center; font-weight: 600;">
+                    Success<br>#059669
+                </div>
+                <div style="padding: var(--space-4); background: var(--warning); color: white; border-radius: var(--radius-md); text-align: center; font-weight: 600;">
+                    Warning<br>#D97706
+                </div>
+                <div style="padding: var(--space-4); background: var(--danger); color: white; border-radius: var(--radius-md); text-align: center; font-weight: 600;">
+                    Danger<br>#DC2626
+                </div>
+                <div style="padding: var(--space-4); background: var(--info); color: white; border-radius: var(--radius-md); text-align: center; font-weight: 600;">
+                    Info<br>#0284C7
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="demo-section">
+            <h2 class="demo-title">💡 Instrucciones</h2>
+            <p class="demo-subtitle">Cómo usar el toggle de tema</p>
+            
+            <div style="line-height: 1.8; color: var(--text-secondary);">
+                <p><strong style="color: var(--text-primary);">🌓 Toggle Día/Noche:</strong> Haz click en el botón con el icono de sol/luna en la esquina superior derecha de la barra de navegación.</p>
+                
+                <p><strong style="color: var(--text-primary);">💾 Persistencia:</strong> El tema seleccionado se guarda automáticamente en el navegador (localStorage) y se mantiene al recargar la página.</p>
+                
+                <p><strong style="color: var(--text-primary);">🎨 Paletas:</strong></p>
+                <ul style="margin-left: var(--space-6);">
+                    <li><strong>Tema Oscuro (Industrial):</strong> Fondo negro profundo, ideal para ambientes de baja luz</li>
+                    <li><strong>Tema Claro (Office):</strong> Fondo blanco limpio, ideal para trabajo diurno</li>
+                </ul>
+                
+                <p><strong style="color: var(--text-primary);">⚡ Rendimiento:</strong> Las transiciones son suaves (300ms) y todo el cambio es puro CSS, sin recargas ni JavaScript pesado.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        // Load saved theme or default to dark
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', savedTheme);
+        
+        themeToggle?.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Add transition animation
+            html.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+            setTimeout(() => {
+                html.style.transition = '';
+            }, 300);
+        });
+    </script>
+</body>
+</html>

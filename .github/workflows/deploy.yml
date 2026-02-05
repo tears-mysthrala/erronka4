@@ -7,7 +7,6 @@ jobs:
   deploy:
     name: 🚀 FTP Deploy
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
     
     steps:
       - name: Checkout Code

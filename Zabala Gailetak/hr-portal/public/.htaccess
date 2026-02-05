@@ -17,6 +17,15 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php [QSA,L]
 </IfModule>
 
+# MIME Types
+<IfModule mod_mime.c>
+AddType text/css .css
+AddType application/javascript .js
+AddType font/woff2 .woff2
+AddType font/woff .woff
+AddType font/ttf .ttf
+</IfModule>
+
 # Security Headers
 <IfModule mod_headers.c>
 Header set X-Content-Type-Options "nosniff"
@@ -25,8 +34,8 @@ Header set X-XSS-Protection "1; mode=block"
 Header set Referrer-Policy "strict-origin-when-cross-origin"
 Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
     
-# Content Security Policy (adjust as needed)
-Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://zabala-gailetak.infinityfreeapp.com; frame-ancestors 'self'"
+# Content Security Policy (allow external fonts and CDNs)
+Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; connect-src 'self' https://zabala-gailetak.infinityfreeapp.com; frame-ancestors 'self'"
 
 # CORS: allow browser clients from the production domain to call the API
 Header always set Access-Control-Allow-Origin "https://zabala-gailetak.infinityfreeapp.com"

@@ -1,142 +1,292 @@
 <?php require dirname(__DIR__) . '/layouts/header.php'; ?>
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Mis Vacaciones (<?= $year ?>)</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-        <a href="/vacations/request" class="btn btn-sm btn-primary">
-            <i class="fas fa-plus"></i> Solicitar Vacaciones
-        </a>
+<div class="dashboard-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">
+                <i class="fas fa-umbrella-beach"></i>
+                Mis Vacaciones <?= $year ?>
+            </h1>
+            <p class="page-subtitle">Gestión de periodos vacacionales</p>
+        </div>
+        <div class="page-actions">
+            <a href="/vacations/request" class="btn-industrial btn-primary-industrial">
+                <i class="fas fa-plus-circle"></i>
+                Solicitar Vacaciones
+            </a>
+        </div>
     </div>
-</div>
 
-<?php if (isset($_SESSION['success_message'])): ?>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <?= htmlspecialchars($_SESSION['success_message']) ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-    <?php unset($_SESSION['success_message']); ?>
-<?php endif; ?>
+    <?php if (isset($_SESSION['success_message'])): ?>
+        <div class="alert-industrial alert-success-industrial">
+            <i class="fas fa-check-circle"></i>
+            <?= htmlspecialchars($_SESSION['success_message']) ?>
+        </div>
+        <?php unset($_SESSION['success_message']); ?>
+    <?php endif; ?>
 
-<?php if (isset($error)): ?>
-    <div class="alert alert-warning"><?= htmlspecialchars($error) ?></div>
-<?php else: ?>
+    <?php if (isset($error)): ?>
+        <div class="alert-industrial alert-warning-industrial">
+            <i class="fas fa-exclamation-triangle"></i>
+            <?= htmlspecialchars($error) ?>
+        </div>
+    <?php else: ?>
 
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Días Totales</h5>
-                    <p class="card-text display-4"><?= number_format($balance->totalDays ?? 22, 1) ?></p>
+    <!-- Balance Cards -->
+    <div class="stats-grid">
+        <!-- Total Days -->
+        <div class="stat-card-industrial">
+            <div class="stat-icon-wrapper" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05));">
+                <i class="fas fa-calendar" style="color: var(--color-blue);"></i>
+            </div>
+            <div class="stat-details">
+                <div class="stat-label">Días Totales</div>
+                <div class="stat-value"><?= number_format($balance->totalDays ?? 22, 1) ?></div>
+                <div class="stat-trend stat-trend-neutral">
+                    <i class="fas fa-info-circle"></i>
+                    Asignados este año
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title">Disfrutados</h5>
-                    <p class="card-text display-4"><?= number_format($balance->usedDays ?? 0, 1) ?></p>
+
+        <!-- Used Days -->
+        <div class="stat-card-industrial">
+            <div class="stat-icon-wrapper" style="background: linear-gradient(135deg, rgba(234, 88, 12, 0.1), rgba(234, 88, 12, 0.05));">
+                <i class="fas fa-calendar-check" style="color: var(--accent);"></i>
+            </div>
+            <div class="stat-details">
+                <div class="stat-label">Disfrutados</div>
+                <div class="stat-value"><?= number_format($balance->usedDays ?? 0, 1) ?></div>
+                <div class="stat-trend stat-trend-neutral">
+                    <i class="fas fa-check"></i>
+                    Ya consumidos
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card text-center text-white bg-success">
-                <div class="card-body">
-                    <h5 class="card-title">Pendientes</h5>
-                    <p class="card-text display-4"><?= number_format($balance->availableDays ?? 22, 1) ?></p>
+
+        <!-- Available Days -->
+        <div class="stat-card-industrial">
+            <div class="stat-icon-wrapper" style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));">
+                <i class="fas fa-calendar-plus" style="color: var(--color-green);"></i>
+            </div>
+            <div class="stat-details">
+                <div class="stat-label">Pendientes</div>
+                <div class="stat-value" style="color: var(--color-green);"><?= number_format($balance->availableDays ?? 22, 1) ?></div>
+                <div class="stat-trend stat-trend-positive">
+                    <i class="fas fa-arrow-up"></i>
+                    Disponibles
+                </div>
+            </div>
+        </div>
+
+        <!-- Pending Requests -->
+        <div class="stat-card-industrial">
+            <div class="stat-icon-wrapper" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(168, 85, 247, 0.05));">
+                <i class="fas fa-clock" style="color: var(--color-purple);"></i>
+            </div>
+            <div class="stat-details">
+                <div class="stat-label">En Espera</div>
+                <div class="stat-value"><?= count($pendingApprovals ?? []) ?></div>
+                <div class="stat-trend stat-trend-neutral">
+                    <i class="fas fa-hourglass-half"></i>
+                    Pendientes aprobación
                 </div>
             </div>
         </div>
     </div>
 
     <?php if (!empty($pendingApprovals)): ?>
-        <div class="mt-5">
-            <h3>Solicitudes Pendientes de Aprobación</h3>
-            <div class="table-responsive">
-                <table class="table table-hover table-sm">
-                    <thead class="table-dark">
+    <!-- Pending Approvals -->
+    <div class="widget-card-industrial" style="margin-top: var(--space-6);">
+        <div class="widget-header">
+            <h3 class="widget-title">
+                <i class="fas fa-hourglass-half"></i>
+                Solicitudes Pendientes de Aprobación
+            </h3>
+            <span class="badge-industrial badge-warning-industrial">
+                <?= count($pendingApprovals) ?> pendientes
+            </span>
+        </div>
+        <div class="widget-body" style="padding: 0;">
+            <div class="table-container-industrial">
+                <table class="table-industrial">
+                    <thead>
                         <tr>
-                            <th>Empleado</th>
-                            <th>Desde</th>
-                            <th>Hasta</th>
-                            <th>Días</th>
-                            <th>Acciones</th>
+                            <th><i class="fas fa-user"></i> Empleado</th>
+                            <th><i class="fas fa-calendar-day"></i> Desde</th>
+                            <th><i class="fas fa-calendar-day"></i> Hasta</th>
+                            <th><i class="fas fa-clock"></i> Días</th>
+                            <th><i class="fas fa-comment"></i> Motivo</th>
+                            <th><i class="fas fa-cog"></i> Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($pendingApprovals as $req): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($req->employeeFirstName . ' ' . $req->employeeLastName) ?></td>
-                                <td><?= htmlspecialchars(date('d/m/Y', strtotime($req->startDate))) ?></td>
-                                <td><?= htmlspecialchars(date('d/m/Y', strtotime($req->endDate))) ?></td>
-                                <td><?= number_format($req->totalDays, 1) ?></td>
-                                <td>
-                                    <form action="/vacations/approve/<?= $req->id ?>" method="POST" class="d-inline">
-                                        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token ?? '') ?>">
-                                        <button type="submit" class="btn btn-sm btn-success">Aprobar</button>
-                                    </form>
-                                    <form action="/vacations/reject/<?= $req->id ?>" method="POST" class="d-inline">
-                                        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token ?? '') ?>">
-                                        <button type="submit" class="btn btn-sm btn-danger">Rechazar</button>
-                                    </form>
-                                </td>
-                            </tr>
+                        <?php foreach ($pendingApprovals as $approval): ?>
+                        <tr>
+                            <td>
+                                <div class="table-user">
+                                    <div class="table-avatar">
+                                        <?= strtoupper(substr($approval['employee_name'], 0, 1)) ?>
+                                    </div>
+                                    <span class="table-user-name">
+                                        <?= htmlspecialchars($approval['employee_name']) ?>
+                                    </span>
+                                </div>
+                            </td>
+                            <td><?= date('d/m/Y', strtotime($approval['start_date'])) ?></td>
+                            <td><?= date('d/m/Y', strtotime($approval['end_date'])) ?></td>
+                            <td>
+                                <span class="table-badge table-badge-secondary">
+                                    <?= $approval['days'] ?> días
+                                </span>
+                            </td>
+                            <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                <?= htmlspecialchars($approval['reason'] ?? 'Sin motivo especificado') ?>
+                            </td>
+                            <td>
+                                <div class="table-actions">
+                                    <button class="btn-industrial btn-success-industrial btn-sm" 
+                                            onclick="approveRequest(<?= $approval['id'] ?>)">
+                                        <i class="fas fa-check"></i>
+                                        Aprobar
+                                    </button>
+                                    <button class="btn-industrial btn-danger-industrial btn-sm" 
+                                            onclick="rejectRequest(<?= $approval['id'] ?>)">
+                                        <i class="fas fa-times"></i>
+                                        Rechazar
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
         </div>
+    </div>
     <?php endif; ?>
 
-    <h3>Historial de Solicitudes</h3>
-    <div class="table-responsive">
-        <table class="table table-striped table-sm">
-            <thead>
-                <tr>
-                    <th>Fecha Solicitud</th>
-                    <th>Desde</th>
-                    <th>Hasta</th>
-                    <th>Días</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($requests as $req): ?>
-                    <tr>
-                        <td><?= htmlspecialchars(date('d/m/Y', strtotime($req->requestDate))) ?></td>
-                        <td><?= htmlspecialchars(date('d/m/Y', strtotime($req->startDate))) ?></td>
-                        <td><?= htmlspecialchars(date('d/m/Y', strtotime($req->endDate))) ?></td>
-                        <td><?= number_format($req->totalDays, 1) ?></td>
-                        <td>
-                            <?php
-                            $statusClass = match ($req->status) {
-                                'approved' => 'bg-success',
-                                'pending' => 'bg-warning text-dark',
-                                'rejected' => 'bg-danger',
-                                'cancelled' => 'bg-secondary',
-                                default => 'bg-light text-dark'
-                            };
-                            $statusLabel = match ($req->status) {
-                                'approved' => 'Aprobado',
-                                'pending' => 'Pendiente',
-                                'rejected' => 'Rechazado',
-                                'cancelled' => 'Cancelado',
-                                default => $req->status
-                            };
-                            ?>
-                            <span class="badge <?= $statusClass ?>"><?= htmlspecialchars($statusLabel) ?></span>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-
-                <?php if (empty($requests)): ?>
-                    <tr>
-                        <td colspan="5" class="text-center">No hay solicitudes registradas.</td>
-                    </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
+    <!-- My Vacation Requests -->
+    <?php if (!empty($vacations)): ?>
+    <div class="widget-card-industrial" style="margin-top: var(--space-6);">
+        <div class="widget-header">
+            <h3 class="widget-title">
+                <i class="fas fa-list"></i>
+                Mis Solicitudes de Vacaciones
+            </h3>
+        </div>
+        <div class="widget-body" style="padding: 0;">
+            <div class="table-container-industrial">
+                <table class="table-industrial">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-calendar-day"></i> Desde</th>
+                            <th><i class="fas fa-calendar-day"></i> Hasta</th>
+                            <th><i class="fas fa-clock"></i> Días</th>
+                            <th><i class="fas fa-comment"></i> Motivo</th>
+                            <th><i class="fas fa-info-circle"></i> Estado</th>
+                            <th><i class="fas fa-calendar-plus"></i> Solicitado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($vacations as $vacation): ?>
+                        <tr>
+                            <td><?= date('d/m/Y', strtotime($vacation['start_date'])) ?></td>
+                            <td><?= date('d/m/Y', strtotime($vacation['end_date'])) ?></td>
+                            <td>
+                                <span class="table-badge table-badge-secondary">
+                                    <?= $vacation['days'] ?> días
+                                </span>
+                            </td>
+                            <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                <?= htmlspecialchars($vacation['reason'] ?? 'Sin motivo') ?>
+                            </td>
+                            <td>
+                                <?php
+                                $statusClasses = [
+                                    'pending' => 'warning',
+                                    'approved' => 'success',
+                                    'rejected' => 'danger'
+                                ];
+                                $statusIcons = [
+                                    'pending' => 'fa-hourglass-half',
+                                    'approved' => 'fa-check-circle',
+                                    'rejected' => 'fa-times-circle'
+                                ];
+                                $statusLabels = [
+                                    'pending' => 'Pendiente',
+                                    'approved' => 'Aprobado',
+                                    'rejected' => 'Rechazado'
+                                ];
+                                $status = $vacation['status'] ?? 'pending';
+                                ?>
+                                <span class="table-badge table-badge-<?= $statusClasses[$status] ?>">
+                                    <i class="fas <?= $statusIcons[$status] ?>"></i>
+                                    <?= $statusLabels[$status] ?>
+                                </span>
+                            </td>
+                            <td><?= date('d/m/Y H:i', strtotime($vacation['created_at'])) ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+    <?php endif; ?>
 
-<?php endif; ?>
+    <?php endif; ?>
+</div>
+
+<script>
+function approveRequest(requestId) {
+    if (confirm('¿Aprobar esta solicitud de vacaciones?')) {
+        fetch(`/vacations/approve/${requestId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Error al aprobar la solicitud');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al procesar la solicitud');
+        });
+    }
+}
+
+function rejectRequest(requestId) {
+    const reason = prompt('Motivo del rechazo (opcional):');
+    if (reason !== null) {
+        fetch(`/vacations/reject/${requestId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ reason })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Error al rechazar la solicitud');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al procesar la solicitud');
+        });
+    }
+}
+</script>
 
 <?php require dirname(__DIR__) . '/layouts/footer.php'; ?>

@@ -55,17 +55,38 @@ class VacationService
             return $existing;
         }
 
+        // Generate UUID for the new balance record
+        $uuid = $this->generateUUID();
+
         $stmt = $this->db->prepare('
-            INSERT INTO vacation_balances (employee_id, year, total_days)
-            VALUES (:employee_id, :year, :total_days)
+            INSERT INTO vacation_balances (id, employee_id, year, total_days)
+            VALUES (:id, :employee_id, :year, :total_days)
         ');
         $stmt->execute([
+            'id' => $uuid,
             'employee_id' => $employeeId,
             'year' => $year,
             'total_days' => $totalDays
         ]);
 
         return $this->getBalance($employeeId, $year);
+    }
+
+    /**
+     * Generate UUID v4
+     */
+    private function generateUUID(): string
+    {
+        // Use random_bytes for better randomness
+        $data = random_bytes(16);
+        
+        // Set version to 0100
+        $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+        // Set bits 6-7 to 10
+        $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+        
+        // Output the 36 character UUID
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
 
     /**
@@ -108,13 +129,21 @@ class VacationService
 
             // Check if employee has enough available days
             $year = (int)date('Y', $startTimestamp);
+            
+            // Debug: Log employee ID being used
+            error_log("DEBUG: Buscando balance para employee_id: " . $employeeId . ", year: " . $year);
+            
             $balance = $this->getBalance($employeeId, $year);
 
             if (!$balance) {
+                error_log("DEBUG: No se encontró balance, inicializando nuevo balance");
                 $balance = $this->initializeBalance($employeeId, $year);
+            } else {
+                error_log("DEBUG: Balance encontrado - Total: {$balance->totalDays}, Used: {$balance->usedDays}, Pending: {$balance->pendingDays}, Available: {$balance->availableDays}");
             }
 
             if ($balance->availableDays < $totalDays) {
+                error_log("DEBUG: Días insuficientes - employee_id actual: " . $employeeId);
                 throw new \Exception("No tienes suficientes días disponibles. Disponibles: {$balance->availableDays}, Solicitados: {$totalDays}");
             }
 
@@ -144,14 +173,16 @@ class VacationService
             }
 
             // Create request
+            $uuid = $this->generateUUID();
+            
             $stmt = $this->db->prepare('
                 INSERT INTO vacation_requests 
-                (employee_id, start_date, end_date, total_days, notes, status, request_date)
-                VALUES (:employee_id, :start_date, :end_date, :total_days, :notes, :status, CURRENT_DATE)
-                RETURNING id
+                (id, employee_id, start_date, end_date, total_days, notes, status, request_date)
+                VALUES (:id, :employee_id, :start_date, :end_date, :total_days, :notes, :status, CURDATE())
             ');
 
             $result = $stmt->execute([
+                'id' => $uuid,
                 'employee_id' => $employeeId,
                 'start_date' => $startDate,
                 'end_date' => $endDate,
@@ -165,13 +196,22 @@ class VacationService
                 throw new \Exception('Error al crear la solicitud: ' . ($errorInfo[2] ?? 'Error desconocido'));
             }
 
-            $id = $stmt->fetchColumn();
+            // ✅ UPDATE BALANCE: Increment pending_days (since no triggers on InfinityFree)
+            $updateBalance = $this->db->prepare('
+                UPDATE vacation_balances 
+                SET pending_days = pending_days + :total_days,
+                    updated_at = CURRENT_TIMESTAMP
+                WHERE employee_id = :employee_id 
+                AND year = :year
+            ');
+            
+            $updateBalance->execute([
+                'total_days' => $totalDays,
+                'employee_id' => $employeeId,
+                'year' => $year
+            ]);
 
-            if (!$id) {
-                throw new \Exception('No se pudo obtener el ID de la solicitud creada');
-            }
-
-            return $this->getRequest($id);
+            return $this->getRequest($uuid);
 
         } catch (\Exception $e) {
             error_log("Error en createRequest: " . $e->getMessage());
@@ -319,6 +359,9 @@ class VacationService
             'id' => $requestId
         ]);
 
+        // ✅ NO CHANGE to balance: days remain in pending_days
+        // (waiting for HR final approval)
+
         return $this->getRequest($requestId);
     }
 
@@ -353,6 +396,27 @@ class VacationService
             'id' => $requestId
         ]);
 
+        // ✅ UPDATE BALANCE: Move days from pending to used
+        $year = (int)date('Y', strtotime($request->startDate));
+        $totalDays = $request->totalDays;
+        
+        // Using positional parameters to avoid duplicate named parameter issue
+        $updateBalance = $this->db->prepare('
+            UPDATE vacation_balances 
+            SET pending_days = pending_days - ?,
+                used_days = used_days + ?,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE employee_id = ? 
+            AND year = ?
+        ');
+        
+        $updateBalance->execute([
+            $totalDays,      // pending_days -
+            $totalDays,      // used_days +
+            $request->employeeId,
+            $year
+        ]);
+
         return $this->getRequest($requestId);
     }
 
@@ -361,6 +425,11 @@ class VacationService
      */
     public function reject(string|int $requestId, string|int $approverId, string $reason): VacationRequest
     {
+        $request = $this->getRequest($requestId);
+        if (!$request) {
+            throw new \Exception('Eskaera ez da aurkitu / Solicitud no encontrada');
+        }
+
         $stmt = $this->db->prepare('
             UPDATE vacation_requests
             SET status = :status,
@@ -374,6 +443,26 @@ class VacationService
             'reason' => $reason,
             'id' => $requestId
         ]);
+
+        // ✅ UPDATE BALANCE: Release pending_days (only if was PENDING or MANAGER_APPROVED)
+        if ($request->status === VacationRequest::STATUS_PENDING || 
+            $request->status === VacationRequest::STATUS_MANAGER_APPROVED) {
+            
+            $year = (int)date('Y', strtotime($request->startDate));
+            $updateBalance = $this->db->prepare('
+                UPDATE vacation_balances 
+                SET pending_days = pending_days - :total_days,
+                    updated_at = CURRENT_TIMESTAMP
+                WHERE employee_id = :employee_id 
+                AND year = :year
+            ');
+            
+            $updateBalance->execute([
+                'total_days' => $request->totalDays,
+                'employee_id' => $request->employeeId,
+                'year' => $year
+            ]);
+        }
 
         return $this->getRequest($requestId);
     }
