@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zabala Gailetak - HR Portal</title>
-    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/assets/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { background-color: #f8f9fa; }
-        .navbar-brand { font-weight: bold; color: #d32f2f !important; }
-        .card { box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; }
+        body { background-color: var(--bg-secondary); }
+        .navbar-brand { font-weight: 700; color: var(--text-white) !important; }
+        .card { box-shadow: var(--shadow-md); border: none; }
     </style>
 </head>
 <body>
@@ -36,3 +36,8 @@
     </nav>
     <?php endif; ?>
     <div class="container">
+        <h1>Dashboard</h1>
+        <p>¡Bienvenido al portal de recursos humanos!</p>
+    </div>
+</body>
+</html>
