@@ -7,8 +7,8 @@
     <title>Zabala Gailetak - HR Portal</title>
     <!-- Font Awesome (CDN permitido por CSP) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
-    <!-- Industrial Design System (Self-Hosted) -->
-    <link rel="stylesheet" href="/assets/css/zabala-industrial-standalone.css">
+    <!-- Industrial Design System (PHP con MIME correcto) -->
+    <link rel="stylesheet" href="/assets/css/industrial.php">
 </head>
 
 <body>
