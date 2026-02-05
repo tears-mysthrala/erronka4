@@ -96,10 +96,19 @@ class VacationServiceTest extends TestCase
             'available_days' => 22.0
         ]);
 
+        // Mock overlap check (no overlapping requests)
+        $mockStmtOverlap = $this->createMock(PDOStatement::class);
+        $mockStmtOverlap->expects($this->once())
+            ->method('execute');
+        $mockStmtOverlap->expects($this->once())
+            ->method('fetchColumn')
+            ->willReturn(0); // No overlapping requests
+
         // Mock insert request
         $mockStmtInsert = $this->createMock(PDOStatement::class);
         $mockStmtInsert->expects($this->once())
-            ->method('execute');
+            ->method('execute')
+            ->willReturn(true); // Execution successful
         $mockStmtInsert->expects($this->once())
             ->method('fetchColumn')
             ->willReturn('request-uuid-1');
@@ -122,13 +131,15 @@ class VacationServiceTest extends TestCase
         // Sequence of prepare calls:
         // 1. getPublicHolidays
         // 2. getBalance
-        // 3. insert request
-        // 4. getRequest
-        $this->mockPdo->expects($this->exactly(4))
+        // 3. overlap check
+        // 4. insert request
+        // 5. getRequest
+        $this->mockPdo->expects($this->exactly(5))
             ->method('prepare')
             ->willReturnOnConsecutiveCalls(
                 $mockStmtHolidays,
                 $mockStmtBalance,
+                $mockStmtOverlap,
                 $mockStmtInsert,
                 $mockStmtGetRequest
             );
