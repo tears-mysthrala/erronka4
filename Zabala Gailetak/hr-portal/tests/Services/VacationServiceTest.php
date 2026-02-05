@@ -134,10 +134,13 @@ class VacationServiceTest extends TestCase
         $mockStmtUpdateBalance = $this->createMock(PDOStatement::class);
         $mockStmtUpdateBalance->expects($this->once())
             ->method('execute')
-            ->with($this->callback(function ($params) {
+            ->with($this->callback(function ($params) use ($employeeId, $year) {
                 return isset($params['total_days']) &&
+                       $params['total_days'] === 5.0 &&
                        isset($params['employee_id']) &&
-                       isset($params['year']);
+                       $params['employee_id'] === $employeeId &&
+                       isset($params['year']) &&
+                       $params['year'] === $year;
             }));
 
         // Sequence of prepare calls:
