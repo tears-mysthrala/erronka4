@@ -49,7 +49,7 @@
                     </ul>
                     <div class="d-flex align-items-center gap-3">
                         <span class="navbar-text">
-                            <i class="fas fa-user-circle"></i> 
+                            <i class="fas fa-user-circle"></i>
                             Hola, <?= htmlspecialchars($_SESSION['user_name'] ?? 'Admin') ?>
                         </span>
                         <a href="/logout" class="btn btn-outline-light">
