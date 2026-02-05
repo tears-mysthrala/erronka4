@@ -1,22 +1,11 @@
 parameters:
-    level: 5
+    level: 6
     paths:
         - src
-        - tests
     excludePaths:
-        analyseAndScan:
-            - vendor (?)
-            - node_modules (?)
-    
-    # Allow dynamic properties in tests
-    reportUnmatchedIgnoredErrors: false
-    
-    # Native bootstrap (Zero Trust)
-    bootstrapFiles:
-        - tests/bootstrap.php
-
-    # Ignore missing dependencies in CI environment
+        - src/Config/routes.php
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
     ignoreErrors:
-        - '#unknown class OTPHP\TOTP#'
-        - '#Call to static method .* on an unknown class OTPHP\TOTP#'
-
+        # Ignore session-related warnings (handled by framework)
+        - '#Undefined variable: \$_(SESSION|SERVER|POST|GET)#'

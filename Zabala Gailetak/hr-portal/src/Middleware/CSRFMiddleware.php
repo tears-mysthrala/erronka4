@@ -6,6 +6,7 @@ namespace ZabalaGailetak\HrPortal\Middleware;
 
 use ZabalaGailetak\HrPortal\Http\Request;
 use ZabalaGailetak\HrPortal\Http\Response;
+use ZabalaGailetak\HrPortal\Security\CSRFProtection;
 
 /**
  * CSRF Protection Middleware
@@ -19,7 +20,27 @@ class CSRFMiddleware
             return null;
         }
 
-        // TODO: Implement CSRF token validation
-        return null;
+        // Get CSRF token from request
+        $token = $request->getHeader('X-CSRF-Token')
+            ?? $request->getPost('csrf_token')
+            ?? '';
+
+        // Validate token
+        if (!CSRFProtection::validateToken($token)) {
+            // Log CSRF violation for SIEM
+            error_log(sprintf(
+                "[SECURITY] CSRF validation failed - IP: %s, URI: %s, User-Agent: %s",
+                $request->getClientIp(),
+                $request->getUri(),
+                $request->getHeader('User-Agent') ?? 'unknown'
+            ));
+
+            return new Response(
+                ['error' => 'CSRF token validation failed', 'code' => 'CSRF_INVALID'],
+                403
+            );
+        }
+
+        return null; // Continue to next middleware
     }
 }

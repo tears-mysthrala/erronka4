@@ -1,0 +1,97 @@
+name: Security Scanning
+
+on:
+  schedule:
+    - cron: '0 2 * * 1'  # Weekly on Monday 2 AM
+  workflow_dispatch:
+
+jobs:
+  owasp-dependency-check:
+    name: OWASP Dependency Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run OWASP Dependency-Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: 'Zabala-Gailetak-HR-Portal'
+          path: 'Zabala Gailetak/hr-portal'
+          format: 'SARIF'
+          args: >
+            --enableRetired
+
+      - name: Upload SARIF to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: reports/dependency-check-report.sarif
+
+  container-scan:
+    name: Container Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Check for Dockerfile
+        id: dockerfile-check
+        run: |
+          if [ -f "Zabala Gailetak/hr-portal/Dockerfile" ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build Docker Image
+        if: steps.dockerfile-check.outputs.exists == 'true'
+        run: |
+          cd "Zabala Gailetak/hr-portal"
+          docker build -t zabala-hr-portal:test -f Dockerfile .
+
+      - name: Run Trivy Scan
+        if: steps.dockerfile-check.outputs.exists == 'true'
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'zabala-hr-portal:test'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Upload Trivy Results
+        if: steps.dockerfile-check.outputs.exists == 'true'
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  php-security-scan:
+    name: PHP Security Scanner
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer
+
+      - name: Install Dependencies
+        working-directory: "Zabala Gailetak/hr-portal"
+        run: composer install --no-interaction
+
+      - name: Security Audit
+        working-directory: "Zabala Gailetak/hr-portal"
+        run: |
+          echo "=== Composer Security Audit ==="
+          composer audit || true
+
+          echo ""
+          echo "=== Checking for Known Vulnerabilities ==="
+          # Check for common security issues in PHP files
+          find src -name "*.php" -type f -exec grep -l "eval\|exec\|system\|passthru\|shell_exec" {} \; || echo "No dangerous functions found"

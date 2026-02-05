@@ -9,6 +9,19 @@ namespace ZabalaGailetak\HrPortal\Security;
  */
 class SecurityHeaders
 {
+    private static ?string $currentNonce = null;
+
+    /**
+     * Generate cryptographically secure nonce for CSP
+     */
+    public static function generateNonce(): string
+    {
+        if (self::$currentNonce === null) {
+            self::$currentNonce = base64_encode(random_bytes(16));
+        }
+        return self::$currentNonce;
+    }
+
     /**
      * Get all security headers
      */
@@ -25,18 +38,23 @@ class SecurityHeaders
     }
 
     /**
-     * Get Content Security Policy
+     * Get Content Security Policy with nonce
      */
     private static function getCSP(): string
     {
+        $nonce = self::generateNonce();
+
         $directives = [
             "default-src 'self'",
-            "script-src 'self' 'unsafe-inline'",
-            "style-src 'self' 'unsafe-inline'",
-            "img-src 'self' data:",
+            "script-src 'self' 'nonce-{$nonce}'",  // Removed 'unsafe-inline'
+            "style-src 'self' 'nonce-{$nonce}'",   // Removed 'unsafe-inline'
+            "img-src 'self' data: https:",
             "font-src 'self'",
             "connect-src 'self'",
             "frame-ancestors 'self'",
+            "base-uri 'self'",
+            "form-action 'self'",
+            "upgrade-insecure-requests",
         ];
 
         return implode('; ', $directives);

@@ -234,4 +234,16 @@ class Request
     {
         return $this->attributes;
     }
+
+    /**
+     * Get real client IP (considering proxies)
+     */
+    public function getClientIp(): string
+    {
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+            return trim($ips[0]);
+        }
+        return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+    }
 }

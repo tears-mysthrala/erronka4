@@ -1,0 +1,126 @@
+name: CI - Complete Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_USER: test_user
+          POSTGRES_DB: zabala_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo, pdo_pgsql, redis, mbstring, json
+          coverage: xdebug
+          tools: composer
+
+      - name: Install Dependencies
+        working-directory: "Zabala Gailetak/hr-portal"
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Setup Test Environment
+        working-directory: "Zabala Gailetak/hr-portal"
+        run: |
+          cp .env.example .env 2>/dev/null || touch .env
+          echo "DB_HOST=localhost" >> .env
+          echo "DB_PORT=5432" >> .env
+          echo "DB_NAME=zabala_test" >> .env
+          echo "DB_USER=test_user" >> .env
+          echo "DB_PASSWORD=test_password" >> .env
+          echo "REDIS_HOST=localhost" >> .env
+          echo "REDIS_PORT=6379" >> .env
+
+      - name: Run PHPUnit Tests
+        working-directory: "Zabala Gailetak/hr-portal"
+        run: vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
+
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: "Zabala Gailetak/hr-portal/coverage/"
+          retention-days: 7
+
+  sast:
+    name: Static Analysis Security Testing
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer, phpstan
+
+      - name: Install Dependencies
+        working-directory: "Zabala Gailetak/hr-portal"
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Run PHPStan
+        working-directory: "Zabala Gailetak/hr-portal"
+        run: vendor/bin/phpstan analyse --configuration phpstan.neon --error-format=github || true
+
+  dependency-scan:
+    name: Dependency Vulnerability Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer
+
+      - name: Install Dependencies
+        working-directory: "Zabala Gailetak/hr-portal"
+        run: composer install --no-interaction
+
+      - name: Run Composer Audit
+        working-directory: "Zabala Gailetak/hr-portal"
+        run: composer audit --format=plain || true
+
+      - name: Check Outdated Dependencies
+        working-directory: "Zabala Gailetak/hr-portal"
+        run: composer outdated --direct || true
