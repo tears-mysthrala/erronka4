@@ -44,11 +44,13 @@ class VacationServiceTest extends TestCase
         $mockStmtInsert = $this->createMock(PDOStatement::class);
         $mockStmtInsert->expects($this->once())
             ->method('execute')
-            ->with([
-                'employee_id' => $employeeId,
-                'year' => $year,
-                'total_days' => $totalDays
-            ]);
+            ->with($this->callback(function ($params) use ($employeeId, $year, $totalDays) {
+                // Check that all required parameters are present
+                return isset($params['id']) &&
+                       $params['employee_id'] === $employeeId &&
+                       $params['year'] === $year &&
+                       $params['total_days'] === $totalDays;
+            }));
 
         // Mock getBalance second call (after insert) to return the new record
         $mockStmtGet2 = $this->createMock(PDOStatement::class);
@@ -128,19 +130,31 @@ class VacationServiceTest extends TestCase
             'employee_department' => 'IT'
         ]);
 
+        // Mock update balance (increment pending_days)
+        $mockStmtUpdateBalance = $this->createMock(PDOStatement::class);
+        $mockStmtUpdateBalance->expects($this->once())
+            ->method('execute')
+            ->with($this->callback(function ($params) {
+                return isset($params['total_days']) &&
+                       isset($params['employee_id']) &&
+                       isset($params['year']);
+            }));
+
         // Sequence of prepare calls:
         // 1. getPublicHolidays
         // 2. getBalance
         // 3. overlap check
         // 4. insert request
-        // 5. getRequest
-        $this->mockPdo->expects($this->exactly(5))
+        // 5. update balance (NEW - increment pending_days)
+        // 6. getRequest
+        $this->mockPdo->expects($this->exactly(6))
             ->method('prepare')
             ->willReturnOnConsecutiveCalls(
                 $mockStmtHolidays,
                 $mockStmtBalance,
                 $mockStmtOverlap,
                 $mockStmtInsert,
+                $mockStmtUpdateBalance,
                 $mockStmtGetRequest
             );
 
