@@ -1,118 +1,151 @@
 <?php require dirname(__DIR__) . '/layouts/header.php'; ?>
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Empleados</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-        <?php if ($auth['role'] === 'admin' || $auth['role'] === 'hr_manager'): ?>
-            <a href="/employees/export" class="btn btn-sm btn-outline-secondary">
-                <i class="bi bi-download"></i> Exportar
+<div class="dashboard-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">
+                <i class="fas fa-users"></i>
+                Gestión de Empleados
+            </h1>
+            <p class="page-subtitle">Administración del personal de Zabala Gailetak</p>
+        </div>
+        <div class="page-actions">
+            <?php if ($auth['role'] === 'admin' || $auth['role'] === 'hr_manager'): ?>
+                <button class="btn-industrial btn-secondary-industrial">
+                    <i class="fas fa-download"></i>
+                    Exportar
+                </button>
+                <a href="/employees/create" class="btn-industrial btn-primary-industrial">
+                    <i class="fas fa-user-plus"></i>
+                    Nuevo Empleado
+                </a>
+            <?php endif; ?>
+            <a href="/employees/profile" class="btn-industrial btn-ghost-industrial">
+                <i class="fas fa-id-card"></i>
+                Mi Perfil
             </a>
-        <?php endif; ?>
-        
-        <?php if ($auth['role'] === 'admin' || $auth['role'] === 'hr_manager'): ?>
-            <a href="/employees/create" class="btn btn-sm btn-primary ms-2">
-                <i class="bi bi-plus-circle"></i> Nuevo Empleado
-            </a>
-        <?php endif; ?>
-        
-        <a href="/employees/profile" class="btn btn-sm btn-outline-info ms-2">
-            <i class="bi bi-person"></i> Mi Perfil
-        </a>
+        </div>
+    </div>
+
+    <!-- Employees Table Card -->
+    <div class="widget-card-industrial">
+        <div class="widget-header">
+            <h3 class="widget-title">
+                <i class="fas fa-list"></i>
+                Listado de Empleados
+            </h3>
+            <div style="display: flex; gap: var(--space-3); align-items: center;">
+                <span style="font-size: var(--text-sm); color: var(--text-tertiary);">
+                    <i class="fas fa-users"></i>
+                    <?= count($employees) ?> empleados
+                </span>
+            </div>
+        </div>
+        <div class="widget-body" style="padding: 0;">
+            <div class="table-container-industrial">
+                <table class="table-industrial">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-hashtag"></i> ID</th>
+                            <th><i class="fas fa-user"></i> Nombre</th>
+                            <th><i class="fas fa-envelope"></i> Email</th>
+                            <th><i class="fas fa-briefcase"></i> Puesto</th>
+                            <th><i class="fas fa-building"></i> Departamento</th>
+                            <th><i class="fas fa-shield-alt"></i> Rol</th>
+                            <th><i class="fas fa-toggle-on"></i> Estado</th>
+                            <?php if ($auth['role'] === 'admin' || $auth['role'] === 'hr_manager'): ?>
+                            <th><i class="fas fa-cog"></i> Acciones</th>
+                            <?php endif; ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($employees as $employee): ?>
+                        <tr>
+                            <td>
+                                <span class="table-badge table-badge-secondary">
+                                    <?= htmlspecialchars($employee['employee_number']) ?>
+                                </span>
+                            </td>
+                            <td>
+                                <div class="table-user">
+                                    <div class="table-avatar">
+                                        <?= strtoupper(substr($employee['first_name'], 0, 1)) ?>
+                                    </div>
+                                    <span class="table-user-name">
+                                        <?= htmlspecialchars($employee['first_name'] . ' ' . $employee['last_name']) ?>
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <a href="mailto:<?= htmlspecialchars($employee['email']) ?>" class="table-link">
+                                    <?= htmlspecialchars($employee['email']) ?>
+                                </a>
+                            </td>
+                            <td><?= htmlspecialchars($employee['position']) ?></td>
+                            <td><?= htmlspecialchars($employee['department_name'] ?? 'N/A') ?></td>
+                            <td>
+                                <?php
+                                $roleColors = [
+                                    'admin' => 'danger',
+                                    'hr_manager' => 'primary',
+                                    'department_head' => 'accent',
+                                    'employee' => 'secondary'
+                                ];
+                                $roleName = str_replace('_', ' ', ucfirst($employee['role']));
+                                $roleColor = $roleColors[$employee['role']] ?? 'secondary';
+                                ?>
+                                <span class="table-badge table-badge-<?= $roleColor ?>">
+                                    <?= htmlspecialchars($roleName) ?>
+                                </span>
+                            </td>
+                            <td>
+                                <?php if ($employee['is_active']): ?>
+                                    <span class="table-badge table-badge-success">
+                                        <i class="fas fa-check-circle"></i>
+                                        Activo
+                                    </span>
+                                <?php else: ?>
+                                    <span class="table-badge table-badge-secondary">
+                                        <i class="fas fa-times-circle"></i>
+                                        Inactivo
+                                    </span>
+                                <?php endif; ?>
+                            </td>
+                            <?php if ($auth['role'] === 'admin' || $auth['role'] === 'hr_manager'): ?>
+                            <td>
+                                <div class="table-actions">
+                                    <a href="/employees/view/<?= $employee['id'] ?>" class="table-action" title="Ver">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="/employees/edit/<?= $employee['id'] ?>" class="table-action" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <?php if ($employee['id'] !== $auth['user_id']): ?>
+                                    <button class="table-action table-action-danger" 
+                                            onclick="confirmDelete(<?= $employee['id'] ?>)" 
+                                            title="Eliminar">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    <?php endif; ?>
+                                </div>
+                            </td>
+                            <?php endif; ?>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="table-responsive">
-    <table class="table table-striped table-sm">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Puesto</th>
-                <th>Departamento</th>
-                <th>Rol</th>
-                <th>Estado</th>
-                <?php if ($auth['role'] === 'admin' || $auth['role'] === 'hr_manager'): ?>
-                <th>Acciones</th>
-                <?php endif; ?>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($employees as $employee): ?>
-            <tr>
-                <td><?= htmlspecialchars($employee['employee_number']) ?></td>
-                <td><?= htmlspecialchars($employee['first_name'] . ' ' . $employee['last_name']) ?></td>
-                <td><?= htmlspecialchars($employee['email']) ?></td>
-                <td><?= htmlspecialchars($employee['position']) ?></td>
-                <td><?= htmlspecialchars($employee['department_name'] ?? 'N/A') ?></td>
-                <td>
-                    <span class="badge bg-<?= $employee['role'] === 'admin' ? 'danger' : ($employee['role'] === 'hr_manager' ? 'warning' : ($employee['role'] === 'department_head' ? 'info' : 'secondary')) ?>">
-                        <?= htmlspecialchars(ucfirst(str_replace('_', ' ', $employee['role']))) ?>
-                    </span>
-                </td>
-                <td>
-                    <?php if ($employee['is_active']): ?>
-                        <span class="badge bg-success">Activo</span>
-                    <?php else: ?>
-                        <span class="badge bg-secondary">Inactivo</span>
-                    <?php endif; ?>
-                </td>
-                <?php if ($auth['role'] === 'admin' || $auth['role'] === 'hr_manager'): ?>
-                <td>
-                    <div class="btn-group" role="group">
-                        <a href="/employees/show/<?= $employee['id'] ?>" class="btn btn-sm btn-outline-info" title="Ver">
-                            <i class="bi bi-eye"></i>
-                        </a>
-                        <?php if ($auth['role'] === 'admin' || ($auth['role'] === 'hr_manager' && $employee['role'] !== 'admin')): ?>
-                            <a href="/employees/edit/<?= $employee['id'] ?>" class="btn btn-sm btn-outline-warning" title="Editar">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-                        <?php endif; ?>
-                        <?php if ($auth['role'] === 'admin' && $employee['role'] !== 'admin'): ?>
-                            <button class="btn btn-sm btn-outline-danger" onclick="confirmDelete('<?= $employee['id'] ?>', '<?= htmlspecialchars($employee['first_name'] . ' ' . $employee['last_name']) ?>')" title="Eliminar">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        <?php endif; ?>
-                    </div>
-                </td>
-                <?php endif; ?>
-            </tr>
-            <?php endforeach; ?>
-            <?php if (empty($employees)): ?>
-            <tr>
-                <td colspan="<?= ($auth['role'] === 'admin' || $auth['role'] === 'hr_manager') ? 8 : 7 ?>" class="text-center">
-                    No hay empleados registrados.
-                </td>
-            </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
-</div>
-
-<?php if (isset($totalPages) && $totalPages > 1): ?>
-<nav aria-label="Page navigation" class="mt-4">
-  <ul class="pagination justify-content-center">
-    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-    <li class="page-item <?= ($i === $page) ? 'active' : '' ?>">
-        <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
-    </li>
-    <?php endfor; ?>
-  </ul>
-</nav>
-<?php endif; ?>
-
-<?php if ($auth['role'] === 'admin'): ?>
 <script>
-function confirmDelete(id, name) {
-    if (confirm(`¿Estás seguro de que deseas eliminar al empleado "${name}"? Esta acción desactivará su cuenta y no podrá acceder al sistema.`)) {
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = `/employees/delete/${id}`;
-        document.body.appendChild(form);
-        form.submit();
+function confirmDelete(employeeId) {
+    if (confirm('¿Estás seguro de que deseas eliminar este empleado?')) {
+        window.location.href = `/employees/delete/${employeeId}`;
     }
 }
 </script>
-<?php endif; ?>
 
 <?php require dirname(__DIR__) . '/layouts/footer.php'; ?>

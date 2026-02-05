@@ -7,8 +7,8 @@
     <title>Zabala Gailetak - HR Portal</title>
     <!-- Font Awesome (CDN permitido por CSP) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
-    <!-- Industrial Design System (PHP con MIME correcto) -->
-    <link rel="stylesheet" href="/assets/css/industrial.php">
+    <!-- Industrial Design System v2 (PHP con MIME correcto + Day/Night Mode) -->
+    <link rel="stylesheet" href="/assets/css/industrial-v2.php">
 </head>
 
 <body>
@@ -43,17 +43,25 @@
                     </li>
                 </ul>
                 
-                <div class="user-profile">
-                    <div class="user-avatar">
-                        <?= strtoupper(substr($_SESSION['user_name'] ?? 'A', 0, 1)) ?>
+                <div style="display: flex; align-items: center; gap: var(--space-3);">
+                    <!-- Theme Toggle -->
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                        <i class="fas fa-sun theme-icon-light"></i>
+                        <i class="fas fa-moon theme-icon-dark"></i>
+                    </button>
+                    
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            <?= strtoupper(substr($_SESSION['user_name'] ?? 'A', 0, 1)) ?>
+                        </div>
+                        <div class="user-info">
+                            <div class="user-name"><?= htmlspecialchars($_SESSION['user_name'] ?? 'Admin') ?></div>
+                            <div class="user-role"><?= htmlspecialchars($_SESSION['user_role'] ?? 'Administrator') ?></div>
+                        </div>
+                        <a href="/logout" class="btn-ghost-industrial" style="margin-left: var(--space-4);">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </a>
                     </div>
-                    <div class="user-info">
-                        <div class="user-name"><?= htmlspecialchars($_SESSION['user_name'] ?? 'Admin') ?></div>
-                        <div class="user-role"><?= htmlspecialchars($_SESSION['user_role'] ?? 'Administrator') ?></div>
-                    </div>
-                    <a href="/logout" class="btn-ghost-industrial" style="margin-left: var(--space-4);">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </a>
                 </div>
             </div>
         </nav>
