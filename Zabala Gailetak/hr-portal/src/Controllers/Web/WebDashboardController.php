@@ -20,12 +20,15 @@ class WebDashboardController
 
     public function index(Request $request): Response
     {
-        $this->requireAuth();
+        // Check authentication without redirecting (middleware should handle this)
+        if (!isset($_SESSION['user_id'])) {
+            return Response::redirect('/login');
+        }
 
         // Get basic stats
         $employeeCount = (int)$this->db->query("SELECT COUNT(*) FROM employees WHERE is_active = true")->fetchColumn();
         $pendingVacations = (int)$this->db->query("SELECT COUNT(*) FROM vacation_requests WHERE status = 'PENDING'")->fetchColumn();
-        
+
         // Get upcoming vacations (next 30 days)
         $stmt = $this->db->query("
             SELECT e.first_name, e.last_name, vr.start_date, vr.end_date
@@ -48,13 +51,5 @@ class WebDashboardController
             ],
             'upcomingVacations' => $upcomingVacations
         ]);
-    }
-
-    private function requireAuth(): void
-    {
-        if (!isset($_SESSION['user_id'])) {
-            header('Location: /login');
-            exit;
-        }
     }
 }
