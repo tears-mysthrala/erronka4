@@ -35,7 +35,7 @@ class CSRFMiddleware
                 $request->getHeader('User-Agent') ?? 'unknown'
             ));
 
-            return new Response(
+            return Response::json(
                 ['error' => 'CSRF token validation failed', 'code' => 'CSRF_INVALID'],
                 403
             );
