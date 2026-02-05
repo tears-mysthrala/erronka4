@@ -1,72 +1,158 @@
 <?php require dirname(__DIR__) . '/layouts/header.php'; ?>
 
-<div class="row">
-    <div class="col-md-12 mb-4">
-        <h2>Dashboard</h2>
-        <p class="text-muted">Bienvenido al panel de gestión de Zabala Gailetak.</p>
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1 class="dashboard-title">Centro de Control</h1>
+        <p class="dashboard-subtitle">Sistema de Gestión de Recursos Humanos - Zabala Gailetak</p>
     </div>
-</div>
 
-<div class="dashboard-stats fade-in">
-    <!-- Stats Cards -->
-    <div class="stat-card card-primary">
-        <i class="fas fa-users stat-icon"></i>
-        <div class="card-body">
-            <h5 class="card-title"><i class="fas fa-briefcase"></i> Empleados Activos</h5>
-            <p class="card-text"><?= htmlspecialchars($stats['employees'] ?? 0) ?></p>
-            <a href="/employees">
-                Ver listado <i class="fas fa-arrow-right"></i>
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+        <!-- Empleados Activos -->
+        <div class="stat-card-industrial">
+            <div class="stat-header">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-badge">ACTIVOS</div>
+            </div>
+            <div class="stat-label">Empleados</div>
+            <div class="stat-value"><?= htmlspecialchars($stats['employees'] ?? '0') ?></div>
+            <a href="/employees" class="stat-link">
+                Ver listado completo
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <!-- Presentes Hoy -->
+        <div class="stat-card-industrial">
+            <div class="stat-header">
+                <div class="stat-icon">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <div class="stat-badge">HOY</div>
+            </div>
+            <div class="stat-label">Presentes</div>
+            <div class="stat-value">118</div>
+            <div style="margin-top: var(--space-4); font-size: var(--text-sm); color: var(--text-tertiary);">
+                <i class="fas fa-chart-line"></i>
+                95% asistencia
+            </div>
+        </div>
+
+        <!-- Vacaciones Pendientes -->
+        <div class="stat-card-industrial">
+            <div class="stat-header">
+                <div class="stat-icon">
+                    <i class="fas fa-umbrella-beach"></i>
+                </div>
+                <div class="stat-badge">PENDIENTES</div>
+            </div>
+            <div class="stat-label">Solicitudes</div>
+            <div class="stat-value"><?= htmlspecialchars($stats['pending_vacations'] ?? '0') ?></div>
+            <a href="/vacations" class="stat-link">
+                Gestionar solicitudes
+                <i class="fas fa-arrow-right"></i>
             </a>
         </div>
     </div>
-    <div class="stat-card card-success">
-        <i class="fas fa-check-circle stat-icon"></i>
-        <div class="card-body">
-            <h5 class="card-title"><i class="fas fa-calendar-check"></i> Presentes Hoy</h5>
-            <p class="card-text">118</p>
-        </div>
-    </div>
-    <div class="stat-card card-warning">
-        <i class="fas fa-umbrella-beach stat-icon"></i>
-        <div class="card-body">
-            <h5 class="card-title"><i class="fas fa-clock"></i> Vacaciones Pendientes</h5>
-            <p class="card-text"><?= htmlspecialchars($stats['pending_vacations'] ?? 0) ?></p>
-            <a href="/vacations">
-                Gestionar <i class="fas fa-arrow-right"></i>
-            </a>
-        </div>
-    </div>
-</div>
 
-<div class="dashboard-grid">
-    <div class="widget-card">
-        <div class="card-header">
-            <i class="fas fa-calendar-alt"></i>
-            Próximas Vacaciones
-        </div>
-        <ul class="list-group list-group-flush">
-            <?php if (!empty($upcomingVacations)): ?>
-                <?php foreach ($upcomingVacations as $vacation): ?>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>
-                            <i class="fas fa-user-circle"></i>
-                            <?= htmlspecialchars($vacation['first_name'] . ' ' . $vacation['last_name']) ?>
-                        </span>
-                        <span class="badge bg-info rounded-pill">
-                            <i class="fas fa-calendar"></i>
-                            <?= date('d/m', strtotime($vacation['start_date'])) ?> - <?= date('d/m', strtotime($vacation['end_date'])) ?>
-                        </span>
-                    </li>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <li class="list-group-item">
+    <!-- Widgets Grid -->
+    <div class="widget-grid">
+        <!-- Próximas Vacaciones -->
+        <div class="widget-card-industrial">
+            <div class="widget-header">
+                <h3 class="widget-title">
+                    <i class="fas fa-calendar-alt"></i>
+                    Próximas Vacaciones
+                </h3>
+                <span style="font-size: var(--text-xs); color: var(--text-tertiary);">
+                    <i class="fas fa-clock"></i>
+                    Próximos 30 días
+                </span>
+            </div>
+            <div class="widget-body">
+                <?php if (!empty($upcomingVacations)): ?>
+                    <ul class="widget-list">
+                        <?php foreach ($upcomingVacations as $vacation): ?>
+                            <li class="widget-list-item">
+                                <div class="item-user">
+                                    <div class="item-avatar">
+                                        <?= strtoupper(substr($vacation['first_name'], 0, 1)) ?>
+                                    </div>
+                                    <div class="item-details">
+                                        <div class="item-name">
+                                            <?= htmlspecialchars($vacation['first_name'] . ' ' . $vacation['last_name']) ?>
+                                        </div>
+                                        <div class="item-meta">
+                                            <i class="fas fa-building"></i>
+                                            Departamento
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item-badge">
+                                    <i class="fas fa-calendar"></i>
+                                    <?= date('d/m', strtotime($vacation['start_date'])) ?> - <?= date('d/m', strtotime($vacation['end_date'])) ?>
+                                </div>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php else: ?>
                     <div class="empty-state">
                         <i class="fas fa-calendar-times"></i>
-                        <p>No hay vacaciones próximas</p>
+                        <p>No hay vacaciones programadas</p>
                     </div>
-                </li>
-            <?php endif; ?>
-        </ul>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <!-- Actividad Reciente -->
+        <div class="widget-card-industrial">
+            <div class="widget-header">
+                <h3 class="widget-title">
+                    <i class="fas fa-history"></i>
+                    Actividad Reciente
+                </h3>
+                <span style="font-size: var(--text-xs); color: var(--text-tertiary);">
+                    <i class="fas fa-clock"></i>
+                    Última hora
+                </span>
+            </div>
+            <div class="widget-body">
+                <ul class="widget-list">
+                    <li class="widget-list-item">
+                        <div class="item-user">
+                            <div class="item-avatar">A</div>
+                            <div class="item-details">
+                                <div class="item-name">Nueva solicitud de vacaciones</div>
+                                <div class="item-meta">
+                                    <i class="fas fa-clock"></i>
+                                    Hace 15 minutos
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 4px 12px; background: rgba(5, 150, 105, 0.15); color: #10B981; font-size: 11px; font-weight: 700; border-radius: 999px;">
+                            NUEVO
+                        </div>
+                    </li>
+                    <li class="widget-list-item">
+                        <div class="item-user">
+                            <div class="item-avatar">B</div>
+                            <div class="item-details">
+                                <div class="item-name">Empleado actualizado</div>
+                                <div class="item-meta">
+                                    <i class="fas fa-clock"></i>
+                                    Hace 1 hora
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 4px 12px; background: rgba(2, 132, 199, 0.15); color: #0284C7; font-size: 11px; font-weight: 700; border-radius: 999px;">
+                            INFO
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
 

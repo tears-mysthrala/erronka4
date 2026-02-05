@@ -1,3 +1,312 @@
+# Zabala Gailetak - Complete AI Agent Context & Security Compliance Guide
+
+This comprehensive guide provides all necessary context for AI agents and developers interacting with the **Zabala Gailetak** project, including architecture, workflows, and detailed security/compliance requirements.
+
+---
+
+## 📋 Table of Contents
+
+1. [Project Overview](#1-project-overview)
+2. [System Architecture](#2-system-architecture)
+3. [Directory Structure](#3-directory-structure)
+4. [Development Workflow](#4-development-workflow)
+5. [Security & Compliance Overview](#5-security--compliance-overview)
+6. [Implementation Status](#6-current-implementation-status)
+7. [AI Agent Guidelines](#7-ai-agent-guidelines)
+8. [Detailed Compliance Requirements](#8-detailed-compliance-requirements)
+9. [Quick Reference](#9-quick-reference-commands)
+
+---
+
+## 1. Project Overview
+
+**Zabala Gailetak** is a comprehensive cybersecurity and infrastructure modernization project for a biscuit manufacturing company. Originally conceived as an e-commerce platform, it has evolved into a secure **Internal HR Portal** for managing the complete employee lifecycle with strict compliance requirements.
+
+*   **Context:** "Erronka 4" (Challenge 4) - Advanced Security Systems (Euskadi FP Challenge).
+*   **Primary Goal:** Modernize IT/OT infrastructure with a heavy focus on security (ISO 27001:2022, GDPR, IEC 62443) and build a secure internal management system.
+*   **Documentation Language:** Primary documentation is in **Spanish** and **Basque**. Technical comments and code are in **English**.
+*   **Timeline:** January 2026 - December 2026.
+*   **Current Status (Feb 2026):** Infrastructure deployed, core authentication implemented, security monitoring active.
+
+---
+
+## 2. System Architecture
+
+The system follows a **Zero Trust** architecture with strict IT/OT segmentation and defense-in-depth security layers.
+
+### A. Application Layer
+*   **Backend:** Pure PHP 8.4 REST API (PSR-compliant, no frameworks)
+    - **Stack:** Nginx, PostgreSQL 16, Redis 7
+    - **Standards:** PSR-1/4 (autoloading), PSR-7 (HTTP), PSR-11 (DI), PSR-15 (middleware)
+    - **Security:** JWT with refresh tokens, TOTP MFA, WebAuthn (passkeys), RBAC (5 roles)
+    - **Rate Limiting:** Redis-based with tiered limits per endpoint
+    - **Session Management:** Secure session handling, device fingerprinting
+
+*   **Web Frontend:** React 18 SPA (`src/web/`)
+    - **Build:** Vite 5 (HMR, optimized production builds)
+    - **Styling:** Styled Components (CSS-in-JS, theme-aware)
+    - **State:** Context API + custom hooks, SWR for server state
+    - **Features:** Employee CRUD, Vacation Calendar, Document Management, Real-time Chat (WebSocket)
+
+*   **Mobile App:** Native Android (`android-app/` - currently in planning)
+    - **Stack:** Kotlin 2.0, Jetpack Compose, Material 3 Design
+    - **DI:** Hilt (compile-time dependency injection)
+    - **Network:** Retrofit + OkHttp with certificate pinning
+    - **Architecture:** Clean Architecture + MVI pattern
+
+### B. Infrastructure Layer (`infrastructure/`)
+*   **Network Segmentation:** VLANs with strict firewall rules
+    - VLAN 10: Management (restricted access)
+    - VLAN 20: IT/Business applications
+    - VLAN 30: DMZ (public-facing services)
+    - VLAN 50: OT/Industrial (air-gapped from IT)
+*   **Load Balancing:** HAProxy with health checks and SSL termination
+*   **Container Orchestration:** Docker Compose (dev), Kubernetes (planned for production)
+
+### C. OT (Operational Technology) (`infrastructure/ot/`)
+*   **Simulation:** Cookie production line (demo purposes)
+*   **Stack:** OpenPLC (Structured Text IEC 61131-3), ScadaBR (HMI), Node-RED
+*   **Network:** Isolated VLAN 50 with IEC 62443-compliant security zones
+*   **Security:** Conpot honeypots, Modbus IDS, unidirectional data diode
+*   **Compliance:** SL 2 (Security Level 2) targeting SL 3 for critical systems
+
+### D. Security Layer (`security/`)
+*   **SIEM:** ELK Stack + Wazuh for log aggregation and threat detection
+*   **Honeypots:** T-Pot/Cowrie for threat intelligence
+*   **Forensics:** Toolkit with Volatility, Autopsy, YARA rules
+*   **Penetration Testing:** Regular assessments with OWASP ZAP, Burp Suite, Metasploit
+
+---
+
+## 3. Directory Structure & Key Locations
+
+```text
+/home/kalista/erronkak/erronka4/
+├── Zabala Gailetak/
+│   ├── src/                          # Application Source Code
+│   │   └── web/                      # React Frontend (SPA)
+│   │       ├── app/                  # React components and logic
+│   │       ├── public/               # Static assets
+│   │       └── package.json          # NPM dependencies
+│   ├── tests/                        # Testing Suites
+│   │   ├── e2e/                      # Playwright end-to-end tests
+│   │   └── load/                     # K6 performance tests
+│   ├── compliance/                   # Compliance Documentation
+│   │   ├── gdpr/                     # GDPR compliance docs
+│   │   └── sgsi/                     # ISO 27001 ISMS documentation
+│   ├── security/                     # Security Tools & Logs
+│   │   ├── siem/                     # ELK Stack + Wazuh configs
+│   │   ├── honeypot/                 # T-Pot deployment scripts
+│   │   ├── forensics/                # Forensic tools and reports
+│   │   ├── pentesting/               # Penetration test reports
+│   │   ├── incidents/                # Incident response logs
+│   │   └── audits/                   # Security audit trails
+│   ├── infrastructure/               # Infrastructure as Code
+│   │   ├── network/                  # Network topology and configs
+│   │   ├── systems/                  # System architecture diagrams
+│   │   └── ot/                       # Operational Technology setup
+│   │       ├── openplc/              # PLC programs (Structured Text)
+│   │       └── simulations/          # HMI and process simulations
+│   └── docs/                         # Additional Documentation
+│       └── network_diagrams/         # Network topology visuals
+├── scripts/                          # Utility Scripts
+│   └── verify_implementation.sh      # Compliance verification script
+├── ER4.md                            # Core Academic Challenge Requirements
+├── MIGRATION_PLAN.md                 # Master Technical Implementation Plan
+├── API_DOCUMENTATION.md              # REST API Reference
+└── AGENTS.md                         # This file (Complete Guide)
+```
+
+---
+
+## 4. Development Workflow
+
+### Frontend Development (React SPA)
+*   **Location:** `Zabala Gailetak/src/web/`
+*   **Commands:**
+    - `npm install` - Install dependencies
+    - `npm run dev` - Start Vite dev server (HMR enabled, port 5173)
+    - `npm run build` - Production build (minified, tree-shaken)
+    - `npm run preview` - Preview production build
+    - `npm run lint` - ESLint with React/security rules
+    - `npm run format` - Prettier code formatting
+
+### Backend Development (PHP API - In Progress)
+*   **Location:** `Zabala Gailetak/src/api/` (planned)
+*   **Current Status:** Backend being migrated from legacy structure
+*   **Future Commands:**
+    - `composer install` - Install PHP dependencies
+    - `php artisan serve` or Nginx config for local dev
+    - `vendor/bin/phpunit` - Run unit tests (PHPUnit)
+    - `vendor/bin/phpcs` - Code style check (PSR-12)
+    - Database migrations via custom migration system
+
+### Testing
+*   **E2E Testing:** `Zabala Gailetak/tests/e2e/`
+    - Playwright tests for web flows
+    - Command: `npx playwright test`
+*   **Load Testing:** `Zabala Gailetak/tests/load/`
+    - K6 performance tests
+    - Command: `k6 run load_test.js`
+
+### Infrastructure & Security
+*   **SIEM:** `security/siem/` - ELK Stack + Wazuh
+    - Access: Kibana dashboard on port 5601
+*   **Honeypot:** `security/honeypot/` - T-Pot/Cowrie
+    - Deployed on isolated DMZ network segment
+*   **OT Simulation:** `infrastructure/ot/`
+    - OpenPLC runtime on port 8080
+    - ScadaBR HMI on port 9090
+
+---
+
+## 5. Security & Compliance Overview
+
+**CRITICAL:** This project is a comprehensive security showcase. All code, configuration, and documentation must strictly adhere to:
+
+### A. ISO 27001:2022 - Information Security Management System (ISMS)
+- **Implementation Rate:** 87/93 controls (93% compliance)
+- **Status:** Annex A controls detailed in Section 8
+- **Key Requirements:**
+  - Asset inventory and classification (A.5.9, A.5.12)
+  - Access control and identity management (A.5.15-5.18)
+  - Incident management procedures (A.5.24-5.28)
+  - Business continuity planning (A.5.29-5.30)
+  - Regular security audits and reviews (A.5.35)
+
+### B. GDPR (General Data Protection Regulation)
+- **Data Protection Principles:** Lawfulness, purpose limitation, data minimization, accuracy, storage limitation, integrity
+- **Legal Bases:** Consent, contract, legal obligation, legitimate interests
+- **Data Subject Rights:** Access, rectification, erasure ("right to be forgotten"), portability, objection
+- **Key Requirements:**
+  - Privacy by design and default
+  - Data Protection Impact Assessments (DPIA)
+  - 72-hour breach notification
+  - Records of Processing Activities (RoPA)
+  - Data Protection Officer (DPO) designation
+
+### C. IEC 62443 - Industrial Control Systems Security
+- **Target Security Level:** SL 2 (current), SL 3 (for critical systems)
+- **Zone/Conduit Model:** Strict network segmentation between IT and OT
+- **Key Requirements:**
+  - Network segmentation and firewalling (SR 5.1, SR 5.2)
+  - Authentication and authorization (SR 1.1, SR 1.2, SR 2.1)
+  - Malicious code protection (SR 3.1)
+  - Audit logging and monitoring (SR 6.1, SR 6.2)
+  - Secure development lifecycle (IEC 62443-4-1)
+
+### D. OWASP Top 10 (2021)
+- A01: Broken Access Control → RBAC implementation with 5 roles
+- A02: Cryptographic Failures → TLS 1.3, AES-256-GCM at rest
+- A03: Injection → Parameterized queries, input validation
+- A04: Insecure Design → Threat modeling during design phase
+- A05: Security Misconfiguration → Automated security scanning (SonarQube)
+- A07: Authentication Failures → JWT + TOTP MFA + WebAuthn
+- A08: Software/Data Integrity → SRI, dependency scanning (npm audit, Snyk)
+- A09: Logging/Monitoring Failures → Centralized SIEM (ELK + Wazuh)
+
+**Compliance Verification:** Run `./scripts/verify_implementation.sh` for automated compliance checks.
+
+---
+
+## 6. Current Implementation Status (February 2026)
+
+### ✅ Completed (Production Ready)
+*   **Infrastructure:**
+    - Network segmentation (4 VLANs with firewall rules)
+    - Docker containerization for services
+    - PostgreSQL 16 database schema
+    - Redis 7 for caching and rate limiting
+*   **Security Baseline:**
+    - JWT authentication with refresh tokens
+    - RBAC with 5 roles (ADMIN, RRHH_MGR, JEFE_SECCION, EMPLEADO, AUDITOR)
+    - TOTP MFA implementation (RFC 6238 compliant)
+    - TLS 1.3 encryption for all traffic
+    - SIEM deployment (ELK + Wazuh)
+*   **Documentation:**
+    - API documentation (REST endpoints)
+    - Network topology diagrams
+    - ISO 27001 ISMS documentation (87/93 controls)
+    - GDPR compliance records (RoPA)
+
+### 🚧 In Progress (Active Development)
+*   **Application Features:**
+    - Employee management CRUD (80% complete)
+    - Vacation request system with approval workflow (60%)
+    - Document management with encryption (40%)
+    - Real-time chat via WebSocket (30%)
+*   **Advanced Security:**
+    - WebAuthn (passkeys) integration (70%)
+    - Forensic analysis toolkit refinement (50%)
+    - Honeypot tuning and threat intelligence (60%)
+
+### 📋 Next Steps (Q2 2026)
+*   **Testing & Validation:**
+    - Load testing with K6 (target: 1000 concurrent users)
+    - E2E testing with Playwright (coverage > 80%)
+    - Penetration testing (internal assessment)
+*   **OT Integration:**
+    - Finalize OpenPLC cookie production simulation
+    - Implement unidirectional data diode for OT telemetry
+    - Deploy Conpot honeypots in OT zone
+*   **Compliance:**
+    - Complete remaining ISO 27001 controls (6 pending)
+    - Third-party audit preparation
+    - DPIA for new features
+
+### ⏳ Planned (Q3-Q4 2026)
+*   **Mobile Application:** Native Android app with biometric auth
+*   **Advanced Analytics:** Employee performance dashboards
+*   **Backup & DR:** Automated disaster recovery testing
+*   **Certification:** ISO 27001 external audit
+
+---
+
+## 7. AI Agent Guidelines
+
+### A. Context Management
+*   **Source of Truth:** Always consult `MIGRATION_PLAN.md` for architectural decisions and feature roadmap.
+*   **Compliance Context:** This document (AGENTS.md) contains all security/compliance requirements.
+*   **API Reference:** Check `API_DOCUMENTATION.md` for REST endpoint specifications and authentication flows.
+
+### B. Security-First Development
+*   **Never Bypass Security:** Do not suggest code that circumvents authentication, authorization, or encryption.
+*   **Validate Segmentation:** Ensure IT/OT separation is maintained (no direct connections between VLANs 20 and 50).
+*   **Data Minimization:** Only suggest collecting/storing data absolutely necessary for the feature.
+*   **Input Validation:** Always validate and sanitize user input (use parameterized queries, escaping, type checking).
+*   **Secure Defaults:** Prefer secure-by-default configurations (e.g., HTTPS only, strict CSP headers, HttpOnly cookies).
+
+### C. Code Quality Standards
+*   **PHP Backend:** PSR-1/PSR-4/PSR-12 compliance mandatory. No frameworks (custom PSR implementation).
+*   **React Frontend:** Functional components with hooks, TypeScript for type safety (when applicable).
+*   **Comments:** Use English for technical comments. Spanish/Basque only in user-facing strings.
+*   **Testing:** Suggest unit tests (PHPUnit, Jest) and E2E tests (Playwright) for new features.
+
+### D. Bilingual & Cultural Awareness
+*   **Primary Languages:** Documentation may be in Spanish or Basque (Euskara). Be prepared to read both.
+*   **Technical Output:** Provide technical explanations in English unless explicitly requested otherwise.
+*   **User-Facing Content:** Respect bilingual requirements (es-ES and eu-ES) for UI strings.
+*   **Cultural Context:** Basque Country FP vocational training project with strong regional identity.
+
+### E. File Path Precision
+*   **Project Root:** `/home/kalista/erronkak/erronka4/`
+*   **Active Codebase:** `Zabala Gailetak/` subdirectory
+*   **No Assumptions:** Always use absolute paths or confirm current working directory before file operations.
+
+### F. Compliance Verification
+*   **Before Committing:** Run `./scripts/verify_implementation.sh` to check compliance status.
+*   **Documentation Updates:** Update relevant compliance docs (SOA, RoPA, risk register) when adding features.
+*   **Audit Trail:** Log significant changes in `security/audits/` for traceability.
+
+### G. Error Handling & Debugging
+*   **Detailed Logging:** Suggest structured logging (JSON format) with severity levels.
+*   **No Sensitive Data in Logs:** Never log passwords, tokens, PII, or cryptographic keys.
+*   **Graceful Degradation:** Ensure services fail securely (e.g., deny access on auth failure, not grant it).
+
+---
+
+## 8. Detailed Compliance Requirements
+
 ## 🔒 Security & Compliance Requirements
 
 ### Information Security Management System (ISO 27001:2022)
@@ -454,4 +763,353 @@ Based on the Statement of Applicability (SOA), Zabala Gailetak implements 87 out
 ---
 
 ## 🏢 Infrastructure Implementation Guide</content>
-<parameter name="filePath">D:\erronka4\AGENTS.md
+<parameter name="filePath">D:\erronka4\AGENTS.md# Zabala Gailetak - AI Agent Context & Security Compliance Guide
+
+This file provides the necessary context for AI agents (and developers) interacting with the **Zabala Gailetak** project.
+
+## 1. Project Overview
+
+**Zabala Gailetak** is a comprehensive cybersecurity and infrastructure modernization project for a biscuit manufacturing company. Originally conceived as an e-commerce platform, it has evolved into a secure **Internal HR Portal** for managing the complete employee lifecycle with strict compliance requirements.
+
+*   **Context:** "Erronka 4" (Challenge 4) - Advanced Security Systems (Euskadi FP Challenge).
+*   **Primary Goal:** Modernize IT/OT infrastructure with a heavy focus on security (ISO 27001:2022, GDPR, IEC 62443) and build a secure internal management system.
+*   **Documentation Language:** Primary documentation is in **Spanish** and **Basque**. Technical comments and code are in **English**.
+*   **Timeline:** January 2026 - December 2026.
+*   **Current Status (Feb 2026):** Infrastructure deployed, core authentication implemented, security monitoring active.
+
+## 2. System Architecture
+
+The system follows a **Zero Trust** architecture with strict IT/OT segmentation and defense-in-depth security layers.
+
+### A. Application Layer
+*   **Backend:** Pure PHP 8.4 REST API (PSR-compliant, no frameworks)
+    - **Stack:** Nginx, PostgreSQL 16, Redis 7
+    - **Standards:** PSR-1/4 (autoloading), PSR-7 (HTTP), PSR-11 (DI), PSR-15 (middleware)
+    - **Security:** JWT with refresh tokens, TOTP MFA, WebAuthn (passkeys), RBAC (5 roles)
+    - **Rate Limiting:** Redis-based with tiered limits per endpoint
+    - **Session Management:** Secure session handling, device fingerprinting
+
+*   **Web Frontend:** React 18 SPA (`src/web/`)
+    - **Build:** Vite 5 (HMR, optimized production builds)
+    - **Styling:** Styled Components (CSS-in-JS, theme-aware)
+    - **State:** Context API + custom hooks, SWR for server state
+    - **Features:** Employee CRUD, Vacation Calendar, Document Management, Real-time Chat (WebSocket)
+
+*   **Mobile App:** Native Android (`android-app/` - currently in planning)
+    - **Stack:** Kotlin 2.0, Jetpack Compose, Material 3 Design
+    - **DI:** Hilt (compile-time dependency injection)
+    - **Network:** Retrofit + OkHttp with certificate pinning
+    - **Architecture:** Clean Architecture + MVI pattern
+
+### B. Infrastructure Layer (`infrastructure/`)
+*   **Network Segmentation:** VLANs with strict firewall rules
+    - VLAN 10: Management (restricted access)
+    - VLAN 20: IT/Business applications
+    - VLAN 30: DMZ (public-facing services)
+    - VLAN 50: OT/Industrial (air-gapped from IT)
+*   **Load Balancing:** HAProxy with health checks and SSL termination
+*   **Container Orchestration:** Docker Compose (dev), Kubernetes (planned for production)
+
+### C. OT (Operational Technology) (`infrastructure/ot/`)
+*   **Simulation:** Cookie production line (demo purposes)
+*   **Stack:** OpenPLC (Structured Text IEC 61131-3), ScadaBR (HMI), Node-RED
+*   **Network:** Isolated VLAN 50 with IEC 62443-compliant security zones
+*   **Security:** Conpot honeypots, Modbus IDS, unidirectional data diode
+*   **Compliance:** SL 2 (Security Level 2) targeting SL 3 for critical systems
+
+### D. Security Layer (`security/`)
+*   **SIEM:** ELK Stack + Wazuh for log aggregation and threat detection
+*   **Honeypots:** T-Pot/Cowrie for threat intelligence
+*   **Forensics:** Toolkit with Volatility, Autopsy, YARA rules
+*   **Penetration Testing:** Regular assessments with OWASP ZAP, Burp Suite, Metasploit
+
+## 3. Directory Structure & Key Locations
+
+```text
+/home/kalista/erronkak/erronka4/
+├── Zabala Gailetak/
+│   ├── src/                          # Application Source Code
+│   │   └── web/                      # React Frontend (SPA)
+│   │       ├── app/                  # React components and logic
+│   │       ├── public/               # Static assets
+│   │       └── package.json          # NPM dependencies
+│   ├── tests/                        # Testing Suites
+│   │   ├── e2e/                      # Playwright end-to-end tests
+│   │   └── load/                     # K6 performance tests
+│   ├── compliance/                   # Compliance Documentation
+│   │   ├── gdpr/                     # GDPR compliance docs
+│   │   └── sgsi/                     # ISO 27001 ISMS documentation
+│   ├── security/                     # Security Tools & Logs
+│   │   ├── siem/                     # ELK Stack + Wazuh configs
+│   │   ├── honeypot/                 # T-Pot deployment scripts
+│   │   ├── forensics/                # Forensic tools and reports
+│   │   ├── pentesting/               # Penetration test reports
+│   │   ├── incidents/                # Incident response logs
+│   │   └── audits/                   # Security audit trails
+│   ├── infrastructure/               # Infrastructure as Code
+│   │   ├── network/                  # Network topology and configs
+│   │   ├── systems/                  # System architecture diagrams
+│   │   └── ot/                       # Operational Technology setup
+│   │       ├── openplc/              # PLC programs (Structured Text)
+│   │       └── simulations/          # HMI and process simulations
+│   └── docs/                         # Additional Documentation
+│       └── network_diagrams/         # Network topology visuals
+├── scripts/                          # Utility Scripts
+│   └── verify_implementation.sh      # Compliance verification script
+├── ER4.md                            # Core Academic Challenge Requirements
+├── MIGRATION_PLAN.md                 # Master Technical Implementation Plan
+├── API_DOCUMENTATION.md              # REST API Reference
+├── GEMINI.md                         # This file (AI Agent Context)
+└── AGENTS.md                         # Compliance & Security Requirements
+```
+
+**Note:** The project is actively migrating. The `hr-portal/` structure referenced in older docs has been reorganized to `src/web/` for the frontend, with backend planned for `src/api/`.
+
+## 4. Development Workflow
+
+### Frontend Development (React SPA)
+*   **Location:** `Zabala Gailetak/src/web/`
+*   **Commands:**
+    - `npm install` - Install dependencies
+    - `npm run dev` - Start Vite dev server (HMR enabled, port 5173)
+    - `npm run build` - Production build (minified, tree-shaken)
+    - `npm run preview` - Preview production build
+    - `npm run lint` - ESLint with React/security rules
+    - `npm run format` - Prettier code formatting
+
+### Backend Development (PHP API - In Progress)
+*   **Location:** `Zabala Gailetak/src/api/` (planned)
+*   **Current Status:** Backend being migrated from legacy structure
+*   **Future Commands:**
+    - `composer install` - Install PHP dependencies
+    - `php artisan serve` or Nginx config for local dev
+    - `vendor/bin/phpunit` - Run unit tests (PHPUnit)
+    - `vendor/bin/phpcs` - Code style check (PSR-12)
+    - Database migrations via custom migration system
+
+### Testing
+*   **E2E Testing:** `Zabala Gailetak/tests/e2e/`
+    - Playwright tests for web flows
+    - Command: `npx playwright test`
+*   **Load Testing:** `Zabala Gailetak/tests/load/`
+    - K6 performance tests
+    - Command: `k6 run load_test.js`
+
+### Infrastructure & Security
+*   **SIEM:** `security/siem/` - ELK Stack + Wazuh
+    - Access: Kibana dashboard on port 5601
+*   **Honeypot:** `security/honeypot/` - T-Pot/Cowrie
+    - Deployed on isolated DMZ network segment
+*   **OT Simulation:** `infrastructure/ot/`
+    - OpenPLC runtime on port 8080
+    - ScadaBR HMI on port 9090
+
+## 5. Security & Compliance Mandates
+
+**CRITICAL:** This project is a comprehensive security showcase. All code, configuration, and documentation must strictly adhere to:
+
+### A. ISO 27001:2022 - Information Security Management System (ISMS)
+- **Implementation Rate:** 87/93 controls (93% compliance)
+- **Status:** Annex A controls documented in `AGENTS.md`
+- **Key Requirements:**
+  - Asset inventory and classification (A.5.9, A.5.12)
+  - Access control and identity management (A.5.15-5.18)
+  - Incident management procedures (A.5.24-5.28)
+  - Business continuity planning (A.5.29-5.30)
+  - Regular security audits and reviews (A.5.35)
+
+### B. GDPR (General Data Protection Regulation)
+- **Data Protection Principles:** Lawfulness, purpose limitation, data minimization, accuracy, storage limitation, integrity
+- **Legal Bases:** Consent, contract, legal obligation, legitimate interests
+- **Data Subject Rights:** Access, rectification, erasure ("right to be forgotten"), portability, objection
+- **Key Requirements:**
+  - Privacy by design and default
+  - Data Protection Impact Assessments (DPIA)
+  - 72-hour breach notification
+  - Records of Processing Activities (RoPA)
+  - Data Protection Officer (DPO) designation
+
+### C. IEC 62443 - Industrial Control Systems Security
+- **Target Security Level:** SL 2 (current), SL 3 (for critical systems)
+- **Zone/Conduit Model:** Strict network segmentation between IT and OT
+- **Key Requirements:**
+  - Network segmentation and firewalling (SR 5.1, SR 5.2)
+  - Authentication and authorization (SR 1.1, SR 1.2, SR 2.1)
+  - Malicious code protection (SR 3.1)
+  - Audit logging and monitoring (SR 6.1, SR 6.2)
+  - Secure development lifecycle (IEC 62443-4-1)
+
+### D. OWASP Top 10 (2021)
+- A01: Broken Access Control → RBAC implementation with 5 roles
+- A02: Cryptographic Failures → TLS 1.3, AES-256-GCM at rest
+- A03: Injection → Parameterized queries, input validation
+- A04: Insecure Design → Threat modeling during design phase
+- A05: Security Misconfiguration → Automated security scanning (SonarQube)
+- A07: Authentication Failures → JWT + TOTP MFA + WebAuthn
+- A08: Software/Data Integrity → SRI, dependency scanning (npm audit, Snyk)
+- A09: Logging/Monitoring Failures → Centralized SIEM (ELK + Wazuh)
+
+**Compliance Verification:** Run `./scripts/verify_implementation.sh` for automated compliance checks.
+
+## 6. Current Implementation Status (February 2026)
+
+### ✅ Completed (Production Ready)
+*   **Infrastructure:**
+    - Network segmentation (4 VLANs with firewall rules)
+    - Docker containerization for services
+    - PostgreSQL 16 database schema
+    - Redis 7 for caching and rate limiting
+*   **Security Baseline:**
+    - JWT authentication with refresh tokens
+    - RBAC with 5 roles (ADMIN, RRHH_MGR, JEFE_SECCION, EMPLEADO, AUDITOR)
+    - TOTP MFA implementation (RFC 6238 compliant)
+    - TLS 1.3 encryption for all traffic
+    - SIEM deployment (ELK + Wazuh)
+*   **Documentation:**
+    - API documentation (REST endpoints)
+    - Network topology diagrams
+    - ISO 27001 ISMS documentation (87/93 controls)
+    - GDPR compliance records (RoPA)
+
+### 🚧 In Progress (Active Development)
+*   **Application Features:**
+    - Employee management CRUD (80% complete)
+    - Vacation request system with approval workflow (60%)
+    - Document management with encryption (40%)
+    - Real-time chat via WebSocket (30%)
+*   **Advanced Security:**
+    - WebAuthn (passkeys) integration (70%)
+    - Forensic analysis toolkit refinement (50%)
+    - Honeypot tuning and threat intelligence (60%)
+
+### 📋 Next Steps (Q2 2026)
+*   **Testing & Validation:**
+    - Load testing with K6 (target: 1000 concurrent users)
+    - E2E testing with Playwright (coverage > 80%)
+    - Penetration testing (internal assessment)
+*   **OT Integration:**
+    - Finalize OpenPLC cookie production simulation
+    - Implement unidirectional data diode for OT telemetry
+    - Deploy Conpot honeypots in OT zone
+*   **Compliance:**
+    - Complete remaining ISO 27001 controls (6 pending)
+    - Third-party audit preparation
+    - DPIA for new features
+
+### ⏳ Planned (Q3-Q4 2026)
+*   **Mobile Application:** Native Android app with biometric auth
+*   **Advanced Analytics:** Employee performance dashboards
+*   **Backup & DR:** Automated disaster recovery testing
+*   **Certification:** ISO 27001 external audit
+
+## 7. AI Agent Guidelines
+
+### A. Context Management
+*   **Source of Truth:** Always consult `MIGRATION_PLAN.md` for architectural decisions and feature roadmap.
+*   **Compliance Context:** Refer to `AGENTS.md` for detailed security and compliance requirements (ISO 27001, GDPR, IEC 62443).
+*   **API Reference:** Check `API_DOCUMENTATION.md` for REST endpoint specifications and authentication flows.
+
+### B. Security-First Development
+*   **Never Bypass Security:** Do not suggest code that circumvents authentication, authorization, or encryption.
+*   **Validate Segmentation:** Ensure IT/OT separation is maintained (no direct connections between VLANs 20 and 50).
+*   **Data Minimization:** Only suggest collecting/storing data absolutely necessary for the feature.
+*   **Input Validation:** Always validate and sanitize user input (use parameterized queries, escaping, type checking).
+*   **Secure Defaults:** Prefer secure-by-default configurations (e.g., HTTPS only, strict CSP headers, HttpOnly cookies).
+
+### C. Code Quality Standards
+*   **PHP Backend:** PSR-1/PSR-4/PSR-12 compliance mandatory. No frameworks (custom PSR implementation).
+*   **React Frontend:** Functional components with hooks, TypeScript for type safety (when applicable).
+*   **Comments:** Use English for technical comments. Spanish/Basque only in user-facing strings.
+*   **Testing:** Suggest unit tests (PHPUnit, Jest) and E2E tests (Playwright) for new features.
+
+### D. Bilingual & Cultural Awareness
+*   **Primary Languages:** Documentation may be in Spanish or Basque (Euskara). Be prepared to read both.
+*   **Technical Output:** Provide technical explanations in English unless explicitly requested otherwise.
+*   **User-Facing Content:** Respect bilingual requirements (es-ES and eu-ES) for UI strings.
+*   **Cultural Context:** Basque Country FP vocational training project with strong regional identity.
+
+### E. File Path Precision
+*   **Project Root:** `/home/kalista/erronkak/erronka4/`
+*   **Active Codebase:** `Zabala Gailetak/` subdirectory
+*   **No Assumptions:** Always use absolute paths or confirm current working directory before file operations.
+
+### F. Compliance Verification
+*   **Before Committing:** Run `./scripts/verify_implementation.sh` to check compliance status.
+*   **Documentation Updates:** Update relevant compliance docs (SOA, RoPA, risk register) when adding features.
+*   **Audit Trail:** Log significant changes in `security/audits/` for traceability.
+
+### G. Error Handling & Debugging
+*   **Detailed Logging:** Suggest structured logging (JSON format) with severity levels.
+*   **No Sensitive Data in Logs:** Never log passwords, tokens, PII, or cryptographic keys.
+*   **Graceful Degradation:** Ensure services fail securely (e.g., deny access on auth failure, not grant it).
+
+---
+
+## 8. Security & Compliance Deep Dive
+
+*For detailed security requirements (ISO 27001 Annex A controls, GDPR articles, IEC 62443 security levels, RBAC roles, encryption standards, incident response procedures, etc.), refer to **AGENTS.md**.*
+
+This document (`GEMINI.md`) focuses on **context and workflow**. `AGENTS.md` provides the **compliance rulebook**.
+
+---
+
+## 9. Quick Reference Commands
+
+```bash
+# Frontend Development
+cd "Zabala Gailetak/src/web"
+npm install && npm run dev          # Start dev server (localhost:5173)
+
+# Testing
+cd "Zabala Gailetak/tests/e2e"
+npx playwright test                 # Run E2E tests
+
+cd "Zabala Gailetak/tests/load"
+k6 run load_test.js                 # Run load tests
+
+# Compliance Check
+./scripts/verify_implementation.sh   # Verify ISO 27001 compliance
+
+# Security Services
+# SIEM: http://localhost:5601 (Kibana)
+# OpenPLC: http://localhost:8080
+# ScadaBR: http://localhost:9090
+```
+
+---
+
+## 10. Contact & Support
+
+*   **Project Lead:** [To be defined]
+*   **Documentation Issues:** Check `DOCUMENTATION_INDEX.md` for doc catalog.
+*   **Security Incidents:** Follow procedures in `security/incidents/incident_response_plan.md`.
+
+**Last Updated:** 2026-02-05 | **Version:** 2.0
+---
+
+## 9. Quick Reference Commands
+
+```bash
+# Frontend Development
+cd "Zabala Gailetak/src/web"
+npm install && npm run dev          # Start dev server (localhost:5173)
+
+# Testing
+cd "Zabala Gailetak/tests/e2e"
+npx playwright test                 # Run E2E tests
+
+cd "Zabala Gailetak/tests/load"
+k6 run load_test.js                 # Run load tests
+
+# Compliance Check
+./scripts/verify_implementation.sh   # Verify ISO 27001 compliance
+
+# Security Services
+# SIEM: http://localhost:5601 (Kibana)
+# OpenPLC: http://localhost:8080
+# ScadaBR: http://localhost:9090
+```
+
+---
+
+**Last Updated:** 2026-02-05 | **Version:** 2.0 (Consolidated)
