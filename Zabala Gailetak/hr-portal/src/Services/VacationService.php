@@ -108,13 +108,21 @@ class VacationService
 
             // Check if employee has enough available days
             $year = (int)date('Y', $startTimestamp);
+            
+            // Debug: Log employee ID being used
+            error_log("DEBUG: Buscando balance para employee_id: " . $employeeId . ", year: " . $year);
+            
             $balance = $this->getBalance($employeeId, $year);
 
             if (!$balance) {
+                error_log("DEBUG: No se encontró balance, inicializando nuevo balance");
                 $balance = $this->initializeBalance($employeeId, $year);
+            } else {
+                error_log("DEBUG: Balance encontrado - Total: {$balance->totalDays}, Used: {$balance->usedDays}, Pending: {$balance->pendingDays}, Available: {$balance->availableDays}");
             }
 
             if ($balance->availableDays < $totalDays) {
+                error_log("DEBUG: Días insuficientes - employee_id actual: " . $employeeId);
                 throw new \Exception("No tienes suficientes días disponibles. Disponibles: {$balance->availableDays}, Solicitados: {$totalDays}");
             }
 
