@@ -1,0 +1,6 @@
+Contact: mailto:security@zabala-gailetak.eus
+Encryption: https://zabala-gailetak.eus/.well-known/pgp-key.txt
+Preferred-Languages: eu, es, en
+Canonical: https://zabala-gailetak.eus/.well-known/security.txt
+Policy: https://zabala-gailetak.eus/security/vulnerability-disclosure-policy
+Expires: 2027-02-06T00:00:00.000Z

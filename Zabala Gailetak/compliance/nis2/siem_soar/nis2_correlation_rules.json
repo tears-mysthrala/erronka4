@@ -1,0 +1,377 @@
+{
+  "nis2_correlation_rules": {
+    "version": "1.0",
+    "organization": "Zabala Gailetak",
+    "description": "SIEM correlation rules designed for NIS2 compliance — incident detection, notification triggers, and evidence collection",
+    "rules": [
+      {
+        "id": "nis2-inc-001",
+        "name": "NIS2 Significant Incident — Data Breach Detected",
+        "description": "Detects potential data exfiltration or unauthorized access to personal/confidential data, triggering NIS2 Art.23 notification workflow",
+        "severity": "critical",
+        "category": "nis2_incident",
+        "nis2_article": "Art. 23.3",
+        "condition": {
+          "any": [
+            {
+              "query": "event:data.exfiltration.detected",
+              "threshold": 1,
+              "timeframe": "5m"
+            },
+            {
+              "query": "event:database.bulk_export AND NOT user.role:ADMIN",
+              "threshold": 1,
+              "timeframe": "15m"
+            },
+            {
+              "query": "event:file.sensitive.access.anomaly",
+              "threshold": 10,
+              "timeframe": "30m"
+            }
+          ]
+        },
+        "action": {
+          "alert": true,
+          "severity_override": "critical",
+          "notify": [
+            "ciso",
+            "dpo",
+            "soc",
+            "legal"
+          ],
+          "create_incident": true,
+          "incident_type": "NIS2_SIGNIFICANT",
+          "trigger_notification_workflow": true,
+          "start_24h_timer": true,
+          "evidence_collection": {
+            "capture_logs": true,
+            "snapshot_affected_systems": true,
+            "preserve_network_pcap": true
+          }
+        },
+        "mitre_attack": [
+          "T1041",
+          "T1567",
+          "T1048"
+        ],
+        "playbook_ref": "PB-NIS2-001"
+      },
+      {
+        "id": "nis2-inc-002",
+        "name": "NIS2 Significant Incident — Ransomware Detected",
+        "description": "Detects ransomware indicators (mass file encryption, ransom notes, known ransomware processes)",
+        "severity": "critical",
+        "category": "nis2_incident",
+        "nis2_article": "Art. 23.3",
+        "condition": {
+          "any": [
+            {
+              "query": "event:file.mass_encryption AND file.count > 50",
+              "threshold": 1,
+              "timeframe": "10m"
+            },
+            {
+              "query": "event:process.known_ransomware",
+              "threshold": 1,
+              "timeframe": "1m"
+            },
+            {
+              "query": "event:file.ransom_note.created",
+              "threshold": 1,
+              "timeframe": "5m"
+            },
+            {
+              "query": "event:fim.mass_modification AND extension:(encrypted|locked|crypt)",
+              "threshold": 1,
+              "timeframe": "5m"
+            }
+          ]
+        },
+        "action": {
+          "alert": true,
+          "severity_override": "critical",
+          "notify": [
+            "ciso",
+            "soc",
+            "it_lead",
+            "ceo"
+          ],
+          "create_incident": true,
+          "incident_type": "NIS2_SIGNIFICANT",
+          "trigger_notification_workflow": true,
+          "start_24h_timer": true,
+          "auto_contain": {
+            "isolate_host": true,
+            "block_c2_domains": true,
+            "disable_compromised_accounts": true
+          },
+          "evidence_collection": {
+            "capture_ram_dump": true,
+            "capture_disk_image": true,
+            "preserve_network_pcap": true
+          }
+        },
+        "mitre_attack": [
+          "T1486",
+          "T1490",
+          "T1489"
+        ],
+        "playbook_ref": "PB-NIS2-002"
+      },
+      {
+        "id": "nis2-inc-003",
+        "name": "NIS2 Significant Incident — OT/SCADA Compromise",
+        "description": "Detects unauthorized access or anomalous activity in OT/SCADA systems (VLAN 50)",
+        "severity": "critical",
+        "category": "nis2_incident",
+        "nis2_article": "Art. 23.3",
+        "condition": {
+          "any": [
+            {
+              "query": "event:ot.unauthorized_access AND network.vlan:50",
+              "threshold": 1,
+              "timeframe": "1m"
+            },
+            {
+              "query": "event:modbus.write_command AND NOT source.authorized:true",
+              "threshold": 1,
+              "timeframe": "5m"
+            },
+            {
+              "query": "event:plc.firmware_change",
+              "threshold": 1,
+              "timeframe": "1h"
+            },
+            {
+              "query": "event:ot.network.it_to_ot_traffic AND NOT rule.allowed:true",
+              "threshold": 1,
+              "timeframe": "5m"
+            }
+          ]
+        },
+        "action": {
+          "alert": true,
+          "severity_override": "critical",
+          "notify": [
+            "ciso",
+            "ot_specialist",
+            "soc",
+            "ceo"
+          ],
+          "create_incident": true,
+          "incident_type": "NIS2_SIGNIFICANT_OT",
+          "trigger_notification_workflow": true,
+          "start_24h_timer": true,
+          "auto_contain": {
+            "block_it_ot_gateway": true,
+            "alert_plant_operator": true
+          }
+        },
+        "mitre_attack": [
+          "T0855",
+          "T0836",
+          "T0843"
+        ],
+        "iec62443_ref": "SR 5.1, SR 5.2",
+        "playbook_ref": "PB-NIS2-003"
+      },
+      {
+        "id": "nis2-inc-004",
+        "name": "NIS2 Significant Incident — DDoS Service Disruption",
+        "description": "Detects significant service disruption due to DDoS attack affecting essential services",
+        "severity": "high",
+        "category": "nis2_incident",
+        "nis2_article": "Art. 23.3",
+        "condition": {
+          "all": [
+            {
+              "query": "event:network.ddos.detected",
+              "threshold": 1,
+              "timeframe": "5m"
+            },
+            {
+              "query": "event:service.availability < 50%",
+              "threshold": 1,
+              "timeframe": "10m"
+            }
+          ]
+        },
+        "action": {
+          "alert": true,
+          "notify": [
+            "ciso",
+            "soc",
+            "it_lead"
+          ],
+          "create_incident": true,
+          "incident_type": "NIS2_SIGNIFICANT",
+          "trigger_notification_workflow": true,
+          "start_24h_timer": true,
+          "auto_contain": {
+            "enable_ddos_mitigation": true,
+            "cloudflare_under_attack_mode": true
+          }
+        },
+        "mitre_attack": [
+          "T1498",
+          "T1499"
+        ],
+        "playbook_ref": "PB-NIS2-004"
+      },
+      {
+        "id": "nis2-inc-005",
+        "name": "NIS2 Significant Incident — Supply Chain Compromise",
+        "description": "Detects indicators of supply chain compromise (malicious updates, compromised dependencies)",
+        "severity": "critical",
+        "category": "nis2_incident",
+        "nis2_article": "Art. 21.2.d, Art. 23.3",
+        "condition": {
+          "any": [
+            {
+              "query": "event:package.malicious_dependency",
+              "threshold": 1,
+              "timeframe": "1h"
+            },
+            {
+              "query": "event:software.unsigned_update AND source.trusted:false",
+              "threshold": 1,
+              "timeframe": "1h"
+            },
+            {
+              "query": "event:container.image.vulnerability.critical AND source:registry",
+              "threshold": 1,
+              "timeframe": "1h"
+            }
+          ]
+        },
+        "action": {
+          "alert": true,
+          "notify": [
+            "ciso",
+            "soc",
+            "dev_lead"
+          ],
+          "create_incident": true,
+          "incident_type": "NIS2_SUPPLY_CHAIN",
+          "trigger_notification_workflow": true,
+          "start_24h_timer": true,
+          "auto_contain": {
+            "quarantine_package": true,
+            "rollback_deployment": true
+          }
+        },
+        "mitre_attack": [
+          "T1195.001",
+          "T1195.002"
+        ],
+        "playbook_ref": "PB-NIS2-005"
+      },
+      {
+        "id": "nis2-mon-001",
+        "name": "NIS2 24h Timer Approaching",
+        "description": "Alerts when NIS2 24-hour early warning deadline is approaching for an open significant incident",
+        "severity": "high",
+        "category": "nis2_compliance",
+        "condition": {
+          "query": "incident.type:NIS2_SIGNIFICANT AND incident.status:open AND incident.notification_24h:false AND incident.age > 20h",
+          "threshold": 1,
+          "timeframe": "30m"
+        },
+        "action": {
+          "alert": true,
+          "notify": [
+            "ciso",
+            "dpo",
+            "legal"
+          ],
+          "escalate": true,
+          "message": "⚠️ ALERTA: 24h NIS2 jakinarazpen epemuga hurbiltzen ari da. Berehala bidali Early Warning INCIBE-CERT-era."
+        }
+      },
+      {
+        "id": "nis2-mon-002",
+        "name": "NIS2 72h Timer Approaching",
+        "description": "Alerts when NIS2 72-hour full report deadline is approaching",
+        "severity": "high",
+        "category": "nis2_compliance",
+        "condition": {
+          "query": "incident.type:NIS2_SIGNIFICANT AND incident.notification_72h:false AND incident.age > 64h",
+          "threshold": 1,
+          "timeframe": "1h"
+        },
+        "action": {
+          "alert": true,
+          "notify": [
+            "ciso",
+            "dpo",
+            "legal"
+          ],
+          "escalate": true,
+          "message": "⚠️ ALERTA: 72h NIS2 txosten osoa epemuga hurbiltzen ari da. Berehala prestatu eta bidali Full Report."
+        }
+      },
+      {
+        "id": "nis2-hyg-001",
+        "name": "NIS2 Cyber Hygiene — Unpatched Critical Vulnerability",
+        "description": "Detects systems with critical unpatched vulnerabilities older than 7 days (Art. 21.2.a compliance)",
+        "severity": "high",
+        "category": "nis2_hygiene",
+        "nis2_article": "Art. 21.2.a",
+        "condition": {
+          "query": "vulnerability.severity:critical AND vulnerability.age > 7d AND vulnerability.patched:false",
+          "threshold": 1,
+          "timeframe": "24h"
+        },
+        "action": {
+          "alert": true,
+          "notify": [
+            "it_lead",
+            "ciso"
+          ],
+          "create_ticket": true,
+          "message": "Ahultasun kritikoa adabaki gabe 7 egun baino gehiago. NIS2 Art. 21.2.a betebeharrak betetzen ez dira."
+        }
+      },
+      {
+        "id": "nis2-ac-001",
+        "name": "NIS2 Access Control — Privileged Access Anomaly",
+        "description": "Detects anomalous privileged access patterns (Art. 21.2.h compliance)",
+        "severity": "high",
+        "category": "nis2_access",
+        "nis2_article": "Art. 21.2.h",
+        "condition": {
+          "any": [
+            {
+              "query": "event:auth.admin_login AND time.outside_business_hours:true AND NOT user.on_call:true",
+              "threshold": 1,
+              "timeframe": "5m"
+            },
+            {
+              "query": "event:rbac.role_escalation AND NOT approval.exists:true",
+              "threshold": 1,
+              "timeframe": "5m"
+            },
+            {
+              "query": "event:auth.mfa_bypass",
+              "threshold": 1,
+              "timeframe": "1m"
+            }
+          ]
+        },
+        "action": {
+          "alert": true,
+          "notify": [
+            "ciso",
+            "soc"
+          ],
+          "create_incident": true,
+          "force_mfa_reauth": true
+        },
+        "mitre_attack": [
+          "T1078",
+          "T1068"
+        ]
+      }
+    ]
+  }
+}
