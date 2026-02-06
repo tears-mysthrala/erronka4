@@ -286,19 +286,25 @@ $router->post('/api/vacations/requests/{requestId}/approve-hr', [$vacationContro
 $router->post('/api/vacations/requests/{requestId}/reject', [$vacationController, 'reject']);
 $router->get('/api/vacations/calendar', [$vacationController, 'getCalendar']);
 
-// API Documents
-$router->get('/api/documents', function (Request $request): Response {
-    return Response::json(['message' => 'List documents - TODO']);
-});
-
-$router->post('/api/documents/upload', function (Request $request): Response {
-    return Response::json(['message' => 'Upload document - TODO']);
-});
+// Initialize controllers for new modules
+$payrollController = new \ZabalaGailetak\HrPortal\Controllers\PayrollController($db);
+$documentController = new \ZabalaGailetak\HrPortal\Controllers\DocumentController($db);
 
 // API Payroll
-$router->get('/api/payroll', function (Request $request): Response {
-    return Response::json(['message' => 'List payroll - TODO']);
-});
+$router->get('/api/payroll', [$payrollController, 'index']);
+$router->get('/api/payroll/{id}', [$payrollController, 'show']);
+$router->post('/api/payroll', [$payrollController, 'create']);
+$router->put('/api/payroll/{id}', [$payrollController, 'update']);
+$router->delete('/api/payroll/{id}', [$payrollController, 'delete']);
+$router->get('/api/payroll/{id}/download', [$payrollController, 'download']);
+
+// API Documents
+$router->get('/api/documents', [$documentController, 'index']);
+$router->get('/api/documents/categories', [$documentController, 'categories']);
+$router->get('/api/documents/{id}', [$documentController, 'show']);
+$router->post('/api/documents/upload', [$documentController, 'upload']);
+$router->get('/api/documents/{id}/download', [$documentController, 'download']);
+$router->delete('/api/documents/{id}', [$documentController, 'delete']);
 
 // API Chat
 $router->get('/api/chat/conversations', function (Request $request): Response {
