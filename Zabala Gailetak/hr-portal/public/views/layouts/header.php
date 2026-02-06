@@ -5,6 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zabala Gailetak - HR Portal</title>
+    <script>
+        (function () {
+            try {
+                const savedTheme = localStorage.getItem('theme') || 'light';
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
     <!-- Font Awesome (CDN permitido por CSP) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <!-- Industrial Design System v2 (PHP con MIME correcto + Day/Night Mode) -->
@@ -50,7 +60,7 @@
                         <i class="fas fa-moon theme-icon-dark"></i>
                     </button>
                     
-                    <div class="user-profile">
+                    <a href="/employees/profile" class="user-profile">
                         <div class="user-avatar">
                             <?= strtoupper(substr($_SESSION['user_name'] ?? 'A', 0, 1)) ?>
                         </div>
@@ -58,10 +68,10 @@
                             <div class="user-name"><?= htmlspecialchars($_SESSION['user_name'] ?? 'Admin') ?></div>
                             <div class="user-role"><?= htmlspecialchars($_SESSION['user_role'] ?? 'Administrator') ?></div>
                         </div>
-                        <a href="/logout" class="btn-ghost-industrial" style="margin-left: var(--space-4);">
-                            <i class="fas fa-sign-out-alt"></i>
-                        </a>
-                    </div>
+                    </a>
+                    <a href="/logout" class="btn-ghost-industrial" style="margin-left: var(--space-4);">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </a>
                 </div>
             </div>
         </nav>

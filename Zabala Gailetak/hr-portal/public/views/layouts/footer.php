@@ -4,8 +4,8 @@
         const themeToggle = document.getElementById('themeToggle');
         const html = document.documentElement;
         
-        // Load saved theme or default to dark
-        const savedTheme = localStorage.getItem('theme') || 'dark';
+        // Load saved theme or default to light
+        const savedTheme = localStorage.getItem('theme') || 'light';
         html.setAttribute('data-theme', savedTheme);
         
         themeToggle?.addEventListener('click', () => {
@@ -15,11 +15,7 @@
             html.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
             
-            // Add transition animation
-            html.style.transition = 'background-color 0.3s ease, color 0.3s ease';
-            setTimeout(() => {
-                html.style.transition = '';
-            }, 300);
+            // No transition to avoid flicker
         });
     </script>
 </body>

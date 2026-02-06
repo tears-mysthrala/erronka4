@@ -103,6 +103,8 @@ $router->get('/vacations/request', [$webVacationController, 'requestForm']);
 $router->post('/vacations/request', [$webVacationController, 'create']);
 $router->post('/vacations/approve/{id}', [$webVacationController, 'approve']);
 $router->post('/vacations/reject/{id}', [$webVacationController, 'reject']);
+$router->get('/vacations/pending_ajax', [$webVacationController, 'pendingAjax']);
+$router->get('/vacations/history_ajax', [$webVacationController, 'historyAjax']);
 
 // ============================================================================
 // API Routes

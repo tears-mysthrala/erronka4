@@ -115,7 +115,7 @@
                             <?php if ($auth['role'] === 'admin' || $auth['role'] === 'hr_manager'): ?>
                             <td>
                                 <div class="table-actions">
-                                    <a href="/employees/view/<?= $employee['id'] ?>" class="table-action" title="Ver">
+                                    <a href="/employees/show/<?= $employee['id'] ?>" class="table-action" title="Ver">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                     <a href="/employees/edit/<?= $employee['id'] ?>" class="table-action" title="Editar">

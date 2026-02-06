@@ -425,8 +425,8 @@ class WebEmployeeController
                 'nif' => $data['nif'],
                 'position' => $data['position'],
                 'dept_id' => $data['department_id'] ?: null,
-                'hire_date' => $data['hire_date'],
-                'salary' => $data['salary'],
+                'hire_date' => $data['hire_date'] ?? ($oldEmployee['hire_date'] ?? date('Y-m-d')),
+                'salary' => $data['salary'] ?? ($oldEmployee['salary'] ?? 0),
                 'active' => isset($data['active']) ? 1 : 0,
                 'id' => $id
             ]);

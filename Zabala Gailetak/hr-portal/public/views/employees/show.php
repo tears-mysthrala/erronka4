@@ -1,97 +1,122 @@
 <?php require dirname(__DIR__) . '/layouts/header.php'; ?>
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Ficha de Empleado</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-        <?php 
-        $canEdit = ($auth['role'] === 'admin') || 
-                  ($auth['role'] === 'hr_manager' && $employee['role'] !== 'admin') ||
-                  ($auth['role'] === 'department_head' && $employee['department_id'] === $auth['department_id']) ||
-                  ($employee['user_id'] === $auth['user_id']); // Self-edit
-        ?>
-        
-        <?php if ($canEdit): ?>
-            <a href="/employees/edit/<?= $employee['id'] ?>" class="btn btn-sm btn-outline-primary me-2">
-                <i class="bi bi-pencil"></i> Editar
-            </a>
-        <?php endif; ?>
-        
-        <?php if ($auth['role'] === 'admin' && $employee['role'] !== 'admin'): ?>
-            <a href="/employees/delete/<?= $employee['id'] ?>" class="btn btn-sm btn-outline-danger me-2" 
-               onclick="return confirm('¿Estás seguro de eliminar a este empleado? Esta acción desactivará su cuenta.')">
-                <i class="bi bi-trash"></i> Eliminar
-            </a>
-        <?php endif; ?>
-        
-        <a href="/employees" class="btn btn-sm btn-outline-secondary">
-            <i class="bi bi-arrow-left"></i> Volver
-        </a>
-    </div>
-</div>
+<?php 
+$canEdit = ($auth['role'] === 'admin') || 
+          ($auth['role'] === 'hr_manager' && $employee['role'] !== 'admin') ||
+          ($auth['role'] === 'department_head' && $employee['department_id'] === $auth['department_id']) ||
+          ($employee['user_id'] === $auth['user_id']);
+?>
 
-<div class="row">
-    <div class="col-md-4">
-        <div class="card mb-4">
-            <div class="card-body text-center">
-                <img src="https://ui-avatars.com/api/?name=<?= urlencode($employee['first_name'] . ' ' . $employee['last_name']) ?>&size=128" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-                <h5 class="my-3"><?= htmlspecialchars($employee['first_name'] . ' ' . $employee['last_name']) ?></h5>
-                <p class="text-muted mb-1"><?= htmlspecialchars($employee['position']) ?></p>
-                <p class="text-muted mb-4"><?= htmlspecialchars($employee['department_name'] ?? 'Sin departamento') ?></p>
-                <div class="d-flex justify-content-center mb-2">
-                    <?php if ($employee['is_active']): ?>
-                        <span class="badge bg-success">Cuenta Activa</span>
-                    <?php else: ?>
-                        <span class="badge bg-danger">Cuenta Inactiva</span>
-                    <?php endif; ?>
-                </div>
-            </div>
+<div class="dashboard-container">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">
+                <i class="fas fa-id-badge"></i>
+                Ficha de Empleado
+            </h1>
+            <p class="page-subtitle">Detalle completo del empleado</p>
+        </div>
+        <div class="page-actions">
+            <?php if ($canEdit): ?>
+                <a href="/employees/edit/<?= $employee['id'] ?>" class="btn-industrial btn-secondary-industrial">
+                    <i class="fas fa-pen"></i>
+                    Editar
+                </a>
+            <?php endif; ?>
+
+            <?php if ($auth['role'] === 'admin' && $employee['role'] !== 'admin'): ?>
+                <a href="/employees/delete/<?= $employee['id'] ?>" class="btn-industrial btn-danger-industrial"
+                   onclick="return confirm('¿Estás seguro de eliminar a este empleado? Esta acción desactivará su cuenta.')">
+                    <i class="fas fa-trash"></i>
+                    Eliminar
+                </a>
+            <?php endif; ?>
+
+            <a href="/employees" class="btn-industrial btn-secondary-industrial">
+                <i class="fas fa-arrow-left"></i>
+                Volver
+            </a>
         </div>
     </div>
-    <div class="col-md-8">
-        <div class="card mb-4">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-3"><p class="mb-0">Nombre Completo</p></div>
-                    <div class="col-sm-9"><p class="text-muted mb-0"><?= htmlspecialchars($employee['first_name'] . ' ' . $employee['last_name']) ?></p></div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-sm-3"><p class="mb-0">Email</p></div>
-                    <div class="col-sm-9"><p class="text-muted mb-0"><?= htmlspecialchars($employee['email']) ?></p></div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-sm-3"><p class="mb-0">NIF/NIE</p></div>
-                    <div class="col-sm-9"><p class="text-muted mb-0"><?= htmlspecialchars($employee['nif']) ?></p></div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-sm-3"><p class="mb-0">ID Empleado</p></div>
-                    <div class="col-sm-9"><p class="text-muted mb-0"><?= htmlspecialchars($employee['employee_number']) ?></p></div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-sm-3"><p class="mb-0">Rol Sistema</p></div>
-                    <div class="col-sm-9">
-                        <span class="badge bg-<?= $employee['role'] === 'admin' ? 'danger' : ($employee['role'] === 'hr_manager' ? 'warning' : ($employee['role'] === 'department_head' ? 'info' : 'secondary')) ?>">
-                            <?= htmlspecialchars(ucfirst(str_replace('_', ' ', $employee['role']))) ?>
-                        </span>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-sm-3"><p class="mb-0">Puesto</p></div>
-                    <div class="col-sm-9"><p class="text-muted mb-0"><?= htmlspecialchars($employee['position']) ?></p></div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-sm-3"><p class="mb-0">Departamento</p></div>
-                    <div class="col-sm-9"><p class="text-muted mb-0"><?= htmlspecialchars($employee['department_name'] ?? 'Sin departamento') ?></p></div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-sm-3"><p class="mb-0">Fecha Contratación</p></div>
-                    <div class="col-sm-9"><p class="text-muted mb-0"><?= date('d/m/Y', strtotime($employee['hire_date'])) ?></p></div>
+
+    <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: var(--space-6); align-items: start;">
+        <div class="widget-card-industrial" style="text-align: center;">
+            <div class="widget-body">
+                <img src="https://ui-avatars.com/api/?name=<?= urlencode($employee['first_name'] . ' ' . $employee['last_name']) ?>&size=128" alt="avatar" style="width: 120px; height: 120px; border-radius: 50%; border: 4px solid rgba(29, 78, 216, 0.15); margin-bottom: var(--space-4);">
+                <h3 style="margin: 0 0 var(--space-2); font-size: var(--text-xl); color: var(--text-primary);">
+                    <?= htmlspecialchars($employee['first_name'] . ' ' . $employee['last_name']) ?>
+                </h3>
+                <p style="margin: 0; color: var(--text-secondary);">
+                    <?= htmlspecialchars($employee['position']) ?>
+                </p>
+                <p style="margin: var(--space-1) 0 var(--space-4); color: var(--text-tertiary);">
+                    <?= htmlspecialchars($employee['department_name'] ?? 'Sin departamento') ?>
+                </p>
+                <?php if ($employee['is_active']): ?>
+                    <span class="table-badge table-badge-success">Cuenta Activa</span>
+                <?php else: ?>
+                    <span class="table-badge table-badge-danger">Cuenta Inactiva</span>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="widget-card-industrial">
+            <div class="widget-header">
+                <h3 class="widget-title">
+                    <i class="fas fa-user"></i>
+                    Datos del Empleado
+                </h3>
+            </div>
+            <div class="widget-body" style="padding: 0;">
+                <div class="table-container-industrial">
+                    <table class="table-industrial">
+                        <tbody>
+                            <tr>
+                                <td><strong>Nombre Completo</strong></td>
+                                <td><?= htmlspecialchars($employee['first_name'] . ' ' . $employee['last_name']) ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Email</strong></td>
+                                <td><?= htmlspecialchars($employee['email']) ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>NIF/NIE</strong></td>
+                                <td><?= htmlspecialchars($employee['nif']) ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>ID Empleado</strong></td>
+                                <td><?= htmlspecialchars($employee['employee_number']) ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Rol Sistema</strong></td>
+                                <td>
+                                    <?php
+                                    $roleBadge = match ($employee['role']) {
+                                        'admin' => 'danger',
+                                        'hr_manager' => 'warning',
+                                        'department_head' => 'primary',
+                                        default => 'secondary'
+                                    };
+                                    ?>
+                                    <span class="table-badge table-badge-<?= $roleBadge ?>">
+                                        <?= htmlspecialchars(ucfirst(str_replace('_', ' ', $employee['role']))) ?>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Puesto</strong></td>
+                                <td><?= htmlspecialchars($employee['position']) ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Departamento</strong></td>
+                                <td><?= htmlspecialchars($employee['department_name'] ?? 'Sin departamento') ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Fecha Contratación</strong></td>
+                                <td><?= date('d/m/Y', strtotime($employee['hire_date'])) ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

@@ -38,17 +38,75 @@ class WebVacationController
 
         $requests = $this->vacationService->getEmployeeRequests($employeeId, $year);
 
-        // If admin, also get pending requests
+        $role = $_SESSION['user_role'] ?? 'employee';
+        $isAdmin = $role === 'admin' || $role === 'hr_manager';
+        $isDepartmentHead = $role === 'department_head';
+
+        $pendingName = trim((string)$request->getQuery('pending_name', ''));
+        $pendingEmail = trim((string)$request->getQuery('pending_email', ''));
+        $historyName = trim((string)$request->getQuery('history_name', ''));
+        $historyEmail = trim((string)$request->getQuery('history_email', ''));
+
         $pendingApprovals = [];
-        if ($_SESSION['user_role'] === 'admin' || $_SESSION['user_role'] === 'hr_manager') {
-            $pendingApprovals = $this->vacationService->getPendingManagerRequests();
+        $historyApprovals = [];
+
+        if ($isDepartmentHead) {
+            $departmentId = $this->getCurrentEmployeeDepartmentId();
+            $pendingApprovals = $this->vacationService->getPendingManagerRequests(
+                $departmentId,
+                $pendingName,
+                $pendingEmail
+            );
+            $historyApprovals = $this->vacationService->getRequestsHistory(
+                $departmentId,
+                $historyName,
+                $historyEmail
+            );
+        } elseif ($isAdmin) {
+            $pendingApprovals = $this->vacationService->getPendingHRRequests(
+                $pendingName,
+                $pendingEmail
+            );
+            $historyApprovals = $this->vacationService->getRequestsHistory(
+                null,
+                $historyName,
+                $historyEmail
+            );
+        }
+
+        $companySummary = null;
+        if ($isAdmin) {
+            $stmt = $this->db->prepare('
+                SELECT 
+                    COUNT(DISTINCT employee_id) as employee_count,
+                    COALESCE(SUM(total_days), 0) as total_days,
+                    COALESCE(SUM(used_days), 0) as used_days,
+                    COALESCE(SUM(pending_days), 0) as pending_days,
+                    COALESCE(SUM(available_days), 0) as available_days
+                FROM vacation_balances
+                WHERE year = :year
+            ');
+            $stmt->execute(['year' => $year]);
+            $companySummary = $stmt->fetch(PDO::FETCH_ASSOC);
         }
 
         return Response::view('vacations/index', [
             'balance' => $balance,
             'requests' => $requests,
             'pendingApprovals' => $pendingApprovals,
-            'year' => $year
+            'historyApprovals' => $historyApprovals,
+            'year' => $year,
+            'isAdmin' => $isAdmin,
+            'isDepartmentHead' => $isDepartmentHead,
+            'pendingFilters' => [
+                'name' => $pendingName,
+                'email' => $pendingEmail
+            ],
+            'historyFilters' => [
+                'name' => $historyName,
+                'email' => $historyEmail
+            ],
+            'companySummary' => $companySummary
         ]);
     }
 
@@ -114,14 +172,36 @@ class WebVacationController
     public function approve(Request $request, string $id): Response
     {
         $this->requireAuth();
-        if ($_SESSION['user_role'] !== 'admin' && $_SESSION['user_role'] !== 'hr_manager') {
+        $role = $_SESSION['user_role'] ?? 'employee';
+        $isAdmin = $role === 'admin' || $role === 'hr_manager';
+        $isDepartmentHead = $role === 'department_head';
+
+        if (!$isAdmin && !$isDepartmentHead) {
             return Response::redirect('/vacations');
         }
 
         try {
-            $this->vacationService->approveByHR($id, $_SESSION['user_id'], "Aprobado desde panel web");
+            $approverEmployeeId = $this->getCurrentEmployeeId();
+            if (!$approverEmployeeId) {
+                throw new Exception('No se pudo identificar al aprobador');
+            }
+
+            if ($isDepartmentHead) {
+                $this->vacationService->approveByManager($id, $approverEmployeeId, 'Aprobado por jefe de departamento');
+            } else {
+                $this->vacationService->approveByHR($id, $approverEmployeeId, 'Aprobado desde panel web');
+            }
+
+            if ($request->isJson()) {
+                return Response::json(['success' => true]);
+            }
+
             return Response::redirect('/vacations');
         } catch (Exception $e) {
+            if ($request->isJson()) {
+                return Response::json(['success' => false, 'message' => $e->getMessage()], 400);
+            }
+
             return Response::redirect('/vacations');
         }
     }
@@ -129,17 +209,95 @@ class WebVacationController
     public function reject(Request $request, string $id): Response
     {
         $this->requireAuth();
-        if ($_SESSION['user_role'] !== 'admin' && $_SESSION['user_role'] !== 'hr_manager') {
+        $role = $_SESSION['user_role'] ?? 'employee';
+        $isAdmin = $role === 'admin' || $role === 'hr_manager';
+        $isDepartmentHead = $role === 'department_head';
+
+        if (!$isAdmin && !$isDepartmentHead) {
             return Response::redirect('/vacations');
         }
 
-        $reason = $request->getParsedBody()['reason'] ?? 'Rechazado por el administrador';
+        $body = $request->getParsedBody() ?? [];
+        $reason = $body['reason'] ?? 'Rechazado por el administrador';
         try {
-            $this->vacationService->reject($id, $_SESSION['user_id'], $reason);
+            $approverEmployeeId = $this->getCurrentEmployeeId();
+            if (!$approverEmployeeId) {
+                throw new Exception('No se pudo identificar al aprobador');
+            }
+
+            $this->vacationService->reject($id, $approverEmployeeId, $reason);
+
+            if ($request->isJson()) {
+                return Response::json(['success' => true]);
+            }
+
             return Response::redirect('/vacations');
         } catch (Exception $e) {
+            if ($request->isJson()) {
+                return Response::json(['success' => false, 'message' => $e->getMessage()], 400);
+            }
+
             return Response::redirect('/vacations');
         }
+    }
+
+    public function pendingAjax(Request $request): Response
+    {
+        $this->requireAuth();
+        $role = $_SESSION['user_role'] ?? 'employee';
+        $isAdmin = $role === 'admin' || $role === 'hr_manager';
+        $isDepartmentHead = $role === 'department_head';
+
+        if (!$isAdmin && !$isDepartmentHead) {
+            return Response::json(['success' => false, 'message' => 'No autorizado'], 403);
+        }
+
+        $pendingName = trim((string)$request->getQuery('pending_name', ''));
+        $pendingEmail = trim((string)$request->getQuery('pending_email', ''));
+
+        if ($isDepartmentHead) {
+            $departmentId = $this->getCurrentEmployeeDepartmentId();
+            $pendingApprovals = $this->vacationService->getPendingManagerRequests(
+                $departmentId,
+                $pendingName,
+                $pendingEmail
+            );
+        } else {
+            $pendingApprovals = $this->vacationService->getPendingHRRequests(
+                $pendingName,
+                $pendingEmail
+            );
+        }
+
+        $data = array_map(fn($item) => $item->toArray(), $pendingApprovals);
+
+        return Response::json(['success' => true, 'data' => $data]);
+    }
+
+    public function historyAjax(Request $request): Response
+    {
+        $this->requireAuth();
+        $role = $_SESSION['user_role'] ?? 'employee';
+        $isAdmin = $role === 'admin' || $role === 'hr_manager';
+        $isDepartmentHead = $role === 'department_head';
+
+        if (!$isAdmin && !$isDepartmentHead) {
+            return Response::json(['success' => false, 'message' => 'No autorizado'], 403);
+        }
+
+        $historyName = trim((string)$request->getQuery('history_name', ''));
+        $historyEmail = trim((string)$request->getQuery('history_email', ''));
+
+        $departmentId = $isDepartmentHead ? $this->getCurrentEmployeeDepartmentId() : null;
+        $historyApprovals = $this->vacationService->getRequestsHistory(
+            $departmentId,
+            $historyName,
+            $historyEmail
+        );
+
+        $data = array_map(fn($item) => $item->toArray(), $historyApprovals);
+
+        return Response::json(['success' => true, 'data' => $data]);
     }
 
     private function requireAuth(): void
@@ -164,6 +322,24 @@ class WebVacationController
             $_SESSION['employee_id'] = $id;
             return (string)$id;
         }
+        return null;
+    }
+
+    private function getCurrentEmployeeDepartmentId(): ?string
+    {
+        if (isset($_SESSION['employee_department_id'])) {
+            return (string)$_SESSION['employee_department_id'];
+        }
+
+        $stmt = $this->db->prepare("SELECT department_id FROM employees WHERE user_id = :user_id");
+        $stmt->execute(['user_id' => $_SESSION['user_id']]);
+        $departmentId = $stmt->fetchColumn();
+
+        if ($departmentId) {
+            $_SESSION['employee_department_id'] = $departmentId;
+            return (string)$departmentId;
+        }
+
         return null;
     }
 }

@@ -261,7 +261,7 @@ class VacationService
     /**
      * Get pending requests for manager approval
      */
-    public function getPendingManagerRequests(?int $departmentId = null): array
+    public function getPendingManagerRequests(?string $departmentId = null, ?string $nameFilter = null, ?string $emailFilter = null): array
     {
         $sql = '
             SELECT vr.*, 
@@ -280,12 +280,79 @@ class VacationService
             $sql .= ' AND e.department_id = :department';
         }
 
+        if (!empty($nameFilter)) {
+            $sql .= ' AND (e.first_name || \' \' || e.last_name) ILIKE :name_filter';
+        }
+
+        if (!empty($emailFilter)) {
+            $sql .= ' AND u.email ILIKE :email_filter';
+        }
+
         $sql .= ' ORDER BY vr.request_date ASC';
 
         $stmt = $this->db->prepare($sql);
         $params = ['status' => VacationRequest::STATUS_PENDING];
         if ($departmentId) {
             $params['department'] = $departmentId;
+        }
+        if (!empty($nameFilter)) {
+            $params['name_filter'] = '%' . $nameFilter . '%';
+        }
+        if (!empty($emailFilter)) {
+            $params['email_filter'] = '%' . $emailFilter . '%';
+        }
+        $stmt->execute($params);
+
+        $requests = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $requests[] = VacationRequest::fromArray($row);
+        }
+
+        return $requests;
+    }
+
+    /**
+     * Get requests history for management roles
+     */
+    public function getRequestsHistory(?string $departmentId = null, ?string $nameFilter = null, ?string $emailFilter = null): array
+    {
+        $sql = '
+            SELECT vr.*, 
+                   e.first_name as employee_first_name,
+                   e.last_name as employee_last_name,
+                   u.email as employee_email,
+                   d.name as employee_department
+            FROM vacation_requests vr
+            JOIN employees e ON vr.employee_id = e.id
+            JOIN users u ON e.user_id = u.id
+            JOIN departments d ON e.department_id = d.id
+            WHERE 1=1
+        ';
+
+        if ($departmentId) {
+            $sql .= ' AND e.department_id = :department';
+        }
+
+        if (!empty($nameFilter)) {
+            $sql .= ' AND (e.first_name || \' \' || e.last_name) ILIKE :name_filter';
+        }
+
+        if (!empty($emailFilter)) {
+            $sql .= ' AND u.email ILIKE :email_filter';
+        }
+
+        $sql .= ' ORDER BY vr.request_date DESC';
+
+        $stmt = $this->db->prepare($sql);
+        $params = [];
+        if ($departmentId) {
+            $params['department'] = $departmentId;
+        }
+        if (!empty($nameFilter)) {
+            $params['name_filter'] = '%' . $nameFilter . '%';
+        }
+        if (!empty($emailFilter)) {
+            $params['email_filter'] = '%' . $emailFilter . '%';
         }
         $stmt->execute($params);
 
@@ -300,9 +367,9 @@ class VacationService
     /**
      * Get pending requests for HR approval
      */
-    public function getPendingHRRequests(): array
+    public function getPendingHRRequests(?string $nameFilter = null, ?string $emailFilter = null): array
     {
-        $stmt = $this->db->prepare('
+        $sql = '
             SELECT vr.*, 
                    e.first_name as employee_first_name,
                    e.last_name as employee_last_name,
@@ -313,9 +380,27 @@ class VacationService
             JOIN users u ON e.user_id = u.id
             JOIN departments d ON e.department_id = d.id
             WHERE vr.status = :status
-            ORDER BY vr.request_date ASC
-        ');
-        $stmt->execute(['status' => VacationRequest::STATUS_MANAGER_APPROVED]);
+        ';
+
+        if (!empty($nameFilter)) {
+            $sql .= ' AND (e.first_name || \' \' || e.last_name) ILIKE :name_filter';
+        }
+
+        if (!empty($emailFilter)) {
+            $sql .= ' AND u.email ILIKE :email_filter';
+        }
+
+        $sql .= ' ORDER BY vr.request_date ASC';
+
+        $stmt = $this->db->prepare($sql);
+        $params = ['status' => VacationRequest::STATUS_MANAGER_APPROVED];
+        if (!empty($nameFilter)) {
+            $params['name_filter'] = '%' . $nameFilter . '%';
+        }
+        if (!empty($emailFilter)) {
+            $params['email_filter'] = '%' . $emailFilter . '%';
+        }
+        $stmt->execute($params);
 
         $requests = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {

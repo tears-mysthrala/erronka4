@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Zabala Gailetak HR Portal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
-    <link rel="stylesheet" href="/assets/css/industrial.php">
+    <link rel="stylesheet" href="/assets/css/industrial-v2.php">
 </head>
 <body>
 
@@ -29,13 +29,13 @@
         <form action="/login" method="POST">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token ?? '') ?>">
             
-            <div class="form-group">
-                <label for="email" class="form-label">
+            <div class="form-group-industrial">
+                <label for="email" class="form-label-industrial">
                     <i class="fas fa-envelope"></i>
                     Correo Electrónico
                 </label>
                 <input type="email" 
-                       class="form-control-industrial" 
+                       class="form-input-industrial" 
                        id="email" 
                        name="email" 
                        placeholder="usuario@zabalagailetak.eus"
@@ -43,13 +43,13 @@
                        autofocus>
             </div>
             
-            <div class="form-group">
-                <label for="password" class="form-label">
+            <div class="form-group-industrial">
+                <label for="password" class="form-label-industrial">
                     <i class="fas fa-lock"></i>
                     Contraseña
                 </label>
                 <input type="password" 
-                       class="form-control-industrial" 
+                       class="form-input-industrial" 
                        id="password" 
                        name="password" 
                        placeholder="••••••••"

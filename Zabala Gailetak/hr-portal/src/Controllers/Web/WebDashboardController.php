@@ -36,7 +36,7 @@ class WebDashboardController
             JOIN employees e ON vr.employee_id = e.id
             WHERE vr.status = 'APPROVED' 
               AND vr.start_date >= CURRENT_DATE 
-              AND vr.start_date <= DATE_ADD(CURRENT_DATE, INTERVAL 30 DAY)
+                            AND vr.start_date <= CURRENT_DATE + INTERVAL '30 days'
             ORDER BY vr.start_date ASC
             LIMIT 5
         ");
