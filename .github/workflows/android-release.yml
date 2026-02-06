@@ -58,8 +58,8 @@ jobs:
       - name: Update version in build.gradle.kts
         working-directory: ./Zabala Gailetak/android-app/app
         run: |
-          sed -i "s/versionCode = .*/versionCode = ${{ steps.version.outputs.VERSION_CODE }}/" build.gradle.kts
-          sed -i "s/versionName = .*/versionName = \"${{ steps.version.outputs.VERSION_NAME }}\"/" build.gradle.kts
+          sed -i "s/versionCode[[:space:]]*=[[:space:]]*[0-9]\+/versionCode = ${{ steps.version.outputs.VERSION_CODE }}/" build.gradle.kts
+          sed -i "s/versionName[[:space:]]*=[[:space:]]*\"[^\"]*\"/versionName = \"${{ steps.version.outputs.VERSION_NAME }}\"/" build.gradle.kts
           echo "Updated version to ${{ steps.version.outputs.VERSION_NAME }} (code: ${{ steps.version.outputs.VERSION_CODE }})"
 
       - name: Build Debug APK
@@ -80,11 +80,18 @@ jobs:
           KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
           # Decode keystore from base64
-          echo "$KEYSTORE_BASE64" | base64 -d > release.keystore
+          echo "$KEYSTORE_BASE64" | base64 -d > zabala-gailetak-release.keystore
+          
+          # Find latest build-tools version (fallback to 34.0.0)
+          BUILD_TOOLS_VERSION=$(ls -1 ${ANDROID_HOME}/build-tools | sort -V | tail -n 1)
+          if [ -z "$BUILD_TOOLS_VERSION" ]; then
+            BUILD_TOOLS_VERSION="34.0.0"
+          fi
+          echo "Using build-tools version: $BUILD_TOOLS_VERSION"
           
           # Sign the APK
-          ${ANDROID_HOME}/build-tools/34.0.0/apksigner sign \
-            --ks release.keystore \
+          ${ANDROID_HOME}/build-tools/${BUILD_TOOLS_VERSION}/apksigner sign \
+            --ks zabala-gailetak-release.keystore \
             --ks-key-alias "$KEY_ALIAS" \
             --ks-pass "pass:$KEYSTORE_PASSWORD" \
             --key-pass "pass:$KEY_PASSWORD" \
@@ -92,11 +99,11 @@ jobs:
             app/build/outputs/apk/release/app-release-unsigned.apk
           
           # Verify signature
-          ${ANDROID_HOME}/build-tools/34.0.0/apksigner verify \
+          ${ANDROID_HOME}/build-tools/${BUILD_TOOLS_VERSION}/apksigner verify \
             app/build/outputs/apk/release/zabala-gailetak-hrapp-v${{ steps.version.outputs.VERSION_NAME }}-signed.apk
           
           # Clean up keystore
-          rm release.keystore
+          rm zabala-gailetak-release.keystore
 
       - name: Rename APK files
         working-directory: ./Zabala Gailetak/android-app/app/build/outputs/apk

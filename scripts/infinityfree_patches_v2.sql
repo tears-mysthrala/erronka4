@@ -15,15 +15,33 @@ MODIFY COLUMN `employee_id` VARCHAR(36) DEFAULT NULL
 COMMENT 'Employee ID (NULL for public documents)';
 
 -- Drop existing foreign key to recreate it
-ALTER TABLE `documents` DROP FOREIGN KEY IF EXISTS `documents_ibfk_1`;
+-- MySQL does not support 'DROP FOREIGN KEY IF EXISTS', so check INFORMATION_SCHEMA first
+SET @fk_name := (
+    SELECT CONSTRAINT_NAME
+    FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
+    WHERE CONSTRAINT_SCHEMA = DATABASE()
+      AND TABLE_NAME = 'documents'
+      AND CONSTRAINT_NAME = 'documents_ibfk_1'
+);
 
--- Recreate foreign key with ON DELETE SET NULL for public documents
--- Note: If a user is deleted, their documents become public
+SET @drop_fk_sql := IF(
+    @fk_name IS NOT NULL,
+    'ALTER TABLE `documents` DROP FOREIGN KEY `documents_ibfk_1`;',
+    'SELECT ''Foreign key documents_ibfk_1 does not exist'' AS info;'
+);
+
+PREPARE drop_fk_stmt FROM @drop_fk_sql;
+EXECUTE drop_fk_stmt;
+DEALLOCATE PREPARE drop_fk_stmt;
+
+-- Recreate foreign key to keep employee-scoped documents private
+-- Note: If an employee is deleted, their employee-scoped documents are deleted (not made public)
+-- This prevents sensitive documents from becoming publicly accessible
 ALTER TABLE `documents`
 ADD CONSTRAINT `documents_ibfk_1` 
 FOREIGN KEY (`employee_id`) 
 REFERENCES `employees`(`id`) 
-ON DELETE SET NULL;
+ON DELETE CASCADE;
 
 -- Verify the change
 SELECT 
@@ -41,19 +59,71 @@ WHERE TABLE_NAME = 'documents'
 -- ============================================================================
 
 -- Index for filtering public/private documents
-ALTER TABLE `documents` 
-ADD KEY IF NOT EXISTS `idx_documents_public` (`employee_id`, `is_archived`)
-COMMENT 'Optimize public/private document queries';
+-- Use stored procedures to handle IF NOT EXISTS logic for broader compatibility
+DELIMITER $$
+DROP PROCEDURE IF EXISTS add_idx_documents_public $$
+CREATE PROCEDURE add_idx_documents_public()
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM INFORMATION_SCHEMA.STATISTICS
+        WHERE TABLE_SCHEMA = DATABASE()
+          AND TABLE_NAME = 'documents'
+          AND INDEX_NAME = 'idx_documents_public'
+    ) THEN
+        ALTER TABLE `documents`
+            ADD KEY `idx_documents_public` (`employee_id`, `is_archived`)
+            COMMENT 'Optimize public/private document queries';
+    END IF;
+END $$
+
+CALL add_idx_documents_public() $$
+DROP PROCEDURE IF EXISTS add_idx_documents_public $$
+DELIMITER ;
 
 -- Composite index for payroll date range queries
-ALTER TABLE `payroll`
-ADD KEY IF NOT EXISTS `idx_payroll_employee_period` (`employee_id`, `period_start`, `period_end`)
-COMMENT 'Optimize payroll list queries with filters';
+DELIMITER $$
+DROP PROCEDURE IF EXISTS add_idx_payroll_employee_period $$
+CREATE PROCEDURE add_idx_payroll_employee_period()
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM INFORMATION_SCHEMA.STATISTICS
+        WHERE TABLE_SCHEMA = DATABASE()
+          AND TABLE_NAME = 'payroll'
+          AND INDEX_NAME = 'idx_payroll_employee_period'
+    ) THEN
+        ALTER TABLE `payroll`
+            ADD KEY `idx_payroll_employee_period` (`employee_id`, `period_start`, `period_end`)
+            COMMENT 'Optimize payroll list queries with filters';
+    END IF;
+END $$
+
+CALL add_idx_payroll_employee_period() $$
+DROP PROCEDURE IF EXISTS add_idx_payroll_employee_period $$
+DELIMITER ;
 
 -- Index for document type filtering
-ALTER TABLE `documents`
-ADD KEY IF NOT EXISTS `idx_documents_type_archived` (`type`, `is_archived`)
-COMMENT 'Optimize category filter queries';
+DELIMITER $$
+DROP PROCEDURE IF EXISTS add_idx_documents_type_archived $$
+CREATE PROCEDURE add_idx_documents_type_archived()
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM INFORMATION_SCHEMA.STATISTICS
+        WHERE TABLE_SCHEMA = DATABASE()
+          AND TABLE_NAME = 'documents'
+          AND INDEX_NAME = 'idx_documents_type_archived'
+    ) THEN
+        ALTER TABLE `documents`
+            ADD KEY `idx_documents_type_archived` (`type`, `is_archived`)
+            COMMENT 'Optimize category filter queries';
+    END IF;
+END $$
+
+CALL add_idx_documents_type_archived() $$
+DROP PROCEDURE IF EXISTS add_idx_documents_type_archived $$
+DELIMITER ;
 
 -- ============================================================================
 -- Patch 3: Verify Table Structures

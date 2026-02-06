@@ -54,13 +54,13 @@ curl https://zabala-gailetak.infinityfreeapp.com/api/test/db
 cd "Zabala Gailetak/android-app"
 
 keytool -genkey -v \
-  -keystore release.keystore \
+  -keystore zabala-gailetak-release.keystore \
   -alias zabala-gailetak-hrapp \
   -keyalg RSA -keysize 2048 \
   -validity 10000
 
 # Convert to base64
-base64 -w 0 release.keystore > keystore.base64
+base64 -w 0 zabala-gailetak-release.keystore > keystore.base64
 ```
 
 ### Configure GitHub Secrets
