@@ -113,6 +113,14 @@ $router->get('/payslips/create', [$webPayrollController, 'createForm']);
 $router->post('/payslips/create', [$webPayrollController, 'create']);
 $router->get('/payslips/{id}', [$webPayrollController, 'show']);
 
+// Documents (Web)
+$webDocumentController = new \ZabalaGailetak\HrPortal\Controllers\Web\WebDocumentController($db);
+$router->get('/documents', [$webDocumentController, 'index']);
+$router->get('/documents/upload', [$webDocumentController, 'uploadForm']);
+$router->post('/documents/upload', [$webDocumentController, 'upload']);
+$router->get('/documents/{id}/download', [$webDocumentController, 'download']);
+$router->post('/documents/{id}/delete', [$webDocumentController, 'delete']);
+
 // ============================================================================
 // API Routes
 // ============================================================================
