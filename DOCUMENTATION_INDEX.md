@@ -5,25 +5,28 @@
 ### Guías de Usuario
 - [README Principal](README.md) - Visión general del proyecto
 - [Guía de Inicio Rápido](QUICK_START_GUIDE.md) - Setup en 5 minutos
-- [Plan de Migración](MIGRATION_PLAN.md) - Plan completo de implementación
+- [Contexto del Proyecto (AGENTS.md)](AGENTS.md) - Arquitectura, compliance y guía para desarrollo
 
-### Reportes del Proyecto
-- [Reporte de Implementación](IMPLEMENTATION_REPORT.md) - Estado actual
-- [Resumen de Implementación](IMPLEMENTATION_SUMMARY.md) - Resumen ejecutivo
-- [Costes y Recursos](COSTES_RECURSOS_IMPLEMENTACION.md) - Análisis financiero
+### Documentación Académica
+- [ER4.md](ER4.md) - Requisitos del reto académico
+- [Errubrika (Excel)](Errubrika_Ziber_E4_25-26_t4.xlsx) - Rúbrica de evaluación
 
 ### Documentación Técnica
-- [Documentación del Proyecto](PROJECT_DOCUMENTATION.md) - Documentación técnica completa
-- [Reporte de Cumplimiento ER4](ER4_COMPLIANCE_REPORT.md) - Compliance report
-- [Resumen de Verificación ER4](ER4_VERIFICATION_SUMMARY.txt) - Verificación
+- [API REST](API_DOCUMENTATION.md) - Referencia de endpoints
+- [Documentación del Proyecto](Zabala%20Gailetak/docs/PROJECT_DOCUMENTATION.md) - Documentación técnica completa
+- [Paleta de Colores](Zabala%20Gailetak/docs/COLOR_PALETTE.md) - Sistema de diseño
+- [Costes y Recursos](Zabala%20Gailetak/docs/COSTES_RECURSOS_IMPLEMENTACION.md) - Análisis financiero
+- [Plan de Presupuesto](Zabala%20Gailetak/docs/PLAN_IMPLEMENTACION_PRESUPUESTO_ZABALA_GAILETAK.md) - Plan de implementación con presupuesto
+- [Plan de Seguridad](Zabala%20Gailetak/docs/security_plan.md) - Plan de seguridad
+- [SOP Desarrollo Seguro](Zabala%20Gailetak/docs/sop_secure_development.md) - Procedimiento de desarrollo seguro
 
 ## 🔧 Backend (PHP)
 
 ### Documentación Backend
-- [README Backend](hr-portal/README.md) - Guía completa del backend
-- [Configuración](hr-portal/config/config.php) - Archivo de configuración
-- [Routes](hr-portal/config/routes.php) - Definición de rutas
-- [Migraciones](hr-portal/migrations/) - Schema de base de datos
+- [README Backend](Zabala%20Gailetak/hr-portal/README.md) - Guía completa del backend
+- [Configuración](Zabala%20Gailetak/hr-portal/config/config.php) - Archivo de configuración
+- [Routes](Zabala%20Gailetak/hr-portal/config/routes.php) - Definición de rutas
+- [Migraciones](Zabala%20Gailetak/hr-portal/migrations/) - Schema de base de datos
 
 ### Estructura del Código
 ```
@@ -45,9 +48,9 @@ hr-portal/
 ## 📱 Android App
 
 ### Documentación Android
-- [README Android](android-app/README.md) - Guía completa de la app
-- [Build Configuration](android-app/app/build.gradle.kts) - Configuración Gradle
-- [Manifest](android-app/app/src/main/AndroidManifest.xml) - Configuración de la app
+- [README Android](Zabala%20Gailetak/android-app/README.md) - Guía completa de la app
+- [Guía Mobile](Zabala%20Gailetak/MOBILE_APP_GUIDE.md) - Guía de la aplicación móvil
+- [Build Configuration](Zabala%20Gailetak/android-app/app/build.gradle.kts) - Configuración Gradle
 
 ### Estructura del Código
 ```
@@ -73,13 +76,15 @@ android-app/app/src/main/
 ## 🐳 DevOps & Infrastructure
 
 ### Docker
-- [docker-compose.hrportal.yml](docker-compose.hrportal.yml) - Orquestación de servicios
-- [Dockerfile PHP](hr-portal/Dockerfile) - Imagen PHP
-- [Nginx Config](nginx/nginx-hrportal.conf) - Configuración Nginx
+- [docker-compose.hrportal.yml](Zabala%20Gailetak/docker-compose.hrportal.yml) - Orquestación de servicios
+- [Dockerfile PHP](Zabala%20Gailetak/hr-portal/Dockerfile) - Imagen PHP
+- [Nginx Config](Zabala%20Gailetak/nginx/nginx-hrportal.conf) - Configuración Nginx
 
 ### Scripts
-- [Migrate Script](hr-portal/scripts/migrate.sh) - Script de migraciones
-- [Makefile](hr-portal/Makefile) - Comandos útiles
+- [Migrate Script](Zabala%20Gailetak/hr-portal/scripts/migrate.php) - Script de migraciones
+- [Seed Admin](Zabala%20Gailetak/hr-portal/scripts/seed_admin_profile.php) - Script de seeding
+- [Makefile](Zabala%20Gailetak/hr-portal/Makefile) - Comandos útiles
+- [Verify Implementation](scripts/verify_implementation.sh) - Verificación de compliance
 
 ## 🗄️ Base de Datos
 
@@ -95,7 +100,7 @@ android-app/app/src/main/
   - Notificaciones
 
 ### Diagramas
-- Ver [MIGRATION_PLAN.md - Sección 3.5](MIGRATION_PLAN.md#35-modelo-de-datos-postgresql) para diagramas ER
+- Ver [Zabala Gailetak/docs/network_diagrams/](Zabala%20Gailetak/docs/network_diagrams/) para diagramas de red
 
 ## 🔐 Seguridad
 
@@ -106,11 +111,15 @@ android-app/app/src/main/
 - Mobile Security: `Zabala Gailetak/security/mobile_security_sop.md`
 
 ### Implementaciones de Seguridad
-- CSRF Protection: [CSRFProtection.php](hr-portal/src/Security/CSRFProtection.php)
-- Security Headers: [SecurityHeaders.php](hr-portal/src/Security/SecurityHeaders.php)
-- Middleware: [SecurityHeadersMiddleware.php](hr-portal/src/Middleware/SecurityHeadersMiddleware.php)
+- CSRF Protection: [CSRFProtection.php](Zabala%20Gailetak/hr-portal/src/Security/CSRFProtection.php)
+- Security Headers: [SecurityHeaders.php](Zabala%20Gailetak/hr-portal/src/Security/SecurityHeaders.php)
+- Middleware: [SecurityHeadersMiddleware.php](Zabala%20Gailetak/hr-portal/src/Middleware/SecurityHeadersMiddleware.php)
 
-## 📋 Compliance
+### Compliance
+- [Reporte de Cumplimiento ER4](Zabala%20Gailetak/compliance/ER4_COMPLIANCE_REPORT.md)
+- [Evaluación de Compliance](Zabala%20Gailetak/compliance/COMPLIANCE_EVALUATION.md)
+- [Auditoría de Documentación](Zabala%20Gailetak/compliance/auditoria_documentacion.md)
+- [Plan de Compliance](Zabala%20Gailetak/compliance/compliance_plan.md)
 
 ### GDPR
 Documentación en `Zabala Gailetak/compliance/gdpr/`:
@@ -136,12 +145,12 @@ Documentación en `Zabala Gailetak/compliance/sgsi/`:
 ## 🧪 Testing
 
 ### Backend Testing
-- Tests ubicados en: `hr-portal/tests/`
+- Tests ubicados en: `Zabala Gailetak/hr-portal/tests/`
 - Framework: PHPUnit
 - Comando: `composer test`
 
 ### Android Testing
-- Tests ubicados en: `android-app/app/src/test/` y `androidTest/`
+- Tests ubicados en: `Zabala Gailetak/android-app/app/src/test/` y `androidTest/`
 - Framework: JUnit + Espresso
 - Comando: `./gradlew test`
 
@@ -162,8 +171,7 @@ Documentación en `Zabala Gailetak/infrastructure/systems/`:
 
 ## 🎯 Roadmap
 
-Ver plan de implementación detallado por fases en:
-- [MIGRATION_PLAN.md - Sección 7](MIGRATION_PLAN.md#-plan-de-implementaci%C3%B3n-por-fases)
+Consultar [AGENTS.md - Sección 6](AGENTS.md) para el estado actual de implementación.
 
 ### Fases del Proyecto
 
@@ -208,6 +216,12 @@ Ver plan de implementación detallado por fases en:
 
 ---
 
-**Última actualización**: 14 de Enero de 2026  
-**Versión**: 1.0.0  
+### Archivos Archivados
+
+Documentación de migración histórica disponible en `archive/migration/`.
+
+---
+
+**Última actualización**: 6 de Febrero de 2026  
+**Versión**: 2.0.0  
 **Mantenido por**: Equipo IT Zabala Gailetak

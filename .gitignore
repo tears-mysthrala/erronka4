@@ -1,40 +1,61 @@
+# ========================================
+# Zabala Gailetak - Root .gitignore
+# ========================================
+
 # Secrets & Credentials
 DEPLOY_INFINITYFREE.md
 **/.env
 **/.env.production
 **/.env.local
+**/.env.*.local
 
 # Dependency directories
-/node_modules
-/vendor
+**/node_modules/
+**/vendor/
+!**/public/assets/vendor/
+
+# Package manager logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # System files
 .DS_Store
 Thumbs.db
+*~
 
 # IDEs
-.idea
-.vscode
+.idea/
+.vscode/
 *.swp
-
-# Gradle
-.gradle/
-build/
-gradle.properties
-local.properties
+*.swo
 *.iml
 *.ipr
 *.iws
 
-# Android
-app/build/
-app/release/
+# Gradle / Android
+.gradle/
+**/build/
+gradle.properties
+local.properties
 *.apk
 *.aab
 *.aar
-
-# Kotlin
 .kotlin/
-
-# Lint
 lint-baseline.xml
+
+# PHP
+.phpunit.result.cache
+**/composer.lock
+
+# Build outputs
+dist/
+coverage/
+
+# Logs
+*.log
+
+# Temporary & backup files
+*.tmp
+*.bak
+*.backup

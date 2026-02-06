@@ -1,11 +1,5 @@
-# Environment files
-.env
-.env.local
-.env.*.local
-
-# Composer
-/vendor/
-composer.lock
+# HR Portal specific ignores
+# (General ignores are handled by root .gitignore)
 
 # Logs
 /logs/*.log
@@ -19,22 +13,9 @@ composer.lock
 /storage/*
 !/storage/.gitkeep
 
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
-*~
-.DS_Store
-
-# Tests
-.phpunit.result.cache
-/coverage/
-
 # Temporary files
 /tmp/*
 !/tmp/.gitkeep
-*.tmp
 
 # Cache
 /cache/*

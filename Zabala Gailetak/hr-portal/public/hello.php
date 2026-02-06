@@ -1,1 +1,0 @@
-<?php echo "Hello from Zabala Gailetak"; ?>
