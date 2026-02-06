@@ -51,6 +51,18 @@
                             Vacaciones
                         </a>
                     </li>
+                    <li>
+                        <a class="nav-link-industrial <?= (strpos($_SERVER['REQUEST_URI'], '/payslips') !== false ? 'active' : '') ?>" href="/payslips">
+                            <i class="fas fa-receipt"></i>
+                            Nominak
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link-industrial <?= (strpos($_SERVER['REQUEST_URI'], '/documents') !== false ? 'active' : '') ?>" href="/documents">
+                            <i class="fas fa-folder"></i>
+                            Dokumentuak
+                        </a>
+                    </li>
                 </ul>
                 
                 <div style="display: flex; align-items: center; gap: var(--space-3);">

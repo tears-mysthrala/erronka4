@@ -106,6 +106,13 @@ $router->post('/vacations/reject/{id}', [$webVacationController, 'reject']);
 $router->get('/vacations/pending_ajax', [$webVacationController, 'pendingAjax']);
 $router->get('/vacations/history_ajax', [$webVacationController, 'historyAjax']);
 
+// Payslips (Web)
+$webPayrollController = new \ZabalaGailetak\HrPortal\Controllers\Web\WebPayrollController($db);
+$router->get('/payslips', [$webPayrollController, 'index']);
+$router->get('/payslips/create', [$webPayrollController, 'createForm']);
+$router->post('/payslips/create', [$webPayrollController, 'create']);
+$router->get('/payslips/{id}', [$webPayrollController, 'show']);
+
 // ============================================================================
 // API Routes
 // ============================================================================
