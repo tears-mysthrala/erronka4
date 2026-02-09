@@ -20,9 +20,11 @@ use DatePeriod;
 class VacationService
 {
     private PDO $db;
+    private Database $database;
 
     public function __construct(Database $database)
     {
+        $this->database = $database;
         $this->db = $database->getConnection();
     }
 
@@ -280,12 +282,15 @@ class VacationService
             $sql .= ' AND e.department_id = :department';
         }
 
+        $likeOp = $this->database->getLikeOperator();
+
         if (!empty($nameFilter)) {
-            $sql .= ' AND (e.first_name || \' \' || e.last_name) ILIKE :name_filter';
+            $concat = $this->database->concat(['e.first_name', "' '", 'e.last_name']);
+            $sql .= " AND {$concat} {$likeOp} :name_filter";
         }
 
         if (!empty($emailFilter)) {
-            $sql .= ' AND u.email ILIKE :email_filter';
+            $sql .= " AND u.email {$likeOp} :email_filter";
         }
 
         $sql .= ' ORDER BY vr.request_date ASC';
@@ -333,12 +338,15 @@ class VacationService
             $sql .= ' AND e.department_id = :department';
         }
 
+        $likeOp = $this->database->getLikeOperator();
+
         if (!empty($nameFilter)) {
-            $sql .= ' AND (e.first_name || \' \' || e.last_name) ILIKE :name_filter';
+            $concat = $this->database->concat(['e.first_name', "' '", 'e.last_name']);
+            $sql .= " AND {$concat} {$likeOp} :name_filter";
         }
 
         if (!empty($emailFilter)) {
-            $sql .= ' AND u.email ILIKE :email_filter';
+            $sql .= " AND u.email {$likeOp} :email_filter";
         }
 
         $sql .= ' ORDER BY vr.request_date DESC';
@@ -382,12 +390,15 @@ class VacationService
             WHERE vr.status = :status
         ';
 
+        $likeOp = $this->database->getLikeOperator();
+
         if (!empty($nameFilter)) {
-            $sql .= ' AND (e.first_name || \' \' || e.last_name) ILIKE :name_filter';
+            $concat = $this->database->concat(['e.first_name', "' '", 'e.last_name']);
+            $sql .= " AND {$concat} {$likeOp} :name_filter";
         }
 
         if (!empty($emailFilter)) {
-            $sql .= ' AND u.email ILIKE :email_filter';
+            $sql .= " AND u.email {$likeOp} :email_filter";
         }
 
         $sql .= ' ORDER BY vr.request_date ASC';

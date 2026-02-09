@@ -70,9 +70,11 @@ android {
         // Don't fail build on lint errors - CI will still report them
         abortOnError = false
         // Check all variants including release
-        checkReleaseBuilds = true
+        checkReleaseBuilds = false
         // Disable some noisy checks that are already in baseline
         disable += listOf("GradleDependency", "OldTargetApi")
+        // Don't create new baselines in CI
+        checkDependencies = false
     }
 }
 

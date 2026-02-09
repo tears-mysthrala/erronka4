@@ -142,4 +142,92 @@ class Database
     {
         return $this->getConnection()->lastInsertId($name);
     }
+
+    /**
+     * Get the current database driver
+     */
+    public function getDriver(): string
+    {
+        return $this->getConnection()->getAttribute(PDO::ATTR_DRIVER_NAME);
+    }
+
+    /**
+     * Check if using PostgreSQL
+     */
+    public function isPostgreSQL(): bool
+    {
+        return $this->getDriver() === 'pgsql';
+    }
+
+    /**
+     * Check if using MySQL/MariaDB
+     */
+    public function isMySQL(): bool
+    {
+        return $this->getDriver() === 'mysql';
+    }
+
+    /**
+     * Get case-insensitive LIKE operator for current database
+     */
+    public function getLikeOperator(): string
+    {
+        // PostgreSQL has ILIKE, MySQL's LIKE is case-insensitive by default (depending on collation)
+        return $this->isPostgreSQL() ? 'ILIKE' : 'LIKE';
+    }
+
+    /**
+     * Get concat expression for current database
+     * 
+     * @param array<string> $columns
+     */
+    public function concat(array $columns): string
+    {
+        if ($this->isPostgreSQL()) {
+            return implode(' || ', $columns);
+        }
+        return 'CONCAT(' . implode(', ', $columns) . ')';
+    }
+
+    /**
+     * Get date add expression for current database
+     */
+    public function dateAdd(string $date, string $interval, string $unit = 'days'): string
+    {
+        if ($this->isPostgreSQL()) {
+            return "{$date} + INTERVAL '{$interval} {$unit}'";
+        }
+        // MySQL/MariaDB
+        return "DATE_ADD({$date}, INTERVAL {$interval} {$unit})";
+    }
+
+    /**
+     * Get current date expression
+     */
+    public function currentDate(): string
+    {
+        return 'CURRENT_DATE';
+    }
+
+    /**
+     * Get year extraction from date
+     */
+    public function extractYear(string $column): string
+    {
+        if ($this->isPostgreSQL()) {
+            return "EXTRACT(YEAR FROM {$column})";
+        }
+        return "YEAR({$column})";
+    }
+
+    /**
+     * Get month extraction from date
+     */
+    public function extractMonth(string $column): string
+    {
+        if ($this->isPostgreSQL()) {
+            return "EXTRACT(MONTH FROM {$column})";
+        }
+        return "MONTH({$column})";
+    }
 }

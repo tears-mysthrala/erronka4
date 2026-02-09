@@ -29,14 +29,14 @@ class WebDashboardController
         $employeeCount = (int)$this->db->query("SELECT COUNT(*) FROM employees WHERE is_active = true")->fetchColumn();
         $pendingVacations = (int)$this->db->query("SELECT COUNT(*) FROM vacation_requests WHERE status = 'PENDING'")->fetchColumn();
 
-        // Get upcoming vacations (next 30 days)
+        // Get upcoming vacations (next 30 days) - compatible with MySQL/MariaDB
         $stmt = $this->db->query("
             SELECT e.first_name, e.last_name, vr.start_date, vr.end_date
             FROM vacation_requests vr
             JOIN employees e ON vr.employee_id = e.id
             WHERE vr.status = 'APPROVED' 
               AND vr.start_date >= CURRENT_DATE 
-                            AND vr.start_date <= CURRENT_DATE + INTERVAL '30 days'
+              AND vr.start_date <= DATE_ADD(CURRENT_DATE, INTERVAL 30 DAY)
             ORDER BY vr.start_date ASC
             LIMIT 5
         ");

@@ -242,10 +242,11 @@ class EmployeeController
 
             // Filtro por búsqueda (nombre, email, employee_number)
             if ($search) {
-                $whereConditions[] = "(e.first_name ILIKE :search 
-                    OR e.last_name ILIKE :search 
-                    OR e.employee_number ILIKE :search 
-                    OR u.email ILIKE :search)";
+                $likeOp = $this->db->getLikeOperator();
+                $whereConditions[] = "(e.first_name {$likeOp} :search 
+                    OR e.last_name {$likeOp} :search 
+                    OR e.employee_number {$likeOp} :search 
+                    OR u.email {$likeOp} :search)";
                 $params['search'] = "%{$search}%";
             }
 
