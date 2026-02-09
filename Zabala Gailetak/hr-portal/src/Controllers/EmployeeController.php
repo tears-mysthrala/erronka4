@@ -53,6 +53,145 @@ class EmployeeController
     }
 
     /**
+     * GET /api/employees/me
+     * Obtener perfil del usuario autenticado
+     */
+    public function getMyProfile(Request $request): Response
+    {
+        try {
+            $auth = $this->getAuthInfo($request);
+
+            if (!$auth) {
+                return Response::json(['error' => 'No autenticado'], 401);
+            }
+
+            $sql = "SELECT 
+                    e.*,
+                    u.email,
+                    u.role,
+                    u.mfa_enabled,
+                    d.id as department_id,
+                    d.name as department_name
+                FROM employees e
+                INNER JOIN users u ON e.user_id = u.id
+                LEFT JOIN departments d ON e.department_id = d.id
+                WHERE e.user_id = :user_id";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute(['user_id' => $auth['user_id']]);
+            $employee = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$employee) {
+                return Response::json(['error' => 'Empleado no encontrado'], 404);
+            }
+
+            return Response::json(['employee' => $employee], 200);
+        } catch (Exception $e) {
+            error_log('Error en getMyProfile: ' . $e->getMessage());
+            return Response::json(['error' => 'Error obteniendo perfil'], 500);
+        }
+    }
+
+    /**
+     * PUT /api/employees/me
+     * Actualizar perfil del usuario autenticado
+     */
+    public function updateMyProfile(Request $request): Response
+    {
+        try {
+            $auth = $this->getAuthInfo($request);
+
+            if (!$auth) {
+                return Response::json(['error' => 'No autenticado'], 401);
+            }
+
+            $data = $request->getParsedBody();
+
+            // Sanitizar datos de entrada
+            $data = $this->validator->sanitizeData($data);
+
+            // Validar datos (solo campos presentes)
+            $validationErrors = $this->validator->validate($data, true);
+            if (!empty($validationErrors)) {
+                return Response::json([
+                    'error' => 'Errores de validación',
+                    'validation_errors' => $validationErrors
+                ], 400);
+            }
+
+            // Verificar que el empleado existe
+            $stmt = $this->db->prepare('
+                SELECT e.*, u.email 
+                FROM employees e 
+                JOIN users u ON e.user_id = u.id 
+                WHERE e.user_id = :user_id
+            ');
+            $stmt->execute(['user_id' => $auth['user_id']]);
+            $employee = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$employee) {
+                return Response::json(['error' => 'Empleado no encontrado'], 404);
+            }
+
+            // Campos permitidos para auto-actualización
+            $allowedFields = [
+                'first_name', 'last_name', 'phone',
+                'address', 'city', 'postal_code', 'country'
+            ];
+
+            $updates = [];
+            $params = ['user_id' => $auth['user_id']];
+
+            foreach ($allowedFields as $field) {
+                if (isset($data[$field])) {
+                    $updates[] = "{$field} = :{$field}";
+                    $params[$field] = $data[$field];
+                }
+            }
+
+            if (empty($updates)) {
+                return Response::json(['error' => 'No hay campos para actualizar'], 400);
+            }
+
+            $sql = 'UPDATE employees SET ' . implode(', ', $updates) .
+                   ', updated_at = NOW() WHERE user_id = :user_id';
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+
+            // Registrar cambios en audit log
+            $oldValues = [];
+            $newValues = [];
+            foreach ($allowedFields as $field) {
+                if (isset($data[$field])) {
+                    $oldValues[$field] = $employee[$field];
+                    $newValues[$field] = $data[$field];
+                }
+            }
+
+            $this->auditLogger->logUpdate(
+                entityType: 'employee_profile',
+                entityId: (string)$employee['id'],
+                oldValues: $oldValues,
+                newValues: $newValues,
+                userId: $auth['user_id'],
+                userEmail: $request->getAttribute('user_email') ?? '',
+                userRole: $auth['role'],
+                ipAddress: AuditLogger::getClientIp(),
+                userAgent: AuditLogger::getUserAgent(),
+                requestId: AuditLogger::generateRequestId()
+            );
+
+            return Response::json([
+                'message' => 'Perfil actualizado exitosamente'
+            ], 200);
+        } catch (Exception $e) {
+            error_log('Error en updateMyProfile: ' . $e->getMessage());
+            return Response::json(['error' => 'Error actualizando perfil'], 500);
+        }
+    }
+
+    /**
      * GET /api/employees
      * Lista de empleados con paginación y filtros
      */

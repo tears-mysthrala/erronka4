@@ -22,8 +22,9 @@ class Response
 
     /**
      * Create a JSON response
+     * @param mixed $data
      */
-    public static function json($data, int $statusCode = 200): self
+    public static function json(mixed $data, int $statusCode = 200): self
     {
         return new self(
             json_encode($data, JSON_UNESCAPED_UNICODE),

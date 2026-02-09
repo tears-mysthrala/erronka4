@@ -7,5 +7,5 @@ parameters:
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
     ignoreErrors:
-        # Ignore session-related warnings (handled by framework)
-        - '#Undefined variable: \$_(SESSION|SERVER|POST|GET)#'
+        # Ignore superglobal existence checks
+        - '#Variable \$_FILES on left side of \?\? always exists#'

@@ -21,13 +21,13 @@ class AuthController
 {
     private Database $db;
     private TokenManager $tokenManager;
-    private $sessionManager;
+    private SessionManager $sessionManager;
     private TOTPService $totpService;
 
     public function __construct(
         Database $db,
         TokenManager $tokenManager,
-        $sessionManager,
+        SessionManager $sessionManager,
         TOTPService $totpService
     ) {
         $this->db = $db;

@@ -281,6 +281,8 @@ $router->post('/api/auth/mfa/disable', [$authController, 'disableMfa']);
 
 // API Employees
 $router->get('/api/employees', [$employeeController, 'index']);
+$router->get('/api/employees/me', [$employeeController, 'getMyProfile']);
+$router->put('/api/employees/me', [$employeeController, 'updateMyProfile']);
 $router->get('/api/employees/{id}', [$employeeController, 'show']);
 $router->post('/api/employees', [$employeeController, 'create']);
 $router->put('/api/employees/{id}', [$employeeController, 'update']);
@@ -307,6 +309,7 @@ $documentController = new \ZabalaGailetak\HrPortal\Controllers\DocumentControlle
 
 // API Payroll
 $router->get('/api/payroll', [$payrollController, 'index']);
+$router->get('/api/payslips/my', [$payrollController, 'getMyPayslips']);
 $router->get('/api/payroll/{id}', [$payrollController, 'show']);
 $router->post('/api/payroll', [$payrollController, 'create']);
 $router->put('/api/payroll/{id}', [$payrollController, 'update']);
@@ -315,6 +318,8 @@ $router->get('/api/payroll/{id}/download', [$payrollController, 'download']);
 
 // API Documents
 $router->get('/api/documents', [$documentController, 'index']);
+$router->get('/api/documents/my', [$documentController, 'getMyDocuments']);
+$router->get('/api/documents/public', [$documentController, 'getPublicDocuments']);
 $router->get('/api/documents/categories', [$documentController, 'categories']);
 $router->get('/api/documents/{id}', [$documentController, 'show']);
 $router->post('/api/documents/upload', [$documentController, 'upload']);

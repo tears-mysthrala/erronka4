@@ -99,4 +99,16 @@ class SessionManager
             $_SESSION[$this->prefix . 'last_activity'] = time();
         }
     }
+
+    /**
+     * Destroy all sessions for a user (native session limitation: only destroys current session)
+     */
+    public function destroyAllUserSessions(string $userId): void
+    {
+        // In native PHP session mode, we can only destroy the current session
+        // For full multi-session support, a database-backed session store would be needed
+        if (isset($_SESSION[$this->prefix . 'user_id']) && $_SESSION[$this->prefix . 'user_id'] === $userId) {
+            session_destroy();
+        }
+    }
 }

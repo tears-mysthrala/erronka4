@@ -57,6 +57,11 @@ class App
      */
     private function loadRoutes(): void
     {
+        // phpcs:disable
+        if (!defined('ROOT_PATH')) {
+            define('ROOT_PATH', dirname(__DIR__, 2));
+        }
+        // phpcs:enable
         $GLOBALS['app'] = $this;
         require ROOT_PATH . '/config/routes.php';
     }

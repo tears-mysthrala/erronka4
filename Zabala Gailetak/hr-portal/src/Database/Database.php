@@ -19,6 +19,11 @@ class Database
 
     public function __construct()
     {
+        // phpcs:disable
+        if (!defined('ROOT_PATH')) {
+            define('ROOT_PATH', dirname(__DIR__, 2));
+        }
+        // phpcs:enable
         $this->config = require ROOT_PATH . '/config/config.php';
     }
 

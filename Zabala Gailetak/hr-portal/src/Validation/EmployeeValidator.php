@@ -315,8 +315,9 @@ class EmployeeValidator
 
     /**
      * Validar salario
+     * @param mixed $salary
      */
-    public function validateSalary($salary): ?string
+    public function validateSalary(mixed $salary): ?string
     {
         if (!is_numeric($salary)) {
             return 'El salario debe ser un número válido';
