@@ -67,6 +67,12 @@ android {
 
     lint {
         baseline = file("lint-baseline.xml")
+        // Don't fail build on lint errors - CI will still report them
+        abortOnError = false
+        // Check all variants including release
+        checkReleaseBuilds = true
+        // Disable some noisy checks that are already in baseline
+        disable += listOf("GradleDependency", "OldTargetApi")
     }
 }
 

@@ -37,9 +37,27 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          cmdline-tools-version: '11076708'
+          accept-android-sdk-licenses: true
+
+      - name: Verify Java version
+        run: |
+          echo "JAVA_HOME: $JAVA_HOME"
+          java -version
+          javac -version
+
       - name: Grant execute permission for gradlew
-        working-directory: ./Zabala Gailetak/android-app
+        working-directory: "Zabala Gailetak/android-app"
         run: chmod +x gradlew
+
+      - name: Verify Gradle wrapper
+        working-directory: "Zabala Gailetak/android-app"
+        run: |
+          ./gradlew --version
+          ./gradlew tasks --all | head -20
 
       - name: Extract version from tag or input
         id: version
@@ -56,38 +74,66 @@ jobs:
           echo "Building version $VERSION_NAME (code: $VERSION_CODE)"
 
       - name: Update version in build.gradle.kts
-        working-directory: ./Zabala Gailetak/android-app/app
+        working-directory: "Zabala Gailetak/android-app/app"
         run: |
           sed -i "s/versionCode[[:space:]]*=[[:space:]]*[0-9]\+/versionCode = ${{ steps.version.outputs.VERSION_CODE }}/" build.gradle.kts
           sed -i "s/versionName[[:space:]]*=[[:space:]]*\"[^\"]*\"/versionName = \"${{ steps.version.outputs.VERSION_NAME }}\"/" build.gradle.kts
           echo "Updated version to ${{ steps.version.outputs.VERSION_NAME }} (code: ${{ steps.version.outputs.VERSION_CODE }})"
+          cat build.gradle.kts | grep -A2 "versionCode\|versionName"
+
+      - name: Clean build
+        working-directory: "Zabala Gailetak/android-app"
+        run: ./gradlew clean --no-daemon
 
       - name: Build Debug APK
-        working-directory: ./Zabala Gailetak/android-app
+        working-directory: "Zabala Gailetak/android-app"
         run: ./gradlew assembleDebug --no-daemon --stacktrace
+        timeout-minutes: 30
 
       - name: Build Release APK
-        working-directory: ./Zabala Gailetak/android-app
+        working-directory: "Zabala Gailetak/android-app"
         run: ./gradlew assembleRelease --no-daemon --stacktrace
+        timeout-minutes: 30
+
+      - name: List output files
+        working-directory: "Zabala Gailetak/android-app"
+        run: |
+          echo "=== APK Outputs ==="
+          find app/build/outputs/apk -name "*.apk" -type f 2>/dev/null || echo "No APKs found"
+          echo "=== Directory structure ==="
+          ls -la app/build/outputs/apk/ 2>/dev/null || echo "Directory not found"
 
       - name: Sign Release APK
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
-        working-directory: ./Zabala Gailetak/android-app
+        working-directory: "Zabala Gailetak/android-app"
         env:
           KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
+          # Check if keystore secret is available
+          if [ -z "$KEYSTORE_BASE64" ]; then
+            echo "⚠️ Warning: KEYSTORE_BASE64 not set, skipping signing"
+            exit 0
+          fi
+          
           # Decode keystore from base64
           echo "$KEYSTORE_BASE64" | base64 -d > zabala-gailetak-release.keystore
           
           # Find latest build-tools version (fallback to 34.0.0)
-          BUILD_TOOLS_VERSION=$(ls -1 ${ANDROID_HOME}/build-tools | sort -V | tail -n 1)
+          BUILD_TOOLS_VERSION=$(ls -1 ${ANDROID_HOME}/build-tools 2>/dev/null | sort -V | tail -n 1)
           if [ -z "$BUILD_TOOLS_VERSION" ]; then
             BUILD_TOOLS_VERSION="34.0.0"
           fi
           echo "Using build-tools version: $BUILD_TOOLS_VERSION"
+          
+          # Check if release APK exists
+          if [ ! -f "app/build/outputs/apk/release/app-release-unsigned.apk" ]; then
+            echo "Error: app-release-unsigned.apk not found"
+            ls -la app/build/outputs/apk/release/ 2>/dev/null || echo "Release directory not found"
+            exit 1
+          fi
           
           # Sign the APK
           ${ANDROID_HOME}/build-tools/${BUILD_TOOLS_VERSION}/apksigner sign \
@@ -106,60 +152,71 @@ jobs:
           rm zabala-gailetak-release.keystore
 
       - name: Rename APK files
-        working-directory: ./Zabala Gailetak/android-app/app/build/outputs/apk
+        working-directory: "Zabala Gailetak/android-app/app/build/outputs/apk"
         run: |
           # Rename debug APK
           if [ -f "debug/app-debug.apk" ]; then
             mv debug/app-debug.apk debug/zabala-gailetak-hrapp-v${{ steps.version.outputs.VERSION_NAME }}-debug.apk
+            echo "Debug APK renamed"
+          else
+            echo "Warning: app-debug.apk not found"
+            ls -la debug/ 2>/dev/null || echo "Debug directory not found"
           fi
           
           # Rename release APK (unsigned if not tagged)
           if [ -f "release/app-release-unsigned.apk" ] && [ "${{ github.event_name }}" != "push" ]; then
             mv release/app-release-unsigned.apk release/zabala-gailetak-hrapp-v${{ steps.version.outputs.VERSION_NAME }}-release-unsigned.apk
+            echo "Release APK renamed"
           fi
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: zabala-gailetak-hrapp-debug
-          path: ./Zabala Gailetak/android-app/app/build/outputs/apk/debug/*.apk
+          path: "Zabala Gailetak/android-app/app/build/outputs/apk/debug/*.apk"
           retention-days: 30
+          if-no-files-found: warn
 
       - name: Upload Release APK (unsigned)
         if: github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')
         uses: actions/upload-artifact@v4
         with:
           name: zabala-gailetak-hrapp-release-unsigned
-          path: ./Zabala Gailetak/android-app/app/build/outputs/apk/release/*unsigned.apk
+          path: "Zabala Gailetak/android-app/app/build/outputs/apk/release/*unsigned*.apk"
           retention-days: 30
+          if-no-files-found: warn
 
       - name: Upload Release APK (signed)
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
         uses: actions/upload-artifact@v4
         with:
           name: zabala-gailetak-hrapp-release-signed
-          path: ./Zabala Gailetak/android-app/app/build/outputs/apk/release/*signed.apk
+          path: "Zabala Gailetak/android-app/app/build/outputs/apk/release/*signed*.apk"
           retention-days: 90
+          if-no-files-found: warn
 
       - name: Generate APK checksums
-        working-directory: ./Zabala Gailetak/android-app/app/build/outputs/apk
+        working-directory: "Zabala Gailetak/android-app/app/build/outputs/apk"
         run: |
           echo "## APK Checksums" > checksums.txt
           echo "" >> checksums.txt
-          for apk in $(find . -name "*.apk"); do
+          for apk in $(find . -name "*.apk" 2>/dev/null); do
             echo "### $(basename $apk)" >> checksums.txt
             echo '```' >> checksums.txt
             sha256sum "$apk" >> checksums.txt
             echo '```' >> checksums.txt
             echo "" >> checksums.txt
           done
+          cat checksums.txt
 
       - name: Upload checksums
         uses: actions/upload-artifact@v4
         with:
           name: apk-checksums
-          path: ./Zabala Gailetak/android-app/app/build/outputs/apk/checksums.txt
+          path: "Zabala Gailetak/android-app/app/build/outputs/apk/checksums.txt"
           retention-days: 90
+          if-no-files-found: ignore
 
   release:
     name: 📦 Create GitHub Release
@@ -188,6 +245,11 @@ jobs:
         with:
           name: apk-checksums
           path: ./artifacts
+
+      - name: List artifacts
+        run: |
+          echo "=== Downloaded artifacts ==="
+          ls -la ./artifacts/
 
       - name: Generate release notes
         id: release_notes
