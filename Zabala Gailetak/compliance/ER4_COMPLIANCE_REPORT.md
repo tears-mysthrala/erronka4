@@ -1,680 +1,674 @@
-# ER4 Compliance Report - Zabala Gailetak
+# ER4 Betetze Txostena - Zabala Gailetak
 
-**Date:** January 9, 2026  
-**Project:** Advanced Security Systems (Erronka 4)  
-**Company:** Zabala Gailetak S.A.
-
----
-
-## Executive Summary
-
-This document verifies that the Zabala Gailetak cybersecurity project meets all requirements
-specified in ER4.md (Erronka 4 specifications). The project has achieved **100% compliance**
-with all technical and cross-functional competencies outlined in the course requirements.
+**Data:** 2026ko Urtarrilaren 9a  
+**Proiektua:** Sistema Aurreratuak (Erronka 4)  
+**Enpresa:** Zabala Gailetak S.A.
 
 ---
 
-## 1. Network Infrastructure & Hardening (Sareak eta sistemak gotortzea)
+## Laburpen Exekutiboa
 
-### ✅ RA3: Security Plans (Segurtasun-planak diseinatzen ditu)
-
-**Status:** COMPLETE
-
-**Evidence:**
-
-- `infrastructure/network/network_segmentation_sop.md` - Complete network segmentation implementation
-- `security/siem/siem_strategy.md` - SIEM strategy and alert rules
-- `security/honeypot/honeypot_plan.md` - Honeypot implementation for attack analysis
-- `compliance/sgsi/risk_assessment.md` - Risk assessment following ISO 27001
-- `compliance/sgsi/asset_register.md` - Complete asset inventory
-
-**Key Achievements:**
-
-- Network segmentation with 5 zones (DMZ, User, Server, OT, Management)
-- VLAN configuration (10, 20, 50, 100, 200)
-- Firewall rules preventing DMZ→Internal and User→Database direct access
-- SIEM system with Wazuh/ELK Stack
-- Honeypot (T-Pot, Cowrie, Conpot) for OT/IT threat intelligence
-
-### ✅ RA7: Device & System Configuration (Gailu eta sistema informatikoak konfiguratzen ditu)
-
-**Status:** COMPLETE
-
-**Evidence:**
-
-- `infrastructure/network/network_segmentation_sop.md` - Firewall rules and ACLs
-- `security/siem/docker-compose.siem.yml` - SIEM deployment configuration
-- `security/siem/alert-rules.json` - IDS/IPS alert rules
-- `security/honeypot/docker-compose.honeypot.yml` - Honeypot deployment
-
-**Key Achievements:**
-
-- DMZ configuration with web servers and reverse proxy
-- Firewall policies (deny-by-default, explicit allow rules)
-- IDS/IPS with Snort rules for SQL injection, OT traffic anomalies
-- Centralized logging with Elasticsearch/Kibana
-- Monitoring tools (NetFlow, Syslog)
-
-### ✅ RA8: System Security Configuration (Sistema informatikoen segurtasuna konfiguratzen ditu)
-
-**Status:** COMPLETE
-
-**Evidence:**
-
-- `infrastructure/systems/sop_server_hardening.md` - Server hardening procedures
-- `infrastructure/systems/sop_backup_recovery.md` - Backup strategy (3-2-1 rule)
-- `security/honeypot/honeypot_implementation_sop.md` - Honeypot implementation
-- `security/siem/filebeat.yml` - Log processing configuration
-
-**Key Achievements:**
-
-- BIOS/UEFI security configuration
-- Full disk encryption (LUKS/BitLocker)
-- Filesystem partitioning for security
-- SSH hardening (key-based auth, disable root login)
-- Backup schedule (weekly full, daily incremental, 15-min transaction logs)
-
-### ✅ RA9 & RA10: IT/OT Integration (IT zatiaren eta OT zatiaren arteko integrazioa diseinatu du)
-
-**Status:** COMPLETE
-
-**Evidence:**
-
-- `infrastructure/ot/sop_ot_security.md` - OT security procedures
-- `infrastructure/ot/docker-compose.ot.yml` - OT environment (OpenPLC, ScadaBR)
-- `infrastructure/ot/openplc/programs/cookie_production.st` - PLC program (Structured Text)
-- `infrastructure/ot/machinery_inventory.md` - OT asset inventory
-- `infrastructure/network/network_segmentation_sop.md` - Purdue Model implementation
-
-**Key Achievements:**
-
-- OT network segmentation (192.168.50.0/24)
-- IT/OT isolation with Data Diode (unidirectional communication)
-- PLC programming for cookie production (mixing, baking, conveyor control)
-- SCADA system deployment
-- Industrial honeypot (Conpot) for OT-specific threats
-- Purdue Model (Levels 0-5) architecture
+Dokumentu honek Zabala Gailetak zibersegurtasun proiektuak ER4.md (Erronka 4 espezifikazioak) eskatzen dituen betekizun guztiak betetzen dituela egiaztatzen du. Proiektuak **%100eko betetzea** lortu du ikastaroaren eskatutako gaitasun tekniko eta zeharkako guztiekin.
 
 ---
 
-## 2. Cybersecurity Governance (Zibersegurtasun-gorabeheren)
+## 1. Sare Infraestruktura eta Hardening (Sareak eta sistemak gotortzea)
 
-### ✅ RA3, RA4, RA5: Incident Investigation & Response
+### ✅ RA3: Segurtasun Planak (Segurtasun-planak diseinatzen ditu)
 
-**Status:** COMPLETE
+**Egoera:** OSATUTA
 
-**Evidence:**
+**Ebidentzia:**
 
-- `security/incidents/sop_incident_response.md` - NIST-based incident response procedures
-- `security/incidents/incident_log_template.md` - Incident logging template
-- `security/incidents/ot_incident_simulation_report.md` - OT incident simulation
-- `compliance/sgsi/communication_plan.md` - Communication procedures
-- `compliance/sgsi/business_continuity_plan.md` - 981-line comprehensive BCP
+- `infrastructure/network/network_segmentation_sop.md` - Sare segmentazioa osorik
+- `security/siem/siem_strategy.md` - SIEM estrategia eta alerta arauak
+- `security/honeypot/honeypot_plan.md` - Honeypot inplementazioa eraso analisirako
+- `compliance/sgsi/risk_assessment.md` - ISO 27001eko arrisku ebaluazioa
+- `compliance/sgsi/asset_register.md` - Aktibo inbentario osoa
 
-**Key Achievements:**
+**Lorpen Nagusiak:**
 
-- 6-phase incident response (Preparation, Detection, Containment, Eradication, Recovery, Lessons Learned)
-- CSIRT team defined (roles, responsibilities, authority)
-- 72-hour GDPR breach notification procedure
-- OT incident simulation documented
-- Communication plan (internal, customers, authorities, media)
-- Escalation procedures and decision-making hierarchy
+- Sare segmentazioa 5 zonarekin (DMZ, User, Server, OT, Management)
+- VLAN konfigurazioa (10, 20, 50, 100, 200)
+- Firewall arauak DMZ→Internal eta User→Database sarbide zuzenak eragozten dituztenak
+- SIEM sistema Wazuh/ELK Stack-ekin
+- Honeypot (T-Pot, Cowrie, Conpot) OT/IT mehatxu inteligentziarako
 
----
+### ✅ RA7: Gailu eta Sistema Konfigurazioa (Gailu eta sistema informatikoak konfiguratzen ditu)
 
-## 3. Secure Production (Ekoizpen seguruan jartzea)
+**Egoera:** OSATUTA
 
-### ✅ RA1-RA3: Object-Oriented Programming
+**Ebidentzia:**
 
-**Status:** COMPLETE
+- `infrastructure/network/network_segmentation_sop.md` - Firewall arauak eta ACL-ak
+- `security/siem/docker-compose.siem.yml` - SIEM despliegue konfigurazioa
+- `security/siem/alert-rules.json` - IDS/IPS alerta arauak
+- `security/honeypot/docker-compose.honeypot.yml` - Honeypot desplieguea
 
-**Evidence:**
+**Lorpen Nagusiak:**
 
-- `src/api/models/User.js` - User model with OOP principles
-- `src/api/models/Product.js` - Product model
-- `src/api/models/Order.js` - Order model with relationships
-- `src/api/models/AuditLog.js` - Audit logging
-- `src/web/app/context/AuthContext.js` - React context (state management)
+- DMZ konfigurazioa web zerbitzariekin eta reverse proxy-arekin
+- Firewall politikak (deny-by-default, explicit allow arauak)
+- IDS/IPS Snort arauak SQL injection, OT trafiko anomaliak
+- Log zentralizatua Elasticsearch/Kibana-ekin
+- Monitorizazio tresnak (NetFlow, Syslog)
 
-**Key Achievements:**
+### ✅ RA8: Sistema Segurtasun Konfigurazioa (Sistema informatikoen segurtasuna konfiguratzen ditu)
 
-- Class-based models with Mongoose/Sequelize
-- Inheritance and composition patterns
-- Static methods for utilities
-- Constructor patterns
-- Interface definitions (TypeScript-ready)
+**Egoera:** OSATUTA
 
-### ✅ RA5-RA6: Web Application Security (OWASP)
+**Ebidentzia:**
 
-**Status:** COMPLETE
+- `infrastructure/systems/sop_server_hardening.md` - Zerbitzari hardening prozedurak
+- `infrastructure/systems/sop_backup_recovery.md` - Backup estrategia (3-2-1 araua)
+- `security/honeypot/honeypot_implementation_sop.md` - Honeypot inplementazioa
+- `security/siem/filebeat.yml` - Log prozesatzeko konfigurazioa
 
-**Evidence:**
+**Lorpen Nagusiak:**
 
-- `security/web_hardening_sop.md` - Web security hardening procedures
-- `src/api/middleware/auth.js` - Authentication with bcrypt, JWT, MFA
-- `src/api/app.js` - Helmet security headers, CSP, HSTS
-- `tests/api.test.js` - Security testing
-- `tests/load/api-load-test.js` - Load testing with K6
+- BIOS/UEFI segurtasun konfigurazioa
+- Disko enkriptazio osoa (LUKS/BitLocker)
+- Fitxategi sistema partizioa segurtasunerako
+- SSH hardening (gako-baseriko auth, root login desgaituta)
+- Backup ordutegia (astean behin osoa, egunero inkrementala, 15 minutuko transakzio log-ak)
 
-**Key Achievements:**
+### ✅ RA9 & RA10: IT/OT Integrazioa (IT zatiaren eta OT zatiaren arteko integrazioa diseinatu du)
 
-- Input validation (express-validator)
-- SQL injection prevention (parameterized queries, ORM)
-- XSS prevention (CSP headers, output encoding)
-- CSRF protection (SameSite cookies)
-- Secure password storage (bcrypt with salt)
-- Role-based access control (RBAC)
-- Security headers (Helmet: CSP, HSTS, X-Frame-Options)
-- Rate limiting for brute-force protection
-- HTTPS enforced
+**Egoera:** OSATUTA
 
-### ✅ RA5-RA6: MFA Implementation
+**Ebidentzia:**
 
-**Status:** COMPLETE
+- `infrastructure/ot/sop_ot_security.md` - OT segurtasun prozedurak
+- `infrastructure/ot/docker-compose.ot.yml` - OT ingurunea (OpenPLC, ScadaBR)
+- `infrastructure/ot/openplc/programs/cookie_production.st` - PLC programa (Structured Text)
+- `infrastructure/ot/machinery_inventory.md` - OT aktibo inbentarioa
+- `infrastructure/network/network_segmentation_sop.md` - Purdue Model inplementazioa
 
-**Evidence:**
+**Lorpen Nagusiak:**
 
-- `src/api/middleware/auth.js` - TOTP MFA with Speakeasy
-- `src/web/app/pages/MFA.js` - MFA enrollment page with QR code
-- `src/web/mfa_design.md` - MFA design documentation
-- `src/mobile/screens/MFAScreen.js` - Mobile MFA implementation
-
-**Key Achievements:**
-
-- TOTP-based MFA (Time-based One-Time Password)
-- QR code generation for authenticator apps
-- MFA enrollment and verification flows
-- Backup codes for account recovery
-- MFA enforcement policies
-
-### ✅ RA7: Mobile Application Security
-
-**Status:** COMPLETE
-
-**Evidence:**
-
-- `security/mobile_security_sop.md` - Mobile security procedures
-- `src/mobile/App.js` - React Native mobile app
-- `src/mobile/services/authService.js` - Secure authentication service
-- `MOBILE_APP_GUIDE.md` - Mobile security implementation guide
-
-**Key Achievements:**
-
-- Platform permission models (iOS/Android)
-- Secure local storage (encrypted AsyncStorage)
-- Certificate pinning for API communication
-- In-app purchase validation (server-side)
-- Network traffic monitoring
-- Binary protection (ProGuard/R8 obfuscation)
-
-### ✅ RA8: CI/CD & Deployment Security (DevOps)
-
-**Status:** COMPLETE
-
-**Evidence:**
-
-- `.github/workflows/` - CI/CD pipelines (if applicable)
-- `docker-compose.yml` - Production deployment configuration
-- `docker-compose.dev.yml` - Development environment
-- `docker-compose.prod.yml` - Production environment with security hardening
-- `devops/sop_secure_development.md` - Secure SDLC procedures
-- `scripts/deploy.sh` - Automated deployment scripts
-
-**Key Achievements:**
-
-- Version control (Git) with branching strategy
-- Automated testing in CI pipeline
-- Continuous integration with security scanning
-- Automated deployment with rollback capability
-- Disaster recovery procedures documented
-- Feedback loops and code review process
+- OT sare segmentazioa (192.168.50.0/24)
+- IT/OT isolamendua Data Diode-ekin (komunikazio unidirekzionala)
+- PLC programazioa galleta ekoizpenarako (nahasketa, labea, garraio kontrola)
+- SCADA sistema desplieguea
+- Industrial honeypot (Conpot) OT mehatxu espezifikoetarako
+- Purdue Model (0-5 Mailak) arkitektura
 
 ---
 
-## 4. Forensic Analysis (Auzitegi-analisi informatikoa)
+## 2. Zibersegurtasun Gobernantza (Zibersegurtasun-gorabeheren)
 
-### ✅ RA2: Computer Forensics
+### ✅ RA3, RA4, RA5: Gorabehera Ikuskaketa eta Erantzuna
 
-**Status:** COMPLETE
+**Egoera:** OSATUTA
 
-**Evidence:**
+**Ebidentzia:**
 
-- `security/forensics/sop_evidence_collection.md` - Evidence collection procedures
-- `security/forensics/toolkit/install-tools.sh` - Forensics toolkit installation
-- `security/forensics/toolkit/memory-dump.sh` - Memory acquisition script
-- `security/forensics/reports/forensic_report_template.md` - Forensic report template
+- `security/incidents/sop_incident_response.md` - NIST oinarritutako gorabehera erantzun prozedurak
+- `security/incidents/incident_log_template.md` - Gorabehera erregistro txantiloia
+- `security/incidents/ot_incident_simulation_report.md` - OT gorabehera simulazioa
+- `compliance/sgsi/communication_plan.md` - Komunikazio prozedurak
+- `compliance/sgsi/business_continuity_plan.md` - 981-lerroko BCP osoa
 
-**Key Achievements:**
+**Lorpen Nagusiak:**
 
-- Forensics toolkit (Sleuthkit, Autopsy, Volatility3, Foremost)
-- Disk forensics procedures
-- Memory forensics (RAM analysis)
-- File system analysis
-- Deleted file recovery procedures
-- Registry analysis
-- Malware/Ransomware analysis procedures
-- Chain of custody documentation
-
-### ✅ RA3: Mobile Device Forensics
-
-**Status:** COMPLETE
-
-**Evidence:**
-
-- `security/mobile_security_sop.md` - Mobile forensics procedures (included)
-- Evidence extraction procedures documented
-
-**Key Achievements:**
-
-- Mobile evidence acquisition procedures
-- Data extraction and decoding
-- Chain of custody maintenance
-- Mobile forensics reporting standards
-
-### ✅ RA4: Cloud Forensics
-
-**Status:** COMPLETE
-
-**Evidence:**
-
-- `security/forensics/sop_evidence_collection.md` - Cloud forensics section
-- Cloud deployment configurations in docker-compose files
-
-**Key Achievements:**
-
-- Cloud forensics strategy
-- AWS/Azure evidence collection
-- Elasticity and volatility considerations
-- GDPR and NIS Directive compliance
-- Cloud-specific forensic phases
-
-### ✅ RA5 & RA6: IoT Forensics & Documentation
-
-**Status:** COMPLETE
-
-**Evidence:**
-
-- `security/forensics/sop_evidence_collection.md` - IoT device procedures
-- `security/forensics/reports/forensic_report_template.md` - Standardized reporting
-- `infrastructure/ot/machinery_inventory.md` - IoT/OT device inventory
-
-**Key Achievements:**
-
-- IoT device identification
-- Evidence extraction mechanisms
-- Authenticity and integrity verification
-- Timeline analysis
-- Technical and executive reporting
+- 6 faseko gorabehera erantzuna (Prestakuntza, Detekzioa, Kontentzioa, Ezabaketa, Berrespena, Ikaskuntzak)
+- CSIRT taldea definitua (rolak, erantzukizunak, agintea)
+- 72 ordutako GDPR haustura jakinarazpen prozedura
+- OT gorabehera simulazioa dokumentatuta
+- Komunikazio plana (barnekoa, bezeroak, agintariak, media)
+- Eskalatze prozedurak eta erabaki-hartze hierarkia
 
 ---
 
-## 5. Ethical Hacking (Hacking etikoa)
+## 3. Ekoizpen Segurua (Ekoizpen seguruan jartzea)
 
-### ✅ RA2: Wireless Network Testing
+### ✅ RA1-RA3: Objektuetara Orientatutako Programazioa
 
-**Status:** COMPLETE
+**Egoera:** OSATUTA
 
-**Evidence:**
+**Ebidentzia:**
 
-- `security/audits/sop_ethical_hacking.md` - Ethical hacking procedures
-- Network segmentation includes wireless (VLAN 10)
+- `src/api/models/User.js` - Erabiltzaile modeloa OOP printzipioekin
+- `src/api/models/Product.js` - Produktu modeloa
+- `src/api/models/Order.js` - Eskaera modeloa harremaneekin
+- `src/api/models/AuditLog.js` - Auditoria loggintza
+- `src/web/app/context/AuthContext.js` - React kontestua (egoera kudeaketa)
 
-**Key Achievements:**
+**Lorpen Nagusiak:**
 
-- Wireless card configuration (monitor mode)
-- WPA/WPA2/WPA3 encryption analysis
-- Wireless network detection
-- Penetration testing for wireless vulnerabilities
-- Red Team / Blue Team procedures
-- Vulnerability reporting with mitigation
+- Klase oinarritutako modeloak Mongoose/Sequelize-ekin
+- Herentzia eta konposizio pattern-ak
+- Metodo estatikoak utilitateetarako
+- Constructor pattern-ak
+- Interfaze definizioak (TypeScript-ready)
 
-### ✅ RA3: Network & System Penetration Testing
+### ✅ RA5-RA6: Web Aplikazio Segurtasuna (OWASP)
 
-**Status:** COMPLETE
+**Egoera:** OSATUTA
 
-**Evidence:**
+**Ebidentzia:**
 
-- `security/audits/sop_ethical_hacking.md` - Network penetration testing procedures
-- `tests/api.test.js` - Security testing
+- `security/web_hardening_sop.md` - Web segurtasun hardening prozedurak
+- `src/api/middleware/auth.js` - Autentikazioa bcrypt, JWT, MFA-ekin
+- `src/api/app.js` - Helmet segurtasun goiburuak, CSP, HSTS
+- `tests/api.test.js` - Segurtasun testak
+- `tests/load/api-load-test.js` - K6 karga testak
 
-**Key Achievements:**
+**Lorpen Nagusiak:**
 
-- Passive reconnaissance techniques
-- Active scanning (Nmap, vulnerability scanners)
-- Network traffic interception
-- MITM attack simulation
-- Remote system exploitation
-- Vulnerability assessment and reporting
+- Sarrera balidazioa (express-validator)
+- SQL injection prebentzioa (parametrizatutako kontsultak, ORM)
+- XSS prebentzioa (CSP goiburuak, irteera kodifikazioa)
+- CSRF babesa (SameSite cookie-ak)
+- Pasahitz biltegi seguru (bcrypt gatza)
+- Rol oinarritutako sarbide kontrola (RBAC)
+- Segurtasun goiburuak (Helmet: CSP, HSTS, X-Frame-Options)
+- Rate limiting brute-force babeserako
+- HTTPS behartua
+
+### ✅ RA5-RA6: MFA Inplementazioa
+
+**Egoera:** OSATUTA
+
+**Ebidentzia:**
+
+- `src/api/middleware/auth.js` - TOTP MFA Speakeasy-ekin
+- `src/web/app/pages/MFA.js` - MFA matrikula orria QR kodearekin
+- `src/web/mfa_design.md` - MFA diseinu dokumentazioa
+- `src/mobile/screens/MFAScreen.js` - MFA mugikor inplementazioa
+
+**Lorpen Nagusiak:**
+
+- TOTP oinarritutako MFA (Time-based One-Time Password)
+- QR kode generazioa autentifikazio aplikazioetarako
+- MFA matrikula eta berifikazio fluxuak
+- Backup kodeak kontu berrespenarako
+- MFA betearazpen politikak
+
+### ✅ RA7: Mugikor Aplikazio Segurtasuna
+
+**Egoera:** OSATUTA
+
+**Ebidentzia:**
+
+- `security/mobile_security_sop.md` - Mugikor segurtasun prozedurak
+- `src/mobile/App.js` - React Native mugikor aplikazioa
+- `src/mobile/services/authService.js` - Autentikazio zerbitzu segurua
+- `MOBILE_APP_GUIDE.md` - Mugikor segurtasun inplementazio gida
+
+**Lorpen Nagusiak:**
+
+- Plataforma baimen modeloak (iOS/Android)
+- Biltegi lokal seguru (enkriptatutako AsyncStorage)
+- Ziurtagiri pinning-a API komunikaziorako
+- In-app purchase balidazioa (zerbitzari aldekoa)
+- Sare trafikoaren monitorizazioa
+- Binary babesa (ProGuard/R8 obfuscation)
+
+### ✅ RA8: CI/CD & Despliegue Segurtasuna (DevOps)
+
+**Egoera:** OSATUTA
+
+**Ebidentzia:**
+
+- `.github/workflows/` - CI/CD pipeline-ak (aplikagarria bada)
+- `docker-compose.yml` - Produkzio despliegue konfigurazioa
+- `docker-compose.dev.yml` - Garapen ingurunea
+- `docker-compose.prod.yml` - Produkzio ingurunea segurtasun hardening-arekin
+- `devops/sop_secure_development.md` - Secure SDLC prozedurak
+- `scripts/deploy.sh` - Despliegue script automatizatuak
+
+**Lorpen Nagusiak:**
+
+- Bertsio kontrola (Git) adarrak estrategiarekin
+- Test automatizatuak CI pipeline-an
+- Integrazio jarraitua segurtasun eskaneatzearekin
+- Despliegue automatizatua rollback ahalmenarekin
+- Hondamendi berrespen prozedurak dokumentatuta
+- Feedback loop-ak eta kode berrikuspen prozesua
+
+---
+
+## 4. Auzitegi-analisi Informatikoa (Auzitegi-analisi informatikoa)
+
+### ✅ RA2: Ordenagailu Auzitegia
+
+**Egoera:** OSATUTA
+
+**Ebidentzia:**
+
+- `security/forensics/sop_evidence_collection.md` - Ebidentzia bilketa prozedurak
+- `security/forensics/toolkit/install-tools.sh` - Auzitegi toolkit instalazioa
+- `security/forensics/toolkit/memory-dump.sh` - Memoria eskuratze script-a
+- `security/forensics/reports/forensic_report_template.md` - Auzitegi txosten txantiloia
+
+**Lorpen Nagusiak:**
+
+- Auzitegi toolkit (Sleuthkit, Autopsy, Volatility3, Foremost)
+- Disko auzitegi prozedurak
+- Memoria auzitegia (RAM analisia)
+- Fitxategi sistema analisia
+- Ezabatutako fitxategi berrespen prozedurak
+- Erregistro analisia
+- Malware/Ransomware analisi prozedurak
+- Kustodio katearen dokumentazioa
+
+### ✅ RA3: Mugikor Gailuen Auzitegia
+
+**Egoera:** OSATUTA
+
+**Ebidentzia:**
+
+- `security/mobile_security_sop.md` - Mugikor auzitegi prozedurak (barne)
+- Ebidentzia eskuratze prozedurak dokumentatuta
+
+**Lorpen Nagusiak:**
+
+- Mugikor ebidentzia eskuratze prozedurak
+- Datu eskuratzea eta deskodifikazioa
+- Kustodio katearen mantentzea
+- Mugikor auzitegi txosten estandarrak
+
+### ✅ RA4: Hodei Auzitegia
+
+**Egoera:** OSATUTA
+
+**Ebidentzia:**
+
+- `security/forensics/sop_evidence_collection.md` - Hodei auzitegi atala
+- Hodei despliegue konfigurazioak docker-compose fitxategietan
+
+**Lorpen Nagusiak:**
+
+- Hodei auzitegi estrategia
+- AWS/Azure ebidentzia bilketa
+- Elastikotasun eta aldakortasun kontsiderazioak
+- GDPR eta NIS Directive betetzea
+- Hodei espezifiko auzitegi faseak
+
+### ✅ RA5 & RA6: IoT Auzitegia eta Dokumentazioa
+
+**Egoera:** OSATUTA
+
+**Ebidentzia:**
+
+- `security/forensics/sop_evidence_collection.md` - IoT gailu prozedurak
+- `security/forensics/reports/forensic_report_template.md` - Estandarizatutako txostenak
+- `infrastructure/ot/machinery_inventory.md` - IoT/OT gailu inbentarioa
+
+**Lorpen Nagusiak:**
+
+- IoT gailu identifikazioa
+- Ebidentzia eskuratze mekanismoak
+- Autentikotasun eta osotasun egiaztapena
+- Timeline analisia
+- Tekniko eta exekutibo txostenak
+
+---
+
+## 5. Hacking Etikoa (Hacking etikoa)
+
+### ✅ RA2: Sare Hutsiko Probak
+
+**Egoera:** OSATUTA
+
+**Ebidentzia:**
+
+- `security/audits/sop_ethical_hacking.md` - Hacking etiko prozedurak
+- Sare segmentazioa sare hutsikoa barne du (VLAN 10)
+
+**Lorpen Nagusiak:**
+
+- Sare txartel konfigurazioa (monitor modua)
+- WPA/WPA2/WPA3 enkriptazio analisia
+- Sare hutsiko detekzioa
+- Sare hutsiko zaurgarritasun pentesting-a
+- Red Team / Blue Team prozedurak
+- Zaurgarritasun txostena mitigazioarekin
+
+### ✅ RA3: Sare eta Sistema Pentesting-a
+
+**Egoera:** OSATUTA
+
+**Ebidentzia:**
+
+- `security/audits/sop_ethical_hacking.md` - Sare pentesting prozedurak
+- `tests/api.test.js` - Segurtasun testak
+
+**Lorpen Nagusiak:**
+
+- Pasibo errekonozimendu teknikak
+- Eskaneatze aktiboa (Nmap, zaurgarritasun eskanerrak)
+- Sare trafikoaren harrapaketa
+- MITM eraso simulazioa
+- Urrutiko sistema esplotazioa
+- Zaurgarritasun ebaluazioa eta txostena
 
 ### ✅ RA4: Post-Exploitation
 
-**Status:** COMPLETE
+**Egoera:** OSATUTA
 
-**Evidence:**
+**Ebidentzia:**
 
-- `security/audits/sop_ethical_hacking.md` - Post-exploitation procedures
+- `security/audits/sop_ethical_hacking.md` - Post-exploitation prozedurak
 
-**Key Achievements:**
+**Lorpen Nagusiak:**
 
-- Remote administration via command line
-- Password cracking (dictionary, rainbow tables, brute-force)
-- Lateral movement techniques
-- Backdoor installation (for testing)
+- Urrutiko administrazioa komando lerroaren bidez
+- Pasahitz cracking (hiztegia, rainbow tables, brute-force)
+- Lateral movement teknikak
+- Backdoor instalazioa (testerako)
 
-### ✅ RA5: Web Application Penetration Testing
+### ✅ RA5: Web Aplikazio Pentesting-a
 
-**Status:** COMPLETE
+**Egoera:** OSATUTA
 
-**Evidence:**
+**Ebidentzia:**
 
-- `security/web_hardening_sop.md` - Web security testing procedures
-- `tests/e2e/web/auth.spec.js` - E2E security tests (Playwright)
+- `security/web_hardening_sop.md` - Web segurtasun test prozedurak
+- `tests/e2e/web/auth.spec.js` - E2E segurtasun testak (Playwright)
 
-**Key Achievements:**
+**Lorpen Nagusiak:**
 
-- Web authentication system testing
-- Automated vulnerability scanning (OWASP ZAP integration ready)
-- Manual web vulnerability testing
-- Vulnerability reporting with CVSS scoring
+- Web autentikazio sistema testak
+- Zaurgarritasun eskaneatze automatizatua (OWASP ZAP integrazioa prest)
+- Web zaurgarritasun test manuala
+- Zaurgarritasun txostena CVSS puntuazioarekin
 
-### ✅ RA6: Mobile Application Security Testing
+### ✅ RA6: Mugikor Aplikazio Segurtasun Testak
 
-**Status:** COMPLETE
+**Egoera:** OSATUTA
 
-**Evidence:**
+**Ebidentzia:**
 
-- `security/mobile_security_sop.md` - Mobile app security testing
-- Mobile app implementation with security controls
+- `security/mobile_security_sop.md` - Mugikor app segurtasun testak
+- Mugikor app inplementazioa segurtasun kontrolekin
 
-**Key Achievements:**
+**Lorpen Nagusiak:**
 
-- Static analysis (client-side)
-- Network communication analysis
-- Dynamic behavior analysis
-- Pentesting tools for mobile apps (MobSF-ready)
+- Analisi estatikoa (bezero aldekoa)
+- Sare komunikazio analisia
+- Portaera dinamiko analisia
+- Mugikor app pentesting tresnak (MobSF-prest)
 
 ---
 
-## 6. Regulatory Compliance (Zibersegurtasunaren arloko araudia)
+## 6. Araudi Betetzea (Zibersegurtasunaren arloko araudia)
 
-### ✅ RA1: Compliance Governance
+### ✅ RA1: Betetze Gobernantza
 
-**Status:** COMPLETE
+**Egoera:** OSATUTA
 
-**Evidence:**
+**Ebidentzia:**
 
-- `compliance/sgsi/information_security_policy.md` - ISMS policy
+- `compliance/sgsi/information_security_policy.md` - ISMS politika
 - `compliance/sgsi/statement_of_applicability.md` - ISO 27001 SoA
-- Organizational compliance structure documented
+- Antolamendu betetze egitura dokumentatuta
 
-**Key Achievements:**
+**Lorpen Nagusiak:**
 
-- Compliance foundations identified
-- Good governance principles
-- Compliance culture policies
-- Compliance officer role defined
-- Third-party compliance relationships
+- Betetze oinarriak identifikatuak
+- Gobernantza onaren printzipioak
+- Betetze kultura politikak
+- Compliance officer rola definitua
+- Hirugarren betetze harremanak
 
-### ✅ RA2: Legal & Regulatory Framework
+### ✅ RA2: Lege eta Araudi Esparrua
 
-**Status:** COMPLETE
+**Egoera:** OSATUTA
 
-**Evidence:**
+**Ebidentzia:**
 
-- `compliance/sgsi/` - Complete SGSI documentation (9 files)
-- ISO 27001 alignment documented
+- `compliance/sgsi/` - SGSI dokumentazio osoa (9 fitxategi)
+- ISO 27001 lerrokatzea dokumentatuta
 
-**Key Achievements:**
+**Lorpen Nagusiak:**
 
-- ISO 19600 compliance recommendations
-- ISO 31000 risk management
-- Compliance system documentation
-- Applicable regulations identified
+- ISO 19600 betetze gomendioak
+- ISO 31000 arrisku kudeaketa
+- Betetze sistema dokumentazioa
+- Aplikagarri araudiak identifikatuak
 
-### ✅ RA4: GDPR & Data Protection
+### ✅ RA4: GDPR eta Datu Babesa
 
-**Status:** COMPLETE
+**Egoera:** OSATUTA
 
-**Evidence:**
+**Ebidentzia:**
 
-- `compliance/gdpr/` - Complete GDPR documentation (7 files)
-  - `privacy_notice_web.md` - Privacy notice
-  - `data_processing_register.md` - Processing activities record
-  - `data_breach_notification_template.md` - Breach notification procedures
-  - `dpia_template.md` - Data Protection Impact Assessment
-  - `data_retention_schedule.md` - Retention policies
-  - `data_subject_rights_procedures.md` - Rights fulfillment procedures
+- `compliance/gdpr/` - GDPR dokumentazio osoa (7 fitxategi)
+  - `privacy_notice_web.md` - Pribatutasun oharra
+  - `data_processing_register.md` - Tratamendu jardueren erregistroa
+  - `data_breach_notification_template.md` - Haustura jakinarazpen prozedurak
+  - `dpia_template.md` - Datu Babesaren Eragin Ebaluazioa
+  - `data_retention_schedule.md` - Atxikipen politikak
+  - `data_subject_rights_procedures.md` - Eskubideak betetzeko prozedurak
   - `cookie_policy.md` - Cookie consent
 
-**Key Achievements:**
+**Lorpen Nagusiak:**
 
-- GDPR principles applied
-- Privacy by Design implemented
-- Data protection risk assessment
-- DPO (Data Protection Officer) role defined
-- Data subject rights procedures (access, rectification, erasure, portability)
-- 72-hour breach notification process
-- DPIA for high-risk processing
+- GDPR printzipioak aplikatuak
+- Privacy by Design inplementatuta
+- Datu babes arrisku ebaluazioa
+- DPO (Data Protection Officer) rola definitua
+- Datu subjektu eskubide prozedurak (sarbidea, zuzenketa, ezabaketa, eramangarritasuna)
+- 72 ordutako haustura jakinarazpen prozesua
+- DPIA tratamendu arriskutsuetarako
 
-### ✅ RA5: Cybersecurity Standards & ISO 27001
+### ✅ RA5: Zibersegurtasun Estandarrak eta ISO 27001
 
-**Status:** COMPLETE
+**Egoera:** OSATUTA
 
-**Evidence:**
+**Ebidentzia:**
 
-- `compliance/sgsi/information_security_policy.md` - ISMS policy
-- `compliance/sgsi/statement_of_applicability.md` - ISO 27001 controls
-- `compliance/sgsi/risk_assessment.md` - Risk management
-- `compliance/sgsi/asset_register.md` - Asset inventory
-- `infrastructure/network/network_segmentation_sop.md` - IEC 62443 for OT
+- `compliance/sgsi/information_security_policy.md` - ISMS politika
+- `compliance/sgsi/statement_of_applicability.md` - ISO 27001 kontrolak
+- `compliance/sgsi/risk_assessment.md` - Arrisku kudeaketa
+- `compliance/sgsi/asset_register.md` - Aktibo inbentarioa
+- `infrastructure/network/network_segmentation_sop.md` - IEC 62443 OT-rako
 
-**Key Achievements:**
+**Lorpen Nagusiak:**
 
-- ISO 27001 ISMS implementation
-- ISO 27002 security controls (138 controls evaluated)
-- IEC 62443 for OT security (zones, conduits, Purdue Model)
-- Regulatory review plan
-- Continuous compliance monitoring
-- Audit and control procedures
+- ISO 27001 ISMS inplementazioa
+- ISO 27002 segurtasun kontrolak (138 kontrol ebaluatuak)
+- IEC 62443 OT segurtasunerako (zonak, konduituak, Purdue Model)
+- Araudi berrikuspen plana
+- Betetze jarraitua monitorizatzea
+- Auditoria eta kontrol prozedurak
 
 ---
 
-## 7. Additional Testing & Quality Assurance
+## 7. Proba eta Kalitate Bermatze Gehigarria
 
-### ✅ Load Testing
+### ✅ Karga Probak
 
-**Status:** COMPLETE
+**Egoera:** OSATUTA
 
-**Evidence:**
+**Ebidentzia:**
 
-- `tests/load/api-load-test.js` - K6 API load test (100-200 concurrent users)
-- `tests/load/websocket-load-test.js` - K6 WebSocket load test
+- `tests/load/api-load-test.js` - K6 API karga proba (100-200 erabiltzaile aldi berean)
+- `tests/load/websocket-load-test.js` - K6 WebSocket karga proba
 
-**Key Achievements:**
+**Lorpen Nagusiak:**
 
-- Performance thresholds (p95 < 500ms, failure rate < 1%)
-- Staged load profile (2min ramp, 5min sustain)
-- Authentication and API endpoint testing
+- Errendimendu atalaseak (p95 < 500ms, huts egite tasa < 1%)
+- Etapa karga profila (2min ramp, 5min mantentzea)
+- Autentikazioa eta API endpoint testak
 
 ### ✅ End-to-End Testing
 
-**Status:** COMPLETE
+**Egoera:** OSATUTA
 
-**Evidence:**
+**Ebidentzia:**
 
-- `tests/e2e/web/auth.spec.js` - Playwright E2E tests
-- `playwright.config.js` - Multi-browser testing (Chromium, Firefox)
+- `tests/e2e/web/auth.spec.js` - Playwright E2E testak
+- `playwright.config.js` - Navegadore anitzeko testak (Chromium, Firefox)
 
-**Key Achievements:**
+**Lorpen Nagusiak:**
 
-- Authentication flow testing (including MFA)
-- Product browsing tests
-- Order placement tests
+- Autentikazio fluxu testak (MFA barne)
+- Produktu arakatze testak
+- Eskaera jarraipen testak
 
-### ✅ Standard Operating Procedures (SOPs)
+### ✅ Prozedura Operatibo Estandarrak (SOPs)
 
-**Status:** COMPLETE
+**Egoera:** OSATUTA
 
-**Evidence:**
+**Ebidentzia:**
 
-- 15+ SOPs covering all operational areas:
-  - Network segmentation
-  - Server hardening
-  - Backup & recovery
-  - Patch management
-  - User access management
-  - Change management
-  - Incident response
-  - Forensic evidence collection
-  - Ethical hacking
-  - Secure development
+- 15+ SOP eremu operatibo guztiak estaltzen dituztenak:
+  - Sare segmentazioa
+  - Zerbitzari hardening
+  - Backup & berrespena
+  - Patch kudeaketa
+  - Erabiltzaile sarbide kudeaketa
+  - Aldaketa kudeaketa
+  - Gorabehera erantzuna
+  - Auzitegi ebidentzia bilketa
+  - Hacking etikoa
+  - Garapen segurua
   - Web hardening
-  - Mobile security
-  - Security awareness training
-  - OT security
+  - Mugikor segurtasuna
+  - Segurtasun kontzientzia prestakuntza
+  - OT segurtasuna
 
 ---
 
-## 8. Documentation & Communication
+## 8. Dokumentazioa eta Komunikazioa
 
-### ✅ Technical Documentation
+### ✅ Dokumentazio Teknikoa
 
-**Status:** COMPLETE
+**Egoera:** OSATUTA
 
-**Evidence:**
+**Ebidentzia:**
 
-- `API_DOCUMENTATION.md` - Complete API reference
-- `PROJECT_DOCUMENTATION.md` - Project architecture
-- `DOCUMENTATION_INDEX.md` - Documentation index
-- `IMPLEMENTATION_SUMMARY.md` - Implementation summary
-- `IMPLEMENTATION_REPORT.md` - Detailed implementation report
-- `QUICK_START_GUIDE.md` - Quick start guide
-- `WEB_APP_GUIDE.md` - Web application guide
-- `MOBILE_APP_GUIDE.md` - Mobile application guide
-- `README.md` - Project README
+- `API_DOCUMENTATION.md` - API erreferentzia osoa
+- `PROJECT_DOCUMENTATION.md` - Proiektu arkitektura
+- `DOCUMENTATION_INDEX.md` - Dokumentazio indizea
+- `IMPLEMENTATION_SUMMARY.md` - Inplementazio laburpena
+- `IMPLEMENTATION_REPORT.md` - Inplementazio txosten xehea
+- `QUICK_START_GUIDE.md` - Hasierako gida azkarra
+- `WEB_APP_GUIDE.md` - Web aplikazio gida
+- `MOBILE_APP_GUIDE.md` - Mugikor aplikazio gida
+- `README.md` - Proiektu README
 
-**Key Achievements:**
+**Lorpen Nagusiak:**
 
-- Comprehensive technical documentation
-- API endpoint documentation
-- Architecture diagrams
-- Setup and deployment guides
-- Security configuration documentation
+- Dokumentazio tekniko osoa
+- API endpoint dokumentazioa
+- Arkitektura diagramak
+- Konfigurazio eta despliegue gideak
+- Segurtasun konfigurazio dokumentazioa
 
-### ✅ Network Diagrams
+### ✅ Sare Diagramak
 
-**Status:** COMPLETE
+**Egoera:** OSATUTA
 
-**Evidence:**
+**Ebidentzia:**
 
-- `docs/network_diagrams/network_topology.md` - Network topology
-- Network segmentation documented in SOP
+- `docs/network_diagrams/network_topology.md` - Sare topologia
+- Sare segmentazioa SOP-an dokumentatuta
 
-**Key Achievements:**
+**Lorpen Nagusiak:**
 
-- Complete network topology diagram
-- VLAN and subnet documentation
-- Security zone visualization
-- Data flow diagrams
-
----
-
-## Cross-Functional Competencies (Zeharkakoak)
-
-### ✅ Autonomy (25%)
-
-**Evidence:** Self-directed implementation of all security systems, independent decision-making
-on technology choices, proactive problem-solving.
-
-### ✅ Involvement (25%)
-
-**Evidence:** Complete project engagement, all tasks completed to high standards, continuous improvement mindset.
-
-### ✅ Oral Communication (20%)
-
-**Evidence:** Clear documentation, presentation-ready materials, comprehensive SOPs for knowledge transfer.
-
-### ✅ Teamwork (30%)
-
-**Evidence:** Modular architecture for team collaboration, clear role definitions, shared documentation.
+- Sare topologia diagrama osoa
+- VLAN eta subnet dokumentazioa
+- Segurtasun zona bistaratzea
+- Datu fluxu diagramak
 
 ---
 
-## Development Competencies (Garapena)
+## Gaitasun Zeharkakoak (Zeharkakoak)
 
-### ✅ Planning (20%)
+### ✅ Autonomia (25%)
 
-**Evidence:** Plan1.md and Plan2.md with detailed task breakdown, time estimates, priority classification.
+**Ebidentzia:** Segurtasun sistema guztien autogidatutako inplementazioa, teknologia aukeraketan erabaki independenteak, arazo ebazpen proaktiboa.
 
-### ✅ Documentation (40%)
+### ✅ Inplikazioa (25%)
 
-**Evidence:** 50+ documentation files covering all aspects, standardized templates, comprehensive guides.
+**Ebidentzia:** Proiektuaren parte hartze osoa, zeregin guztiak kalitate handian osatuta, hobekuntza jarraituaren mentalitatea.
 
-### ✅ Control Points / Follow-up (40%)
+### ✅ Ahozko Komunikazioa (20%)
 
-**Evidence:** Systematic verification of all ER4 requirements, testing at multiple levels, continuous validation.
+**Ebidentzia:** Dokumentazio argia, aurkezpen-prestakuntza materialak, ezagutza transferentziarako SOP osoak.
 
----
+### ✅ Talde Lana (30%)
 
-## Compliance Matrix: ER4 Requirements vs. Implementation
-
-| ER4 Requirement | Status | Evidence Location |
-|-----------------|--------|-------------------|
-| Network segmentation & DMZ | ✅ COMPLETE | `infrastructure/network/` |
-| SIEM system | ✅ COMPLETE | `security/siem/` |
-| Honeypot | ✅ COMPLETE | `security/honeypot/` |
-| OT/IT integration | ✅ COMPLETE | `infrastructure/ot/` |
-| SGSI (ISMS) | ✅ COMPLETE | `compliance/sgsi/` |
-| Risk management | ✅ COMPLETE | `compliance/sgsi/risk_assessment.md` |
-| Incident response | ✅ COMPLETE | `security/incidents/` |
-| OT incident simulation | ✅ COMPLETE | `security/incidents/ot_incident_simulation_report.md` |
-| Web application security | ✅ COMPLETE | `src/web/`, `security/web_hardening_sop.md` |
-| MFA implementation | ✅ COMPLETE | `src/api/middleware/auth.js`, `src/web/app/pages/MFA.js` |
-| Mobile app security | ✅ COMPLETE | `src/mobile/`, `security/mobile_security_sop.md` |
-| Forensic analysis | ✅ COMPLETE | `security/forensics/` |
-| Ethical hacking | ✅ COMPLETE | `security/audits/` |
-| GDPR compliance | ✅ COMPLETE | `compliance/gdpr/` |
-| ISO 27001 ISMS | ✅ COMPLETE | `compliance/sgsi/` |
-| IEC 62443 (OT) | ✅ COMPLETE | Network segmentation with Purdue Model |
+**Ebidentzia:** Arkitektura modularra talde lankidetzarako, rol definizio argiak, dokumentazio partekatua.
 
 ---
 
-## Summary Statistics
+## Garapen Gaitasunak (Garapena)
 
-- **Total Files Created:** 80+
-- **Total Documentation:** 50+ markdown files
-- **Total Code Files:** 30+ (JavaScript/React/Node.js)
-- **Total SOPs:** 15+
-- **Compliance Documents:** 16 (SGSI + GDPR)
-- **Test Files:** 6 (unit, integration, E2E, load)
-- **Docker Configurations:** 5
-- **Lines of Documentation:** 10,000+
-- **Lines of Code:** 5,000+
+### ✅ Planifikazioa (20%)
 
----
+**Ebidentzia:** Plan1.md eta Plan2.md zeregin zatiketa xehearekin, denbora estimazioak, lehentasun sailkapena.
 
-## Conclusion
+### ✅ Dokumentazioa (40%)
 
-The Zabala Gailetak cybersecurity project has achieved **100% compliance** with all ER4
-(Erronka 4) requirements. The project demonstrates:
+**Ebidentzia:** 50+ dokumentazio fitxategi eremu guztiak estaltzen dituena, txantiloi estandarrak, gidek osoak.
 
-1. **Comprehensive Security Implementation** across all layers (network, application, data)
-2. **Complete OT/IT Integration** with proper segmentation and industrial security controls
-3. **Robust Governance** with SGSI, incident response, and business continuity
-4. **Secure Development Practices** with MFA, input validation, and secure coding
-5. **Forensic Readiness** with tools, procedures, and templates
-6. **Ethical Hacking Capability** with documented testing procedures
-7. **Full Regulatory Compliance** with GDPR, ISO 27001, and IEC 62443
-8. **Production-Ready Systems** with CI/CD, monitoring, and disaster recovery
+### ✅ Kontrol Puntuak / Jarraipena (40%)
 
-All technical competencies (RA1-RA10 across 6 modules) have been successfully implemented
-and documented. Cross-functional competencies (autonomy, involvement, communication, teamwork)
-are demonstrated through quality of work and comprehensive documentation.
-
-**Project Status: READY FOR EVALUATION**
+**Ebidentzia:** ER4 eskakizun guztien sistematiko egiaztapena, maila anitzeko testak, baliozkotze jarraitua.
 
 ---
 
-**Prepared by:** Zabala Gailetak Cybersecurity Team  
-**Review Date:** January 9, 2026  
-**Next Review:** Upon ER4 evaluation completion
+## Betetze Matrizea: ER4 Eskakizunak vs. Inplementazioa
+
+| ER4 Eskakizuna | Egoera | Ebidentzia Kokapena |
+|----------------|--------|---------------------|
+| Sare segmentazioa eta DMZ | ✅ OSATUTA | `infrastructure/network/` |
+| SIEM sistema | ✅ OSATUTA | `security/siem/` |
+| Honeypot | ✅ OSATUTA | `security/honeypot/` |
+| OT/IT integrazioa | ✅ OSATUTA | `infrastructure/ot/` |
+| SGSI (ISMS) | ✅ OSATUTA | `compliance/sgsi/` |
+| Arrisku kudeaketa | ✅ OSATUTA | `compliance/sgsi/risk_assessment.md` |
+| Gorabehera erantzuna | ✅ OSATUTA | `security/incidents/` |
+| OT gorabehera simulazioa | ✅ OSATUTA | `security/incidents/ot_incident_simulation_report.md` |
+| Web aplikazio segurtasuna | ✅ OSATUTA | `src/web/`, `security/web_hardening_sop.md` |
+| MFA inplementazioa | ✅ OSATUTA | `src/api/middleware/auth.js`, `src/web/app/pages/MFA.js` |
+| Mugikor app segurtasuna | ✅ OSATUTA | `src/mobile/`, `security/mobile_security_sop.md` |
+| Auzitegi analisia | ✅ OSATUTA | `security/forensics/` |
+| Hacking etikoa | ✅ OSATUTA | `security/audits/` |
+| GDPR betetzea | ✅ OSATUTA | `compliance/gdpr/` |
+| ISO 27001 ISMS | ✅ OSATUTA | `compliance/sgsi/` |
+| IEC 62443 (OT) | ✅ OSATUTA | Sare segmentazioa Purdue Model-ekin |
+
+---
+
+## Estatistika Laburpenak
+
+- **Sortutako Fitxategi Guztira:** 80+
+- **Dokumentazio Guztira:** 50+ markdown fitxategi
+- **Kode Fitxategi Guztira:** 30+ (JavaScript/React/Node.js)
+- **SOP Guztira:** 15+
+- **Betetze Dokumentuak:** 16 (SGSI + GDPR)
+- **Test Fitxategiak:** 6 (unitatea, integrazioa, E2E, karga)
+- **Docker Konfigurazioak:** 5
+- **Dokumentazio Lerroak:** 10,000+
+- **Kode Lerroak:** 5,000+
+
+---
+
+## Ondorioa
+
+Zabala Gailetak zibersegurtasun proiektuak **%100eko betetzea** lortu du ER4 (Erronka 4) eskakizun guztiekin. Proiektuak hau erakusten du:
+
+1. **Segurtasun Inplementazio Osoa** maila guztietan (sarea, aplikazioa, datuak)
+2. **OT/IT Integrazio Osoa** segmentazio egokiarekin eta segurtasun kontrol industrialak
+3. **Gobernantza Sendoa** SGSI, gorabehera erantzuna, eta negozio jarraitasuna
+4. **Garapen Praktika Seguruak** MFA, sarrera balidazioa, eta kodifikazio segurua
+5. **Auzitegi Prestasuna** tresnak, prozedurak, eta txantiloiak
+6. **Hacking Etiko Gaitasuna** dokumentatutako test prozedurak
+7. **Araudi Betetze Osoa** GDPR, ISO 27001, eta IEC 62443
+8. **Produkzio Prestakuntza** CI/CD, monitorizazioa, eta hondamendi berrespena
+
+Gaitasun tekniko guztiak (RA1-RA10 6 modulutan) ondo inplementatu eta dokumentatu dira. Gaitasun zeharkakoak (autonomia, inplikazioa, komunikazioa, talde lana) lanaren kalitatean eta dokumentazio osoan erakusten dira.
+
+**Proiektu Egoera: EVALUAZIORAKO PREST**
+
+---
+
+**Prestatua:** Zabala Gailetak Zibersegurtasun Taldeak  
+**Berrikuspen Data:** 2026ko Urtarrilaren 9a  
+**Hurrengo Berrikuspena:** ER4 ebaluazioa osatzean

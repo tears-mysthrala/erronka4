@@ -1,190 +1,190 @@
-# Zabala Gailetak - Portal RRHH
+# Zabala Gailetak - Giza Baliabideen Ataria
 
-Sistema interno de gestión de recursos humanos para Zabala Gailetak.
+Barneko giza baliabideen kudeaketa sistema Zabala Gailetak-entzat.
 
-## 📋 Resumen del Proyecto
+## 📋 Proiektuaren Laburpena
 
-**Tipo**: Portal interno de gestión de RRHH  
-**Plataformas**: Web (PHP) + Android (Kotlin)  
-**Base de datos**: PostgreSQL 16  
-**Estado**: En desarrollo - Fase 1 (Fundación)  
-**Fecha inicio**: Enero 2026  
-**Fecha estimada finalización**: Diciembre 2026
+**Mota**: Barneko GB kudeaketa ataria  
+**Plataformak**: Web (PHP) + Android (Kotlin)  
+**Datu-basea**: PostgreSQL 16  
+**Egoera**: Garapenean - 1. Fasea (Oinarria)  
+**Hasiera data**: 2026ko urtarrila  
+**Amaiera data estimatua**: 2026ko abendua
 
-## 🎯 Alcance del Proyecto
+## 🎯 Proiektuaren Esparrua
 
-Sistema completo de gestión de recursos humanos que incluye:
+Giza baliabideen kudeaketa sistema osoa, honakoak barne:
 
-- ✅ Gestión de empleados (altas, bajas, modificaciones)
-- ✅ Sistema de vacaciones (solicitudes, aprobaciones, calendario)
-- ✅ Consulta de nóminas
-- ✅ Gestión documental
-- ✅ Chat interno (RRHH y por departamento)
-- ✅ Sistema de quejas y sugerencias
-- ✅ Autenticación avanzada (MFA + Passkey)
-- ✅ Auditoría completa
+- ✅ Langileen kudeaketa (altak, bajak, aldaketak)
+- ✅ Opor sistema (eskariak, onarpenak, egutegia)
+- ✅ Nominen kontsulta
+- ✅ Dokumentuen kudeaketa
+- ✅ Barne txata (GB eta sailka)
+- ✅ Kexa eta iradokizunen sistema
+- ✅ Autentikazio aurreratua (MFA + Passkey)
+- ✅ Auditorio osoa
 
-## 🏗️ Arquitectura
+## 🏗️ Arkitektura
 
 ### Backend - PHP Vanilla
 
-Ubicación: `Zabala Gailetak/hr-portal/`
+Kokapena: `Zabala Gailetak/hr-portal/`
 
-- **Versión**: PHP 8.4
-- **Estándares**: PSR-1, PSR-4, PSR-7, PSR-11, PSR-15, PSR-17
-- **Base de datos**: PostgreSQL 16
-- **Caché**: Redis 7
-- **Web Server**: Nginx
+- **Bertsioa**: PHP 8.4
+- **Estandarrak**: PSR-1, PSR-4, PSR-7, PSR-11, PSR-15, PSR-17
+- **Datu-basea**: PostgreSQL 16
+- **Cachea**: Redis 7
+- **Web Zerbitzaria**: Nginx
 
-[Ver README del backend →](Zabala%20Gailetak/hr-portal/README.md)
+[Ikusi backend-aren README →](Zabala%20Gailetak/hr-portal/README.md)
 
 ### Mobile App - Android (Kotlin)
 
-Ubicación: `Zabala Gailetak/android-app/`
+Kokapena: `Zabala Gailetak/android-app/`
 
-- **Lenguaje**: Kotlin 2.0
+- **Hizkuntza**: Kotlin 2.0
 - **UI**: Jetpack Compose + Material 3
-- **Arquitectura**: Clean Architecture + MVI
+- **Arkitektura**: Clean Architecture + MVI
 - **Min SDK**: 26 (Android 8.0)
 - **Target SDK**: 35 (Android 15)
 
-[Ver README de Android →](Zabala%20Gailetak/android-app/README.md)
+[Ikusi Android-aren README →](Zabala%20Gailetak/android-app/README.md)
 
-## 🚀 Inicio Rápido
+## 🚀 Hasiera Azkarra
 
-### Prerequisitos
+### Aurrebaldintzak
 
 - Docker >= 20.10
 - Docker Compose >= 2.0
-- PHP >= 8.4 (para desarrollo local)
-- Android Studio (para la app móvil)
+- PHP >= 8.4 (tokiko garapenerako)
+- Android Studio (aplikazio mugikorrerako)
 
-### Instalación
+### Instalazioa
 
-#### 1. Backend (HR Portal)
+#### 1. Backend (GB Ataria)
 
 ```bash
 # Clonar repositorio
 git clone <repository-url>
 cd "Zabala Gailetak/hr-portal"
 
-# Copiar archivo de entorno
+# Kopiatu ingurune fitxategia
 cp .env.example .env
 
-# Editar .env con tus configuraciones
+# Editatu .env zure konfigurazioekin
 nano .env
 
-# Iniciar servicios con Docker
+# Abiarazi zerbitzuak Docker-ekin
 cd ..
 docker-compose -f docker-compose.hrportal.yml up -d
 
-# Ejecutar migraciones
+# Exekutatu migrazioak
 cd hr-portal
 chmod +x scripts/migrate.sh
 ./scripts/migrate.sh
 
-# O usar Makefile
+# Edo Makefile erabili
 make up
 make migrate
 ```
 
-El portal web estará disponible en: `http://localhost:8080`
+Web ataria eskuragarri egongo da: `http://localhost:8080`
 
 #### 2. Android App
 
 ```bash
 cd android-app
 
-# Abrir en Android Studio
+# Ireki Android Studio-n
 # Sync Gradle
-# Ejecutar en emulador o dispositivo
+# Exekutatu emuladorean edo gailuan
 ```
 
-## 📁 Estructura del Proyecto
+## 📁 Proiektuaren Egitura
 
 ```
 /
 ├── hr-portal/              # Backend PHP
-│   ├── config/            # Configuración
+│   ├── config/            # Konfigurazioa
 │   ├── public/            # Entry point
-│   ├── src/               # Código fuente PSR-4
-│   ├── migrations/        # Migraciones DB
-│   ├── tests/             # Tests PHPUnit
-│   └── Dockerfile         # Contenedor PHP
+│   ├── src/               # PSR-4 iturburu kodea
+│   ├── migrations/        # DB migrazioak
+│   ├── tests/             # PHPUnit testak
+│   └── Dockerfile         # PHP kontenedorea
 │
-├── android-app/           # App móvil Android
-│   ├── app/src/main/      # Código fuente
-│   ├── build.gradle.kts   # Configuración Gradle
-│   └── README.md          # Documentación Android
+├── android-app/           # Android aplikazio mugikorra
+│   ├── app/src/main/      # Iturburu kodea
+│   ├── build.gradle.kts   # Gradle konfigurazioa
+│   └── README.md          # Android dokumentazioa
 │
-├── nginx/                 # Configuración Nginx
+├── nginx/                 # Nginx konfigurazioa
 │   └── nginx-hrportal.conf
 │
-├── docker-compose.hrportal.yml  # Orquestación Docker
+├── docker-compose.hrportal.yml  # Docker orkestrazioa
 │
-└── MIGRATION_PLAN.md      # Plan de migración completo
+└── MIGRATION_PLAN.md      # Migrazio plan osoa
 ```
 
-## 📚 Documentación
+## 📚 Dokumentazioa
 
-### Documentos Principales
+### Dokumentu Nagusiak
 
-- [Plan de Migración](MIGRATION_PLAN.md) - Plan completo de implementación
-- [Guía de Inicio Rápido](QUICK_START_GUIDE.md) - Guía rápida de setup
-- [Índice de Documentación](DOCUMENTATION_INDEX.md) - Índice completo
-- [Reporte de Implementación](IMPLEMENTATION_REPORT.md) - Estado actual
+- [Migrazio Plana](MIGRATION_PLAN.md) - Implementazio plan osoa
+- [Hasiera Azkarreko Gida](QUICK_START_GUIDE.md) - Konfigurazio gida azkarra
+- [Dokumentazioaren Indizea](DOCUMENTATION_INDEX.md) - Indize osoa
+- [Implementazio Txostena](IMPLEMENTATION_REPORT.md) - Uneko egoera
 
-### Documentación del Backend
+### Backend-aren Dokumentazioa
 
-- [README Backend](hr-portal/README.md)
-- API Documentation (próximamente)
-- Security Guidelines (próximamente)
+- [Backend README](hr-portal/README.md)
+- API Documentation (laster)
+- Security Guidelines (laster)
 
-### Documentación Android
+### Android-aren Dokumentazioa
 
-- [README Android](android-app/README.md)
-- Architecture Guide (próximamente)
+- [Android README](android-app/README.md)
+- Architecture Guide (laster)
 
-## 🔒 Seguridad
+## 🔒 Segurtasuna
 
-El sistema implementa múltiples capas de seguridad:
+Sistemak segurtasun geruza anitzak implementatzen ditu:
 
-- ✅ Autenticación JWT
-- ✅ MFA (TOTP) obligatorio
+- ✅ JWT autentikazioa
+- ✅ MFA (TOTP) derrigorrezkoa
 - ✅ Passkey/WebAuthn support
 - ✅ Rate limiting
-- ✅ CSRF protection
-- ✅ XSS protection
+- ✅ CSRF babesa
+- ✅ XSS babesa
 - ✅ Security headers (CSP, X-Frame-Options, etc.)
 - ✅ Password hashing (bcrypt)
-- ✅ Prepared statements (SQL injection prevention)
-- ✅ Auditoría completa de acciones
+- ✅ Prepared statements (SQL injection prebentzioa)
+- ✅ Ekintzen auditorio osoa
 
-## 👥 Roles de Usuario
+## 👥 Erabiltzaile Rolak
 
-| Rol | Descripción | Permisos |
-|-----|-------------|----------|
-| **ADMIN** | Administrador del sistema | Acceso completo |
-| **RRHH MGR** | Responsable de RRHH | Gestión de empleados, aprobaciones |
-| **JEFE SECCIÓN** | Jefe de departamento | Gestión de su equipo |
-| **EMPLEADO** | Usuario estándar | Acceso a sus propios datos |
+| Rola | Deskribapena | Baimenak |
+|------|--------------|----------|
+| **ADMIN** | Sistemaren administratzailea | Sarbide osoa |
+| **RRHH MGR** | GB arduraduna | Langileen kudeaketa, onarpenak |
+| **JEFE SECCIÓN** | Sail burua | Bere taldearen kudeaketa |
+| **EMPLEADO** | Erabiltzaile estandarra | Bere datuetara sarbidea |
 
-Ver [matriz completa de permisos](MIGRATION_PLAN.md#23-matriz-de-permisos)
+Ikusi [baimen matrize osoa](MIGRATION_PLAN.md#23-matriz-de-permisos)
 
-## 🧪 Testing
+## 🧪 Testak
 
 ### Backend
 
 ```bash
 cd hr-portal
 
-# Ejecutar tests
+# Exekutatu testak
 composer test
 
-# Con cobertura
+# Estatistikarekin
 composer test -- --coverage-html coverage/
 
-# Tests específicos
+# Test espezifikoak
 ./vendor/bin/phpunit tests/Unit/Auth/SessionManagerTest.php
 ```
 
@@ -200,46 +200,46 @@ cd android-app
 ./gradlew connectedAndroidTest
 ```
 
-## 📊 Estado del Proyecto
+## 📊 Proiektuaren Egoera
 
-### Fase Actual: Fase 1 - Fundación (Semanas 1-4)
+### Uneko Fasea: 1. Fasea - Oinarria (1-4 asteak)
 
-✅ Completado:
-- Estructura del proyecto PHP
-- Estructura del proyecto Android
-- Configuración Docker
-- Schema de base de datos PostgreSQL
-- Sistema de routing básico
-- Middleware de seguridad
+✅ Osatua:
+- PHP proiektuaren egitura
+- Android proiektuaren egitura
+- Docker konfigurazioa
+- PostgreSQL datu-base eskema
+- Routing sistema oinarrizkoa
+- Segurtasun middleware-a
 
-⏳ En progreso:
-- Implementación de autenticación básica
+⏳ Garapenean:
+- Oinarrizko autentikazioaren implementazioa
 - API REST endpoints
-- Interfaz de login web
-- Pantallas de login Android
+- Web saioa hasteko interfazea
+- Android saioa hasteko pantailak
 
-📅 Próximas fases:
-- Fase 2: Autenticación avanzada (MFA + Passkey)
-- Fase 3: Gestión de empleados
-- Fase 4: Sistema de vacaciones
-- [Ver plan completo](MIGRATION_PLAN.md#-plan-de-implementaci%C3%B3n-por-fases)
+📅 Hurrengo faseak:
+- 2. Fasea: Autentikazio aurreratua (MFA + Passkey)
+- 3. Fasea: Langileen kudeaketa
+- 4. Fasea: Opor sistema
+- [Ikusi plan osoa](MIGRATION_PLAN.md#-plan-de-implementaci%C3%B3n-por-fases)
 
-## 🛠️ Comandos Útiles
+## 🛠️ Komando Erabilgarriak
 
 ### Backend
 
 ```bash
-# Con Makefile
-make up          # Iniciar servicios
-make down        # Detener servicios
-make logs        # Ver logs
-make migrate     # Ejecutar migraciones
-make test        # Ejecutar tests
+# Makefile-ekin
+make up          # Abiarazi zerbitzuak
+make down        # Gelditu zerbitzuak
+make logs        # Ikusi log-ak
+make migrate     # Exekutatu migrazioak
+make test        # Exekutatu testak
 make lint        # Linter
-make shell-php   # Shell del contenedor PHP
-make shell-db    # Shell de PostgreSQL
+make shell-php   # PHP kontenedorearen shell-a
+make shell-db    # PostgreSQL-aren shell-a
 
-# Sin Makefile
+# Makefile gabe
 docker-compose -f docker-compose.hrportal.yml up -d
 docker-compose -f docker-compose.hrportal.yml logs -f
 ```
@@ -249,42 +249,42 @@ docker-compose -f docker-compose.hrportal.yml logs -f
 ```bash
 ./gradlew assembleDebug    # Build debug
 ./gradlew assembleRelease  # Build release
-./gradlew test             # Tests
+./gradlew test             # Testak
 ./gradlew lint             # Linter
 ```
 
-## 📞 Soporte
+## 📞 Laguntza
 
-Para soporte técnico, contactar con:
+Laguntza teknikorako, jarri harremanetan:
 
 - **IT Zabala Gailetak**: it@zabalagailetak.com
 - **Project Manager**: [nombre]@zabalagailetak.com
 
-## 📝 Licencia
+## 📝 Lizentzia
 
-Propietario - Zabala Gailetak  
-Uso interno exclusivo
+Jabekoa - Zabala Gailetak  
+Barne erabilera esklusiboa
 
 ## 📈 Changelog
 
 ### [1.0.0] - 2026-01-14
 
-#### Añadido
-- Estructura inicial del proyecto PHP
-- Estructura inicial del proyecto Android
-- Sistema de base de datos PostgreSQL
-- Configuración Docker completa
-- Sistema de routing y middleware
-- Documentación del proyecto
+#### Gehituta
+- PHP proiektuaren hasierako egitura
+- Android proiektuaren hasierako egitura
+- PostgreSQL datu-base sistema
+- Docker konfigurazio osoa
+- Routing eta middleware sistema
+- Proiektuaren dokumentazioa
 
-#### Eliminado
-- Sistema antiguo Node.js/Express
-- Frontend antiguo React
-- App móvil antigua React Native
-- MongoDB y configuración asociada
+#### Ezabatuta
+- Node.js/Express sistema zaharra
+- React frontend zaharra
+- React Native aplikazio mugikor zaharra
+- MongoDB eta lotutako konfigurazioa
 
 ---
 
-**Versión**: 1.0.0  
-**Última actualización**: 14 de Enero de 2026  
-**Mantenido por**: Equipo IT Zabala Gailetak
+**Bertsioa**: 1.0.0  
+**Azken eguneraketa**: 2026ko urtarrilaren 14a  
+**Mantendua**: Zabala Gailetak IT Taldeak

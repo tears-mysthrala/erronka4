@@ -1,58 +1,58 @@
-# Índice de Documentación - Zabala Gailetak HR Portal
+# Dokumentazioaren Indizea - Zabala Gailetak HR Portal
 
-## 📚 Documentación General
+## 📚 Dokumentazio Orokorra
 
-### Guías de Usuario
-- [README Principal](README.md) - Visión general del proyecto
-- [Guía de Inicio Rápido](QUICK_START_GUIDE.md) - Setup en 5 minutos
-- [Contexto del Proyecto (AGENTS.md)](AGENTS.md) - Arquitectura, compliance y guía para desarrollo
+### Erabiltzailearen Gidak
+- [README Nagusia](README.md) - Proiektuaren ikuspegi orokorra
+- [Hasiera Azkar Gida](QUICK_START_GUIDE.md) - Konfigurazioa 5 minututan
+- [Proiektuaren Testuingurua (AGENTS.md)](AGENTS.md) - Arkitektura, compliance eta garapen gida
 
-### Documentación Académica
-- [ER4.md](ER4.md) - Requisitos del reto académico
-- [Errubrika (Excel)](Errubrika_Ziber_E4_25-26_t4.xlsx) - Rúbrica de evaluación
+### Dokumentazio Akademikoa
+- [ER4.md](ER4.md) - Erronka akademikoaren eskakizunak
+- [Errubrika (Excel)](Errubrika_Ziber_E4_25-26_t4.xlsx) - Ebaluazioaren errubrika
 
-### Documentación Técnica
-- [API REST](API_DOCUMENTATION.md) - Referencia de endpoints
-- [Documentación del Proyecto](Zabala%20Gailetak/docs/PROJECT_DOCUMENTATION.md) - Documentación técnica completa
-- [Paleta de Colores](Zabala%20Gailetak/docs/COLOR_PALETTE.md) - Sistema de diseño
-- [Costes y Recursos](Zabala%20Gailetak/docs/COSTES_RECURSOS_IMPLEMENTACION.md) - Análisis financiero
-- [Plan de Presupuesto](Zabala%20Gailetak/docs/PLAN_IMPLEMENTACION_PRESUPUESTO_ZABALA_GAILETAK.md) - Plan de implementación con presupuesto
-- [Plan de Seguridad](Zabala%20Gailetak/docs/security_plan.md) - Plan de seguridad
-- [SOP Desarrollo Seguro](Zabala%20Gailetak/docs/sop_secure_development.md) - Procedimiento de desarrollo seguro
+### Dokumentazio Teknikoa
+- [API REST](API_DOCUMENTATION.md) - Endpointen erreferentzia
+- [Proiektuaren Dokumentazioa](Zabala%20Gailetak/docs/PROJECT_DOCUMENTATION.md) - Dokumentazio tekniko osoa
+- [Kolore Paleta](Zabala%20Gailetak/docs/COLOR_PALETTE.md) - Diseinu sistema
+- [Kostuak eta Baliabideak](Zabala%20Gailetak/docs/COSTES_RECURSOS_IMPLEMENTACION.md) - Analisi finantzarioa
+- [Aurrekontu Plana](Zabala%20Gailetak/docs/PLAN_IMPLEMENTACION_PRESUPUESTO_ZABALA_GAILETAK.md) - Aurrekontuarekin inplementazio plana
+- [Segurtasun Plana](Zabala%20Gailetak/docs/security_plan.md) - Segurtasun plana
+- [Garapen Seguruaren SOP](Zabala%20Gailetak/docs/sop_secure_development.md) - Garapen seguruaren prozedimentua
 
 ## 🔧 Backend (PHP)
 
-### Documentación Backend
-- [README Backend](Zabala%20Gailetak/hr-portal/README.md) - Guía completa del backend
-- [Configuración](Zabala%20Gailetak/hr-portal/config/config.php) - Archivo de configuración
-- [Routes](Zabala%20Gailetak/hr-portal/config/routes.php) - Definición de rutas
-- [Migraciones](Zabala%20Gailetak/hr-portal/migrations/) - Schema de base de datos
+### Backend Dokumentazioa
+- [Backend README](Zabala%20Gailetak/hr-portal/README.md) - Backendaren gida osoa
+- [Konfigurazioa](Zabala%20Gailetak/hr-portal/config/config.php) - Konfigurazio fitxategia
+- [Routes](Zabala%20Gailetak/hr-portal/config/routes.php) - Bideen definizioa
+- [Migrazioak](Zabala%20Gailetak/hr-portal/migrations/) - Datu-basearen eskema
 
-### Estructura del Código
+### Kodearen Egitura
 ```
 hr-portal/
 ├── src/
-│   ├── App.php                    # Aplicación principal
-│   ├── Auth/                      # Autenticación
-│   ├── Database/                  # Capa de BD
+│   ├── App.php                    # Aplikazio nagusia
+│   ├── Auth/                      # Autentifikazioa
+│   ├── Database/                  # DB geruza
 │   ├── Http/                      # Request/Response
 │   ├── Middleware/                # Middleware
-│   ├── Routing/                   # Sistema de rutas
-│   └── Security/                  # Seguridad
-├── config/                        # Configuración
+│   ├── Routing/                   # Bideen sistema
+│   └── Security/                  # Segurtasuna
+├── config/                        # Konfigurazioa
 ├── public/                        # Entry point
-├── migrations/                    # Migraciones SQL
-└── tests/                         # Tests PHPUnit
+├── migrations/                    # SQL migrazioak
+└── tests/                         # PHPUnit testak
 ```
 
 ## 📱 Android App
 
-### Documentación Android
-- [README Android](Zabala%20Gailetak/android-app/README.md) - Guía completa de la app
-- [Guía Mobile](Zabala%20Gailetak/MOBILE_APP_GUIDE.md) - Guía de la aplicación móvil
-- [Build Configuration](Zabala%20Gailetak/android-app/app/build.gradle.kts) - Configuración Gradle
+### Android Dokumentazioa
+- [Android README](Zabala%20Gailetak/android-app/README.md) - Apparen gida osoa
+- [Mobile Gida](Zabala%20Gailetak/MOBILE_APP_GUIDE.md) - Aplikazio mugikorraren gida
+- [Build Configuration](Zabala%20Gailetak/android-app/app/build.gradle.kts) - Gradle konfigurazioa
 
-### Estructura del Código
+### Kodearen Egitura
 ```
 android-app/app/src/main/
 ├── java/com/zabalagailetak/hrapp/
@@ -76,53 +76,53 @@ android-app/app/src/main/
 ## 🐳 DevOps & Infrastructure
 
 ### Docker
-- [docker-compose.hrportal.yml](Zabala%20Gailetak/docker-compose.hrportal.yml) - Orquestación de servicios
-- [Dockerfile PHP](Zabala%20Gailetak/hr-portal/Dockerfile) - Imagen PHP
-- [Nginx Config](Zabala%20Gailetak/nginx/nginx-hrportal.conf) - Configuración Nginx
+- [docker-compose.hrportal.yml](Zabala%20Gailetak/docker-compose.hrportal.yml) - Zerbitzuen orkestrazioa
+- [Dockerfile PHP](Zabala%20Gailetak/hr-portal/Dockerfile) - PHP irudia
+- [Nginx Config](Zabala%20Gailetak/nginx/nginx-hrportal.conf) - Nginx konfigurazioa
 
-### Scripts
-- [Migrate Script](Zabala%20Gailetak/hr-portal/scripts/migrate.php) - Script de migraciones
-- [Seed Admin](Zabala%20Gailetak/hr-portal/scripts/seed_admin_profile.php) - Script de seeding
-- [Makefile](Zabala%20Gailetak/hr-portal/Makefile) - Comandos útiles
-- [Verify Implementation](scripts/verify_implementation.sh) - Verificación de compliance
+### Scriptak
+- [Migrate Script](Zabala%20Gailetak/hr-portal/scripts/migrate.php) - Migrazioen scripta
+- [Seed Admin](Zabala%20Gailetak/hr-portal/scripts/seed_admin_profile.php) - Seeding scripta
+- [Makefile](Zabala%20Gailetak/hr-portal/Makefile) - Komando erabilgarriak
+- [Verify Implementation](scripts/verify_implementation.sh) - Compliance egiaztapena
 
-## 🗄️ Base de Datos
+## 🗄️ Datu-basea
 
 ### PostgreSQL
-- [Schema Inicial](hr-portal/migrations/001_init_schema.sql) - Schema completo con:
-  - Tablas de usuarios y empleados
-  - Sistema de vacaciones
-  - Gestión documental
-  - Sistema de nóminas
-  - Chat y mensajería
-  - Sistema de quejas
-  - Auditoría
-  - Notificaciones
+- [Eskema Hasierakoa](hr-portal/migrations/001_init_schema.sql) - Eskema osoa honekin:
+  - Erabiltzaileen eta langileen taulak
+  - Oporren sistema
+  - Dokumentuen kudeaketa
+  - Nominen sistema
+  - Chat eta mezularitza
+  - Kexen sistema
+  - Auditoria
+  - Jakinarazpenak
 
-### Diagramas
-- Ver [Zabala Gailetak/docs/network_diagrams/](Zabala%20Gailetak/docs/network_diagrams/) para diagramas de red
+### Diagramak
+- Ikusi [Zabala Gailetak/docs/network_diagrams/](Zabala%20Gailetak/docs/network_diagrams/) sare diagramak ikusteko
 
-## 🔐 Seguridad
+## 🔐 Segurtasuna
 
-### Documentos de Seguridad
-- Políticas de Seguridad: `Zabala Gailetak/compliance/sgsi/`
-- Plan de Seguridad: `Zabala Gailetak/docs/security_plan.md`
+### Segurtasun Dokumentuak
+- Segurtasun Politikak: `Zabala Gailetak/compliance/sgsi/`
+- Segurtasun Plana: `Zabala Gailetak/docs/security_plan.md`
 - Web Hardening: `Zabala Gailetak/security/web_hardening_sop.md`
 - Mobile Security: `Zabala Gailetak/security/mobile_security_sop.md`
 
-### Implementaciones de Seguridad
+### Segurtasun Inplementazioak
 - CSRF Protection: [CSRFProtection.php](Zabala%20Gailetak/hr-portal/src/Security/CSRFProtection.php)
 - Security Headers: [SecurityHeaders.php](Zabala%20Gailetak/hr-portal/src/Security/SecurityHeaders.php)
 - Middleware: [SecurityHeadersMiddleware.php](Zabala%20Gailetak/hr-portal/src/Middleware/SecurityHeadersMiddleware.php)
 
 ### Compliance
-- [Reporte de Cumplimiento ER4](Zabala%20Gailetak/compliance/ER4_COMPLIANCE_REPORT.md)
-- [Evaluación de Compliance](Zabala%20Gailetak/compliance/COMPLIANCE_EVALUATION.md)
-- [Auditoría de Documentación](Zabala%20Gailetak/compliance/auditoria_documentacion.md)
-- [Plan de Compliance](Zabala%20Gailetak/compliance/compliance_plan.md)
+- [ER4 Betetze Txostena](Zabala%20Gailetak/compliance/ER4_COMPLIANCE_REPORT.md)
+- [Compliance Ebaluazioa](Zabala%20Gailetak/compliance/COMPLIANCE_EVALUATION.md)
+- [Dokumentazio Auditoria](Zabala%20Gailetak/compliance/auditoria_documentacion.md)
+- [Compliance Plana](Zabala%20Gailetak/compliance/compliance_plan.md)
 
 ### GDPR
-Documentación en `Zabala Gailetak/compliance/gdpr/`:
+Dokumentazioa `Zabala Gailetak/compliance/gdpr/`:
 - Cookie Policy
 - Data Breach Notification Template
 - Data Processing Register
@@ -131,8 +131,8 @@ Documentación en `Zabala Gailetak/compliance/gdpr/`:
 - DPIA Template
 - Privacy Notice
 
-### SGSI (Sistema de Gestión de Seguridad de la Información)
-Documentación en `Zabala Gailetak/compliance/sgsi/`:
+### SGSI (Informazioaren Segurtasunaren Kudeaketa Sistema)
+Dokumentazioa `Zabala Gailetak/compliance/sgsi/`:
 - Acceptable Use Policy
 - Asset Register
 - Business Continuity Plan
@@ -145,24 +145,24 @@ Documentación en `Zabala Gailetak/compliance/sgsi/`:
 ## 🧪 Testing
 
 ### Backend Testing
-- Tests ubicados en: `Zabala Gailetak/hr-portal/tests/`
+- Testak kokatuta: `Zabala Gailetak/hr-portal/tests/`
 - Framework: PHPUnit
-- Comando: `composer test`
+- Komandoa: `composer test`
 
 ### Android Testing
-- Tests ubicados en: `Zabala Gailetak/android-app/app/src/test/` y `androidTest/`
+- Testak kokatuta: `Zabala Gailetak/android-app/app/src/test/` eta `androidTest/`
 - Framework: JUnit + Espresso
-- Comando: `./gradlew test`
+- Komandoa: `./gradlew test`
 
-## 📊 Infraestructura
+## 📊 Azpiegitura
 
-### Network
-- Configuración: `Zabala Gailetak/infrastructure/network/`
+### Sarea
+- Konfigurazioa: `Zabala Gailetak/infrastructure/network/`
 - Network Segmentation SOP
 - Network Inventory
 
-### Systems
-Documentación en `Zabala Gailetak/infrastructure/systems/`:
+### Sistemak
+Dokumentazioa `Zabala Gailetak/infrastructure/systems/`:
 - SOP Backup & Recovery
 - SOP Change Management
 - SOP Patch Management
@@ -171,57 +171,57 @@ Documentación en `Zabala Gailetak/infrastructure/systems/`:
 
 ## 🎯 Roadmap
 
-Consultar [AGENTS.md - Sección 6](AGENTS.md) para el estado actual de implementación.
+Kontsultatu [AGENTS.md - 6. Sekzioa](AGENTS.md) inplementazioaren uneko egoera jakiteko.
 
-### Fases del Proyecto
+### Proiektuaren Faseak
 
-| Fase | Duración | Estado | Descripción |
-|------|----------|--------|-------------|
-| Fase 1 | 4 semanas | ✅ En curso | Fundación (infraestructura base) |
-| Fase 2 | 4 semanas | ⏳ Pendiente | Autenticación avanzada (MFA + Passkey) |
-| Fase 3 | 6 semanas | ⏳ Pendiente | Gestión de empleados |
-| Fase 4 | 6 semanas | ⏳ Pendiente | Sistema de vacaciones |
-| Fase 5 | 4 semanas | ⏳ Pendiente | Gestión documental |
-| Fase 6 | 4 semanas | ⏳ Pendiente | Nóminas |
-| Fase 7 | 6 semanas | ⏳ Pendiente | Chat interno |
-| Fase 8 | 4 semanas | ⏳ Pendiente | Sistema de quejas |
-| Fase 9 | 6 semanas | ⏳ Pendiente | Extras y producción |
+| Fase | Iraupena | Egoera | Deskribapena |
+|------|----------|--------|--------------|
+| 1. Fasea | 4 aste | ✅ Martxan | Oinarria (oinarrizko azpiegitura) |
+| 2. Fasea | 4 aste | ⏳ Zain | Autentifikazio aurreratua (MFA + Passkey) |
+| 3. Fasea | 6 aste | ⏳ Zain | Langileen kudeaketa |
+| 4. Fasea | 6 aste | ⏳ Zain | Oporren sistema |
+| 5. Fasea | 4 aste | ⏳ Zain | Dokumentuen kudeaketa |
+| 6. Fasea | 4 aste | ⏳ Zain | Nominak |
+| 7. Fasea | 6 aste | ⏳ Zain | Barne chat |
+| 8. Fasea | 4 aste | ⏳ Zain | Kexen sistema |
+| 9. Fasea | 6 aste | ⏳ Zain | Extras eta produkzioa |
 
-## 📞 Contactos
+## 📞 Kontaktuak
 
-### Soporte Técnico
+### Laguntza Teknikoa
 - Email: it@zabalagailetak.com
-- Teléfono: [Número de contacto]
+- Telefonoa: [Kontaktu zenbakia]
 
-### Equipo de Desarrollo
-- Lead PHP Developer: [Nombre]
-- Lead Android Developer: [Nombre]
-- DevOps: [Nombre]
-- Project Manager: [Nombre]
+### Garapen Taldea
+- Lead PHP Developer: [Izena]
+- Lead Android Developer: [Izena]
+- DevOps: [Izena]
+- Project Manager: [Izena]
 
-## 🔗 Enlaces Útiles
+## 🔗 Lotura Erabilgarriak
 
-### Externos
+### Kanpokoak
 - [PHP 8.4 Documentation](https://www.php.net/docs.php)
 - [PostgreSQL 16 Documentation](https://www.postgresql.org/docs/16/)
 - [Kotlin Documentation](https://kotlinlang.org/docs/home.html)
 - [Jetpack Compose](https://developer.android.com/jetpack/compose)
 - [PSR Standards](https://www.php-fig.org/psr/)
 
-### Internos
-- Git Repository: [URL del repositorio]
-- Project Management: [URL Jira/Trello/etc]
-- CI/CD Pipeline: [URL Jenkins/GitLab CI/etc]
-- Documentation Wiki: [URL wiki interna]
+### Barnekoak
+- Git Repository: [Repositorioaren URL]
+- Project Management: [Jira/Trello/etc URL]
+- CI/CD Pipeline: [Jenkins/GitLab CI/etc URL]
+- Documentation Wiki: [Barne wikiaren URL]
 
 ---
 
-### Archivos Archivados
+### Artxibatutako Fitxategiak
 
-Documentación de migración histórica disponible en `archive/migration/`.
+Migrazio historikoaren dokumentazioa eskuragarri `archive/migration/`.
 
 ---
 
-**Última actualización**: 6 de Febrero de 2026  
-**Versión**: 2.0.0  
-**Mantenido por**: Equipo IT Zabala Gailetak
+**Azken eguneraketa**: 2026ko Otsailaren 6a  
+**Bertsioa**: 2.0.0  
+**Mantentzen du**: Zabala Gailetak IT Taldea

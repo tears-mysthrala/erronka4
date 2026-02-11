@@ -1,18 +1,18 @@
-# 🚀 InfinityFree Database Deployment Guide
+# 🚀 InfinityFree Datu-basearen Despliegue Gida
 
-**Zabala Gailetak HR Portal - Production Deployment**
+**Zabala Gailetak HR Ataria - Produkzio Desplieguea**
 
 ---
 
-## 📋 Prerequisites
+## 📋 Aurrebaldintzak
 
-Before starting, ensure you have:
-- ✅ InfinityFree hosting account with PHP 8.3+ support
-- ✅ Access to phpMyAdmin (via control panel)
-- ✅ Database credentials from InfinityFree
-- ✅ Backup of existing database (if upgrading)
+Hasi aurretik, ziurtatu hau dituzula:
+- ✅ InfinityFree hosting kontu bat PHP 8.3+ euskarriarekin
+- ✅ phpMyAdmin-era sarbidea (kontrol panelaren bidez)
+- ✅ Datu-basearen kredentzialak InfinityFree-tik
+- ✅ Datu-basearen babeskopia existitzen dena (eguneratzen ari bazara)
 
-**InfinityFree Database Details:**
+**InfinityFree datu-basearen xehetasunak:**
 - Host: `sql107.infinityfree.com`
 - Database: `if0_40982238_zabala_gailetak`
 - Username: `if0_40982238`
@@ -21,61 +21,61 @@ Before starting, ensure you have:
 
 ---
 
-## 🗄️ Database Setup Options
+## 🗄️ Datu-basearen konfigurazio aukerak
 
-### Option 1: Fresh Installation (Recommended for New Deployments)
+### 1. aukera: Instalazio garbia (Gomendatua instalazio berrietarako)
 
-Use this if you're deploying for the first time or don't need to keep existing data.
+Erabili hau lehen aldiz instalatzen ari bazara edo datu existenteak mantendu nahi ez badituzu.
 
-**File:** `scripts/mysql_zabala_gailetak_fresh_install.sql`
+**Fitxategia:** `scripts/mysql_zabala_gailetak_fresh_install.sql`
 
-**What it includes:**
-- ✅ Complete database schema (20 tables)
-- ✅ Sample data (departments, admin user)
-- ✅ Vacation system with triggers
-- ✅ Default admin: `admin@zabalagailetak.com` / `Admin123!`
+**Zer sartzen den:**
+- ✅ Datu-base eskema osoa (20 taula)
+- ✅ Datu laginak (sailak, administratzaile erabiltzailea)
+- ✅ Opor sistema trigger-ekin
+- ✅ Administratzaile lehenetsia: `admin@zabalagailetak.com` / `Admin123!`
 
-**Steps:**
-1. Log into InfinityFree control panel
-2. Go to **phpMyAdmin**
-3. Select database `if0_40982238_zabala_gailetak`
-4. Click **SQL** tab
-5. Copy and paste contents of `mysql_zabala_gailetak_fresh_install.sql`
-6. Click **Go** to execute
-7. Wait for completion (should take 10-30 seconds)
-8. Verify: You should see 20 tables created
+**Pausoak:**
+1. Sartu InfinityFree kontrol panelera
+2. Zoaz **phpMyAdmin**-era
+3. Hautatu `if0_40982238_zabala_gailetak` datu-basea
+4. Egin klik **SQL** fitxan
+5. Kopiatu eta itsatsi `mysql_zabala_gailetak_fresh_install.sql`-ren edukia
+6. Egin klik **Go** exekutatzeko
+7. Itxaron osatzea (10-30 segundo beharko ditu)
+8. Egiaztatu: 20 taula sortu direla ikusi beharko zenuke
 
-⚠️ **WARNING:** This will DROP all existing tables and data!
+⚠️ **KONTUZ:** Honek existitzen diren taula eta datu guztiak EZABATUKO DITU!
 
-### Option 2: Migration from Existing Database
+### 2. aukera: Migrazioa datu-base existentetik
 
-Use this if you already have data in production and want to preserve it.
+Erabili hau jada datuak dituzula produkzioan eta hauek mantendu nahi badituzu.
 
-**File:** `scripts/mysql_migration_fix_vacation_system.sql`
+**Fitxategia:** `scripts/mysql_migration_fix_vacation_system.sql`
 
-**What it does:**
-- ✅ Creates automatic backups (*_backup tables)
-- ✅ Updates schema without data loss
-- ✅ Fixes vacation balances and triggers
-- ✅ Recalculates pending/used days
+**Zer egiten duen:**
+- ✅ Babeskopia automatikoak sortzen ditu (*_backup taulak)
+- ✅ Eguneratzen du eskema datu galderik gabe
+- ✅ Konpontzen ditu opor balantzeak eta trigger-ak
+- ✅ Berriro kalkulatzen ditu zain dauden/erabilitako egunak
 
-**Steps:**
-1. **FIRST:** Export current database as backup
+**Pausoak:**
+1. **LEHENIK:** Esportatu uneko datu-basea babeskopia gisa
    - phpMyAdmin → Export → Format: SQL → Save file
-2. Select your database
-3. Go to **SQL** tab
-4. Copy and paste contents of `mysql_migration_fix_vacation_system.sql`
-5. Click **Go**
-6. Review verification report at end
-7. Test thoroughly before removing backup tables
+2. Hautatu zure datu-basea
+3. Zoaz **SQL** fitxan
+4. Kopiatu eta itsatsi `mysql_migration_fix_vacation_system.sql`-ren edukia
+5. Egin klik **Go**
+6. Berrikusi amaierako egiaztapen txostena
+7. Probatu sakonki backup taulak ezabatu aurretik
 
 ---
 
-## 🔧 Required Patches for Recent Features
+## 🔧 Eginbeharrzko patxak azken ezaugarrientzako
 
-The base schema needs these updates for the new Payslips and Documents modules:
+Oinarrizko eskema behar ditu eguneraketa hauek Payslips eta Documents modulu berrientzako:
 
-### Patch 1: Fix Documents Table for Public Documents
+### Patch 1: Konpondu Documents taula dokumentu publikoentzako
 
 ```sql
 -- Allow NULL employee_id for public documents
@@ -93,7 +93,7 @@ REFERENCES `employees`(`id`)
 ON DELETE CASCADE;
 ```
 
-### Patch 2: Add Missing Indexes (Optional, for Performance)
+### Patch 2: Gehitu falta diren indizeak (Aukerakoa, errendimendurako)
 
 ```sql
 -- Add index for document queries filtering by public/private
@@ -107,11 +107,11 @@ ADD KEY `idx_payroll_employee_period` (`employee_id`, `period_start`, `period_en
 
 ---
 
-## 🔐 Environment Configuration
+## 🔐 Ingurune konfigurazioa
 
-### Step 1: Create `.env` File
+### 1. urratsa: Sortu `.env` fitxategia
 
-Create a file named `.env` in the root of your InfinityFree web directory (`htdocs/` or `public_html/`):
+Sortu `.env` izeneko fitxategi bat InfinityFree web direktorioaren erroan (`htdocs/` edo `public_html/`):
 
 ```env
 # Application
@@ -143,13 +143,13 @@ LOG_LEVEL=error
 LOG_PATH=/home/vol12_4/infinityfree.com/if0_40982238/htdocs/logs
 ```
 
-### Step 2: Generate Secure Secrets
+### 2. urratsa: Sortu sekretu seguruak
 
-**JWT_SECRET and PASSWORD_PEPPER:**
+**JWT_SECRET eta PASSWORD_PEPPER:**
 
-Use one of these methods to generate secure random strings:
+Erabili metodo hauetako bat kate aleatorio seguruak sortzeko:
 
-**Option A: Online (use with caution)**
+**Aukera A: Online (kontuz erabili)**
 ```
 Visit: https://www.random.org/strings/
 - Length: 64 characters
@@ -158,19 +158,19 @@ Visit: https://www.random.org/strings/
 - Special characters: No (for compatibility)
 ```
 
-**Option B: Linux/Mac Terminal**
+**Aukera B: Linux/Mac Terminala**
 ```bash
 openssl rand -base64 48
 ```
 
-**Option C: PHP Command**
+**Aukera C: PHP Komandoa**
 ```php
 <?php echo bin2hex(random_bytes(32)); ?>
 ```
 
-### Step 3: Create Required Directories
+### 3. urratsa: Sortu beharrezko direktorioak
 
-Via FTP or File Manager, create these directories:
+FTP edo File Manager bidez, sortu direktorio hauek:
 
 ```
 htdocs/
@@ -180,19 +180,19 @@ htdocs/
 └── logs/               (chmod 755)
 ```
 
-**Permissions:**
-- Directories: `755` (rwxr-xr-x)
-- Files: `644` (rw-r--r--)
+**Baimenak:**
+- Direktorioak: `755` (rwxr-xr-x)
+- Fitxategiak: `644` (rw-r--r--)
 
 ---
 
-## ✅ Post-Deployment Validation
+## ✅ Despliegue osteko baliozkotzea
 
-### 1. Test Database Connection
+### 1. Probatu datu-basearen konexioa
 
-Visit: `https://zabala-gailetak.infinityfreeapp.com/api/test/db`
+Bisitatu: `https://zabala-gailetak.infinityfreeapp.com/api/test/db`
 
-Expected response:
+Eskatutako erantzuna:
 ```json
 {
   "status": "success",
@@ -202,33 +202,33 @@ Expected response:
 }
 ```
 
-### 2. Test Admin Login
+### 2. Probatu administratzailearen saioa hasiera
 
-1. Go to: `https://zabala-gailetak.infinityfreeapp.com/login`
-2. Email: `admin@zabalagailetak.com`
-3. Password: `Admin123!`
-4. ✅ Should redirect to dashboard
+1. Zoaz: `https://zabala-gailetak.infinityfreeapp.com/login`
+2. Emaila: `admin@zabalagailetak.com`
+3. Pasahitza: `Admin123!`
+4. ✅ Aginte-panelera berbideratu beharko zaitu
 
-### 3. Test New Modules
+### 3. Probatu modulu berriak
 
 **Payslips:**
-- Navigate to `/payslips`
-- Should see empty list (or sample data if seeded)
-- Try creating a test payslip (admin only)
+- Nabigatu `/payslips`-era
+- Zerrenda hutsa ikusi beharko zenuke (edo datu laginak seed-eatuta badaude)
+- Saiatu payslip probak sortzen (administratzaileak bakarrik)
 
 **Documents:**
-- Navigate to `/documents`
-- Should see two tabs: "Mis documentos" and "Documentos públicos"
-- Try uploading a test document (admin only)
+- Nabigatu `/documents`-era
+- Bi fitxa ikusi beharko zenituzke: "Nire dokumentuak" eta "Dokumentu publikoak"
+- Saiatu dokumentu proba bat igotzen (administratzaileak bakarrik)
 
-### 4. Check File Uploads
+### 4. Egiaztatu fitxategi igotzeak
 
-Upload a small test document and verify:
-- File appears in `storage/documents/` directory
-- Download works correctly
-- Correct MIME type and file size shown
+Igo dokumentu txiki bat eta egiaztatu:
+- Fitxategia `storage/documents/` direktorioan agertzen dela
+- Deskargak ondo funtzionatzen duela
+- MIME mota eta fitxategi tamaina zuzenak direla
 
-### 5. Verify Database Triggers
+### 5. Egiaztatu datu-base trigger-ak
 
 ```sql
 -- Check vacation triggers are installed
@@ -242,59 +242,59 @@ SHOW TRIGGERS LIKE 'vacation_requests';
 
 ---
 
-## 🐛 Troubleshooting
+## 🐛 Arazoen konponketa
 
-### Issue: "Cannot connect to database"
+### Arazoa: "Ezin da datu-basearekin konektatu"
 
-**Solutions:**
-1. Check `.env` file has correct credentials
-2. Verify database exists in phpMyAdmin
-3. Check DB_HOST is `sql107.infinityfree.com` (not localhost)
-4. Ensure InfinityFree database service is active
+**Konponbideak:**
+1. Egiaztatu `.env` fitxategiak kredentzial zuzenak dituela
+2. Ziurtatu datu-basea existitzen dela phpMyAdmin-en
+3. Egiaztatu DB_HOST `sql107.infinityfree.com` dela (ez localhost)
+4. Ziurtatu InfinityFree datu-base zerbitzua aktiboa dela
 
-### Issue: "Table 'documents' doesn't exist"
+### Arazoa: "'documents' taula ez da existitzen"
 
-**Solutions:**
-1. Re-run `mysql_zabala_gailetak_fresh_install.sql`
-2. Check you selected the correct database before running SQL
-3. Look for error messages in phpMyAdmin execution log
+**Konponbideak:**
+1. Berriro exekutatu `mysql_zabala_gailetak_fresh_install.sql`
+2. Egiaztatu datu-base zuzena hautatu duzula SQL exekutatu aurretik
+3. Bilatu errore mezuak phpMyAdmin exekuzio log-ean
 
-### Issue: "Cannot upload files" / "Permission denied"
+### Arazoa: "Ezin da fitxategiak igo" / "Baimena ukatua"
 
-**Solutions:**
-1. Create `storage/documents/` directory if missing
-2. Set directory permissions to `755`:
+**Konponbideak:**
+1. Sortu `storage/documents/` direktorioa falta bada
+2. Ezarri direktorio baimenak `755`:
    ```bash
    chmod 755 storage
    chmod 755 storage/documents
    ```
-3. Check `UPLOAD_PATH` in `.env` points to correct absolute path
-4. Verify InfinityFree disk space quota not exceeded
+3. Egiaztatu `UPLOAD_PATH` `.env`-an bide absolutu zuzenera apuntatzen duela
+4. Ziurtatu InfinityFree diskoko kuota gainditu ez dela
 
-### Issue: "Foreign key constraint fails"
+### Arazoa: "Atzako gakoaren murrizketa huts egiten du"
 
-**Solutions:**
-1. Run SQL in correct order (parents before children)
-2. If InfinityFree doesn't support InnoDB, change to MyISAM:
+**Konponbideak:**
+1. Exekutatu SQL ordena zuenean (gurasoak seme-alabak baino lehen)
+2. InfinityFree-k InnoDB ez badu onartzen, aldatu MyISAM-era:
    ```sql
    -- Find and replace in SQL file:
    ENGINE=InnoDB → ENGINE=MyISAM
    ```
-3. Remove FOREIGN KEY constraints if necessary (not ideal)
+3. Kendu FOREIGN KEY murrizketak beharrezkoa bada (ez da ideala)
 
-### Issue: "UUID is empty string or NULL"
+### Arazoa: "UUID kate hutsa edo NULL da"
 
-**Cause:** MySQL doesn't have native UUID generation like PostgreSQL.
+**Kausa:** MySQL-k ez du UUID sorrerarik natiboa PostgreSQL bezala.
 
-**Solution:** Ensure PHP code generates UUIDs before INSERT:
+**Konponbidea:** Ziurtatu PHP kodeak UUID-ak sortzen dituela INSERT baino lehen:
 ```php
 // In controllers:
 $id = $this->generateUUID(); // Must be called before INSERT
 ```
 
-### Issue: "Vacation triggers not working"
+### Arazoa: "Opor trigger-ak ez dute funtzionatzen"
 
-**Diagnosis:**
+**Diagnostikoa:**
 ```sql
 -- Check triggers exist
 SHOW TRIGGERS LIKE 'vacation_requests';
@@ -303,9 +303,9 @@ SHOW TRIGGERS LIKE 'vacation_requests';
 -- Run: scripts/mysql_vacation_triggers.sql
 ```
 
-### Issue: "Public documents not showing"
+### Arazoa: "Dokumentu publikoak ez dira agertzen"
 
-**Solution:** Run Patch 1 (Allow NULL employee_id):
+**Konponbidea:** Exekutatu Patch 1 (Onartu NULL employee_id):
 ```sql
 ALTER TABLE `documents` 
 MODIFY COLUMN `employee_id` VARCHAR(36) DEFAULT NULL;
@@ -313,16 +313,16 @@ MODIFY COLUMN `employee_id` VARCHAR(36) DEFAULT NULL;
 
 ---
 
-## 📊 Database Maintenance
+## 📊 Datu-basearen mantentzea
 
-### Regular Backups
+### Babeskopia erregularrak
 
-**Automated (Recommended):**
-1. Use InfinityFree's built-in backup feature
-2. Schedule: Daily or weekly
-3. Store backups off-site (Google Drive, Dropbox)
+**Automatizatua (Gomendatua):**
+1. Erabili InfinityFree-ren babeskopia funtzio integratua
+2. Ordutegia: Egunero edo astero
+3. Gorde babeskopiak kanpoko leku batean (Google Drive, Dropbox)
 
-**Manual Export:**
+**Eskuzko esportazioa:**
 ```
 phpMyAdmin → Export → Custom → 
 - Format: SQL
@@ -331,15 +331,15 @@ phpMyAdmin → Export → Custom →
 - Save as file
 ```
 
-**Recommended Schedule:**
-- Before major updates
-- Weekly automatic backups
-- Before running migrations
-- After adding significant data
+**Gomendatutako ordutegia:**
+- Eguneraketa garrantzitsuak baino lehen
+- Asteko babeskopia automatikoak
+- Migrazioak exekutatu aurretik
+- Datu garrantzitsuak gehitu ondoren
 
-### Database Optimization
+### Datu-basearen optimizazioa
 
-Run monthly to maintain performance:
+Exekutatu hilero errendimendua mantentzeko:
 
 ```sql
 -- Analyze tables
@@ -352,7 +352,7 @@ OPTIMIZE TABLE users, employees, documents, payroll, vacation_requests;
 CHECK TABLE users, employees, documents, payroll;
 ```
 
-### Clean Up Old Data
+### Garbitu datu zaharrak
 
 ```sql
 -- Archive old payroll (keep 2 years)
@@ -372,30 +372,30 @@ WHERE created_at < DATE_SUB(NOW(), INTERVAL 1 YEAR);
 
 ---
 
-## 🔄 Rollback Procedures
+## 🔄 Berrespen prozedurak
 
-### If Fresh Install Fails
+### Instalazio garbiak huts egiten badu
 
-1. Drop all tables created
-2. Review error messages in phpMyAdmin
-3. Fix syntax errors in SQL file
-4. Re-run installation
+1. Sortutako taula guztiak ezabatu
+2. Berrikusi errore mezuak phpMyAdmin-en
+3. Konpondu sintaxi erroreak SQL fitxategian
+4. Berriro exekutatu instalazioa
 
-### If Migration Fails
+### Migrazioak huts egiten badu
 
-1. Restore from backup:
+1. Berreskuratu babeskopiatik:
    ```sql
    DROP DATABASE if0_40982238_zabala_gailetak;
    CREATE DATABASE if0_40982238_zabala_gailetak;
    ```
-2. Import backup file via phpMyAdmin
-3. Analyze what went wrong
-4. Fix migration script
-5. Try again
+2. Inportatu babeskopia fitxategia phpMyAdmin bidez
+3. Analizatu zer joan zen oker
+4. Konpondu migrazio script-a
+5. Saiatu berriro
 
-### Emergency Recovery
+### Larrialdiko berrespena
 
-If database is completely broken:
+Datu-basea erabat apurtuta badago:
 
 ```sql
 -- 1. Drop database
@@ -412,14 +412,14 @@ COLLATE utf8mb4_unicode_ci;
 
 ---
 
-## 📞 Support & Resources
+## 📞 Laguntza eta baliabideak
 
-### Documentation
-- [Database README](scripts/DATABASE_README.md) - Detailed schema documentation
-- [API Documentation](API_DOCUMENTATION.md) - API endpoint reference
-- [AGENTS.md](AGENTS.md) - Complete project context
+### Dokumentazioa
+- [Database README](scripts/DATABASE_README.md) - Eskema dokumentazio xehea
+- [API Documentation](API_DOCUMENTATION.md) - API endpoint erreferentzia
+- [AGENTS.md](AGENTS.md) - Proiektuaren testuinguru osoa
 
-### Verification Queries
+### Egiaztapen kontsultak
 
 ```sql
 -- Check all tables exist
@@ -447,75 +447,75 @@ WHERE u.id IS NULL;
 
 ---
 
-## 🎯 Deployment Checklist
+## 🎯 Despliegue zerrenda
 
-Print this checklist and check off each item:
+Inprimatu zerrenda hau eta markatu elementu bakoitza:
 
-### Pre-Deployment
-- [ ] Backup existing database (if applicable)
-- [ ] Download `mysql_zabala_gailetak_fresh_install.sql`
-- [ ] Have InfinityFree credentials ready
-- [ ] Generate JWT_SECRET and PASSWORD_PEPPER
-- [ ] Review and customize `.env` file
+### Despliegue aurretik
+- [ ] Babeskopia existitzen den datu-basea (egokia bada)
+- [ ] Deskargatu `mysql_zabala_gailetak_fresh_install.sql`
+- [ ] Izan InfinityFree kredentzialak prest
+- [ ] Sortu JWT_SECRET eta PASSWORD_PEPPER
+- [ ] Berrikusi eta pertsonalizatu `.env` fitxategia
 
-### Database Setup
-- [ ] Access phpMyAdmin
-- [ ] Select correct database
-- [ ] Run SQL installation script
-- [ ] Verify 20 tables created
-- [ ] Run Patch 1 (documents NULL fix)
-- [ ] Run Patch 2 (optional indexes)
-- [ ] Verify triggers installed
+### Datu-basearen konfigurazioa
+- [ ] Sartu phpMyAdmin-era
+- [ ] Hautatu datu-base zuzena
+- [ ] Exekutatu SQL instalazio script-a
+- [ ] Egiaztatu 20 taula sortu direla
+- [ ] Exekutatu Patch 1 (documents NULL konponketa)
+- [ ] Exekutatu Patch 2 (aukerako indizeak)
+- [ ] Egiaztatu trigger-ak instalatuta daudela
 
-### File System
-- [ ] Create `storage/documents/` directory
-- [ ] Create `logs/` directory
-- [ ] Set correct permissions (755)
-- [ ] Upload `.env` file to root
-- [ ] Verify `.gitignore` excludes `.env`
+### Fitxategi sistema
+- [ ] Sortu `storage/documents/` direktorioa
+- [ ] Sortu `logs/` direktorioa
+- [ ] Ezarri baimen zuzenak (755)
+- [ ] Igo `.env` fitxategia erroan
+- [ ] Egiaztatu `.gitignore`-k `.env` baztertzen duela
 
-### Configuration
-- [ ] Update `APP_URL` in `.env`
-- [ ] Set `APP_DEBUG=false`
-- [ ] Configure database credentials
-- [ ] Set strong JWT_SECRET
-- [ ] Set strong PASSWORD_PEPPER
-- [ ] Configure upload paths
+### Konfigurazioa
+- [ ] Eguneratu `APP_URL` `.env`-an
+- [ ] Ezarri `APP_DEBUG=false`
+- [ ] Konfiguratu datu-base kredentzialak
+- [ ] Ezarri JWT_SECRET indartsua
+- [ ] Ezarri PASSWORD_PEPPER indartsua
+- [ ] Konfiguratu igoera bideak
 
-### Validation
-- [ ] Test `/api/test/db` endpoint
-- [ ] Test admin login
-- [ ] Test payslips module
-- [ ] Test documents upload
-- [ ] Test file downloads
-- [ ] Verify triggers work
-- [ ] Check logs for errors
+### Baliozkotzea
+- [ ] Probatu `/api/test/db` endpoint-a
+- [ ] Probatu administratzailearen saioa hasiera
+- [ ] Probatu payslips modulua
+- [ ] Probatu dokumentuen igoera
+- [ ] Probatu fitxategi deskargak
+- [ ] Egiaztatu trigger-ak funtzionatzen dutela
+- [ ] Egiaztatu log-ak erroreetarako
 
-### Security
-- [ ] Change default admin password
-- [ ] Remove test accounts
-- [ ] Review user permissions
-- [ ] Enable HTTPS (InfinityFree provides)
-- [ ] Set secure session cookies
-- [ ] Test rate limiting
+### Segurtasuna
+- [ ] Aldatu administratzailearen pasahitza lehenetsia
+- [ ] Kendu probako kontuak
+- [ ] Berrikusi erabiltzaileen baimenak
+- [ ] Gaitu HTTPS (InfinityFree-k hornitzen du)
+- [ ] Ezarri saio cookie seguruak
+- [ ] Probatu tasa muga
 
-### Documentation
-- [ ] Document any custom changes
-- [ ] Save deployment date/time
-- [ ] Record database version
-- [ ] Note any issues encountered
-- [ ] Update team on deployment
-
----
-
-## 📅 Version History
-
-- **v2.0.0** (2026-02-06) - Added payslips and documents modules support
-- **v1.5.0** (2026-02-05) - Fixed vacation triggers for InfinityFree
-- **v1.0.0** (2026-01-14) - Initial production deployment
+### Dokumentazioa
+- [ ] Dokumentatu aldaketa pertsonalizatuak
+- [ ] Gorde despliegue data/ordua
+- [ ] Grabatu datu-basearen bertsioa
+- [ ] Ohartu aurkitutako arazoak
+- [ ] Eguneratu taldea despliegueari buruz
 
 ---
 
-**Last Updated:** 2026-02-06  
-**Maintained By:** Zabala Gailetak DevTeam  
-**Status:** Production Ready ✅
+## 📅 Bertsioen historia
+
+- **v2.0.0** (2026-02-06) - Payslips eta documents moduluen euskarria gehituta
+- **v1.5.0** (2026-02-05) - Opor trigger-ak konponduak InfinityFree-rako
+- **v1.0.0** (2026-01-14) - Hasierako produkzio desplieguea
+
+---
+
+**Azken eguneraketa:** 2026-02-06  
+**Mantenduta:** Zabala Gailetak DevTeam  
+**Egoera:** Produkziorako prest ✅

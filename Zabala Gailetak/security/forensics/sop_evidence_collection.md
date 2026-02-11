@@ -26,7 +26,7 @@ zaintza-katea bermatuz, ondoren auzitegi-analisia egiteko.
 instalatu ezer sisteman).
 * **Komandoak (Linux):** `date`,
 `hostname`, `uname -a`, `ifconfig`, `netstat -anp`, `ps aux`, `lsof`.
-* **RAM Memoria:** Erabili `LiME` edo `WinPmem` memoriaren volcadoa egiteko.
+* **RAM Memoria:** Erabili `LiME` edo `WinPmem` memoria-dumpa egiteko.
 
 ### Fase 3: Diskoaren Irudia (Dead Acquisition)
 

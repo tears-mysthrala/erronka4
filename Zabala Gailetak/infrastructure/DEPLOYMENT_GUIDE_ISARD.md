@@ -1,18 +1,18 @@
-# IsardVDI & Proxmox "Copy-Paste" Deployment Guide
+# IsardVDI & Proxmox Copy-Paste Instalatzeko Gida
 
-**Version:** 3.2 (Complete Implementation Guide)
-**Prerequisites:**
-1.  **6 VMs created** in IsardVDI/Proxmox with **Debian 12** installed.
-2.  **SSH Access** to all VMs (User: `debian` or `root`).
-3.  **Internet Access** on the Gateway VM's WAN interface.
+**Bertsioa:** 3.2 (Instalazio Gida Osoa)
+**Aurrebaldintzak:**
+1.  **6 BM sortuta** IsardVDI/Proxmox-en **Debian 12** instalatuta.
+2.  **SSH Sarbidea** BM guztietara (Erabiltzailea: `debian` edo `root`).
+3.  **Interneteko Sarbidea** Gateway BM-aren WAN interfazearekin.
 
 ---
 
-## 🛑 PHASE 0: VM Creation Specs (Manual Step)
+## 🛑 0. FASEA: BM Sortzearen Espezifikazioak (Eskuzko Urratsa)
 
-Create these VMs in your hypervisor.
+Sortu BM hauek zure hiperbisorean.
 
-| VM Name | vCPU | RAM | HDD | Network 1 (WAN) | Network 2 (LAN) |
+| BM Izena | vCPU | RAM | HDD | Sarea 1 (WAN) | Sarea 2 (LAN) |
 |---|---|---|---|---|---|
 | **ZG-Gateway** | 1 | 1GB | 10GB | Bridge (Internet) | Internal (Isolated) |
 | **ZG-App** | 2 | 4GB | 20GB | - | Internal (Isolated) |
@@ -23,34 +23,34 @@ Create these VMs in your hypervisor.
 
 ---
 
-## 🌍 PHASE 1: ZG-GATEWAY IMPLEMENTATION
+## 🌍 1. FASEA: ZG-GATEWAY IMPLEMENTAZIOA
 
-**Log in to `ZG-Gateway` via SSH.**
+**Hasi saioa `ZG-Gateway`-n SSH bidez.**
 
-### 1.1. Identify Network Interfaces (CRITICAL)
-*Debian 12 on KVM usually names interfaces `ens18`, `ens19`, etc., NOT `eth0`.*
+### 1.1. Identifikatu Sareko Interfazeak (KRITIKOA)
+*Debian 12 KVM-n interfazeak `ens18`, `ens19`, etab. izenez daude, EZ `eth0`.*
 
-Run this command to see your interfaces:
+Exekutatu komando hau zure interfazeak ikusteko:
 ```bash
 ip -br link
 ```
-*   The one with an IP address (from DHCP) is your **WAN**.
-*   The one that is "DOWN" or has no IP is your **LAN**.
+*   IP helbidea duena (DHCP-tik) zure **WAN** da.
+*   "DOWN" dagoena edo IPrik gabea zure **LAN** da.
 
-**👇 COPY & PASTE THIS BLOCK (Update names if needed) 👇**
+**👇 KOPIATU ETA ITSASTU BLOKE HAU (Izenak eguneratu behar badira) 👇**
 
 ```bash
-# SET YOUR INTERFACE NAMES HERE
-WAN_IF="ens18"   # Replace with YOUR WAN interface
-LAN_IF="ens19"   # Replace with YOUR LAN interface
+# EZARRI ZURE INTERFAZE IZENAK HEMEN
+WAN_IF="ens18"   # Ordeztu zure WAN interfazearekin
+LAN_IF="ens19"   # Ordeztu zure LAN interfazearekin
 
-# Become root
+# Bihurtu root
 sudo -i
 
-# Install basic tools
+# Instalatu oinarrizko tresnak
 apt update && apt install -y vim curl wget nftables isc-dhcp-server
 
-# Configure Interfaces
+# Konfiguratu Interfazeak
 cp /etc/network/interfaces /etc/network/interfaces.bak
 cat <<EOF > /etc/network/interfaces
 source /etc/network/interfaces.d/*
@@ -68,14 +68,14 @@ iface $LAN_IF inet static
     up ip addr add 192.168.200.1/24 dev $LAN_IF
 EOF
 
-# Enable IP Forwarding
+# Gaitu IP Birbideraketa
 echo "net.ipv4.ip_forward=1" > /etc/sysctl.d/99-routing.conf
 sysctl -p /etc/sysctl.d/99-routing.conf
 
-# Restart Networking
+# Berrabiarazi Sarea
 systemctl restart networking
 
-# Configure DHCP
+# Konfiguratu DHCP
 sed -i "s/INTERFACESv4=""/INTERFACESv4=\"$LAN_IF\"/" /etc/default/isc-dhcp-server
 cat <<EOF > /etc/dhcp/dhcpd.conf
 default-lease-time 600;
@@ -102,7 +102,7 @@ subnet 192.168.200.0 netmask 255.255.255.0 {
 EOF
 systemctl restart isc-dhcp-server
 
-# Configure NFTables
+# Konfiguratu NFTables
 cat <<EOF > /etc/nftables.conf
 #!/usr/sbin/nft -f
 flush ruleset
@@ -133,15 +133,15 @@ table ip nat {
     }
 }
 EOF
-ft -f /etc/nftables.conf
+nft -f /etc/nftables.conf
 systemctl enable nftables
 ```
 
 ---
 
-## 💾 PHASE 2: ZG-DATA IMPLEMENTATION
+## 💾 2. FASEA: ZG-DATA IMPLEMENTAZIOA
 
-**Log in to `ZG-Data`.**
+**Hasi saioa `ZG-Data`-n.**
 
 ```bash
 sudo -i
@@ -176,9 +176,9 @@ docker compose up -d
 
 ---
 
-## 💻 PHASE 3: ZG-APP IMPLEMENTATION
+## 💻 3. FASEA: ZG-APP IMPLEMENTAZIOA
 
-**Log in to `ZG-App`.**
+**Hasi saioa `ZG-App`-n.**
 
 ```bash
 sudo -i
@@ -204,15 +204,15 @@ services:
     volumes:
       - ./src:/var/www/html
 EOF
-# Clone or copy src files here.
+# Klonatu edo kopiatu src fitxategiak hemen.
 docker compose up -d
 ```
 
 ---
 
-## 🛡️ PHASE 4: ZG-SECOPS IMPLEMENTATION
+## 🛡️ 4. FASEA: ZG-SECOPS IMPLEMENTAZIOA
 
-**Log in to `ZG-SecOps`.**
+**Hasi saioa `ZG-SecOps`-n.**
 
 ```bash
 sudo -i
@@ -252,9 +252,9 @@ docker compose up -d
 
 ---
 
-## 🏭 PHASE 5: ZG-OT IMPLEMENTATION
+## 🏭 5. FASEA: ZG-OT IMPLEMENTAZIOA
 
-**Log in to `ZG-OT`.**
+**Hasi saioa `ZG-OT`-n.**
 
 ```bash
 sudo -i
@@ -277,17 +277,17 @@ docker compose up -d
 
 ---
 
-## 🗄️ PHASE 7: DATABASE MIGRATIONS
+## 🗄️ 7. FASEA: DATU-BASEAREN MIGRAZIOAK
 
-**Log in to `ZG-App`.**
+**Hasi saioa `ZG-App`-n.**
 
 ```bash
 cd /opt/zabala-app
 docker compose exec -T api apt update && docker compose exec -T api apt install -y postgresql-client
-# Run SQL files from migrations folder
+# Exekutatu SQL fitxategiak migrations karpetatik
 docker compose exec -T api /bin/bash -c \
-  for f in /var/www/html/migrations/*.sql; do
-    echo "Applying $f..."
+  'for f in /var/www/html/migrations/*.sql; do
+    echo "Aplikatzen $f..."
     export PGPASSWORD=$DB_PASS
     psql -h $DB_HOST -U $DB_USER -d $DB_NAME -f "$f"
   done
@@ -295,4 +295,4 @@ docker compose exec -T api /bin/bash -c \
 ```
 
 ---
-**Deployment Complete.**
+**Instalazioa Osatuta.**

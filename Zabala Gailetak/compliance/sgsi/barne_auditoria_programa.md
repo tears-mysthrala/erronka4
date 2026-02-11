@@ -3,42 +3,42 @@
 ## Auditoria Egutegia (Urtekoa)
 
 ### Q1 (Urtarrila-Martxoa)
-- **Astea 4:** Clause 4 & 5 audit (Context + Leadership)
-- **Astea 8:** Clause 6 audit (Planning + Risk assessment)
-- **Astea 12:** Annex A.5 audit (Organizational controls)
+- **Astea 4:** Clause 4 & 5 audit (Kontestua + Lidergoa)
+- **Astea 8:** Clause 6 audit (Planifikazioa + Arrisku ebaluazioa)
+- **Astea 12:** Annex A.5 audit (Antolamendu kontrolak)
 
 ### Q2 (Apirila-Ekaina)
-- **Astea 16:** Clause 7 audit (Support)
-- **Astea 20:** Annex A.6-A.7 audit (People + Physical)
-- **Astea 24:** Clause 8 audit (Operation)
+- **Astea 16:** Clause 7 audit (Euskarria)
+- **Astea 20:** Annex A.6-A.7 audit (Pertsonak + Fisikoa)
+- **Astea 24:** Clause 8 audit (Eragiketa)
 
 ### Q3 (Uztaila-Iraila)
-- **Astea 28:** Annex A.8 audit (Technological controls)
-- **Astea 32:** Clause 9 audit (Performance evaluation)
+- **Astea 28:** Annex A.8 audit (Teknologiko kontrolak)
+- **Astea 32:** Clause 9 audit (Errendimendu ebaluazioa)
 - **Astea 36:** GDPR compliance audit
 
 ### Q4 (Urria-Abendua)
-- **Astea 40:** Annex A.9 audit (Operations Security)
-- **Astea 44:** Clause 10 audit (Improvement)
-- **Astea 48:** Management Review + Closure
+- **Astea 40:** Annex A.9 audit (Eragiketa Segurtasuna)
+- **Astea 44:** Clause 10 audit (Hobekuntza)
+- **Astea 48:** Zuzendaritzaren Berrikusketa + Itxiera
 
 ## Auditore Kalifikazioak
 - Lead Auditor: ISO 27001 Lead Auditor certificated
-- Technical Auditors: Minimum 2 years ISMS experience
-- Independence: Auditors don't audit their own work
+- Technical Auditors: Minimum 2 years ISMS esperientzia
+- Independentzia: Auditoreek beren lana auditatzen ez dute
 
 ## Auditoria Prozesua
-1. Planning (2 weeks before)
-2. Opening meeting
-3. Document review
-4. Interviews
-5. Evidence gathering
-6. Findings documentation
-7. Closing meeting
-8. Report (within 1 week)
-9. Corrective actions tracking
+1. Planifikazioa (2 aste lehenago)
+2. Irekiera bilerak
+3. Dokumentuen berrikusketa
+4. Elkarrizketak
+5. Ebidentzia bilketa
+6. Aurkikuntzak dokumentatzea
+7. Itxiera bilerak
+8. Txostena (aste 1ean)
+9. Ekintza zuzenketen jarraipena
 
 ## Non-Conformities Kudeaketa
-- Major NC: Root cause analysis + corrective action <30 days
-- Minor NC: Corrective action <90 days
-- Opportunities for Improvement: Recommendations logged
+- Major NC: Root cause analysis + ekintza zuzenketa <30 egun
+- Minor NC: Ekintza zuzenketa <90 egun
+- Hobekuntzarako Aukerak: Gomendioak erregistratuta

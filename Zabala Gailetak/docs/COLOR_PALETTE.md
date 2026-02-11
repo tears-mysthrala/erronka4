@@ -1,72 +1,71 @@
-# 🎨 Zabala Gailetak - Paleta de Colores Corporativa
+# 🎨 Zabala Gailetak - Korporazioaren Kolore Paleta
 
-## Colores Primarios
+## Kolore Lehenetsiak
 
-### Rojo Industrial (Primary)
-- **Base**: `#B91C1C` - Color signature de Zabala Gailetak
-- **Light**: `#DC2626` - Variante clara para hover states
-- **Dark**: `#7F1D1D` - Variante oscura para botones activos
-- **Uso**: Botones principales, enlaces, acentos de marca
+### Industrial Gorria (Lehenetsia)
+- **Oinarria**: `#B91C1C` - Zabala Gailetak-en sinadura kolorea
+- **Argia**: `#DC2626` - Egoera aktiboetarako aldaera argia
+- **Iluna**: `#7F1D1D` - Aktibo dauden botoietarako aldaera iluna
+- **Erabilera**: Botoi nagusiak, estekak, marka azentuak
 
-### Naranja Preciso (Accent)
-- **Base**: `#EA580C` - Color de alerta industrial
-- **Light**: `#F97316` - Variante clara
-- **Uso**: Badges, notificaciones, estados de advertencia
+### Zehaztasun Laranja (Azentua)
+- **Oinarria**: `#EA580C` - Industrial alerta kolorea
+- **Argia**: `#F97316` - Aldaera argia
+- **Erabilera**: Badge-ak, jakinarazpenak, abisu egoerak
 
-## Colores de Fondo
+## Atzeko Planoko Koloreak
 
-### Dark Theme (Principal)
-- **Body**: `#0F0F11` - Negro profundo
-- **Surface**: `#18181B` - Superficie base
-- **Card**: `#1C1C1F` - Tarjetas y contenedores
-- **Elevated**: `#27272A` - Elementos elevados
+### Gai Iluna (Nagusia)
+- **Gorputza**: `#0F0F11` - Beltz sakon
+- **Azalera**: `#18181B` - Oinarrizko azalera
+- **Txartela**: `#1C1C1F` - Txartelak eta edukiontziak
+- **Igotua**: `#27272A` - Elementu igotuak
 
 ### Glass Morphism
-- **Background**: `rgba(24, 24, 27, 0.85)` con `backdrop-filter: blur(16px)`
-- **Border**: `rgba(255, 255, 255, 0.08)`
+- **Atzeko planoa**: `rgba(24, 24, 27, 0.85)` eta `backdrop-filter: blur(16px)`
+- **Ertza**: `rgba(255, 255, 255, 0.08)`
 
-## Colores de Texto
+## Testu Koloreak
 
-- **Primary**: `#FAFAFA` - Texto principal (blanco)
-- **Secondary**: `#A1A1AA` - Texto secundario (gris 400)
-- **Tertiary**: `#71717A` - Texto terciario (gris 500)
+- **Lehenetsia**: `#FAFAFA` - Testu nagusia (zuria)
+- **Bigarrena**: `#A1A1AA` - Testu sekundarioa (gris 400)
+- **Hirugarrena**: `#71717A` - Testu hirugarrena (gris 500)
 
-## Colores de Estado
+## Egoera Koloreak
 
-- **Success**: `#059669` / `#10B981`
-- **Warning**: `#D97706` / `#F59E0B`
-- **Danger**: `#DC2626`
-- **Info**: `#0284C7`
+- **Arrakasta**: `#059669` / `#10B981`
+- **Abisua**: `#D97706` / `#F59E0B`
+- **Arriskua**: `#DC2626`
+- **Informazioa**: `#0284C7`
 
-## Gradientes
+## Gradientea
 
-### Primary Gradient
+### Gradiente Nagusia
 ```css
 background: linear-gradient(135deg, #B91C1C, #DC2626);
 ```
 
-### Accent Gradient
+### Gradiente Azentua
 ```css
 background: linear-gradient(135deg, #EA580C, #F97316);
 ```
 
-## Shadows
+## Itzalak
 
-### Glow Effects
-- **Primary Glow**: `0 0 32px rgba(185, 28, 28, 0.2)`
-- **Accent Glow**: `0 0 28px rgba(234, 88, 12, 0.15)`
+### Glow Efektuak
+- **Glow Nagusia**: `0 0 32px rgba(185, 28, 28, 0.2)`
+- **Glow Azentua**: `0 0 28px rgba(234, 88, 12, 0.15)`
 
-### Standard Shadows
-- **Small**: `0 1px 3px rgba(0, 0, 0, 0.5)`
-- **Medium**: `0 4px 12px rgba(0, 0, 0, 0.6)`
-- **Large**: `0 8px 24px rgba(0, 0, 0, 0.7)`
-- **Extra Large**: `0 16px 40px rgba(0, 0, 0, 0.8)`
+### Itzal Estandarrak
+- **Txikia**: `0 1px 3px rgba(0, 0, 0, 0.5)`
+- **Ertaina**: `0 4px 12px rgba(0, 0, 0, 0.6)`
+- **Handia**: `0 8px 24px rgba(0, 0, 0, 0.7)`
+- **Oso Handia**: `0 16px 40px rgba(0, 0, 0, 0.8)`
 
-## Inspiración
+## Inspirazioa
 
-Los colores están inspirados en:
-- 🏭 **Industria**: Rojo de maquinaria industrial
-- 🔥 **Precisión**: Naranja de alertas de seguridad
-- ⚙️ **Tecnología**: Fondos oscuros tipo "control room"
-- 🎯 **Profesionalidad**: Paleta seria y corporativa
-
+Koloreek honengandik dute inspirazioa:
+- 🏭 **Industria**: Makineria industrialaren gorria
+- 🔥 **Zehaztasuna**: Segurtasun alerten laranja
+- ⚙️ **Teknologia**: "Kontrol gelako" motako atzeko plano ilunak
+- 🎯 **Profesionalitatea**: Paleta serio eta korporatiboa

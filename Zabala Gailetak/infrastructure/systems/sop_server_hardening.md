@@ -1,47 +1,47 @@
-# Server Hardening SOP (Debian 12 Copy-Paste)
+# Zerbitzariaren Indartze SOP (Debian 12 Kopiatu eta Itsatsi)
 
-**Target:** All Servers (App, Data, SecOps, OT)
-**User:** Root
+**Helburua:** Zerbitzari Guztiak (App, Data, SecOps, OT)
+**Erabiltzailea:** Root
 
-## 1. Basic System Secure
+## 1. Sistema Oinarrizko Segurtasuna
 
-Run these commands on every new server immediately after installation.
+Exekutatu komando hauek zerbitzari bakoitzean instalazioa amaitu bezain laster.
 
 ```bash
-# 1. Update & Install Tools
+# 1. Eguneratu eta Instalatu Tresnak
 apt update && apt upgrade -y
 apt install -y ufw fail2ban curl git htop
 
-# 2. Setup Non-Root User (Interactive)
+# 2. Sortu Root Ez den Erabiltzailea (Interaktiboa)
 adduser admin
 usermod -aG sudo admin
 
-# 3. Secure Shared Memory
+# 3. Segurtatu Memoria Partekatua
 echo "tmpfs /run/shm tmpfs defaults,noexec,nosuid 0 0" >> /etc/fstab
 mount -o remount /run/shm
 ```
 
-## 2. SSH Hardening (Critical)
+## 2. SSH Indartzea (Kritikoa)
 
-Prevents root login and password brute-forcing.
+Errotze saioa eta pasahitz erasoak saihesten ditu.
 
 ```bash
-# Create Hardening Config File (Debian 12 method)
+# Sortu Indartze Konfigurazio Fitxategia (Debian 12 metodoa)
 cat <<EOF > /etc/ssh/sshd_config.d/99-hardening.conf
 PermitRootLogin no
 PasswordAuthentication no
 X11Forwarding no
 EOF
 
-# Restart SSH
+# Berrabiarazi SSH
 systemctl restart sshd
 ```
-*Warning: Ensure you have SSH keys setup for `admin` user before disabling passwords!*
-*If you haven't set up keys yet, temporarily use `PasswordAuthentication yes` and change it later.*
+*Abisua: Ziurtatu SSH gakoak konfiguratuta dituzula `admin` erabiltzailearentzat pasahitzak desgaitu aurretik!*
+*Gakoak oraindik ez badituzu konfiguratu, aldi baterako erabili `PasswordAuthentication yes` eta aldatu geroago.*
 
-## 3. Host Firewall (UFW) Configuration
+## 3. Ostoko Firewall-a (UFW) Konfigurazioa
 
-### For ZG-App (Web Server)
+### ZG-App-rako (Web Zerbitzaria)
 ```bash
 ufw default deny incoming
 ufw default allow outgoing
@@ -51,30 +51,30 @@ ufw allow 443/tcp
 ufw enable
 ```
 
-### For ZG-Data (Database)
+### ZG-Data-rako (Datu-basea)
 ```bash
 ufw default deny incoming
 ufw default allow outgoing
 ufw allow ssh
-# Allow Postgres ONLY from App Server
+# Utzi Postgres App Zerbitzaritik soilik
 ufw allow from 192.168.20.10 to any port 5432
-# Allow Redis ONLY from App Server
+# Utzi Redis App Zerbitzaritik soilik
 ufw allow from 192.168.20.10 to any port 6379
 ufw enable
 ```
 
-### For ZG-SecOps (Wazuh)
+### ZG-SecOps-rako (Wazuh)
 ```bash
 ufw default deny incoming
 ufw default allow outgoing
 ufw allow ssh
 ufw allow 443/tcp    # Wazuh Dashboard
-ufw allow 1514/tcp   # Agent communication
-ufw allow 1515/tcp   # Enrollment
+ufw allow 1514/tcp   # Agenteen komunikazioa
+ufw allow 1515/tcp   # Matrikulazioa
 ufw enable
 ```
 
-### For ZG-OT (Industrial)
+### ZG-OT-rako (Industriala)
 ```bash
 ufw default deny incoming
 ufw default allow outgoing
@@ -84,14 +84,14 @@ ufw allow 502/tcp    # Modbus
 ufw enable
 ```
 
-## 4. Fail2Ban Setup
-Protect SSH from brute force.
+## 4. Fail2Ban Konfigurazioa
+Babestu SSH indar brutu erasotik.
 
 ```bash
-# Create local config
+# Sortu konfigurazio lokala
 cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
 
-# Enable SSH jail
+# Gaitu SSH jail-a
 cat <<EOF >> /etc/fail2ban/jail.local
 [sshd]
 enabled = true

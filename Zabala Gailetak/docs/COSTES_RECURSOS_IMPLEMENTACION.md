@@ -1,438 +1,438 @@
-# 💰 Análisis de Costes, Recursos y Salarios - Zabala Gailetak
+# 💰 Kostuen, Baliabideen eta Soldaten Analisia - Zabala Gailetak
 
-## Plataforma de E-commerce Segura con SIEM, OT/PLC e Infraestructura de Honeypots
+## Plataforma E-komertzio Segurua SIEM, OT/PLC eta Honeypot Azpiegiturarekin
 
-**Versión**: 1.0  
-**Fecha**: 12 de Enero 2026  
-**Empresa**: Zabala Gailetak Security Solutions  
-
----
-
-## 📊 RESUMEN EJECUTIVO
-
-Este documento detalla los costes completos de implementación del sistema Zabala Gailetak, incluyendo:
-
-- Infraestructura hardware/cloud
-- Licencias de software
-- Recursos humanos (salarios)
-- Costes operacionales
-- Oferta comercial para cliente empresarial
-
-**Inversión Total (Implementación)**: €187,950 - €257,250  
-**Coste Operacional Anual**: €348,000 - €456,000  
-**Precio de Venta al Cliente**: €425,000 - €650,000 (primera instalación + año 1)
+**Bertsioa**: 1.0  
+**Data**: 2026ko urtarrilaren 12a  
+**Enpresa**: Zabala Gailetak Security Solutions  
 
 ---
 
-## 🖥️ PARTE 1: COSTES DE INFRAESTRUCTURA
+## 📊 LABURPEN EXEKUTIBOA
 
-### Opción A: Infraestructura On-Premise (CAPEX)
+Dokumentu honek Zabala Gailetak sistema inplementatzeko kostu osoak zehazten ditu, honakoak barne:
 
-#### Hardware - Configuración de 4 Servidores
+- Hardware/cloud azpiegitura
+- Software lizentziak
+- Giza baliabideak (soldatak)
+- Eragiketa kostuak
+- Enpresa bezeroarentzako eskaintza komertziala
 
-| Servidor | Especificaciones | Precio Unitario | Cantidad | Total |
-|----------|------------------|-----------------|----------|-------|
-| **Servidor Producción** | Dell PowerEdge R750, 8 cores, 32 GB RAM, 2x 960GB SSD RAID1 | €4,200 | 2 (HA) | €8,400 |
-| **Servidor SIEM** | Dell PowerEdge R750, 16 cores, 64 GB RAM, 4x 960GB SSD RAID10 | €7,800 | 2 (cluster) | €15,600 |
-| **Servidor OT/PLC** | Dell PowerEdge R650, 6 cores, 16 GB RAM, 2x 480GB SSD RAID1 | €3,200 | 1 | €3,200 |
-| **Servidor Honeypot** | Dell PowerEdge R650, 12 cores, 32 GB RAM, 4x 480GB SSD RAID10 | €5,400 | 1 | €5,400 |
-| **Firewall/Router** | Fortinet FortiGate 200F, 20 Gbps, SSL inspection, IPS/IDS | €8,500 | 2 (HA pair) | €17,000 |
-| **Switch Core** | Cisco Catalyst 9300-48U, 48 puertos, VLAN, ACL, QoS, PoE+ | €6,500 | 2 (stack) | €13,000 |
-| **UPS** | APC Smart-UPS SRT 6kVA, 15 min autonomía, double-conversion | €3,200 | 2 | €6,400 |
-| **Rack 42U** | Incluye PDUs, bandejas, ventilación | €1,200 | 1 | €1,200 |
-| **Cableado estructurado** | Cat6a, latiguillos, patch panel | €800 | 1 | €800 |
-
-**Subtotal Hardware**: **€71,000**
-
-#### Storage Adicional
-
-| Item | Especificaciones | Precio |
-|------|------------------|--------|
-| **NAS Backup/Archive** | Synology RS2421RP+, 12 bahías, 12x 8TB SATA, RAID6, 10Gbe | €8,500 |
-| **Cloud Backup** | AWS S3 Glacier<br>- 100 TB/año<br>- Replicación off-site | €2,400/año |
-
-**Subtotal Storage**: **€8,500 + €2,400/año**
-
-#### Software y Licencias (3 años)
-
-| Software | Tipo | Coste |
-|----------|------|-------|
-| **Red Hat Enterprise Linux** | 10 suscripciones Standard (3 años) | €15,000 |
-| **MongoDB Enterprise** | Advanced features, HA, Support (3 años) | €18,000 |
-| **Fortinet FortiCare** | 24x7 support + updates (3 años) | €12,000 |
-| **Elastic Stack Enterprise** | Gold license SIEM (3 años) | €24,000 |
-| **SSL Certificates** | Wildcard + EV (3 años) | €1,800 |
-| **Conpot/T-Pot** | Open source (€0) | €0 |
-| **OpenPLC** | Open source (€0) | €0 |
-
-**Subtotal Licencias (3 años)**: **€70,800** (€23,600/año amortizado)
-
-#### Instalación y Configuración
-
-| Concepto | Coste |
-|----------|-------|
-| Instalación física (rack, cableado) | €2,500 |
-| Configuración inicial servidores | €4,000 |
-| Configuración red, firewall, VLANs | €6,000 |
-| Migración de datos (si aplica) | €3,000 |
-| Pruebas de aceptación (1 semana) | €5,000 |
-
-**Subtotal Instalación**: **€20,500**
-
-### **TOTAL OPCIÓN A (On-Premise)**
-
-- **CAPEX inicial**: €170,800
-- **OPEX anual**: €2,400 (cloud backup)
-- **Licencias anuales** (tras 3 años): €23,600/año
+**Inbertsio Totala (Inplementazioa)**: €187,950 - €257,250  
+**Eragiketa Kostu Urterokoa**: €348,000 - €456,000  
+**Bezeroarentzako Salmenta Prezioa**: €425,000 - €650,000 (lehen instalazioa + 1. urtea)
 
 ---
 
-### Opción B: Infraestructura Cloud (AWS) - OPEX
+## 🖥️ 1. ATALA: AZPIEGITURA KOSTUAK
 
-#### Configuración AWS (Región eu-west-1 - Irlanda)
+### Aukera A: On-Premise Azpiegitura (CAPEX)
 
-| Servicio | Especificación | Coste Mensual | Coste Anual |
-|----------|----------------|---------------|-------------|
-| **EC2 - Producción API** | 2x c6i.2xlarge (8 vCPU, 16GB)<br>Application Load Balancer | €520 | €6,240 |
+#### Hardware - 4 Zerbitzari Konfigurazioa
+
+| Zerbitzaria | Espezifikazioak | Unitate Prezioa | Kantitatea | Guztira |
+|-------------|-----------------|-----------------|------------|---------|
+| **Produkzio Zerbitzaria** | Dell PowerEdge R750, 8 nukleo, 32 GB RAM, 2x 960GB SSD RAID1 | €4,200 | 2 (HA) | €8,400 |
+| **SIEM Zerbitzaria** | Dell PowerEdge R750, 16 nukleo, 64 GB RAM, 4x 960GB SSD RAID10 | €7,800 | 2 (clusterra) | €15,600 |
+| **OT/PLC Zerbitzaria** | Dell PowerEdge R650, 6 nukleo, 16 GB RAM, 2x 480GB SSD RAID1 | €3,200 | 1 | €3,200 |
+| **Honeypot Zerbitzaria** | Dell PowerEdge R650, 12 nukleo, 32 GB RAM, 4x 480GB SSD RAID10 | €5,400 | 1 | €5,400 |
+| **Firewall/Router** | Fortinet FortiGate 200F, 20 Gbps, SSL inspection, IPS/IDS | €8,500 | 2 (HA bikotea) | €17,000 |
+| **Switch Core** | Cisco Catalyst 9300-48U, 48 portu, VLAN, ACL, QoS, PoE+ | €6,500 | 2 (stack) | €13,000 |
+| **UPS** | APC Smart-UPS SRT 6kVA, 15 min autonomia, double-conversion | €3,200 | 2 | €6,400 |
+| **Rack 42U** | PDU-ak, erretiluak, ventilazioa barne | €1,200 | 1 | €1,200 |
+| **Kableatua** | Cat6a, latiguillo-ak, patch panel | €800 | 1 | €800 |
+
+**Hardware Azpitotala**: **€71,000**
+
+#### Biltegiratze Gehigarria
+
+| Elementua | Espezifikazioak | Prezioa |
+|-----------|-----------------|---------|
+| **NAS Babespena/Artxiboa** | Synology RS2421RP+, 12 bainu, 12x 8TB SATA, RAID6, 10Gbe | €8,500 |
+| **Cloud Babespena** | AWS S3 Glacier<br>- 100 TB/urte<br>- Off-site replikazioa | €2,400/urte |
+
+**Biltegiratze Azpitotala**: **€8,500 + €2,400/urte**
+
+#### Software eta Lizentziak (3 urte)
+
+| Softwarea | Mota | Kostua |
+|-----------|------|--------|
+| **Red Hat Enterprise Linux** | 10 Standard harpidetzak (3 urte) | €15,000 |
+| **MongoDB Enterprise** | Ezaugarri aurreratuak, HA, Laguntza (3 urte) | €18,000 |
+| **Fortinet FortiCare** | 24x7 laguntza + eguneraketak (3 urte) | €12,000 |
+| **Elastic Stack Enterprise** | Gold lizentzia SIEM (3 urte) | €24,000 |
+| **SSL Ziurtagiriak** | Wildcard + EV (3 urte) | €1,800 |
+| **Conpot/T-Pot** | Kode irekia (€0) | €0 |
+| **OpenPLC** | Kode irekia (€0) | €0 |
+
+**Lizentzia Azpitotala (3 urte)**: **€70,800** (€23,600/urte amortizatua)
+
+#### Instalazioa eta Konfigurazioa
+
+| Kontzeptua | Kostua |
+|------------|--------|
+| Instalazio fisikoa (rack, kableatua) | €2,500 |
+| Hasierako zerbitzari konfigurazioa | €4,000 |
+| Sare, firewall, VLAN konfigurazioa | €6,000 |
+| Datu migrazioa (aplikagarria bada) | €3,000 |
+| Onarpen probak (1 aste) | €5,000 |
+
+**Instalazio Azpitotala**: **€20,500**
+
+### **AUKERA A GUZTIRA (On-Premise)**
+
+- **Hasierako CAPEX**: €170,800
+- **Urteko OPEX**: €2,400 (cloud babespena)
+- **Urteko lizentziak** (3 urte ondoren): €23,600/urte
+
+---
+
+### B Aukera: Cloud Azpiegitura (AWS) - OPEX
+
+#### AWS Konfigurazioa (eu-west-1 eskualdea - Irlanda)
+
+| Zerbitzua | Espezifikazioa | Hileko Kostua | Urteko Kostua |
+|-----------|----------------|---------------|---------------|
+| **EC2 - Produkzio API** | 2x c6i.2xlarge (8 vCPU, 16GB)<br>Application Load Balancer | €520 | €6,240 |
 | **EC2 - MongoDB** | 3x r6i.xlarge (4 vCPU, 32GB)<br>Replica Set | €780 | €9,360 |
 | **ElastiCache Redis** | cache.r6g.large (2 vCPU, 13GB)<br>Multi-AZ | €180 | €2,160 |
-| **EC2 - SIEM Elasticsearch** | 3x r6i.2xlarge (8 vCPU, 64GB)<br>Cluster | €1,560 | €18,720 |
+| **EC2 - SIEM Elasticsearch** | 3x r6i.2xlarge (8 vCPU, 64GB)<br>Clusterra | €1,560 | €18,720 |
 | **EC2 - Logstash** | 2x c6i.xlarge (4 vCPU, 8GB) | €260 | €3,120 |
 | **EC2 - Kibana** | 1x t3.large (2 vCPU, 8GB) | €65 | €780 |
 | **EC2 - OT/PLC** | 1x t3.xlarge (4 vCPU, 16GB) | €120 | €1,440 |
 | **EC2 - Honeypots** | 1x c6i.2xlarge (8 vCPU, 16GB) | €260 | €3,120 |
-| **EBS Storage** | 2 TB gp3 SSD (Producción)<br>6 TB gp3 SSD (SIEM)<br>500 GB gp3 (OT/Honeypot) | €520 | €6,240 |
-| **S3 Storage** | 10 TB logs archive<br>Lifecycle to Glacier | €240 | €2,880 |
-| **RDS Backup** | Automated backups MongoDB<br>30 días retención | €150 | €1,800 |
-| **VPC, NAT Gateway** | 3 AZ, redundancia | €180 | €2,160 |
-| **CloudWatch** | Logs, métricas, alarmas | €120 | €1,440 |
-| **WAF + Shield** | Protección DDoS, bot filtering | €350 | €4,200 |
-| **Data Transfer OUT** | 5 TB/mes tráfico salida | €450 | €5,400 |
+| **EBS Storage** | 2 TB gp3 SSD (Produkzioa)<br>6 TB gp3 SSD (SIEM)<br>500 GB gp3 (OT/Honeypot) | €520 | €6,240 |
+| **S3 Storage** | 10 TB logs artxiboa<br>Lifecycle Glacier-era | €240 | €2,880 |
+| **RDS Backup** | MongoDB babespen automatizatuak<br>30 egun atxikipena | €150 | €1,800 |
+| **VPC, NAT Gateway** | 3 AZ, aniztasuna | €180 | €2,160 |
+| **CloudWatch** | Log-ak, metrikak, alarmak | €120 | €1,440 |
+| **WAF + Shield** | DDoS babesa, bot filtering | €350 | €4,200 |
+| **Data Transfer OUT** | 5 TB/hile trafikoa irteera | €450 | €5,400 |
 
-**Subtotal AWS Mensual**: **€5,755**  
-**Subtotal AWS Anual**: **€69,060**
+**AWS Hileko Azpitotala**: **€5,755**  
+**AWS Urteko Azpitotala**: **€69,060**
 
-#### Servicios Gestionados AWS (Alternativa)
+#### AWS Kudeatutako Zerbitzuak (Aukera)
 
-| Servicio | Reemplazo | Coste Mensual | Coste Anual |
-|----------|-----------|---------------|-------------|
-| **Amazon OpenSearch** | Reemplaza ELK Stack<br>3 nodos r6g.2xlarge.search | €2,100 | €25,200 |
-| **DocumentDB** | Reemplaza MongoDB<br>3 nodos r6g.xlarge | €1,200 | €14,400 |
-| **GuardDuty** | Threat detection nativa | €150 | €1,800 |
-| **Security Hub** | Compliance checks | €50 | €600 |
+| Zerbitzua | Ordezkapena | Hileko Kostua | Urteko Kostua |
+|-----------|-------------|---------------|---------------|
+| **Amazon OpenSearch** | ELK Stack ordezkatzen du<br>3 nodo r6g.2xlarge.search | €2,100 | €25,200 |
+| **DocumentDB** | MongoDB ordezkatzen du<br>3 nodo r6g.xlarge | €1,200 | €14,400 |
+| **GuardDuty** | Mehatxu detekzio natiboa | €150 | €1,800 |
+| **Security Hub** | Betetze egiaztapenak | €50 | €600 |
 
-**Subtotal Managed Services**: **+€3,500/mes** (€42,000/año)
+**Kudeatutako Zerbitzuen Azpitotala**: **+€3,500/hile** (€42,000/urte)
 
-### **TOTAL OPCIÓN B (AWS Cloud)**
+### **AUKERA B GUZTIRA (AWS Cloud)**
 
-- **Infraestructura Self-Managed**: €69,060/año
-- **Infraestructura Managed Services**: €111,060/año
-- **Sin CAPEX inicial** (solo migration ~€5,000)
-
----
-
-### Opción C: Híbrido (On-Premise Producción + Cloud SIEM/Backup)
-
-| Componente | Ubicación | Coste |
-|------------|-----------|-------|
-| Servidores Producción + OT | On-premise | €48,000 CAPEX |
-| SIEM (OpenSearch Service) | AWS | €25,200/año |
-| Honeypots | AWS | €3,600/año |
-| Backup/DR | AWS S3 + Glacier | €4,800/año |
-| Conectividad AWS Direct Connect | 1Gbps | €3,600/año |
-
-### **TOTAL OPCIÓN C (Híbrido)**
-
-- **CAPEX inicial**: €48,000
-- **OPEX anual**: €37,200
+- **Self-Managed Azpiegitura**: €69,060/urte
+- **Kudeatutako Zerbitzuen Azpiegitura**: €111,060/urte
+- **CAPEX inicialik gabe** (migrazioa soilik ~€5,000)
 
 ---
 
-## 👥 PARTE 2: RECURSOS HUMANOS Y SALARIOS
+### Aukera C: Hibridoa (On-Premise Produkzioa + Cloud SIEM/Babespena)
 
-### Fase 1: Implementación (6 meses)
+| Osagaia | Kokapena | Kostua |
+|---------|----------|--------|
+| Produkzio + OT Zerbitzariak | On-premise | €48,000 CAPEX |
+| SIEM (OpenSearch Service) | AWS | €25,200/urte |
+| Honeypots | AWS | €3,600/urte |
+| Babespena/DR | AWS S3 + Glacier | €4,800/urte |
+| AWS Direct Connect Konectibitatea | 1Gbps | €3,600/urte |
 
-#### Equipo de Proyecto
+### **AUKERA C GUZTIRA (Hibridoa)**
 
-| Rol | Dedicación | Salario Bruto Anual | Coste 6 meses | Cantidad | Total |
-|-----|------------|---------------------|---------------|----------|-------|
+- **Hasierako CAPEX**: €48,000
+- **Urteko OPEX**: €37,200
+
+---
+
+## 👥 2. ATALA: GIZA BALIABIDEAK ETA SOLDATAK
+
+### 1. Fasea: Inplementazioa (6 hilabete)
+
+#### Proiektu Taldea
+
+| Rola | Dedikazioa | Urteko Soldata Gordina | 6 Hilabeteko Kostua | Kantitatea | Guztira |
+|------|------------|------------------------|---------------------|------------|---------|
 | **Project Manager Senior** | 100% | €65,000 | €32,500 | 1 | €32,500 |
-| **Arquitecto de Seguridad** | 100% | €75,000 | €37,500 | 1 | €37,500 |
+| **Segurtasun Arkitektoa** | 100% | €75,000 | €37,500 | 1 | €37,500 |
 | **DevOps Engineer Senior** | 100% | €60,000 | €30,000 | 2 | €60,000 |
 | **Backend Developer (Node.js)** | 100% | €50,000 | €25,000 | 2 | €50,000 |
 | **Frontend Developer (React)** | 100% | €48,000 | €24,000 | 1 | €24,000 |
 | **QA/Security Tester** | 100% | €45,000 | €22,500 | 1 | €22,500 |
 | **DBA/Data Engineer** | 50% | €55,000 | €13,750 | 1 | €13,750 |
-| **OT/SCADA Specialist** | 50% | €70,000 | €17,500 | 1 | €17,500 |
-| **SIEM Analyst** | 75% | €52,000 | €19,500 | 1 | €19,500 |
+| **OT/SCADA Espezialista** | 50% | €70,000 | €17,500 | 1 | €17,500 |
+| **SIEM Analista** | 75% | €52,000 | €19,500 | 1 | €19,500 |
 
-**Subtotal Salarios (6 meses implementación)**: **€277,250**
+**Soldaten Azpitotala (6 hilabete inplementazioa)**: **€277,250**
 
-**+ Cargas sociales (30%)**: **€83,175**
+**+ Gizarte kargak (30%)**: **€83,175**
 
-**Total Recursos Humanos Implementación**: **€360,425**
+**Inplementazioko Giza Baliabideak Guztira**: **€360,425**
 
 ---
 
-### Fase 2: Operación Continua (Anual)
+### 2. Fasea: Eragiketa Jarraia (Urterokoa)
 
-#### Equipo Operacional
+#### Eragiketa Taldea
 
-| Rol | Dedicación | Salario Bruto Anual | Cantidad | Total Anual |
-|-----|------------|---------------------|----------|-------------|
+| Rola | Dedikazioa | Urteko Soldata Gordina | Kantitatea | Urteko Guztira |
+|------|------------|------------------------|------------|----------------|
 | **IT Manager/CISO** | 100% | €70,000 | 1 | €70,000 |
 | **DevOps Engineer** | 100% | €55,000 | 2 | €110,000 |
 | **Backend Developer** | 100% | €48,000 | 1 | €48,000 |
-| **SOC Analyst (SIEM)** | 100% | €45,000 | 2 | €90,000 |
-| **SOC Analyst (turnos 24x7)** | 100% | €42,000 | 2 | €84,000 |
+| **SOC Analista (SIEM)** | 100% | €45,000 | 2 | €90,000 |
+| **SOC Analista (24x7 txandak)** | 100% | €42,000 | 2 | €84,000 |
 | **DBA (MongoDB/Redis)** | 50% | €55,000 | 1 | €27,500 |
-| **OT Security Engineer** | 75% | €60,000 | 1 | €45,000 |
-| **Incident Responder** | On-call | €50,000 | 1 | €50,000 |
+| **OT Segurtasun Ingeniaria** | 75% | €60,000 | 1 | €45,000 |
+| **Gertaera Erantzulea** | On-call | €50,000 | 1 | €50,000 |
 
-**Subtotal Salarios Anuales**: **€524,500**
+**Urteko Soldaten Azpitotala**: **€524,500**
 
-**+ Cargas sociales (30%)**: **€157,350**
+**+ Gizarte kargak (30%)**: **€157,350**
 
-**Total Recursos Humanos Operación Anual**: **€681,850**
-
----
-
-### Costes Indirectos de Personal
-
-| Concepto | Coste Anual |
-|----------|-------------|
-| Formación y certificaciones (CISSP, CEH, GIAC) | €15,000 |
-| Herramientas de desarrollo (IDE, licencias) | €5,000 |
-| Hardware para equipo (portátiles, monitores) | €25,000 (amortizado 3 años = €8,333/año) |
-| Viajes y desplazamientos | €8,000 |
-| Conferencias y eventos (Black Hat, RSA) | €12,000 |
-
-**Subtotal Indirectos**: **€48,333/año**
+**Eragiketa Urteko Giza Baliabideak Guztira**: **€681,850**
 
 ---
 
-## 📈 PARTE 3: COSTES OPERACIONALES ANUALES
+### Langileen Kostu Zeharkakoak
 
-### Operación y Mantenimiento (Año 1+)
+| Kontzeptua | Urteko Kostua |
+|------------|---------------|
+| Prestakuntza eta ziurtagiriak (CISSP, CEH, GIAC) | €15,000 |
+| Garapen tresnak (IDE, lizentziak) | €5,000 |
+| Langileen hardwarea (eramangarriak, monitoreak) | €25,000 (3 urte amortizatua = €8,333/urte) |
+| Bidaiak eta desplazamenduak | €8,000 |
+| Konferentziak eta gertaerak (Black Hat, RSA) | €12,000 |
 
-| Concepto | Opción A (On-Prem) | Opción B (AWS) | Opción C (Híbrido) |
-|----------|-------------------|----------------|-------------------|
-| **Infraestructura** | €2,400 | €69,060 | €37,200 |
-| **Licencias software** | €23,600 | €0 (incluido) | €11,800 |
-| **Electricidad** (30 kW, 24x7) | €18,000 | €0 | €9,000 |
-| **Refrigeración** | €6,000 | €0 | €3,000 |
-| **Mantenimiento hardware** | €7,100 (10% hardware) | €0 | €4,800 |
-| **Soporte técnico externo** | €12,000 | €8,000 | €10,000 |
-| **Auditorías de seguridad** (trimestral) | €16,000 | €16,000 | €16,000 |
-| **Penetration Testing** (anual) | €8,000 | €8,000 | €8,000 |
+**Zeharkakoen Azpitotala**: **€48,333/urte**
+
+---
+
+## 📈 3. ATALA: URTEKO ERAGIKETA KOSTUAK
+
+### Eragiketa eta Mantentzea (1. Urtea+)
+
+| Kontzeptua | Aukera A (On-Prem) | Aukera B (AWS) | Aukera C (Hibridoa) |
+|------------|-------------------|----------------|---------------------|
+| **Azpiegitura** | €2,400 | €69,060 | €37,200 |
+| **Software lizentziak** | €23,600 | €0 (barne) | €11,800 |
+| **Elektrizitatea** (30 kW, 24x7) | €18,000 | €0 | €9,000 |
+| **Hozketa** | €6,000 | €0 | €3,000 |
+| **Hardware mantentzea** | €7,100 (hardwarearen %10) | €0 | €4,800 |
+| **Kanpo laguntza teknikoa** | €12,000 | €8,000 | €10,000 |
+| **Segurtasun auditoretza** (hiruhilekoa) | €16,000 | €16,000 | €16,000 |
+| **Penetration Testing** (urterokoa) | €8,000 | €8,000 | €8,000 |
 | **Threat Intelligence feeds** | €12,000 | €12,000 | €12,000 |
-| **Backup offsite** | Incluido arriba | Incluido | Incluido |
-| **Seguro ciberseguridad** | €15,000 | €15,000 | €15,000 |
-| **Renovación certificados/compliance** | €5,000 | €5,000 | €5,000 |
+| **Offsite babespena** | Goian barne | Barne | Barne |
+| **Zibersegurtasun asegurua** | €15,000 | €15,000 | €15,000 |
+| **Ziurtagiri/betetze berritzea** | €5,000 | €5,000 | €5,000 |
 
-**Subtotal OPEX Infraestructura**:
+**OPEX Azpiegituraren Azpitotala**:
 
-- **Opción A**: €125,100/año
-- **Opción B**: €133,060/año
-- **Opción C**: €131,800/año
-
----
-
-## 💼 PARTE 4: RESUMEN DE COSTES TOTALES
-
-### Costes de Implementación (Año 0)
-
-| Concepto | Opción A (On-Prem) | Opción B (AWS) | Opción C (Híbrido) |
-|----------|-------------------|----------------|-------------------|
-| **CAPEX Hardware** | €79,500 | €0 | €48,000 |
-| **Licencias (3 años)** | €70,800 | €0 | €35,400 |
-| **Instalación/Setup** | €20,500 | €5,000 | €12,500 |
-| **Recursos Humanos (6 meses)** | €360,425 | €360,425 | €360,425 |
-| **TOTAL AÑO 0** | **€531,225** | **€365,425** | **€456,325** |
-
-### Costes Operacionales (Año 1 en adelante)
-
-| Concepto | Opción A (On-Prem) | Opción B (AWS) | Opción C (Híbrido) |
-|----------|-------------------|----------------|-------------------|
-| **OPEX Infraestructura** | €125,100 | €133,060 | €131,800 |
-| **Personal (8 FTE)** | €681,850 | €681,850 | €681,850 |
-| **Indirectos Personal** | €48,333 | €48,333 | €48,333 |
-| **TOTAL ANUAL** | **€855,283** | **€863,243** | **€861,983** |
-
-### Coste Total 3 Años (TCO)
-
-| Concepto | Opción A (On-Prem) | Opción B (AWS) | Opción C (Híbrido) |
-|----------|-------------------|----------------|-------------------|
-| Año 0 (Implementación) | €531,225 | €365,425 | €456,325 |
-| Año 1 (Operación) | €855,283 | €863,243 | €861,983 |
-| Año 2 (Operación) | €855,283 | €863,243 | €861,983 |
-| Año 3 (Operación) | €855,283 | €863,243 | €861,983 |
-| **TCO 3 AÑOS** | **€3,097,074** | **€2,955,154** | **€3,042,274** |
-
-**Conclusión TCO**: Cloud (Opción B) es **€141,920 más económico** en 3 años.
+- **Aukera A**: €125,100/urte
+- **Aukera B**: €133,060/urte
+- **Aukera C**: €131,800/urte
 
 ---
 
-## 🎯 PARTE 5: OFERTA COMERCIAL PARA CLIENTE
+## 💼 4. ATALA: KOSTU TOTALEN LABURPENA
 
-### Modelo de Negocio: Proyecto Llave en Mano + Soporte Anual
+### Inplementazio Kostuak (0. Urtea)
 
-#### Paquete 1: BÁSICO (Opción B - AWS Cloud)
+| Kontzeptua | Aukera A (On-Prem) | Aukera B (AWS) | Aukera C (Hibridoa) |
+|------------|-------------------|----------------|---------------------|
+| **Hardware CAPEX** | €79,500 | €0 | €48,000 |
+| **Lizentziak (3 urte)** | €70,800 | €0 | €35,400 |
+| **Instalazioa/Setup** | €20,500 | €5,000 | €12,500 |
+| **Giza Baliabideak (6 hilabete)** | €360,425 | €360,425 | €360,425 |
+| **0. URTEA GUZTIRA** | **€531,225** | **€365,425** | **€456,325** |
 
-**Incluye:**
+### Eragiketa Kostuak (1. Urtea aurrerantzean)
 
-- ✅ Plataforma e-commerce completa (API + Web + Mobile)
-- ✅ SIEM centralizado (ELK Stack en AWS)
-- ✅ Honeypot para threat intelligence
-- ✅ Simulación OT/PLC básica
-- ✅ Implementación en 6 meses
-- ✅ Formación al equipo del cliente (40 horas)
-- ✅ Documentación completa
-- ✅ 3 meses de soporte post-lanzamiento
+| Kontzeptua | Aukera A (On-Prem) | Aukera B (AWS) | Aukera C (Hibridoa) |
+|------------|-------------------|----------------|---------------------|
+| **Azpiegitura OPEX** | €125,100 | €133,060 | €131,800 |
+| **Langileak (8 FTE)** | €681,850 | €681,850 | €681,850 |
+| **Langileen Zeharkakoak** | €48,333 | €48,333 | €48,333 |
+| **URTEKO GUZTIRA** | **€855,283** | **€863,243** | **€861,983** |
 
-**Precio**: **€425,000** (una vez)
+### Kostu Totala 3 Urteetan (TCO)
 
-**Soporte Anual (opcional)**: **€120,000/año**
+| Kontzeptua | Aukera A (On-Prem) | Aukera B (AWS) | Aukera C (Hibridoa) |
+|------------|-------------------|----------------|---------------------|
+| 0. Urtea (Inplementazioa) | €531,225 | €365,425 | €456,325 |
+| 1. Urtea (Eragiketa) | €855,283 | €863,243 | €861,983 |
+| 2. Urtea (Eragiketa) | €855,283 | €863,243 | €861,983 |
+| 3. Urtea (Eragiketa) | €855,283 | €863,243 | €861,983 |
+| **3 URTEKO TCO** | **€3,097,074** | **€2,955,154** | **€3,042,274** |
 
-- Mantenimiento 8x5
-- Actualizaciones de seguridad
-- Monitoreo SIEM (horario laboral)
-- 2 auditorías anuales
-
----
-
-#### Paquete 2: PROFESIONAL (Opción C - Híbrido)
-
-**Incluye todo lo del Básico +**
-
-- ✅ Servidores on-premise para producción (alta disponibilidad)
-- ✅ SIEM avanzado con respuesta automatizada
-- ✅ Honeypot multi-capa (T-Pot completo)
-- ✅ Simulación OT/PLC avanzada (OpenPLC + ScadaBR)
-- ✅ Integración IT/OT con Purdue Model
-- ✅ Formación avanzada (80 horas)
-- ✅ 6 meses de soporte post-lanzamiento
-
-**Precio**: **€575,000** (una vez)
-
-**Soporte Anual (obligatorio)**: **€180,000/año**
-
-- Mantenimiento 24x7
-- SOC gestionado (horario extendido)
-- Incident response (4h SLA)
-- 4 auditorías anuales + 1 pentest
+**TCO Ondorioa**: Cloud (Aukera B) **€141,920 merkeagoa** da 3 urteetan.
 
 ---
 
-#### Paquete 3: ENTERPRISE (Opción A - On-Premise Total)
+## 🎯 5. ATALA: BEZEROARENTZAKO ESKAINTZA KOMERTZIALA
 
-**Incluye todo lo del Profesional +**
+### Negozio Eredua: Proiektu Txaketean + Urteko Laguntza
 
-- ✅ Infraestructura on-premise completa (cliente posee hardware)
-- ✅ Alta disponibilidad en todos los componentes
-- ✅ SOC 24x7 gestionado por Zabala Gailetak
-- ✅ Respuesta a incidentes garantizada (2h SLA)
-- ✅ Simulación completa de planta industrial
-- ✅ Integración con sistemas legacy del cliente
-- ✅ Disaster Recovery site secundario
-- ✅ Formación intensiva (120 horas)
-- ✅ 12 meses de soporte incluido
+#### 1. Paketea: OINARRIZKOA (Aukera B - AWS Cloud)
 
-**Precio**: **€850,000** (una vez)
+**Barne:**
 
-**Soporte Anual (incluido año 1, renovable)**: **€240,000/año**
+- ✅ E-komertzio plataforma osoa (API + Web + Mobile)
+- ✅ SIEM zentralizatua (ELK Stack AWS-en)
+- ✅ Honeypot threat intelligence-rako
+- ✅ OT/PLC simulazio oinarrizkoa
+- ✅ 6 hilabeteko inplementazioa
+- ✅ Bezeroaren taldearen prestakuntza (40 ordu)
+- ✅ Dokumentazio osoa
+- ✅ Lanzamendu osteko 3 hilabeteko laguntza
 
-- SOC 24x7x365 con equipo dedicado
-- Threat hunting proactivo
-- Incident response ilimitado (1h SLA crítico)
-- 6 auditorías anuales + 2 pentests
-- Red team exercises
-- Actualizaciones hardware cada 3 años incluidas
+**Prezioa**: **€425,000** (behin)
 
----
+**Urteko Laguntza (aukerakoa)**: **€120,000/urte**
 
-### Desglose de Márgenes (Ejemplo Paquete 2 - Profesional)
-
-| Concepto | Coste Real | Precio Venta | Margen |
-|----------|------------|--------------|--------|
-| **Implementación** | €456,325 | €575,000 | **€118,675 (26%)** |
-| **Soporte Año 1** | €861,983 | €180,000 | **-€681,983** ⚠️ |
-
-**Nota sobre el margen de soporte**: El margen negativo del primer año se explica porque:
-
-1. El cliente **no paga el equipo completo** de 8 FTE; nosotros amortizamos el equipo entre **múltiples clientes**
-2. Con **5 clientes simultáneos**, el coste de personal se reparte:
-   - Coste real por cliente: €861,983 / 5 = **€172,397/año**
-   - Precio venta: **€180,000/año**
-   - **Margen real: €7,603/cliente (4%)**
-
-3. La rentabilidad real viene de tener **cartera de clientes recurrentes**
+- 8x5 mantentzea
+- Segurtasun eguneraketak
+- SIEM monitorizazioa (lanegunetan)
+- 2 auditoretza urteroko
 
 ---
 
-### Modelo de Precios por Módulos (À la Carte)
+#### 2. Paketea: PROFESIONALA (Aukera C - Hibridoa)
 
-Si el cliente quiere seleccionar componentes:
+**Oinarrizko Pakete guztia +**
 
-| Módulo | Precio |
-|--------|--------|
-| **Core E-commerce** (API + DB + Web) | €180,000 |
-| **SIEM básico** (30 días logs) | €80,000 |
-| **SIEM avanzado** (90 días logs, alertas avanzadas) | €150,000 |
-| **Honeypot single** (Cowrie SSH) | €25,000 |
-| **Honeypot multi-layer** (T-Pot completo) | €65,000 |
-| **Simulación OT/PLC básica** | €45,000 |
-| **Simulación OT/PLC avanzada + IT/OT integration** | €95,000 |
-| **Mobile App (iOS + Android)** | €60,000 |
-| **Disaster Recovery setup** | €40,000 |
-| **Formación (por día)** | €2,500/día |
+- ✅ Zerbitzari on-premise produkziorako (altu erabilgarritasuna)
+- ✅ SIEM aurreratua erantzun automatizatuarekin
+- ✅ Honeypot geruza anitzak (T-Pot osoa)
+- ✅ OT/PLC simulazio aurreratua (OpenPLC + ScadaBR)
+- ✅ IT/OT integrazio osoa Purdue Model-ekin
+- ✅ Prestakuntza aurreratua (80 ordu)
+- ✅ Lanzamendu osteko 6 hilabeteko laguntza
 
----
+**Prezioa**: **€575,000** (behin)
 
-## 📊 PARTE 6: ANÁLISIS DE RENTABILIDAD (Para Zabala Gailetak)
+**Urteko Laguntza (nahitaezkoa)**: **€180,000/urte**
 
-### Escenario: 5 Clientes Paquete Profesional (3 años)
-
-| Concepto | Año 0 | Año 1 | Año 2 | Año 3 | Total 3 años |
-|----------|-------|-------|-------|-------|--------------|
-| **Ingresos (5 clientes)** | €2,875,000 | €900,000 | €900,000 | €900,000 | €5,575,000 |
-| **Costes Personal (compartido)** | €360,425 | €681,850 | €681,850 | €681,850 | €2,405,975 |
-| **Costes Infraestructura** | €456,325 x5 | €131,800 x5 | €131,800 x5 | €131,800 x5 | €3,260,625 |
-| **TOTAL COSTES** | €2,641,550 | €1,340,850 | €1,340,850 | €1,340,850 | €6,664,100 |
-| **Beneficio Bruto** | €233,450 | -€440,850 | -€440,850 | -€440,850 | **-€1,089,100** ⚠️ |
-
-**Problema**: Modelo no rentable si infraestructura es **dedicada por cliente**.
+- 24x7 mantentzea
+- Kudeatutako SOC (ordutegi luzatua)
+- Gertaera erantzuna (4 ordu SLA)
+- 4 auditoretza urteroko + 1 pentest
 
 ---
 
-### Escenario Corregido: Infraestructura Multi-Tenant
+#### 3. Paketea: ENPRESA (Aukera A - On-Premise Guztizkoa)
 
-**Hipótesis realista**:
+**Profesional Pakete guztia +**
 
-- 1 infraestructura cloud AWS **compartida** para 5 clientes (aislamiento por VPC/tenant)
-- Escalado según uso
-- Costes infraestructura **únicos**, no x5
+- ✅ On-premise azpiegitura osoa (bezeroak hardwarea jabetzen du)
+- ✅ Altua erabilgarritasuna osagai guztietan
+- ✅ Zabala Gailetak-ek kudeatutako 24x7 SOC
+- ✅ Bermeatutako gertaera erantzuna (2 ordu SLA)
+- ✅ Industria planta simulazio osoa
+- ✅ Bezeroaren sistema legacy-ekin integrazioa
+- ✅ Bigarren Disaster Recovery gunea
+- ✅ Prestakuntza intentsiboa (120 ordu)
+- ✅ Barnean 12 hilabeteko laguntza
 
-| Concepto | Año 0 | Año 1 | Año 2 | Año 3 | Total 3 años |
-|----------|-------|-------|-------|-------|--------------|
-| **Ingresos (5 clientes)** | €2,875,000 | €900,000 | €900,000 | €900,000 | €5,575,000 |
-| **Costes Personal** | €360,425 | €681,850 | €681,850 | €681,850 | €2,405,975 |
-| **Costes Infraestructura** (compartida x1.5 capacidad) | €68,487 | €197,700 | €197,700 | €197,700 | €661,587 |
-| **Overhead (oficinas, legal, ventas)** | €100,000 | €150,000 | €150,000 | €150,000 | €550,000 |
-| **TOTAL COSTES** | €528,912 | €1,029,550 | €1,029,550 | €1,029,550 | €3,617,562 |
-| **Beneficio Bruto** | €2,346,088 | -€129,550 | -€129,550 | -€129,550 | **€1,957,438** ✅ |
-| **Margen Bruto** | 81.6% | -14.4% | -14.4% | -14.4% | **35.1%** |
+**Prezioa**: **€850,000** (behin)
 
-**Conclusión**: Rentable con modelo **SaaS/Multi-Tenant** y volumen de clientes.
+**Urteko Laguntza (1. urtea barne, berritzea)**: **€240,000/urte**
+
+- 24x7x365 SOC talde espezializatuarekin
+- Proaktibo threat hunting
+- Gertaera erantzun mugagabea (1 ordu SLA kritikoa)
+- 6 auditoretza urteroko + 2 pentest
+- Red team ariketak
+- Hardware eguneraketak 3 urtero barne
 
 ---
 
-### Break-Even Analysis
+### Marjinaren Desglosea (Adibide 2. Paketea - Profesionala)
 
-Con modelo multi-tenant:
+| Kontzeptua | Kostu Erreala | Salmenta Prezioa | Marjina |
+|------------|---------------|------------------|---------|
+| **Inplementazioa** | €456,325 | €575,000 | **€118,675 (26%)** |
+| **1. Urteko Laguntza** | €861,983 | €180,000 | **-€681,983** ⚠️ |
 
-| Nº Clientes | Ingresos Anuales (soporte) | Costes Fijos | Beneficio/Pérdida |
-|-------------|----------------------------|--------------|-------------------|
+**Laguntzaren marjinari buruzko oharra**: Lehen urteko marjina negatiboa honengatik:
+
+1. Bezeroak **ez du 8 FTE talde osoa** ordaintzen; guk taldea **bezero anitzetan** amortizatzen dugu
+2. **5 bezero simultaneoekin**, langileen kostua banatzen da:
+   - Benetako kostua bezeroko: €861,983 / 5 = **€172,397/urte**
+   - Salmenta prezioa: **€180,000/urte**
+   - **Benetako marjina: €7,603/bezero (4%)**
+
+3. Benetako errentagarritasuna **bezero errepikakorren portfolia** izateagatik dator
+
+---
+
+### Moduluka Prezio Eredua (À la Carte)
+
+Bezeroak osagaiak hautatu nahi baditu:
+
+| Modulua | Prezioa |
+|---------|---------|
+| **Core E-komertzioa** (API + DB + Web) | €180,000 |
+| **SIEM oinarrizkoa** (30 egun log) | €80,000 |
+| **SIEM aurreratua** (90 egun log, alerta aurreratuak) | €150,000 |
+| **Honeypot bakarra** (Cowrie SSH) | €25,000 |
+| **Honeypot geruza anitzak** (T-Pot osoa) | €65,000 |
+| **OT/PLC simulazio oinarrizkoa** | €45,000 |
+| **OT/PLC simulazio aurreratua + IT/OT integrazioa** | €95,000 |
+| **Mugikorrerako Aplikazioa (iOS + Android)** | €60,000 |
+| **Disaster Recovery konfigurazioa** | €40,000 |
+| **Prestakuntza (eguneko)** | €2,500/egun |
+
+---
+
+## 📊 6. ATALA: ERRENTAGARRITASUN ANALISIA (Zabala Gailetak-entzat)
+
+### Eskenarioa: 5 Profesional Pakete Bezero (3 urte)
+
+| Kontzeptua | 0. Urtea | 1. Urtea | 2. Urtea | 3. Urtea | 3 Urte Guztira |
+|------------|----------|----------|----------|----------|----------------|
+| **Sarrerak (5 bezero)** | €2,875,000 | €900,000 | €900,000 | €900,000 | €5,575,000 |
+| **Langileen Kostuak (partekatua)** | €360,425 | €681,850 | €681,850 | €681,850 | €2,405,975 |
+| **Azpiegitura Kostuak** | €456,325 x5 | €131,800 x5 | €131,800 x5 | €131,800 x5 | €3,260,625 |
+| **KOSTUAK GUZTIRA** | €2,641,550 | €1,340,850 | €1,340,850 | €1,340,850 | €6,664,100 |
+| **Irabazi Gordina** | €233,450 | -€440,850 | -€440,850 | -€440,850 | **-€1,089,100** ⚠️ |
+
+**Arazoa**: Eredua ez da errentagarria azpiegitura **bezeroko espezifikoa** bada.
+
+---
+
+### Zuzendutako Eskenarioa: Multi-Tenant Azpiegitura
+
+**Hipotesi errealista**:
+
+- 1 AWS cloud azpiegitura **partekatua** 5 bezerorentzako (isolamendua VPC/tenant bidez)
+- Eskalatzea erabilera arabera
+- **Bakarrik** azpiegitura kostuak, ez x5
+
+| Kontzeptua | 0. Urtea | 1. Urtea | 2. Urtea | 3. Urtea | 3 Urte Guztira |
+|------------|----------|----------|----------|----------|----------------|
+| **Sarrerak (5 bezero)** | €2,875,000 | €900,000 | €900,000 | €900,000 | €5,575,000 |
+| **Langileen Kostuak** | €360,425 | €681,850 | €681,850 | €681,850 | €2,405,975 |
+| **Azpiegitura Kostuak** (partekatua x1.5 kapazitatea) | €68,487 | €197,700 | €197,700 | €197,700 | €661,587 |
+| **Overhead** (bulegoak, legalak, salmentak) | €100,000 | €150,000 | €150,000 | €150,000 | €550,000 |
+| **KOSTUAK GUZTIRA** | €528,912 | €1,029,550 | €1,029,550 | €1,029,550 | €3,617,562 |
+| **Irabazi Gordina** | €2,346,088 | -€129,550 | -€129,550 | -€129,550 | **€1,957,438** ✅ |
+| **Marjina Gordina** | 81.6% | -14.4% | -14.4% | -14.4% | **35.1%** |
+
+**Ondorioa**: Errentagarria **SaaS/Multi-Tenant** ereduarekin eta bezero bolumenarekin.
+
+---
+
+### Berdinketa Puntuaren Analisia
+
+Multi-tenant ereduarekin:
+
+| Bezero Kopurua | Urteko Sarrerak (laguntza) | Kostu Finkoak | Irabazi/Galerak |
+|----------------|----------------------------|---------------|-----------------|
 | 1 | €180,000 | €1,029,550 | **-€849,550** |
 | 2 | €360,000 | €1,029,550 | **-€669,550** |
 | 3 | €540,000 | €1,029,550 | **-€489,550** |
@@ -441,132 +441,132 @@ Con modelo multi-tenant:
 | 6 | €1,080,000 | €1,029,550 | **+€50,450** ✅ |
 | 10 | €1,800,000 | €1,150,000 | **+€650,000** ✅ |
 
-**Break-Even**: **6 clientes activos** en soporte anual.
+**Berdinketa Puntua**: **6 bezero aktibo** urteko laguntzan.
 
 ---
 
-## 🎁 PARTE 7: OFERTA PROMOCIONAL DE LANZAMIENTO
+## 🎁 7. ATALA: LANZAMENDUKO PROMOZIO ESKAINTZA
 
-### Campaña: "Early Adopter Program"
+### Kanpaina: "Hasierako Erabiltzaile Programa"
 
-**Condiciones especiales para los primeros 3 clientes:**
+**Baldintza bereziak lehenengo 3 bezeroentzako:**
 
-| Beneficio | Valor Normal | Valor Promocional | Ahorro |
-|-----------|--------------|-------------------|--------|
-| Paquete Profesional | €575,000 | €475,000 | **€100,000** |
-| Soporte Año 1 | €180,000/año | €150,000/año | **€30,000** |
-| Formación adicional | €10,000 (4 días) | **GRATIS** | **€10,000** |
-| Auditoría trimestral extra | €4,000 | **GRATIS** | **€4,000** |
-| **AHORRO TOTAL PRIMER AÑO** | | | **€144,000** |
+| Onurak | Balio Arrunta | Balio Promozionala | Aurrezkia |
+|--------|---------------|--------------------|-----------|
+| Profesional Paketea | €575,000 | €475,000 | **€100,000** |
+| 1. Urteko Laguntza | €180,000/urte | €150,000/urte | **€30,000** |
+| Prestakuntza gehigarria | €10,000 (4 egun) | **DOAN** | **€10,000** |
+| Auditoretza hiruhileko gehigarria | €4,000 | **DOAN** | **€4,000** |
+| **1. URTEKO AURREZKI TOTALA** | | | **€144,000** |
 
-**Precio Promocional Total (Año 0 + Año 1)**: **€625,000** (vs €755,000 normal)
+**Prezio Promozional Totala (0. Urtea + 1. Urtea)**: **€625,000** (vs €755,000 arrunta)
 
-**Condiciones**:
+**Baldintzak**:
 
-- Válido hasta 31/03/2026
-- Compromiso mínimo de 3 años de soporte
-- Cliente actúa como caso de éxito (testimonial + logo)
-- Participación en webinar público (opcional)
-
----
-
-## 📝 PARTE 8: TÉRMINOS Y CONDICIONES CONTRACTUALES
-
-### Estructura de Pagos (Paquete Profesional €575,000)
-
-| Hito | % | Importe | Entregables |
-|------|---|---------|-------------|
-| **Firma de contrato** | 20% | €115,000 | Inicio de proyecto, kick-off |
-| **Diseño aprobado** | 15% | €86,250 | Arquitectura, diseño UX/UI |
-| **Desarrollo 50%** | 20% | €115,000 | Backend + Frontend funcional |
-| **Pre-producción (UAT)** | 20% | €115,000 | Testing completo, staging |
-| **Go-Live** | 15% | €86,250 | Producción activa, handover |
-| **Fin garantía (3 meses)** | 10% | €57,500 | Cierre proyecto, documentación final |
-
-### SLA (Service Level Agreement) - Soporte Profesional
-
-| Prioridad | Descripción | Tiempo de Respuesta | Tiempo de Resolución |
-|-----------|-------------|---------------------|----------------------|
-| **P1 - Crítico** | Sistema caído, pérdida de datos, brecha de seguridad | 1 hora | 4 horas |
-| **P2 - Alto** | Funcionalidad mayor no disponible | 4 horas | 24 horas |
-| **P3 - Medio** | Funcionalidad menor afectada | 8 horas | 3 días |
-| **P4 - Bajo** | Consultas, mejoras | 24 horas | 10 días |
-
-**Penalizaciones por incumplimiento SLA**:
-
-- P1: Crédito del 5% cuota mensual por cada hora de retraso
-- P2: Crédito del 2% cuota mensual por cada 4 horas de retraso
-- Máximo penalización mensual: 25% de la cuota
-
-### Garantías
-
-- **Funcionalidad**: 12 meses desde go-live
-- **Seguridad**: 6 meses sin vulnerabilidades críticas (CVSS >7.0)
-- **Disponibilidad**: 99.5% uptime mensual (excluido mantenimiento programado)
-- **Backup/Restore**: RTO 8 horas, RPO 24 horas
+- Baliozkoa 2026/03/31 arte
+- Gutxienez 3 urteko laguntza konpromisoa
+- Bezeroak arrakasta kasu gisa jokatzen du (testimonial + logo)
+- Webinar publikoan parte-hartzea (aukerakoa)
 
 ---
 
-## 💡 PARTE 9: RECOMENDACIONES PARA EL CLIENTE
+## 📝 8. ATALA: KONTRATU BALDINTZAK
 
-### Opción Recomendada según Perfil
+### Ordainketa Egitura (Profesional Paketea €575,000)
 
-#### Cliente Pequeño (50-200 empleados, <€10M facturación)
+| Hitoia | % | Zenbatekoa | Entregagarriak |
+|--------|---|------------|----------------|
+| **Kontratuaren sinadura** | 20% | €115,000 | Proiektuaren hasiera, abiatzea |
+| **Diseinua onartua** | 15% | €86,250 | Arkitektura, UX/UI diseinua |
+| **Garapena 50%** | 20% | €115,000 | Backend + Frontend funtzionala |
+| **Pre-produkzioa (UAT)** | 20% | €115,000 | Proba osoa, staging |
+| **Go-Live** | 15% | €86,250 | Produkzio aktiboa, eskuzko |
+| **Bermea amaitzean (3 hilabete)** | 10% | €57,500 | Proiektuaren itxiera, dokumentazio finala |
 
-- **Recomendación**: Paquete BÁSICO (AWS Cloud)
-- **Justificación**:
-  - Bajo CAPEX inicial
-  - Escalabilidad elástica
-  - Sin necesidad de equipo IT interno grande
-- **Inversión Año 1**: €425,000 + €120,000 = **€545,000**
+### SLA (Zerbitzu Maila Akordioa) - Profesional Laguntza
 
-#### Cliente Mediano (200-1000 empleados, €10-50M facturación)
+| Lehentasuna | Deskribapena | Erantzun Denbora | Konponketa Denbora |
+|-------------|--------------|------------------|--------------------|
+| **P1 - Kritikoa** | Sistema behera, datu galera, segurtasun haustea | 1 ordu | 4 ordu |
+| **P2 - Altua** | Funtzionalitate nagusia ez dago eskuragarri | 4 ordu | 24 ordu |
+| **P3 - Ertaina** | Funtzionalitate arina kaltetua | 8 ordu | 3 egun |
+| **P4 - Baxua** | Kontsultak, hobekuntzak | 24 ordu | 10 egun |
 
-- **Recomendación**: Paquete PROFESIONAL (Híbrido)
-- **Justificación**:
-  - Balance coste/control
-  - Datos sensibles on-premise
-  - SIEM y backup en cloud
-  - Compliance (GDPR, PCI-DSS)
-- **Inversión Año 1**: €575,000 + €180,000 = **€755,000**
+**SLA betetze ezaren penalizazioak**:
 
-#### Cliente Enterprise (>1000 empleados, >€50M facturación)
+- P1: Hileko kuotaren %5 kreditua atzerapen ordu bakoitzeko
+- P2: Hileko kuotaren %2 kreditua 4 orduko atzerapen bakoitzeko
+- Gehienezko hileko penalizazioa: kuotaren %25
 
-- **Recomendación**: Paquete ENTERPRISE (On-Premise Total)
-- **Justificación**:
-  - Control total de datos
-  - Integración con infraestructura existente
-  - Regulación industrial (OT/ICS)
-  - Soberanía de datos
-- **Inversión Año 1**: €850,000 + €240,000 = **€1,090,000**
+### Bermeak
+
+- **Funtzionalitatea**: Go-live-tik 12 hilabete
+- **Segurtasuna**: 6 hilabete ahultasun kritikorik gabe (CVSS >7.0)
+- **Eskuragarritasuna**: %99.5 uptime hileko (mantentze programatua kanpo)
+- **Babespena/Berrespena**: RTO 8 ordu, RPO 24 ordu
 
 ---
 
-## 📞 PARTE 10: INFORMACIÓN DE CONTACTO
+## 💡 9. ATALA: BEZEROARENTZAKO GOMENDIOAK
+
+### Gomendatutako Aukera Profilaren Arabera
+
+#### Bezero Txikia (50-200 langile, <€10M fakturazioa)
+
+- **Gomendioa**: OINARRIZKO Paketea (AWS Cloud)
+- **Justifikazioa**:
+  - CAPEX hasierala txikia
+  - Eskalagarritasun elastikoa
+  - Ez IT talde handiaren beharra
+- **1. Urteko Inbertsioa**: €425,000 + €120,000 = **€545,000**
+
+#### Bezero Ertaina (200-1000 langile, €10-50M fakturazioa)
+
+- **Gomendioa**: PROFESIONAL Paketea (Hibridoa)
+- **Justifikazioa**:
+  - Kostu/kontrol oreka
+  - Datu sentsibleak on-premise
+  - SIEM eta babespena cloud-en
+  - Betetzea (GDPR, PCI-DSS)
+- **1. Urteko Inbertsioa**: €575,000 + €180,000 = **€755,000**
+
+#### Bezero Enterprise (>1000 langile, >€50M fakturazioa)
+
+- **Gomendioa**: ENPRESA Paketea (On-Premise Guztizkoa)
+- **Justifikazioa**:
+  - Datuen kontrol osoa
+  - Dagoen azpiegiturarekin integrazioa
+  - Industria araudia (OT/ICS)
+  - Datuen subiranotasuna
+- **1. Urteko Inbertsioa**: €850,000 + €240,000 = **€1,090,000**
+
+---
+
+## 📞 10. ATALA: KONTAKTU INFORMAZIOA
 
 ### Zabala Gailetak Security Solutions
 
-**Dirección Comercial**:  
+**Helbide Komertziala**:  
 Polígono Industrial Garaia, Nave 12  
 20140 Andoain, Gipuzkoa  
-País Vasco, España
+Euskal Herria, Espainia
 
-**Contactos**:
+**Kontaktuak**:
 
-- **Ventas**: <ventas@zabalagailetak.eus> | +34 943 XXX XXX
-- **Soporte**: <soporte@zabalagailetak.eus> | +34 943 XXX XXX
-- **Emergencias 24/7**: +34 600 XXX XXX
+- **Salmentak**: <ventas@zabalagailetak.eus> | +34 943 XXX XXX
+- **Laguntza**: <soporte@zabalagailetak.eus> | +34 943 XXX XXX
+- **24/7 Larrialdiak**: +34 600 XXX XXX
 
 **Web**: <https://www.zabalagailetak.eus>
 
-**Certificaciones**:
+**Ziurtagiriak**:
 
-- ISO 27001 (Gestión de Seguridad de la Información)
-- ISO 22301 (Continuidad de Negocio)
-- ENS Alto (Esquema Nacional de Seguridad)
-- IEC 62443 (Seguridad OT/ICS)
+- ISO 27001 (Informazio Segurtasunaren Kudeaketa)
+- ISO 22301 (Negozio Jarraitutasuna)
+- ENS Altua (Segurtasun Eskema Nazionala)
+- IEC 62443 (OT/ICS Segurtasuna)
 
-**Partners**:
+**Lankideak**:
 
 - AWS Advanced Consulting Partner
 - MongoDB Enterprise Partner
@@ -575,93 +575,93 @@ País Vasco, España
 
 ---
 
-## 📄 ANEXOS
+## 📄 ERANSKINAK
 
-### Anexo A: Comparativa de Competidores
+### A Eranskina: Lehiakideen Konparaketa
 
-| Proveedor | Solución Similar | Precio Estimado | Diferenciadores Zabala Gailetak |
-|-----------|------------------|-----------------|--------------------------------|
-| Accenture Security | Custom SIEM + ICS | €1.2M - €2M | **50% más económico**, especialización OT |
-| Indra Minsait | Plataforma seguridad industrial | €900K - €1.5M | **Mayor flexibilidad**, cloud-ready |
-| S21sec | SOC gestionado + plataforma | €500K - €800K | **Incluye honeypots**, simulación PLC real |
-| Atos Cybersecurity | Suite seguridad empresarial | €1M - €1.8M | **Implementación más rápida** (6 vs 12 meses) |
+| Hornitzailea | Soluzio Antzekoa | Prezio Estimatua | Zabala Gailetak Diferentziatzaileak |
+|--------------|------------------|------------------|-------------------------------------|
+| Accenture Security | SIEM pertsonalizatua + ICS | €1.2M - €2M | **%50 merkeagoa**, OT espezializazioa |
+| Indra Minsait | Industria segurtasun plataforma | €900K - €1.5M | **Flexibilitate handiagoa**, cloud-ready |
+| S21sec | Kudeatutako SOC + plataforma | €500K - €800K | **Honeypot-ak barne**, PLC simulazio erreala |
+| Atos Cybersecurity | Enpresa segurtasun suite | €1M - €1.8M | **Inplementazio azkarragoa** (6 vs 12 hilabete) |
 
-### Anexo B: ROI para el Cliente (Caso de Éxito)
+### B Eranskina: Bezeroarentzako ROI (Arrakasta Kasua)
 
-**Cliente ejemplo**: Empresa industrial 500 empleados, facturación €30M/año
+**Adibidez bezeroa**: Industria enpresa 500 langile, €30M/urte fakturazioa
 
-**Antes de Zabala Gailetak**:
+**Zabala Gailetak aurretik**:
 
-- 3 brechas de seguridad en 2 años (coste medio: €500K cada una)
-- Downtime no planificado: 120 horas/año (€5K/hora pérdidas)
-- **Coste total incidentes**: €2.1M en 2 años
+- 2 urtean 3 segurtasun gertaera (bakoitzeko kostu batez bestekoa: €500K)
+- Downtime ez-planifikatua: 120 ordu/urte (€5K/orduko galerak)
+- **Gertaeren kostu totala**: €2.1M 2 urtean
 
-**Después de Zabala Gailetak** (Año 1-2):
+**Zabala Gailetak ondoren** (1-2. urtea):
 
-- 0 brechas de seguridad exitosas (35 intentos bloqueados)
-- Downtime reducido a 12 horas/año
-- **Ahorro**: €1.95M en 2 años
+- 0 segurtasun gertaera arrakastatsu (35 saiakera blokeatuak)
+- Downtime 12 ordu/urtera murriztua
+- **Aurrezpena**: €1.95M 2 urtean
 
 **ROI**:
 
-- Inversión: €755K (año 1) + €180K (año 2) = €935K
-- Ahorro: €1.95M
-- **ROI neto: +€1.015M (108%)**
+- Inbertsioa: €755K (1. urtea) + €180K (2. urtea) = €935K
+- Aurrezpena: €1.95M
+- **ROI netoa: +€1.015M (%108)**
 
-### Anexo C: Hoja de Ruta de Implementación (6 meses)
+### C Eranskina: Inplementazio Bide-orria (6 hilabete)
 
 ```text
-Mes 1-2: Diseño y Preparación
-├─ Semana 1-2: Kick-off, requisitos, arquitectura
-├─ Semana 3-4: Diseño UX/UI, aprobación
-├─ Semana 5-6: Setup infraestructura (AWS/On-prem)
-└─ Semana 7-8: Configuración red, VLANs, firewall
+1-2. Hilabetea: Diseinua eta Prestakuntza
+├─ 1-2. Astea: Hasiera, eskakizunak, arkitektura
+├─ 3-4. Astea: UX/UI diseinua, onarpena
+├─ 5-6. Astea: Azpiegitura konfigurazioa (AWS/On-prem)
+└─ 7-8. Astea: Sare konfigurazioa, VLAN-ak, firewall
 
-Mes 3-4: Desarrollo e Integración
-├─ Semana 9-12: Desarrollo Backend (API)
-├─ Semana 13-14: Desarrollo Frontend (Web)
-├─ Semana 15-16: Integración MongoDB, Redis
-└─ Semana 17: Sprint review, ajustes
+3-4. Hilabetea: Garapena eta Integrazioa
+├─ 9-12. Astea: Backend garapena (API)
+├─ 13-14. Astea: Frontend garapena (Web)
+├─ 15-16. Astea: MongoDB, Redis integrazioa
+└─ 17. Astea: Sprint berrikuspena, egokitzapenak
 
-Mes 5: SIEM y Seguridad
-├─ Semana 18-19: Despliegue ELK Stack
-├─ Semana 20: Configuración alertas, dashboards
-└─ Semana 21: Despliegue honeypots, OT/PLC
+5. Hilabetea: SIEM eta Segurtasuna
+├─ 18-19. Astea: ELK Stack desplieguea
+├─ 20. Astea: Alerta konfigurazioa, panelak
+└─ 21. Astea: Honeypot-ak, OT/PLC desplieguea
 
-Mes 6: Testing y Go-Live
-├─ Semana 22-23: QA completo, pentest
-├─ Semana 24: UAT con cliente
-├─ Semana 25: Migración datos, go-live
-└─ Semana 26: Monitoreo post-lanzamiento
+6. Hilabetea: Probak eta Go-Live
+├─ 22-23. Astea: QA osoa, pentest
+├─ 24. Astea: Bezeroarekin UAT
+├─ 25. Astea: Datu migrazioa, go-live
+└─ 26. Astea: Lanzamendu osteko monitorizazioa
 ```
 
 ---
 
-## ✅ RESUMEN FINAL
+## ✅ LABURPEN FINALA
 
-### Para el Cliente
+### Bezeroarentzat
 
-| Paquete | Inversión Total 3 años | Beneficios Clave |
-|---------|------------------------|------------------|
-| **Básico** | €785,000 | E-commerce seguro + SIEM básico |
-| **Profesional** | €1,115,000 | + OT/PLC + Honeypots + HA |
-| **Enterprise** | €1,570,000 | + SOC 24x7 + Control total |
+| Paketea | 3 Urteko Inbertsio Totala | Gako Onurak |
+|---------|---------------------------|-------------|
+| **Oinarrizkoa** | €785,000 | E-komertzio segurua + SIEM oinarrizkoa |
+| **Profesionala** | €1,115,000 | + OT/PLC + Honeypot-ak + HA |
+| **Enpresa** | €1,570,000 | + 24x7 SOC + Kontrol osoa |
 
-### Para Zabala Gailetak (Objetivo: 10 clientes activos)
+### Zabala Gailetak-entzat (Helburua: 10 bezero aktibo)
 
-| Métrica | Valor |
-|---------|-------|
-| **Ingresos Anuales** (10 clientes soporte) | €1,800,000 |
-| **Costes Operacionales** | €1,150,000 |
-| **Beneficio Bruto** | **€650,000/año (36% margen)** |
-| **Break-Even** | 6 clientes |
-
----
-
-**Documento preparado por**: Zabala Gailetak Security Solutions  
-**Válido hasta**: 31/03/2026  
-**Versión**: 1.0 - 12 Enero 2026
+| Metrika | Balioa |
+|---------|--------|
+| **Urteko Sarrerak** (10 bezero laguntza) | €1,800,000 |
+| **Eragiketa Kostuak** | €1,150,000 |
+| **Irabazi Gordina** | **€650,000/urte (%36 marjina)** |
+| **Berdinketa Puntua** | 6 bezero |
 
 ---
 
-*Este documento contiene información confidencial. Prohibida su reproducción sin autorización.*
+**Dokumentua prestatu du**: Zabala Gailetak Security Solutions  
+**Baliozkoa arte**: 2026/03/31  
+**Bertsioa**: 1.0 - 2026ko urtarrilaren 12a
+
+---
+
+*Dokumentu honek informazio konfidentziala dauka. Baimenik gabeko erreprodukzioa debekatuta dago.*

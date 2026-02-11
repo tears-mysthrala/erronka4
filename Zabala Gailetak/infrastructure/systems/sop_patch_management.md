@@ -1,23 +1,23 @@
-# Patch Management SOP - Zabala Gailetak
+# Seguritate-adirien Kudeaketarako SOP - Zabala Gailetak
 
-## 1. Vulnerability Scanning
+## 1. Zaurgarritasunen Eskaneatzea
 
-- Weekly scans using OpenVAS
-- Critical findings reported immediately
+- Eskaneatze astero OpenVAS erabiliz
+- Aurkikuntza kritikoak berehala jakinarazi
 
-## 2. Patch Classification
+## 2. Adiren Sailkapena
 
-| Severity | CVSS | Response Time |
-|----------|------|---------------|
-| Critical | 9.0-10.0 | 72 hours |
-| High | 7.0-8.9 | 7 days |
-| Medium | 4.0-6.9 | 30 days |
-| Low | 0.1-3.9 | 90 days |
+| Larritasuna | CVSS | Erantzun Denbora |
+|-------------|------|------------------|
+| Kritikoa | 9.0-10.0 | 72 ordu |
+| Handia | 7.0-8.9 | 7 egun |
+| Ertaina | 4.0-6.9 | 30 egun |
+| Baxua | 0.1-3.9 | 90 egun |
 
-## 3. Deployment Process
+## 3. Hedapen Prozesua
 
-1. Test patches in development
-2. Deploy to staging
-3. Monitor for issues
-4. Deploy to production
-5. Document changes
+1. Probatu adirrak garapen ingurunean
+2. Hedatu prest ingurunera
+3. Monitoreatu arazoak
+4. Hedatu produkzio ingurunera
+5. Dokumentatu aldaketak

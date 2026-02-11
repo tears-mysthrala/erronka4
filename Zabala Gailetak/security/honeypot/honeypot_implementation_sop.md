@@ -1,4 +1,4 @@
-# Honeypot Implementation and Configuration - SOP
+# Honeypot Inplementazioa eta Konfigurazioa - SOP
 
 ## Helburua
 
@@ -11,23 +11,23 @@ OT/Industrial sektorera bideratua.
 - Docker eta Docker Compose instalatuta
 - SIEM sistema (ELK Stack) ezarrita
 - Sareko firewall-a ezarrita
-- VM edo dedicated hardware honeypot-erako
+- VM edo hardware espezifikoa honeypot-erako
 
 ## 1. Honeypot Mota Aukeraketa
 
-### 1.1 Low Interaction Honeypot-ak
+### 1.1 Interakzio Baxuko Honeypot-ak
 
 - **Honeyd:** TCP/IP protokoloak simulatzen ditu
 - **Dionaea:** Malware eta exploit-ak harrapatzen ditu
 - **Cowrie:** SSH eta FTP honeypot
 
-### 1.2 Medium/High Interaction Honeypot-ak
+### 1.2 Interakzio Ertain/Altuko Honeypot-ak
 
 - **Conpot:** ICS/SCADA honeypot (Siemens S7, Modbus, etab.)
 - **Kippo:** SSH honeypot
 - **Glastopf:** Web application honeypot
 
-### 1.3 Industrial Honeypot-ak
+### 1.3 Honeypot Industrialak
 
 - **Conpot:** ICS protokoloak simulatzen ditu
 - **SCADA-Honeynet:** SCADA sistemak simulatzen ditu
@@ -135,7 +135,7 @@ username = cowrie
 password = secure_password
 ```
 
-## 4. Dionaea Malware Honeypot
+## 4. Dionaea Malware Honeypota
 
 ### 4.1 Instalazioa
 
@@ -258,10 +258,10 @@ def check_threshold():
     result = es.search(index="honeypot-*", body=query)
     
     if result['hits']['total']['value'] > 100:
-        send_alert("High attack volume detected on honeypot")
+        send_alert("Eraso kopuru handia detektatu da honeypot-en")
 ```
 
-### 7.2 Slack Notification
+### 7.2 Slack Jakinarazpena
 
 ```python
 import requests
@@ -272,9 +272,9 @@ def send_slack_alert(message):
     requests.post(webhook_url, json=payload)
 ```
 
-## 8. Analisi eta Reporting
+## 8. Analisia eta Txostena
 
-### 8.1 Eguneroko Report-a
+### 8.1 Eguneko Txostena
 
 ```python
 def generate_daily_report():
@@ -289,16 +289,16 @@ def generate_daily_report():
     save_report(report)
 ```
 
-### 8.2 Weekly Analysis
+### 8.2 Asteko Analisia
 
-- Eragin analisia
-- Tren-ak identifikatu
+- Eraginaren analisia
+- Joerak identifikatu
 - Zero-day detekzioak
-- Inteligentsia kanpoetara partekatu
+- Inteligentzia kanpotik partekatu
 
 ## 9. Kudeaketa eta Mantentzea
 
-### 9.1 Log-ak Rotatu
+### 9.1 Log-en Rotazioa
 
 ```bash
 /var/log/honeypot/*.log {
@@ -312,7 +312,7 @@ def generate_daily_report():
 }
 ```
 
-### 9.2 Backup-ak Egin
+### 9.2 Backup-ak Sortu
 
 ```bash
 tar -czf honeypot-backup-$(date +%Y%m%d).tar.gz /opt/honeypot/
@@ -334,29 +334,29 @@ tar -czf honeypot-backup-$(date +%Y%m%d).tar.gz /opt/honeypot/
 - Pribatutasun legeak kontuan hartu
 - Consent eta notifikazioak
 
-## 11. Performance Monitoring
+## 11. Errendimenduaren Monitorizazioa
 
-### 11.1 Resource Usage
+### 11.1 Baliabideen Erabilera
 
 ```bash
 docker stats conpot cowrie dionaea
 ```
 
-### 11.2 Auto-scaling
+### 11.2 Auto-eskala
 
 ```bash
 ```
 
-## 12. Dissemination eta Inteligentsia
+## 12. Difusioa eta Inteligentzia
 
-### 12.1 Threat Inteligentsia Partekatu
+### 12.1 Mehatxu Inteligentzia Partekatu
 
 - MISP erabili
 - TAXII erabili
 - CERT-ak informatu
 - Community partekatu
 
-### 12.2 Learnings Aplikatu
+### 12.2 Ikaskuntzak Aplikatu
 
 - Honeypot-en ikasitakoak ekoizpenean aplikatu
 - Firewall rules eguneratu

@@ -1,24 +1,24 @@
-# User Access Management SOP - Zabala Gailetak
+# Erabiltzaileen Sarbideen Kudeaketarako SOP - Zabala Gailetak
 
-## 1. User Provisioning
+## 1. Erabiltzaileen Hornidura
 
-1. Receive request from manager
-2. Verify identity documents
-3. Create account with minimal privileges
-4. Schedule security awareness training
-5. Document in access log
+1. Jaso eskaera kudeatzailetik
+2. Egiaztatu nortasun dokumentuak
+3. Sortu kontua pribilegio minimoekin
+4. Antolatu segurtasun kontzientziazko prestakuntza
+5. Dokumentatu sarbide erregistroan
 
-## 2. Access Review
+## 2. Sarbide Berrikuspena
 
-- Quarterly review of all accounts
-- Monthly review of privileged accounts
-- Immediate revocation upon termination
+- Kontu guztien berrikuspen hiruhilekoa
+- Kontu pribilegiodunen berrikuspen hilero
+- Berehalako baliogabetzea kaleratzean
 
-## 3. Role-Based Access Control
+## 3. Rol Oinarritutako Sarbide Kontrola (RBAC)
 
-| Role | Permissions |
-|------|-------------|
-| User | Read own data, place orders |
-| Manager | Read team data, approve requests |
-| Admin | Full system access |
-| Auditor | Read-only, all data |
+| Rola | Baimenak |
+|------|----------|
+| Erabiltzailea | Irakurri bere datuak, eskaerak egin |
+| Kudeatzailea | Irakurri taldearen datuak, onartu eskaerak |
+| Administratzailea | Sistema osoaren sarbidea |
+| Auditoria | Irakurketa soilik, datu guztiak |

@@ -1,36 +1,36 @@
-# 📱 Android App Release Guide
+# 📱 Android Aplikazioaren Argitalpen Gida
 
-**Zabala Gailetak HR App - Release Management**
-
----
-
-## 🎯 Overview
-
-This guide explains how to build, sign, and release the Android app using GitHub Actions.
-
-### Release Workflow Features
-
-- ✅ Automated builds on version tags (`v1.0.0`, `v1.2.3`, etc.)
-- ✅ Manual builds via GitHub Actions UI
-- ✅ APK signing with release keystore
-- ✅ GitHub Releases with APK downloads
-- ✅ SHA-256 checksums for verification
-- ✅ Debug and Release variants
-- ✅ Automatic version management
+**Zabala Gailetak HR Aplikazioa - Argitalpen Kudeaketa**
 
 ---
 
-## 🔐 Setup: Android Keystore
+## 🎯 Ikuspegi Orokorra
 
-### Step 1: Generate Release Keystore
+Gida honek Android aplikazioa GitHub Actions erabiliz eraikitzea, sinatzea eta argitaratzea azaltzen du.
 
-**Only needed once per project**
+### Argitalpen Lan-fluxuaren Ezaugarriak
+
+- ✅ Bertsio etiketen bidezko eraikuntza automatizatua (`v1.0.0`, `v1.2.3`, etab.)
+- ✅ Eskuzko eraikuntzak GitHub Actions UI bidez
+- ✅ APK sinadura argitalpen keystore-arekin
+- ✅ GitHub Releases APK deskargaketaekin
+- ✅ SHA-256 egiaztapeneko checksum-ak
+- ✅ Debug eta Release aldaerak
+- ✅ Bertsio kudeaketa automatikoa
+
+---
+
+## 🔐 Konfigurazioa: Android Keystore
+
+### 1. urratsa: Argitalpen Keystore-a Sortu
+
+**Proiektu bakoitzeko behin bakarrik beharrezkoa**
 
 ```bash
-# Navigate to android-app directory
+# Navigatu android-app direktoriora
 cd "Zabala Gailetak/android-app"
 
-# Generate keystore (interactive)
+# Sortu keystore (elkarrekintza moduan)
 keytool -genkey -v \
   -keystore zabala-gailetak-release.keystore \
   -alias zabala-gailetak-hrapp \
@@ -40,16 +40,16 @@ keytool -genkey -v \
   -storepass YOUR_STORE_PASSWORD \
   -keypass YOUR_KEY_PASSWORD
 
-# You'll be prompted for:
-# - Your name: Zabala Gailetak
-# - Organizational unit: IT Department
-# - Organization: Zabala Gailetak
-# - City: [Your city]
-# - State: Basque Country
-# - Country code: ES
+# Galdera hauek egingo zaizkizu:
+# - Zure izena: Zabala Gailetak
+# - Unitate organizatiboa: IT Saila
+# - Erakundea: Zabala Gailetak
+# - Hiria: [Zure hiria]
+# - Estatua: Euskal Herria
+# - Herrialde kodea: ES
 ```
 
-**Example interactive prompts:**
+**Adibidez elkarrekintza galderak:**
 ```
 What is your first and last name?
   [Unknown]:  Zabala Gailetak
@@ -67,298 +67,298 @@ Is CN=Zabala Gailetak, OU=IT Department, O=Zabala Gailetak S.L., L=Donostia, ST=
   [no]:  yes
 ```
 
-### Step 2: Verify Keystore
+### 2. urratsa: Egiaztatu Keystore-a
 
 ```bash
-# List keystore contents
+# Zerrendatu keystore edukia
 keytool -list -v -keystore zabala-gailetak-release.keystore
 
-# Expected output:
+# Espero den irteera:
 # Alias name: zabala-gailetak-hrapp
-# Creation date: [date]
+# Creation date: [data]
 # Entry type: PrivateKeyEntry
 # Certificate chain length: 1
 # ...
 ```
 
-### Step 3: Convert Keystore to Base64
+### 3. urratsa: Bihurtu Keystore Base64-ra
 
 ```bash
-# Convert to base64 for GitHub Secrets
+# Bihurtu base64-ra GitHub Secrets-erako
 base64 -w 0 zabala-gailetak-release.keystore > keystore.base64
 
-# Or on macOS:
+# Edo macOS-en:
 base64 -i zabala-gailetak-release.keystore -o keystore.base64
 ```
 
-### Step 4: Add GitHub Secrets
+### 4. urratsa: Gehitu GitHub Secrets
 
-Go to GitHub repository → Settings → Secrets and variables → Actions
+Joan GitHub biltegira → Settings → Secrets and variables → Actions
 
-Add the following secrets:
+Gehitu sekretu hauek:
 
-| Secret Name | Value | Description |
-|-------------|-------|-------------|
-| `ANDROID_KEYSTORE_BASE64` | [content of keystore.base64] | Base64-encoded keystore file |
-| `ANDROID_KEYSTORE_PASSWORD` | YOUR_STORE_PASSWORD | Keystore password |
-| `ANDROID_KEY_ALIAS` | zabala-gailetak-hrapp | Key alias name |
-| `ANDROID_KEY_PASSWORD` | YOUR_KEY_PASSWORD | Key password |
+| Sekretuaren Izena | Balioa | Azalpena |
+|-------------------|--------|----------|
+| `ANDROID_KEYSTORE_BASE64` | [keystore.base64 edukia] | Base64-an kodetutako keystore fitxategia |
+| `ANDROID_KEYSTORE_PASSWORD` | YOUR_STORE_PASSWORD | Keystore pasahitza |
+| `ANDROID_KEY_ALIAS` | zabala-gailetak-hrapp | Key alias izena |
+| `ANDROID_KEY_PASSWORD` | YOUR_KEY_PASSWORD | Key pasahitza |
 
-**Security Notes:**
-- ⚠️ **NEVER commit the keystore file to git**
-- ⚠️ **Backup the keystore file securely** (encrypted storage)
-- ⚠️ **Store passwords in password manager**
-- ⚠️ If keystore is lost, you cannot update the app on Play Store
+**Segurtasun Oharrak:**
+- ⚠️ **INOIZ ez commit-eatu keystore fitxategia git-era**
+- ⚠️ **Egin keystore fitxategiaren babeskopia segurua** (enkriptatutako biltegia)
+- ⚠️ **Gorde pasahitzak pasahitz kudeatzailean**
+- ⚠️ Keystore-a galduz gero, ezin duzu aplikazioa Play Store-n eguneratu
 
 ---
 
-## 🚀 Releasing a New Version
+## 🚀 Bertsio Berri Bat Argitaratzea
 
-### Method 1: Automatic Release (Tag Push)
+### 1. metodoa: Argitalpen Automatikoa (Etiketa Push)
 
-**Best for production releases**
+**Onena ekoizpen argitalpenetarako**
 
 ```bash
-# 1. Update version in build.gradle.kts (optional - workflow updates automatically)
+# 1. Eguneratu bertsioa build.gradle.kts-en (aukerakoa - workflow-a automatikoki eguneratzen du)
 cd "Zabala Gailetak/android-app/app"
-# Edit versionCode and versionName
+# Editatu versionCode eta versionName
 
-# 2. Commit changes
+# 2. Commit aldaketak
 git add .
 git commit -m "chore: Prepare release v1.0.0"
 
-# 3. Create and push version tag
+# 3. Sortu eta push-atu bertsio etiketa
 git tag -a v1.0.0 -m "Release version 1.0.0"
 git push origin v1.0.0
 
-# 4. GitHub Actions will automatically:
-# - Build debug and release APKs
-# - Sign the release APK
-# - Create a GitHub Release with download links
-# - Generate checksums
+# 4. GitHub Actions automatikoki egingo du:
+# - Debug eta release APK-ak eraiki
+# - Release APK-a sinatu
+# - GitHub Release bat sortu deskarga esteketekin
+# - Checksum-ak sortu
 ```
 
-### Method 2: Manual Release (GitHub UI)
+### 2. metodoa: Argitalpen Eskuzkoa (GitHub UI)
 
-**Best for testing or patch releases**
+**Onena probak edo patch argitalpenetarako**
 
-1. Go to GitHub repository → Actions
-2. Select **"Android App Release"** workflow
-3. Click **"Run workflow"** dropdown
-4. Fill in parameters:
-   - **Version name:** `1.0.0` (semantic version)
-   - **Version code:** `1` (integer, increments with each build)
-   - **Release notes:** Brief description of changes
-5. Click **"Run workflow"**
-6. Wait for build to complete (~5-10 minutes)
-7. Download APK from "Artifacts" section
+1. Joan GitHub biltegira → Actions
+2. Aukeratu **"Android App Release"** workflow-a
+3. Klik egin **"Run workflow"** beheragotuan
+4. Bete parametroak:
+   - **Version name:** `1.0.0` (bertsio semantikoa)
+   - **Version code:** `1` (zenbaki osoa, eraikuntza bakoitzarekin inkrementatzen da)
+   - **Release notes:** Aldaketen azalpen laburra
+5. Klik egin **"Run workflow"**
+6. Itxaron eraikuntza osotu arte (~5-10 minutu)
+7. Deskargatu APK "Artifacts" ataletik
 
 ---
 
-## 📦 Build Artifacts
+## 📦 Eraikuntza Artifact-ak
 
-After each build, the following artifacts are available:
+Eraikuntza bakoitzaren ondoren, artifact hauek eskuragarri daude:
 
 ### Debug APK
-- **Filename:** `zabala-gailetak-hrapp-vX.X.X-debug.apk`
-- **Purpose:** Development and testing
-- **Signing:** Debug keystore (automatically generated)
-- **Retention:** 30 days
+- **Fitxategi izena:** `zabala-gailetak-hrapp-vX.X.X-debug.apk`
+- **Xedea:** Garapena eta probak
+- **Sinadura:** Debug keystore (automatikoki sortua)
+- **Epea:** 30 egun
 
-### Release APK (Unsigned)
-- **Filename:** `zabala-gailetak-hrapp-vX.X.X-release-unsigned.apk`
-- **Purpose:** Manual signing or testing
-- **Signing:** Not signed
-- **Retention:** 30 days
-- **Generated:** Only for manual workflow runs
+### Release APK (Sinatu Gabea)
+- **Fitxategi izena:** `zabala-gailetak-hrapp-vX.X.X-release-unsigned.apk`
+- **Xedea:** Eskuzko sinadura edo probak
+- **Sinadura:** Sinatu gabe
+- **Epea:** 30 egun
+- **Sortua:** Eskuzko workflow exekuzioetan soilik
 
-### Release APK (Signed)
-- **Filename:** `zabala-gailetak-hrapp-vX.X.X-signed.apk`
-- **Purpose:** Production distribution
-- **Signing:** Release keystore
-- **Retention:** 90 days
-- **Generated:** Only for tag pushes
+### Release APK (Sinatua)
+- **Fitxategi izena:** `zabala-gailetak-hrapp-vX.X.X-signed.apk`
+- **Xedea:** Ekoizpen banaketa
+- **Sinadura:** Argitalpen keystore-a
+- **Epea:** 90 egun
+- **Sortua:** Etiketa push-ean soilik
 
-### Checksums
-- **Filename:** `checksums.txt`
-- **Purpose:** Verify APK integrity
-- **Contains:** SHA-256 hashes of all APKs
-- **Retention:** 90 days
+### Checksum-ak
+- **Fitxategi izena:** `checksums.txt`
+- **Xedea:** APK osotasuna egiaztatu
+- **Edukia:** APK guztien SHA-256 hash-ak
+- **Epea:** 90 egun
 
 ---
 
-## 📥 Installing the App
+## 📥 Aplikazioa Instalatzea
 
-### For End Users
+### Erabiltzaile Amaierarako
 
-1. **Download APK:**
-   - Go to [Releases](https://github.com/tears-mysthrala/erronka4/releases)
-   - Find the latest version
-   - Download `zabala-gailetak-hrapp-vX.X.X-signed.apk`
+1. **Deskargatu APK:**
+   - Joan [Releases](https://github.com/tears-mysthrala/erronka4/releases)-era
+   - Bilatu azken bertsioa
+   - Deskargatu `zabala-gailetak-hrapp-vX.X.X-signed.apk`
 
-2. **Verify Integrity (Optional but Recommended):**
+2. **Egiaztatu Osotasuna (Aukerakoa baina Gomendatua):**
    ```bash
-   # Download checksums.txt
-   # Calculate SHA-256 of downloaded APK
+   # Deskargatu checksums.txt
+   # Kalkulatu deskargatutako APK-aren SHA-256
    sha256sum zabala-gailetak-hrapp-v1.0.0-signed.apk
    
-   # Compare with checksums.txt
-   # Should match exactly
+   # Konparatu checksums.txt-rekin
+   # Bat etorri beharko lukete zehazki
    ```
 
-3. **Enable Unknown Sources:**
+3. **Gaitu Iturburu Ezezagunak:**
    - Settings → Security → Install from Unknown Sources
-   - Or Settings → Apps → Special access → Install unknown apps
-   - Enable for your browser or file manager
+   - Edo Settings → Apps → Special access → Install unknown apps
+   - Gaitu zure nabigatzaile edo fitxategi kudeatzailearentzat
 
-4. **Install APK:**
-   - Tap the downloaded APK file
-   - Follow installation prompts
-   - Grant required permissions
+4. **Instalatu APK:**
+   - Sakatu deskargatutako APK fitxategia
+   - Jarraitu instalazioko galderak
+   - Eman beharrezko baimenak
 
-5. **Launch App:**
-   - Find "Zabala Gailetak HR" in app drawer
-   - Login with your credentials
+5. **Abiarazi Aplikazioa:**
+   - Bilatu "Zabala Gailetak HR" app drawer-an
+   - Saioa hasi zure kredentzialekin
 
-### For Developers/Testers
+### Garatzaile/Probatzaileentzako
 
 ```bash
-# Install via ADB (USB debugging enabled)
+# Instalatu ADB bidez (USB debugging gaituta)
 adb install zabala-gailetak-hrapp-v1.0.0-signed.apk
 
-# Or replace existing installation
+# Edo ordeztu instalazio existentea
 adb install -r zabala-gailetak-hrapp-v1.0.0-signed.apk
 
-# Uninstall
+# Desinstalatu
 adb uninstall com.zabalagailetak.hrapp
 ```
 
 ---
 
-## 🔍 Verifying the Build
+## 🔍 Eraikuntza Egiaztatzea
 
-### 1. Check APK Signature
+### 1. Egiaztatu APK Sinadura
 
 ```bash
-# Using apksigner (Android SDK)
+# apksigner erabiliz (Android SDK)
 apksigner verify --verbose zabala-gailetak-hrapp-v1.0.0-signed.apk
 
-# Expected output:
+# Espero den irteera:
 # Verifies
 # Verified using v1 scheme (JAR signing): true
 # Verified using v2 scheme (APK Signature Scheme v2): true
 # Number of signers: 1
 ```
 
-### 2. Verify Keystore Match
+### 2. Egiaztatu Keystore Batuketa
 
 ```bash
-# Get certificate fingerprint from APK
+# Lortu ziurtagiriaren hatz-marka APK-tik
 keytool -printcert -jarfile zabala-gailetak-hrapp-v1.0.0-signed.apk
 
-# Compare with keystore certificate
+# Konparatu keystore-eko ziurtagiriarekin
 keytool -list -v -keystore zabala-gailetak-release.keystore
 
-# SHA-256 fingerprints should match
+# SHA-256 hatz-markak bat etorri beharko lukete
 ```
 
-### 3. Check APK Contents
+### 3. Egiaztatu APK Edukia
 
 ```bash
-# List files in APK
+# Zerrendatu fitxategiak APK-an
 unzip -l zabala-gailetak-hrapp-v1.0.0-signed.apk | grep -E "(dex|so|xml)"
 
-# Extract and examine manifest
+# Atera eta aztertu manifest-a
 unzip zabala-gailetak-hrapp-v1.0.0-signed.apk AndroidManifest.xml
 aapt dump xmltree zabala-gailetak-hrapp-v1.0.0-signed.apk AndroidManifest.xml
 ```
 
 ---
 
-## 🐛 Troubleshooting
+## 🐛 Arazoak Konpontzea
 
-### Build Fails: "Gradle version"
+### Eraikuntzak Huts Egiten Du: "Gradle bertsioa"
 
-**Error:**
+**Errorea:**
 ```
 Gradle version X.X is required. Current version is Y.Y.
 ```
 
-**Solution:**
-Update `gradle/wrapper/gradle-wrapper.properties`:
+**Konponbidea:**
+Eguneratu `gradle/wrapper/gradle-wrapper.properties`:
 ```properties
 distributionUrl=https\://services.gradle.org/distributions/gradle-8.7-bin.zip
 ```
 
-### Build Fails: "Java version"
+### Eraikuntzak Huts Egiten Du: "Java bertsioa"
 
-**Error:**
+**Errorea:**
 ```
 Android Gradle plugin requires Java 17 to run. You are currently using Java 11.
 ```
 
-**Solution:**
-Workflow already uses Java 21. Check local development environment:
+**Konponbidea:**
+Workflow-ak Java 21 erabiltzen du. Egiaztatu garapen ingurune lokala:
 ```bash
 java -version
-# Should be Java 21
+# Java 21 izan beharko litzateke
 ```
 
-### APK Signing Fails
+### APK Sinadurak Huts Egiten Du
 
-**Error:**
+**Errorea:**
 ```
 Failed to sign APK: Keystore password incorrect
 ```
 
-**Solutions:**
-1. Verify GitHub Secrets are set correctly
-2. Check password doesn't have special characters causing issues
-3. Regenerate keystore if password is lost
+**Konponbideak:**
+1. Egiaztatu GitHub Secrets zuzen konfiguratuta daudela
+2. Egiaztatu pasahitzak ez duela arazoak sortzen dituzten karaktere berezirik
+3. Berriz sortu keystore-a pasahitza galdu bada
 
-### Version Code Conflicts
+### Bertsio Kode Gatazkak
 
-**Error:**
+**Errorea:**
 ```
 INSTALL_FAILED_VERSION_DOWNGRADE
 ```
 
-**Solution:**
-Each release must have a higher versionCode:
+**Konponbidea:**
+Argitalpen bakoitzak bertsio kode altuagoa izan behar du:
 ```kotlin
-// In app/build.gradle.kts
-versionCode = 2  // Increment from previous
+// app/build.gradle.kts-en
+versionCode = 2  // Inkrementatu aurrekoarekiko
 versionName = "1.0.1"
 ```
 
-### "Unknown Sources" Not Available
+### "Iturburu Ezezagunak" Ez Dago Eskuragarri
 
-On Android 8.0+, the setting is per-app:
+Android 8.0+, ezarpena aplikazioko da:
 - Settings → Apps → Special access → Install unknown apps
-- Select your browser/file manager
-- Enable "Allow from this source"
+- Aukeratu zure nabigatzaile/fitxategi kudeatzailea
+- Gaitu "Allow from this source"
 
 ---
 
-## 📊 Version Management
+## 📊 Bertsio Kudeaketa
 
-### Semantic Versioning
+### Bertsio Semantikoa
 
-Follow [SemVer](https://semver.org/): `MAJOR.MINOR.PATCH`
+Jarraitu [SemVer](https://semver.org/): `MAJOR.MINOR.PATCH`
 
-- **MAJOR:** Breaking changes, major redesign
-- **MINOR:** New features, backward compatible
-- **PATCH:** Bug fixes, small improvements
+- **MAJOR:** Aldaketa haustreak, diseinu nagusia
+- **MINOR:** Ezaugarri berriak, atzeraka bateragarria
+- **PATCH:** Akatsen konponketak, hobekuntza txikiak
 
-**Examples:**
-- `1.0.0` - Initial release
-- `1.1.0` - Added documents module
-- `1.1.1` - Fixed login bug
-- `2.0.0` - Complete UI redesign
+**Adibideak:**
+- `1.0.0` - Hasierako argitalpena
+- `1.1.0` - Dokumentu modulua gehituta
+- `1.1.1` - Saioa hasteko akatsa konponduta
+- `2.0.0` - UI diseinu osoa aldatuta
 
-### Version Code
+### Bertsio Kodea
 
-Integer that increments with every release:
+Zenbaki osoa argitalpen bakoitzarekin inkrementatzen dena:
 
 ```
 v1.0.0 → versionCode: 1
@@ -367,85 +367,85 @@ v1.1.0 → versionCode: 3
 v2.0.0 → versionCode: 4
 ```
 
-**Automatic:** Workflow uses git commit count if not specified
+**Automatikoa:** Workflow-ak git commit kontagailua erabiltzen du zehaztugabe dagoenean
 
 ---
 
-## 🔒 Security Best Practices
+## 🔒 Segurtasun Praktika Onenak
 
-### Keystore Management
+### Keystore Kudeaketa
 
-1. **Backup Strategy:**
-   - Store keystore in encrypted cloud storage (1Password, Bitwarden)
-   - Keep offline backup on encrypted USB drive
-   - Document password recovery process
-   - Test recovery process annually
+1. **Babeskopia Estrategia:**
+   - Gorde keystore biltegi hodei enkriptatuan (1Password, Bitwarden)
+   - Mantendu lineaz kanpoko babeskopia USB enkriptatuan
+   - Dokumentatu pasahitz berreskuratze prozesua
+   - Probak egin berreskuratze prozesuarekin urtero
 
-2. **Access Control:**
-   - Limit keystore access to release managers only
-   - Use separate keystores for debug vs release
-   - Rotate keys if compromised (requires new app listing)
+2. **Sarbide Kontrola:**
+   - Mugatu kestore sarbidea argitalpen kudeatzaileei soilik
+   - Erabili keystore desberdinak debug vs release-rako
+   - Biratu gakoak konprometituta badaude (aplikazio zerrenda berria behar du)
 
 3. **GitHub Secrets:**
-   - Never print secrets in logs
-   - Rotate secrets if exposed
-   - Use organization secrets for team access
-   - Review secret access regularly
+   - Inoiz ez imprimatu sekretuak log-etetan
+   - Biratu sekretuak agerian utziz gero
+   - Erabili erakunde sekretuak talde sarbiderako
+   - Berrikusi sekretuen sarbidea maiz
 
-### APK Distribution
+### APK Banaketa
 
-1. **Official Channels Only:**
-   - GitHub Releases (primary)
-   - Internal file server (secondary)
-   - Never use public file sharing sites
+1. **Bide Ofizialak Soilik:**
+   - GitHub Releases (lehenetsia)
+   - Fitxategi zerbitzari barnekoa (bigarren mailakoa)
+   - Inoiz ez erabili fitxategi partekatze gune publikoak
 
-2. **Verification:**
-   - Always provide SHA-256 checksums
-   - Sign release notes with GPG key (optional)
-   - Use HTTPS for all download links
+2. **Egiaztapena:**
+   - Bete eskaini SHA-256 checksum-ak
+   - Sinatu argitalpen oharrak GPG gakoarekin (aukerakoa)
+   - Erabili HTTPS deskarga esteka guztietarako
 
-3. **Communication:**
-   - Announce releases via official channels
-   - Include changelog and known issues
-   - Provide support contact information
-
----
-
-## 📝 Release Checklist
-
-Print and check off before each release:
-
-### Pre-Release
-- [ ] All tests passing (unit, integration, UI)
-- [ ] No critical bugs in issue tracker
-- [ ] Code reviewed and approved
-- [ ] Version numbers updated
-- [ ] Changelog written
-- [ ] Release notes prepared
-- [ ] Keystore accessible
-- [ ] GitHub Secrets verified
-
-### Build
-- [ ] Create version tag
-- [ ] Push tag to trigger workflow
-- [ ] Monitor build progress
-- [ ] Download signed APK
-- [ ] Verify APK signature
-- [ ] Test APK on physical device
-- [ ] Verify checksums match
-
-### Post-Release
-- [ ] GitHub Release published
-- [ ] Release notes complete
-- [ ] Team notified
-- [ ] Documentation updated
-- [ ] Users informed (email, announcement)
-- [ ] Monitor crash reports
-- [ ] Respond to user feedback
+3. **Komunikazioa:**
+   - Iragarri argitalpenak bide ofizialen bidez
+   - Sartu changelog eta arazo ezagunak
+   - Eman laguntzarekin harremanetan jartzeko informazioa
 
 ---
 
-## 🎓 Learning Resources
+## 📝 Argitalpen Egiaztapen Zerrenda
+
+Inprimatu eta markatu argitalpen bakoitza aurretik:
+
+### Argitalpen Aurretik
+- [ ] Proba guztiak gaindituta (unitatea, integrazioa, UI)
+- [ ] Akats kritikorik ez issue tracker-ean
+- [ ] Kodea berrikusia eta onartua
+- [ ] Bertsio zenbakiak eguneratuta
+- [ ] Changelog idatzita
+- [ ] Argitalpen oharrak prestatuta
+- [ ] Keystore eskuragarri
+- [ ] GitHub Secrets egiaztatuta
+
+### Eraikuntza
+- [ ] Sortu bertsio etiketa
+- [ ] Push-atu etiketa workflow-a abiarazteko
+- [ ] Monitorizatu eraikuntza aurrerapena
+- [ ] Deskargatu sinatutako APK
+- [ ] Egiaztatu APK sinadura
+- [ ] Probatu APK gailu fisikoan
+- [ ] Egiaztatu checksum-ak bat datozela
+
+### Argitalpen Ondoren
+- [ ] GitHub Release argitaratuta
+- [ ] Argitalpen oharrak osatuta
+- [ ] Taldeari jakinarazita
+- [ ] Dokumentazioa eguneratuta
+- [ ] Erabiltzaileei jakinarazita (email, iragarkia)
+- [ ] Monitorizatu crash txostenak
+- [ ] Erantzun erabiltzaileen iritziei
+
+---
+
+## 🎓 Ikaskuntza Baliabideak
 
 - [Android App Signing](https://developer.android.com/studio/publish/app-signing)
 - [GitHub Actions for Android](https://github.com/actions/setup-java)
@@ -455,14 +455,14 @@ Print and check off before each release:
 
 ---
 
-## 📞 Support
+## 📞 Laguntza
 
-**Questions about releases?**
-- Internal: it@zabalagailetak.com
-- GitHub Issues: [Report a problem](https://github.com/tears-mysthrala/erronka4/issues)
+**Galderak argitalpenei buruz?**
+- Barnekoa: it@zabalagailetak.com
+- GitHub Issues: [Salatu arazoa](https://github.com/tears-mysthrala/erronka4/issues)
 
 ---
 
-**Last Updated:** 2026-02-06  
-**Maintained By:** Zabala Gailetak DevTeam  
-**Workflow Version:** 1.0.0
+**Azken Eguneratzea:** 2026-02-06  
+**Mantentzailea:** Zabala Gailetak DevTeam  
+**Workflow Bertsioa:** 1.0.0

@@ -1,69 +1,69 @@
-# Evaluación de Cumplimiento Documental - Erronka 4
+# Dokumentazio Betetzearen Ebaluazioa - Erronka 4
 
-**Fecha:** 24 de Enero de 2026
-**Autor:** Gemini Agent
-**Referencia:** Auditoría de Documentación (auditoria_documentacion.md)
+**Data:** 2026ko Urtarrilaren 24a
+**Egilea:** Gemini Agent
+**Erreferentzia:** Dokumentazio Auditoria (auditoria_documentacion.md)
 
 ---
 
-## 1. Resumen de Acciones
+## 1. Ekintzen Laburpena
 
-Se han abordado los **GAPS CRÍTICOS** identificados en la auditoría mediante la creación de la documentación faltante. A continuación se detalla el estado tras la intervención.
+**GAPS KRITIKOAK** identifikatu ziren auditorian eta dokumentazio falta sortu da. Behean xehetasunak ematen dira.
 
-## 2. ISO 27001:2022 - Estado: ✅ COMPLETADO
+## 2. ISO 27001:2022 - Egoera: ✅ OSATUTA
 
-Se han generado los documentos obligatorios faltantes:
+Beharrrezko dokumentu falta sortu dira:
 
-| Documento | Estado | Ubicación |
-|-----------|--------|-----------|
-| **Competencia del Personal** | ✅ Creado | `compliance/sgsi/langileen_gaitasun_erregistroa.md` |
-| **Métricas de Seguridad** | ✅ Creado | `compliance/sgsi/segurtasun_metrikak.md` |
-| **Programa de Auditoría** | ✅ Creado | `compliance/sgsi/barne_auditoria_programa.md` |
-| **Revisión por Dirección** | ✅ Creado | `compliance/sgsi/zuzendaritzaren_berrikusketa_txostenak/2025_Q4.md` |
-| **POP-013 Cambio** | ✅ Creado | `compliance/sgsi/prozedura_operatiboak/POP-013_aldaketa_kudeaketa.md` |
-| **POP-014 Criptografía** | ✅ Creado | `compliance/sgsi/prozedura_operatiboak/POP-014_kriptografia_kontrolak.md` |
-| **POP-015 Desarrollo** | ✅ Creado | `compliance/sgsi/prozedura_operatiboak/POP-015_garapen_segurua.md` |
-| **POP-016 Acceso Físico** | ✅ Creado | `compliance/sgsi/prozedura_operatiboak/POP-016_sarbide_fisikoa.md` |
-| **POP-017 Clasificación** | ✅ Creado | `compliance/sgsi/prozedura_operatiboak/POP-017_informazio_sailkapena.md` |
-| **Intel. Amenazas** | ✅ Creado | `compliance/sgsi/mehatxu_inteligentzia_politika.md` |
-| **Seguridad Cloud** | ✅ Creado | `compliance/sgsi/hodei_zerbitzu_segurtasun_politika.md` |
-| **Propiedad Intelectual** | ✅ Creado | `compliance/sgsi/jabetza_intelektuala.md` |
-| **Selección Personal** | ✅ Creado | `compliance/sgsi/langile_hautaketa_prozedura.md` |
-| **Disciplinario** | ✅ Creado | `compliance/sgsi/diziplina_prozedura.md` |
-| **Borrado Seguro** | ✅ Creado | `compliance/sgsi/informazio_ezabatze_politika.md` |
-| **Instalación Software** | ✅ Creado | `compliance/sgsi/software_instalazio_politika.md` |
-| **Web Filtering** | ✅ Creado | `compliance/sgsi/web_iragazketa_politika.md` |
+| Dokumentua | Egoera | Kokapena |
+|-----------|--------|----------|
+| **Langileen Gaitasuna** | ✅ Sortua | `compliance/sgsi/langileen_gaitasun_erregistroa.md` |
+| **Segurtasun Metrikak** | ✅ Sortua | `compliance/sgsi/segurtasun_metrikak.md` |
+| **Auditoria Programa** | ✅ Sortua | `compliance/sgsi/barne_auditoria_programa.md` |
+| **Zuzendaritzaren Berrikusketa** | ✅ Sortua | `compliance/sgsi/zuzendaritzaren_berrikusketa_txostenak/2025_Q4.md` |
+| **POP-013 Aldaketa** | ✅ Sortua | `compliance/sgsi/prozedura_operatiboak/POP-013_aldaketa_kudeaketa.md` |
+| **POP-014 Kriptografia** | ✅ Sortua | `compliance/sgsi/prozedura_operatiboak/POP-014_kriptografia_kontrolak.md` |
+| **POP-015 Garapena** | ✅ Sortua | `compliance/sgsi/prozedura_operatiboak/POP-015_garapen_segurua.md` |
+| **POP-016 Sarbide Fisikoa** | ✅ Sortua | `compliance/sgsi/prozedura_operatiboak/POP-016_sarbide_fisikoa.md` |
+| **POP-017 Sailkapena** | ✅ Sortua | `compliance/sgsi/prozedura_operatiboak/POP-017_informazio_sailkapena.md` |
+| **Mehatxu Inteligentzia** | ✅ Sortua | `compliance/sgsi/mehatxu_inteligentzia_politika.md` |
+| **Hodei Segurtasuna** | ✅ Sortua | `compliance/sgsi/hodei_zerbitzu_segurtasun_politika.md` |
+| **Jabetza Intelektuala** | ✅ Sortua | `compliance/sgsi/jabetza_intelektuala.md` |
+| **Langile Hautaketa** | ✅ Sortua | `compliance/sgsi/langile_hautaketa_prozedura.md` |
+| **Diziplina Prozedura** | ✅ Sortua | `compliance/sgsi/diziplina_prozedura.md` |
+| **Ezabatze Segurua** | ✅ Sortua | `compliance/sgsi/informazio_ezabatze_politika.md` |
+| **Software Instalazioa** | ✅ Sortua | `compliance/sgsi/software_instalazio_politika.md` |
+| **Web Iragazketa** | ✅ Sortua | `compliance/sgsi/web_iragazketa_politika.md` |
 
-## 3. GDPR - Estado: ✅ COMPLETADO
+## 3. GDPR - Egoera: ✅ OSATUTA
 
-Se han subsanado las carencias en protección de datos:
+Datuen babesean zegoen gabeziak konpondu dira:
 
-| Documento | Estado | Ubicación |
-|-----------|--------|-----------|
-| **Nombramiento DPO** | ✅ Creado | `compliance/gdpr/dpo_izendapena.md` |
-| **Procedimientos Derechos** | ✅ Creado | `compliance/gdpr/eskubide_prozedurak.md` |
-| **Calendario Retención** | ✅ Creado | `compliance/gdpr/datu_atxikipen_egutegia.md` |
-| **Gestión Consentimiento** | ✅ Justificado | `compliance/gdpr/baimen_sistema_ez_aplikagarria.md` |
-| **Privacy by Design** | ✅ Creado | `compliance/gdpr/privacy_by_design.md` |
+| Dokumentua | Egoera | Kokapena |
+|-----------|--------|----------|
+| **DBA Izendapena** | ✅ Sortua | `compliance/gdpr/dpo_izendapena.md` |
+| **Eskubide Prozedurak** | ✅ Sortua | `compliance/gdpr/eskubide_prozedurak.md` |
+| **Atxikipen Egutegia** | ✅ Sortua | `compliance/gdpr/datu_atxikipen_egutegia.md` |
+| **Baimen Kudeaketa** | ✅ Justifikatua | `compliance/gdpr/baimen_sistema_ez_aplikagarria.md` |
+| **Privacy by Design** | ✅ Sortua | `compliance/gdpr/privacy_by_design.md` |
 
-**Nota:** Queda pendiente la firma de los DPAs con proveedores externos (Google, AWS, etc.), acción que debe realizarse administrativamente.
+**Oharra:** Kanpoko hornitzaileekin (Google, AWS, etab.) DPA akordioak sinatzeko falta da, administratiboki egin behar den ekintza.
 
-## 4. IEC 62443 (OT) - Estado: ⚠️ PARCIALMENTE MEJORADO
+## 4. IEC 62443 (OT) - Egoera: ⚠️ PARTzialKI HOBETUTA
 
-Se ha creado la evaluación de riesgos crítica, pero se requiere mayor profundidad técnica en implementación física.
+Arriskuen ebaluazio kritikoa sortu da, baina ezarpen fisikoan sakonera tekniko handiagoa behar da.
 
-| Documento | Estado | Ubicación |
-|-----------|--------|-----------|
-| **Risk Assessment OT** | ✅ Creado | `compliance/iec62443/ot_arrisku_ebaluazioa.md` |
+| Dokumentua | Egoera | Kokapena |
+|-----------|--------|----------|
+| **Arrisku Ebaluazioa OT** | ✅ Sortua | `compliance/iec62443/ot_arrisku_ebaluazioa.md` |
 
-## 5. Verificación de Calidad (Linting)
+## 5. Kalitatearen Egiaztapena (Linting)
 
-Se ha intentado ejecutar las herramientas de linting del proyecto:
-- **Frontend (`npm run lint`):** Fallido (Herramientas no instaladas en el entorno actual).
-- **Backend (`make lint`):** Fallido (Herramienta `make` no disponible en Windows entorno actual).
+Proiektuaren linting tresnak exekutatzen saiatu da:
+- **Frontend (`npm run lint`):** Huts egin du (Tresnak ez daude instalatuta uneko ingurunean).
+- **Backend (`make lint`):** Huts egin du (`make` tresna ez dago erabilgarri Windows ingurunean).
 
-**Recomendación:** Ejecutar `npm install` y verificar entorno PHP/Composer en la máquina de despliegue final para asegurar la calidad del código. La documentación generada sigue formato Markdown estándar.
+**Gomendioa:** `npm install` exekutatu eta PHP/Composer inguruna egiaztatu azkeneko despliegue makinan kodearen kalitatea bermatzea. Sortutako dokumentazioak Markdown estandarra jarraitzen du.
 
-## 6. Conclusión
+## 6. Ondorioa
 
-La documentación de cumplimiento ha pasado de un estado **NO APTO** a **APTO PARA AUDITORÍA** en cuanto a la existencia de evidencias documentales. Se recomienda revisar los contenidos específicos con los responsables de cada área (CISO, HR, IT) para ajustar los detalles a la realidad operativa final.
+Betetze dokumentazioa **EZ EGOKI** egoeratik **AUDITORIARAKO EGOKI** egoerara pasa da, dokumentazio ebidentzien existentziari dagokionez. Eduki zehatzak eremu bakoitzeko arduradunekin (CISO, HR, IT) berrikustea gomendatzen da, xehetasunak azkeneko errealitate operatiboara egokitzeko.

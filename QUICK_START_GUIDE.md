@@ -1,183 +1,183 @@
-# Zabala Gailetak HR Portal - Quick Start Guide
+# Zabala Gailetak HR Ataria - Hasiera Azkarreko Gida
 
-**Version:** 1.0
-**Date:** January 23, 2026
+**Bertsioa:** 1.0
+**Data:** 2026ko urtarrilaren 23a
 
-## ⚡ Setup in 5 Minutes
+## ⚡ Konfigurazioa 5 minututan
 
-### Prerequisites
+### Aurrebaldintzak
 
-Ensure you have installed:
-- ✅ **Docker Desktop** (Windows/Mac) or Docker Engine (Linux)
-- ✅ **Git** for repository cloning
+Ziurtatu ondokoak instalatuta dituzula:
+- ✅ **Docker Desktop** (Windows/Mac) edo Docker Engine (Linux)
+- ✅ **Git** biltegia klonatzeko
 
-### 1. Clone and Configure
+### 1. Klonatu eta Konfiguratu
 
 ```bash
-# Clone the repository
+# Klonatu biltegia
 git clone <repository-url> zabala-gailetak-hr
 cd zabala-gailetak-hr/"Zabala Gailetak"
 
-# Configure backend environment
+# Konfiguratu backend ingurunea
 cd hr-portal
 cp .env.example .env
 
-# Edit essential environment variables (optional for development)
+# Editatu ingurune-aldagai garrantzitsuak (hautazkoa garapenerako)
 # DB_PASSWORD=your_secure_db_password
 # JWT_SECRET=your_256_bit_jwt_secret
 # MFA_SECRET=your_secure_mfa_secret
 ```
 
-### 2. Start Services
+### 2. Abiarazi Zerbitzuak
 
 ```bash
-# Return to project root
+# Itzuli proiektuaren errorea
 cd ..
 
-# Start all services with Docker Compose
+# Abiarazi zerbitzu guztiak Docker Compose-ekin
 docker-compose -f docker-compose.hrportal.yml up -d
 
-# Monitor startup logs
+# Monitoreatu abio-erregistroak
 docker-compose -f docker-compose.hrportal.yml logs -f
 ```
 
-### 3. Run Database Migrations
+### 3. Exekutatu Datu-basearen Migrazioak
 
 ```bash
-# Execute database setup
+# Exekutatu datu-basearen konfigurazioa
 cd "Zabala Gailetak/hr-portal"
 chmod +x scripts/migrate.sh
 ./scripts/migrate.sh
 ```
 
-### 4. Access the Application
+### 4. Atzitu Aplikazioa
 
-- **🌐 Web Portal**: http://localhost:8080
-- **🔍 API Health Check**: http://localhost:8080/api/health
-- **📱 Mobile App**: Build and run the Android app
+- **🌐 Web Ataria**: http://localhost:8080
+- **🔍 API Osasun Egiaztapena**: http://localhost:8080/api/health
+- **📱 Mugikorrerako App-a**: Eraiki eta exekutatu Android aplikazioa
 
-**Default Administrator Account:**
-- **Email**: `admin@zabalagailetak.com`
-- **Password**: `Admin123!`
-- **Role**: System Administrator
+**Administratzaile Kontu Lehenetsia:**
+- **E-posta**: `admin@zabalagailetak.com`
+- **Pasahitza**: `Admin123!`
+- **Rola**: Sistemaren Administratzailea
 
-### 5. Next Steps
+### 5. Hurrengo Urratsak
 
-1. **Change Default Password**: Update admin credentials immediately
-2. **Create Test Users**: Add sample employees for testing
-3. **Explore API**: Test endpoints at http://localhost:8080/api/employees
-4. **Review Documentation**: See [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md)
+1. **Aldatu Pasahitz Lehenetsia**: Eguneratu admin kredentzialak berehala
+2. **Sortu Erabiltzaile Probak**: Gehitu langile adibideak probetarako
+3. **Arakatu API-a**: Probatu endpoint-ak http://localhost:8080/api/employees
+4. **Berrikusi Dokumentazioa**: Ikusi [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md)
 
 ---
 
-## 🏗️ Architecture Overview
+## 🏗️ Arkitekturaren Ikuspegi Orokorra
 
-### System Components
+### Sistemaren Osagaiak
 
 ```
 Internet → Nginx (DMZ) → PHP App → PostgreSQL
                     ↓
              Redis (Cache) ← SIEM (ELK)
                     ↓
-            OT Network (Isolated)
+            OT Sarea (Isolatua)
 ```
 
-### Key Technologies
+### Teknologia Nagusiak
 
-- **Backend**: PHP 8.4 with PSR standards
-- **Database**: PostgreSQL 16 with encryption
-- **Cache**: Redis 7 for sessions
-- **Web Server**: Nginx with SSL/TLS
-- **Security**: MFA, JWT, RBAC, SIEM
-- **Mobile**: Kotlin Android app
+- **Backend**: PHP 8.4 PSR estandarrekin
+- **Datu-basea**: PostgreSQL 16 enkriptatzearekin
+- **Cache**: Redis 7 saioetarako
+- **Web Zerbitzaria**: Nginx SSL/TLS-ekin
+- **Segurtasuna**: MFA, JWT, RBAC, SIEM
+- **Mugikorra**: Kotlin Android app-a
 
-### Network Zones
+### Sare Zonak
 
-- **DMZ (192.168.100.0/24)**: Public web access
-- **User Network (192.168.10.0/24)**: Employee workstations
-- **Server Network (192.168.20.0/24)**: Application servers
-- **Management (192.168.200.0/24)**: Admin access, monitoring
-- **OT Network (192.168.50.0/24)**: Industrial systems (isolated)
+- **DMZ (192.168.100.0/24)**: Web sarbide publikoa
+- **Erabiltzaile Sarea (192.168.10.0/24)**: Langileen lanpostuak
+- **Zerbitzari Sarea (192.168.20.0/24)**: Aplikazioen zerbitzariak
+- **Kudeaketa (192.168.200.0/24)**: Admin sarbidea, monitoreoa
+- **OT Sarea (192.168.50.0/24)**: Sistemak industrialeak (isolatua)
 
 ---
 
-## 🚀 Development Setup
+## 🚀 Garapen Konfigurazioa
 
-### Backend Development
+### Backend Garapena
 
 ```bash
-# Install PHP dependencies
+# Instalatu PHP dependentziak
 cd "Zabala Gailetak/hr-portal"
 composer install
 
-# Start development server
+# Abiarazi garapen zerbitzaria
 php -S localhost:8000 -t public/
 
-# Run tests
+# Exekutatu probak
 ./vendor/bin/phpunit
 
-# Code quality checks
+# Kodearen kalitatearen egiaztapenak
 ./vendor/bin/phpcs --standard=PSR12 src/
 ./vendor/bin/phpstan analyse src/
 ```
 
-### Frontend Development
+### Frontend Garapena
 
 ```bash
-# Install web dependencies
+# Instalatu web dependentziak
 cd "Zabala Gailetak/hr-portal/web"
 npm install
 
-# Start development server
+# Abiarazi garapen zerbitzaria
 npm run dev
 
-# Build for production
+# Eraiki produkziorako
 npm run build
 
-# Run linting
+# Exekutatu linting
 npm run lint
 ```
 
-### Mobile Development
+### Mugikorrerako Garapena
 
 ```bash
-# Open Android project
+# Ireki Android proiektua
 cd "Zabala Gailetak/android-app"
 
-# Using Android Studio:
-# 1. File → Open → Select android-app folder
-# 2. Wait for Gradle sync
+# Android Studio erabiliz:
+# 1. File → Open → Hautatu android-app karpeta
+# 2. Itxaron Gradle sinkronizatzeko
 # 3. Run → Run 'app' (Shift+F10)
 
-# Build APK
+# Eraiki APK-a
 ./gradlew assembleDebug
 ```
 
-### Full Development Environment
+### Garapen Ingurune Osoa
 
 ```bash
-# Start all services
+# Abiarazi zerbitzu guztiak
 docker-compose -f docker-compose.hrportal.yml up -d
 
-# Run development servers
-# Backend: localhost:8080 (via Docker)
+# Exekutatu garapen zerbitzariak
+# Backend: localhost:8080 (Docker bidez)
 # Frontend: localhost:3000 (npm run dev)
-# Mobile: Android Studio emulator
+# Mugikorra: Android Studio emulatzailea
 ```
 
 ---
 
-## 🔧 Configuration
+## 🔧 Konfigurazioa
 
-### Environment Variables
+### Ingurune-Aldagaiak
 
-**Required for Production:**
+**Beharrezkoak Produkziorako:**
 ```env
-# Application
+# Aplikazioa
 APP_ENV=production
 APP_DEBUG=false
 
-# Database
+# Datu-basea
 DB_HOST=192.168.20.20
 DB_PORT=5432
 DB_NAME=hr_portal
@@ -185,7 +185,7 @@ DB_USER=hr_user
 DB_PASSWORD=secure_password_here
 DB_SSL_MODE=require
 
-# Security
+# Segurtasuna
 JWT_SECRET=your_256_bit_secret_key_here
 JWT_EXPIRES_IN=1h
 MFA_ISSUER=Zabala Gailetak
@@ -197,33 +197,33 @@ REDIS_PORT=6379
 REDIS_PASSWORD=secure_redis_password
 REDIS_SSL=true
 
-# Email (for notifications)
+# E-posta (jakinarazpenetarako)
 SMTP_HOST=your_smtp_server
 SMTP_PORT=587
 SMTP_USER=your_email@domain.com
 SMTP_PASS=your_email_password
 SMTP_ENCRYPTION=tls
 
-# File Storage
+# Fitxategien Biltegia
 UPLOAD_PATH=/var/www/uploads
 MAX_FILE_SIZE=10485760  # 10MB
 ALLOWED_EXTENSIONS=pdf,doc,docx,jpg,jpeg,png
 
-# Security Headers
+# Segurtasun Goiburuak
 CSP_DEFAULT_SRC=self
 HSTS_MAX_AGE=31536000
 ```
 
-### SSL/TLS Setup
+### SSL/TLS Konfigurazioa
 
 ```bash
-# Generate self-signed certificate (development)
+# Sortu autofirmatutako ziurtagiria (garapena)
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes -subj "/C=ES/ST=Basque Country/L=Donostia/O=Zabala Gailetak/CN=localhost"
 
-# For production - Let's Encrypt
+# Produkziorako - Let's Encrypt
 certbot certonly --standalone -d hr.zabalagailetak.com
 
-# Configure Nginx
+# Konfiguratu Nginx
 server {
     listen 443 ssl http2;
     server_name hr.zabalagailetak.com;
@@ -245,283 +245,283 @@ server {
 
 ---
 
-## 🧪 Testing
+## 🧪 Probak
 
-### Unit Tests
+### Unitate Probak
 
 ```bash
-# PHP unit tests
+# PHP unitate probak
 cd "Zabala Gailetak/hr-portal"
 ./vendor/bin/phpunit --verbose
 
-# With coverage
+# Esteparekin
 ./vendor/bin/phpunit --coverage-html coverage/
 
-# Specific test file
+# Fitxategi espezifikoak
 ./vendor/bin/phpunit tests/Controllers/AuthControllerTest.php
 ```
 
-### Integration Tests
+### Integrazio Probak
 
 ```bash
-# API integration tests
+# API integrazio probak
 ./vendor/bin/phpunit tests/Integration/
 
-# Database integration
+# Datu-basearen integrazioa
 ./vendor/bin/phpunit tests/Database/
 ```
 
-### End-to-End Tests
+### Hasiera Amaierako Probak (E2E)
 
 ```bash
-# Install Playwright
+# Instalatu Playwright
 npm install -g @playwright/test
 
-# Install browsers
+# Instalatu nabigatzaileak
 npx playwright install
 
-# Run E2E tests
+# Exekutatu E2E probak
 npx playwright test
 
-# With browser visible
+# Nabigatzailea ikusgai
 npx playwright test --headed
 
-# Specific test
+# Proba espezifikoa
 npx playwright test tests/e2e/auth.spec.js
 ```
 
-### Security Testing
+### Segurtasun Probak
 
 ```bash
-# OWASP ZAP scan
+# OWASP ZAP eskaneatzea
 docker run -t owasp/zap2docker-stable zap-baseline.py \
   -t http://localhost:8080 \
   -r zap_report.html
 
-# Dependency check
+# Dependentzia egiaztapena
 ./vendor/bin/composer audit
 
-# Container security
+# Edukiontziaren segurtasuna
 docker run --rm -v $(pwd):/src aquasecurity/trivy fs .
 ```
 
 ---
 
-## 🔒 Security Features
+## 🔒 Segurtasun Ezaugarriak
 
-### Authentication & Authorization
+### Autentifikazioa eta Baimena
 
-**Multi-Factor Authentication (MFA):**
-- TOTP via Google Authenticator/Authy
-- WebAuthn (Passkeys) support
-- Recovery codes for account recovery
+**Autentifikazio Faktore Anitza (MFA):**
+- TOTP Google Authenticator/Authy bidez
+- WebAuthn (Passkeys) euskarria
+- Berreskurapen kodeak kontua berreskuratzeko
 
-**Role-Based Access Control (RBAC):**
-- **ADMIN**: Full system access
-- **RRHH MGR**: HR management functions
-- **JEFE SECCIÓN**: Department management
-- **EMPLEADO**: Personal access only
+**Rol Oinarritutako Sarbide Kontrola (RBAC):**
+- **ADMIN**: Sistemaren sarbide osoa
+- **RRHH MGR**: HR kudeaketa funtzioak
+- **JEFE SECCIÓN**: Sailaren kudeaketa
+- **EMPLEADO**: Sarbide pertsonala soilik
 
-### Security Controls
+### Segurtasun Kontrolak
 
-**Input Validation:**
-- Comprehensive server-side validation
-- SQL injection prevention (prepared statements)
-- XSS protection (output encoding)
-- CSRF protection (double-submit cookies)
+**Sarrera Baliozkotzea:**
+- Zerbitzari aldeko baliozkotze osoa
+- SQL injekzioaren prebentzioa (prestatutako esaldiak)
+- XSS babesa (irteeraren kodeketa)
+- CSRF babesa (cookie bikoitzeko bidalketa)
 
-**Encryption:**
-- AES-256-GCM at rest
-- TLS 1.3 in transit
-- Password hashing (bcrypt, cost factor 12+)
+**Enkriptatzea:**
+- AES-256-GCM atsedenean
+- TLS 1.3 transmisioan
+- Pasahitzen hash-ak (bcrypt, kostu faktorea 12+)
 
-**Monitoring:**
-- SIEM integration (ELK Stack)
-- Real-time alerting
-- Comprehensive audit logging
-- Honeypot threat detection
+**Monitoreoa:**
+- SIEM integrazioa (ELK Stack)
+- Alerta erreala
+- Auditoria erregistro osoa
+- Honeypot mehatxu detekzioa
 
 ---
 
-## 📊 Monitoring & Logs
+## 📊 Monitoreoa eta Erregistroak
 
-### Application Logs
+### Aplikazioaren Erregistroak
 
 ```bash
-# View application logs
+# Ikusi aplikazioaren erregistroak
 docker-compose -f docker-compose.hrportal.yml logs -f hr-portal
 
-# PHP error logs
+# PHP errore erregistroak
 docker exec -it hr-portal tail -f /var/log/php/error.log
 
-# Nginx access logs
+# Nginx sarbide erregistroak
 docker exec -it nginx tail -f /var/log/nginx/access.log
 ```
 
-### SIEM Dashboard
+### SIEM Panela
 
 ```bash
-# Access Kibana
+# Atzitu Kibana
 open http://localhost:5601
 
-# Default credentials
+# Kredentzial lehenetsiak
 # Username: elastic
-# Password: changeme (configure in environment)
+# Password: changeme (konfiguratu ingurunean)
 ```
 
-### Health Checks
+### Osasun Egiaztapenak
 
 ```bash
-# Application health
+# Aplikazioaren osasuna
 curl http://localhost:8080/api/health
 
-# Database connectivity
+# Datu-basearen konektibitatea
 docker exec -it postgres pg_isready -U hr_user -d hr_portal
 
-# Redis connectivity
+# Redis konektibitatea
 docker exec -it redis redis-cli ping
 ```
 
 ---
 
-## 🚨 Troubleshooting
+## 🚨 Arazketa
 
-### Common Issues
+### Arazo Ohikoenak
 
-#### Port 8080 Already in Use
+#### 8080 Portua Jadanik Erabiltzen
 
 ```bash
-# Change port in docker-compose.hrportal.yml
+# Aldatu portua docker-compose.hrportal.yml fitxategian
 ports:
-  - "8081:80"  # Change from 8080:80
+  - "8081:80"  # Aldatu 8080:80-tik
 
-# Restart services
+# Berrabiarazi zerbitzuak
 docker-compose -f docker-compose.hrportal.yml down
 docker-compose -f docker-compose.hrportal.yml up -d
 ```
 
-#### Database Connection Failed
+#### Datu-basearen Konexioak Huts Egin Du
 
 ```bash
-# Check PostgreSQL logs
+# Egiaztatu PostgreSQL erregistroak
 docker-compose -f docker-compose.hrportal.yml logs postgres
 
-# Verify environment variables
+# Egiaztatu ingurune-aldagaiak
 cat hr-portal/.env | grep DB_
 
-# Test database connection
+# Probatu datu-basearen konexioa
 docker exec -it postgres psql -U hr_user -d hr_portal
 ```
 
-#### Permission Errors
+#### Baimen Erroreak
 
 ```bash
-# Fix script permissions
+# Konpondu script baimenak
 chmod +x hr-portal/scripts/*.sh
 
-# Fix file permissions
+# Konpondu fitxategi baimenak
 sudo chown -R $USER:$USER "Zabala Gailetak/"
 ```
 
-#### SSL Certificate Issues
+#### SSL Ziurtagiri Arazoak
 
 ```bash
-# Check certificate validity
+# Egiaztatu ziurtagiriaren baliozkotasuna
 openssl x509 -in cert.pem -text -noout
 
-# Regenerate self-signed certificate
+# Berrasortu autofirmatutako ziurtagiria
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
 ```
 
-#### Memory Issues
+#### Memoria Arazoak
 
 ```bash
-# Increase Docker memory limit
-# Docker Desktop: Settings → Resources → Memory (4GB+ recommended)
+# Handitu Docker memoria muga
+# Docker Desktop: Settings → Resources → Memory (4GB+ gomendatua)
 
-# Check container memory usage
+# Egiaztatu edukiontziaren memoria erabilera
 docker stats
 ```
 
-### Performance Issues
+### Errendimendu Arazoak
 
-#### Slow Application Response
+#### Aplikazio Eraztun Motela
 
 ```bash
-# Check PHP-FPM processes
+# Egiaztatu PHP-FPM prozesuak
 docker exec -it hr-portal ps aux | grep php
 
-# Monitor database queries
+# Monitoreatu datu-basearen kontsultak
 docker exec -it postgres psql -U hr_user -d hr_portal -c "SELECT * FROM pg_stat_activity;"
 
-# Check Redis performance
+# Egiaztatu Redis errendimendua
 docker exec -it redis redis-cli info stats
 ```
 
-#### High CPU Usage
+#### CPU Erabilera Handia
 
 ```bash
-# Check system resources
+# Egiaztatu sistemaren baliabideak
 docker stats
 
-# Monitor application logs for errors
+# Monitoreatu aplikazioaren erregistroak erroreetarako
 docker-compose -f docker-compose.hrportal.yml logs --tail=100 hr-portal
 ```
 
 ---
 
-## 📞 Support & Resources
+## 📞 Laguntza eta Baliabideak
 
-### Documentation
+### Dokumentazioa
 
-- **📋 Project Documentation**: [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md)
-- **🔐 Security Guide**: [AGENTS.md](AGENTS.md) (includes compliance details)
-- **🚀 Implementation Summary**: [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md)
-- **📱 Web App Guide**: [WEB_APP_GUIDE.md](WEB_APP_GUIDE.md)
-- **📲 Mobile App Guide**: [MOBILE_APP_GUIDE.md](MOBILE_APP_GUIDE.md)
-- **🔗 API Documentation**: [API_DOCUMENTATION.md](API_DOCUMENTATION.md)
+- **📋 Proiektuaren Dokumentazioa**: [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md)
+- **🔐 Segurtasun Gida**: [AGENTS.md](AGENTS.md) (betetze xehetasunekin)
+- **🚀 Inplementazio Laburpena**: [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md)
+- **📱 Web App Gida**: [WEB_APP_GUIDE.md](WEB_APP_GUIDE.md)
+- **📲 Mugikorrerako App Gida**: [MOBILE_APP_GUIDE.md](MOBILE_APP_GUIDE.md)
+- **🔗 API Dokumentazioa**: [API_DOCUMENTATION.md](API_DOCUMENTATION.md)
 
-### Emergency Contacts
+### Larrialdi Kontaktuak
 
-- **🚨 Security Incidents**: security@zabalagailetak.com | +34 XXX XXX XXX
-- **🆘 Technical Support**: support@zabalagailetak.com | +34 XXX XXX XXX
-- **📧 General Inquiries**: info@zabalagailetak.com
+- **🚨 Segurtasun Gertakariak**: security@zabalagailetak.com | +34 XXX XXX XXX
+- **🆘 Laguntza Teknikoa**: support@zabalagailetak.com | +34 XXX XXX XXX
+- **📧 Kontsulta Orokorrak**: info@zabalagailetak.com
 
-### Community Resources
+### Komunitate Baliabideak
 
 - **OWASP**: https://owasp.org
-- **PHP Documentation**: https://www.php.net/docs
-- **PostgreSQL Manual**: https://www.postgresql.org/docs/
-- **Docker Documentation**: https://docs.docker.com
-- **Android Developers**: https://developer.android.com
+- **PHP Dokumentazioa**: https://www.php.net/docs
+- **PostgreSQL Eskuliburua**: https://www.postgresql.org/docs/
+- **Docker Dokumentazioa**: https://docs.docker.com
+- **Android Garatzaileak**: https://developer.android.com
 
 ---
 
-## 🎯 Quick Commands Reference
+## 🎯 Komando Azkarren Erreferentzia
 
 ```bash
-# Start/Stop services
-docker-compose -f docker-compose.hrportal.yml up -d    # Start
-docker-compose -f docker-compose.hrportal.yml down     # Stop
-docker-compose -f docker-compose.hrportal.yml logs -f  # Logs
+# Abiarazi/Gelditu zerbitzuak
+docker-compose -f docker-compose.hrportal.yml up -d    # Abiarazi
+docker-compose -f docker-compose.hrportal.yml down     # Gelditu
+docker-compose -f docker-compose.hrportal.yml logs -f  # Erregistroak
 
-# Database operations
+# Datu-base eragiketak
 cd "Zabala Gailetak/hr-portal"
-./scripts/migrate.sh  # Run migrations
+./scripts/migrate.sh  # Exekutatu migrazioak
 
-# Development
+# Garapena
 cd "Zabala Gailetak/hr-portal/web"
-npm run dev          # Start frontend dev server
+npm run dev          # Abiarazi frontend garapen zerbitzaria
 
 cd "Zabala Gailetak/android-app"
-./gradlew assembleDebug  # Build Android APK
+./gradlew assembleDebug  # Eraiki Android APK-a
 
-# Testing
-./vendor/bin/phpunit                    # PHP tests
-npm test                              # Frontend tests
-./gradlew test                        # Android tests
+# Probak
+./vendor/bin/phpunit                    # PHP probak
+npm test                              # Frontend probak
+./gradlew test                        # Android probak
 
-# Code quality
+# Kodearen kalitatea
 ./vendor/bin/phpcs src/               # PHP linting
 npm run lint                          # JS linting
 ./gradlew lint                        # Android linting
@@ -529,45 +529,44 @@ npm run lint                          # JS linting
 
 ---
 
-## 🔄 Updates & Maintenance
+## 🔄 Eguneraketak eta Mantentzea
 
-### Regular Maintenance Tasks
+### Mantentze Zeregin Ohikoenak
 
-**Daily:**
-- Monitor system health and logs
-- Review security alerts
-- Verify backup completion
+**Egunero:**
+- Monitoreatu sistemaren osasuna eta erregistroak
+- Berrikusi segurtasun alertak
+- Egiaztatu segurtasun kopiaren osatzea
 
-**Weekly:**
-- Update dependencies (security patches)
-- Review system performance
-- Check disk space and resources
+**Astero:**
+- Eguneratu dependentziak (segurtasun adabakiak)
+- Berrikusi sistemaren errendimendua
+- Egiaztatu disko espazioa eta baliabideak
 
-**Monthly:**
-- Full backup testing
-- Security patch deployment
-- Performance optimization
+**Hilero:**
+- Segurtasun kopiaren proba osoa
+- Segurtasun adabakien instalazioa
+- Errendimendu optimizazioa
 
-**Quarterly:**
-- Security assessments
-- Compliance audits
-- System updates
+**Hilabetero:**
+- Segurtasun ebaluazioak
+- Betetze ikuskaketak
+- Sistemaren eguneraketak
 
-### Backup Verification
+### Segurtasun Kopien Egiaztapena
 
 ```bash
-# Test database backup restoration
+# Probatu datu-base segurtasun kopiaren berrespena
 pg_restore --create --clean -d postgres /backups/hr_portal_backup.sql
 
-# Verify file integrity
+# Egiaztatu fitxategien osotasuna
 find /backups -name "*.tar.gz" -exec tar -tzf {} \; | head -10
 ```
 
 ---
 
-**Ready to start developing with Zabala Gailetak HR Portal! 🚀**
+**Prest Zabala Gailetak HR Atarian garatzen hasteko! 🚀**
 
-For detailed technical documentation, see [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md).
+Dokumentazio tekniko xeheago lortzeko, ikusi [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md).
 
-*Last updated: January 23, 2026*</content>
-<parameter name="filePath">D:\erronka4\QUICK_START_GUIDE.md
+*Azken eguneraketa: 2026ko urtarrilaren 23a*

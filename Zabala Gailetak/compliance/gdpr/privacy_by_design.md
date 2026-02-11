@@ -1,14 +1,14 @@
 # Privacy by Design - Diseinuz Pribatutasuna
 
-## Principios Aplicados en Portal RRHH
+## RRHH Portalean Aplikatutako Printzipioak
 
-### 1. Minimización de Datos
-**Implementación:**
-- Solo campos esenciales en formularios
-- No se solicita: religión, orientación sexual, afiliación sindical
-- Campos opcionales claramente marcados
+### 1. Datuen Minimizazioa
+**Inplementazioa:**
+- Inprimakietan soilik eremu ezinbestekoak
+- Ez da eskatzen: erlijioa, orientazio sexuala, sindikatu kidetza
+- Aukerako eremuak argi markatuta
 
-**Ejemplo:**
+**Adibidea:**
 ```php
 class ErabiltzaileaSortu {
     // ✅ Beharrezkoak
@@ -16,39 +16,45 @@ class ErabiltzaileaSortu {
     public string $eposta;
     
     // ❌ EZ beharrezkoak - EZABATU
-    // public string $erlijoa;  // REMOVED
-    // public string $jatorria; // REMOVED
+    // public string $erlijoa;  // KENDUTA
+    // public string $jatorria; // KENDUTA
 }
 ```
 
-### 2. Cifrado por Defecto
-- TLS 1.3 para tránsito
-- AES-256-GCM para datos en reposo
-- bcrypt para contraseñas
+### 2. Zifraketa Lehenetsiak
+- TLS 1.3 garraiorako
+- AES-256-GCM geldirik dauden datuetarako
+- bcrypt pasahitzetarako
 
-### 3. Pseudonimización
-- User IDs en logs (no nombres)
-- Masking en non-production environments
+### 3. Pseudonimizazioa
+- Erabiltzaile IDak log-etan (izenak ez)
+- Masking ekoizpen-ingurune ez direnetan
 
-### 4. Separación de Datos
-- Datos personales en tablas separadas
-- Datos sensibles (salud) con cifrado adicional
+### 4. Datuen Banaketa
+- Datu pertsonalak taula banatuetan
+- Datu sentikorrak (osasuna) zifraketa gehigarriarekin
 
-### 5. Control de Acceso
-- RBAC implementado
-- Least privilege principle
-- MFA obligatorio
+### 5. Sarbide Kontrola
+- RBAC inplementatuta
+- Pribilegio txikienaren printzipioa
+- MFA beharrezkoa
 
-### 6. Audit Trail Completo
-- Todos los accesos registrados
-- Retention 2 años
+### 6. Audit Trail Osoa
+- Sarrera guztiak erregistratuta
+- Atxikipena 2 urte
 
-## Checklist de Nuevas Features
+## Ezaugarri Berrien Egiaztapen Zerrenda
 
-Antes de desarrollar nueva funcionalidad:
-- [ ] ¿Es necesario este dato?
-- [ ] ¿Cuál es la base legal?
-- [ ] ¿Se puede pseudonimizar?
-- [ ] ¿Se puede cifrar?
-- [ ] ¿Necesita DPIA?
-- [ ] ¿Cuál es el plazo de retención?
+Ezaugarri berriak garatu aurretik:
+- [ ] Beharrezkoa al da datu hau?
+- [ ] Zein da oinarri juridikoa?
+- [ ] Pseudonimiza daiteke?
+- [ ] Zifra daiteke?
+- [ ] DPIA behar al du?
+- [ ] Zein da atxikipen epea?
+
+---
+
+**Dokumentuaren Jabea:** Datuen Babeserako Ordezkaria  
+**Azken Berrikuspena:** 2026ko Urtarrilaren 8a  
+**Hurrengo Berrikuspena:** 2027ko Urtarrilaren 8a

@@ -9,7 +9,7 @@ Segurtasuna softwarearen bizi-ziklo osoan integratzea (DevSecOps), kodea ekoizpe
 ### Fase 1: Diseinua
 
 * **Mehatxuen Modelizazioa:** Identifikatu eraso bektore posibleak diseinu fasean.
-* **Segurtasun Eskkakizunak:** Definitu hasieratik (adib. "Datu guztiak HTTPS bidez joan behar dira").
+* **Segurtasun Eskakizunak:** Definitu hasieratik (adib. "Datu guztiak HTTPS bidez joan behar dira").
 
 ### Fase 2: Garapena (Coding)
 

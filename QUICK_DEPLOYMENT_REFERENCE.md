@@ -1,32 +1,32 @@
-# 🚀 Quick Reference - Deployment & Releases
+# 🚀 Erreferentzia Azkarra - Ingurunea eta Argitalpenak
 
-**Zabala Gailetak HR Portal - Essential Commands**
+**Zabala Gailetak HR Ataria - Komando Ezinbestekoak**
 
 ---
 
-## 🗄️ InfinityFree Database Deployment
+## 🗄️ InfinityFree Datu-basearen Ingurunea
 
-### First Time Setup
+### Konfigurazioa Lehenengo Aldiz
 
 ```bash
-# 1. Access phpMyAdmin
+# 1. Sartu phpMyAdmin-era
 URL: https://cpanel.infinityfree.com → phpMyAdmin
-Database: if0_40982238_zabala_gailetak
+Datu-basea: if0_40982238_zabala_gailetak
 
-# 2. Run SQL Scripts (in this order)
-- mysql_zabala_gailetak_fresh_install.sql  (fresh install)
-- infinityfree_patches_v2.sql              (patches for new features)
+# 2. Exekutatu SQL Script-ak (orden honetan)
+- mysql_zabala_gailetak_fresh_install.sql  (instalazio garbia)
+- infinityfree_patches_v2.sql              (funtzio berrien adabakiak)
 
-# 3. Verify Installation
-SELECT COUNT(*) FROM users;  -- Should return 1 (admin user)
-SHOW TABLES;                  -- Should show 20 tables
-SHOW TRIGGERS;                -- Should show 3 vacation triggers
+# 3. Egiaztatu Instalazioa
+SELECT COUNT(*) FROM users;  -- 1 itzuli beharko luke (erabiltzaile administratzailea)
+SHOW TABLES;                  -- 20 taula erakutsi beharko lituzke
+SHOW TRIGGERS;                -- 3 oporretako trigger erakutsi beharko lituzke
 ```
 
-### Environment Setup
+### Ingurunearen Konfigurazioa
 
 ```env
-# Create .env file in htdocs/
+# Sortu .env fitxategia htdocs/ karpetan
 DB_DRIVER=mysql
 DB_HOST=sql107.infinityfree.com
 DB_NAME=if0_40982238_zabala_gailetak
@@ -35,20 +35,20 @@ DB_PASSWORD=your_password_here
 JWT_SECRET=generate_random_64_chars
 ```
 
-### Validation
+### Baliozkotzea
 
 ```bash
-# Test API endpoint
+# Probatu API endpoint-a
 curl https://zabala-gailetak.infinityfreeapp.com/api/test/db
 
-# Expected: {"status":"success","users_count":1}
+# Espero dena: {"status":"success","users_count":1}
 ```
 
 ---
 
-## 📱 Android App Release
+## 📱 Android Aplikazioaren Argitalpena
 
-### Generate Keystore (One-Time)
+### Sortu Keystore-a (Behin bakarrik)
 
 ```bash
 cd "Zabala Gailetak/android-app"
@@ -59,124 +59,124 @@ keytool -genkey -v \
   -keyalg RSA -keysize 2048 \
   -validity 10000
 
-# Convert to base64
+# Bihurtu base64-ra
 base64 -w 0 zabala-gailetak-release.keystore > keystore.base64
 ```
 
-### Configure GitHub Secrets
+### Konfiguratu GitHub Sekretuak
 
 ```
 Settings → Secrets → Actions → New repository secret
 
-ANDROID_KEYSTORE_BASE64    = [paste keystore.base64 content]
-ANDROID_KEYSTORE_PASSWORD  = [your keystore password]
+ANDROID_KEYSTORE_BASE64    = [itsatsi keystore.base64 edukia]
+ANDROID_KEYSTORE_PASSWORD  = [zure keystore pasahitza]
 ANDROID_KEY_ALIAS          = zabala-gailetak-hrapp
-ANDROID_KEY_PASSWORD       = [your key password]
+ANDROID_KEY_PASSWORD       = [zure gako pasahitza]
 ```
 
-### Release Methods
+### Argitalpen Metodoak
 
-**Method 1: Automatic (Tag Push)**
+**1. Metodoa: Automatikoa (Tag bultzatzea)**
 ```bash
 git tag -a v1.0.0 -m "Release v1.0.0"
 git push origin v1.0.0
-# GitHub Actions builds and publishes automatically
+# GitHub Actions-ek automatikoki eraikitzen eta argitaratzen du
 ```
 
-**Method 2: Manual (GitHub UI)**
+**2. Metodoa: Eskuzkoa (GitHub UI)**
 ```
-1. Go to Actions → Android App Release
-2. Click "Run workflow"
-3. Enter version: 1.0.0
-4. Click "Run workflow"
-5. Download APK from Artifacts
+1. Joan Actions → Android App Release-ra
+2. Egin klik "Run workflow"-n
+3. Sartu bertsioa: 1.0.0
+4. Egin klik "Run workflow"-n
+5. Deskargatu APK Artifacts-etik
 ```
 
-### Verify APK
+### Egiaztatu APK-a
 
 ```bash
-# Check signature
+# Egiaztatu sinadura
 apksigner verify zabala-gailetak-hrapp-v1.0.0-signed.apk
 
-# Verify checksum
+# Egiaztatu kontrol-batura
 sha256sum zabala-gailetak-hrapp-v1.0.0-signed.apk
-# Compare with checksums.txt
+# Konparatu checksums.txt-rekin
 ```
 
-### Install APK
+### Instalatu APK-a
 
 ```bash
-# Via ADB
+# ADB bidez
 adb install zabala-gailetak-hrapp-v1.0.0-signed.apk
 
-# Or download to phone and tap to install
-# (Enable "Install from Unknown Sources" first)
+# Edo deskargatu telefonora eta sakatu instalatzeko
+# (Gaitu "Install from Unknown Sources" lehenengo)
 ```
 
 ---
 
-## 🔧 Troubleshooting
+## 🔧 Arazoen Konponketa
 
-### Database Issues
+### Datu-basearen Arazoak
 
-| Problem | Solution |
-|---------|----------|
-| Can't connect | Check DB_HOST, DB_NAME, DB_PASSWORD in .env |
-| Table doesn't exist | Re-run mysql_zabala_gailetak_fresh_install.sql |
-| Public documents fail | Run infinityfree_patches_v2.sql (Patch 1) |
-| Triggers not working | Run: `SHOW TRIGGERS; -- Should see 3` |
+| Arazoa | Konponbidea |
+|--------|-------------|
+| Ezin da konektatu | Egiaztatu DB_HOST, DB_NAME, DB_PASSWORD .env fitxategian |
+| Taula ez dago | Berriro exekutatu mysql_zabala_gailetak_fresh_install.sql |
+| Dokumentu publikoak huts egiten dute | Exekutatu infinityfree_patches_v2.sql (1. adabakia) |
+| Trigger-ak ez dabiltza | Exekutatu: `SHOW TRIGGERS; -- 3 ikusi beharko zenituzke` |
 
-### Android Build Issues
+### Android Eraikuntzaren Arazoak
 
-| Problem | Solution |
-|---------|----------|
-| Build fails | Check GitHub Secrets are set correctly |
-| Signing fails | Verify keystore password is correct |
-| Version conflict | Increment versionCode in build.gradle.kts |
-| Install fails | Enable "Install from Unknown Sources" |
+| Arazoa | Konponbidea |
+|--------|-------------|
+| Eraikuntzak huts egiten du | Egiaztatu GitHub Secrets ondo konfiguratuta daudela |
+| Sinadurak huts egiten du | Egiaztatu keystore pasahitza zuzena dela |
+| Bertsio gatazka | Handitu versionCode build.gradle.kts fitxategian |
+| Instalazioak huts egiten du | Gaitu "Install from Unknown Sources" |
 
 ---
 
-## 📞 Quick Links
+## 📞 Esteka Azkarrak
 
-- **Full Database Guide:** [INFINITYFREE_DEPLOYMENT.md](INFINITYFREE_DEPLOYMENT.md)
-- **Full Android Guide:** [ANDROID_RELEASE_GUIDE.md](ANDROID_RELEASE_GUIDE.md)
+- **Datu-base Gida Osoa:** [INFINITYFREE_DEPLOYMENT.md](INFINITYFREE_DEPLOYMENT.md)
+- **Android Gida Osoa:** [ANDROID_RELEASE_GUIDE.md](ANDROID_RELEASE_GUIDE.md)
 - **GitHub Actions:** [.github/workflows/android-release.yml](.github/workflows/android-release.yml)
-- **SQL Patches:** [scripts/infinityfree_patches_v2.sql](scripts/infinityfree_patches_v2.sql)
+- **SQL Adabakiak:** [scripts/infinityfree_patches_v2.sql](scripts/infinityfree_patches_v2.sql)
 
 ---
 
-## ✅ Pre-Deployment Checklist
+## ✅ Ingurunea Egin Aurreko Egiaztapen Zerrenda
 
-### Database
-- [ ] Backup existing database (if any)
-- [ ] Have InfinityFree credentials ready
-- [ ] Generated strong JWT_SECRET (64+ chars)
-- [ ] Generated strong PASSWORD_PEPPER
-- [ ] Reviewed .env.example file
+### Datu-basea
+- [ ] Egin segurtasun kopia datu-base existitzen bada
+- [ ] Izan InfinityFree kredentzialak prest
+- [ ] Sortu JWT_SECRET indartsua (64+ karaktere)
+- [ ] Sortu PASSWORD_PEPPER indartsua
+- [ ] Berrikusi .env.example fitxategia
 
 ### Android
-- [ ] Generated release keystore
-- [ ] Backed up keystore securely
-- [ ] Added all 4 GitHub Secrets
-- [ ] Updated versionCode and versionName
-- [ ] Tested app on physical device
+- [ ] Sortu argitalpen keystore-a
+- [ ] Egin keystore-aren segurtasun kopia modu seguruan
+- [ ] Gehitu 4 GitHub Secrets guztiak
+- [ ] Eguneratu versionCode eta versionName
+- [ ] Probatu aplikazioa gailu fisikoan
 
 ---
 
-## 🆘 Emergency Contacts
+## 🆘 Larrialdi Kontaktuak
 
-**Database Issues:**  
-- InfinityFree Support: https://forum.infinityfree.com
-- Internal: it@zabalagailetak.com
+**Datu-base Arazoak:**  
+- InfinityFree Laguntza: https://forum.infinityfree.com
+- Barnekoa: it@zabalagailetak.com
 
-**Android Issues:**  
-- GitHub Actions Docs: https://docs.github.com/actions
-- Android Signing: https://developer.android.com/studio/publish/app-signing
-- Internal: dev@zabalagailetak.com
+**Android Arazoak:**  
+- GitHub Actions Dokumentazioa: https://docs.github.com/actions
+- Android Sinadura: https://developer.android.com/studio/publish/app-signing
+- Barnekoa: dev@zabalagailetak.com
 
 ---
 
-**Last Updated:** 2026-02-06  
-**Version:** 1.0  
-**Print this page and keep it handy!** 📄
+**Azken Eguneraketa:** 2026-02-06  
+**Bertsioa:** 1.0  
+**Inprimatu orri hau eta eduki eskura!** 📄

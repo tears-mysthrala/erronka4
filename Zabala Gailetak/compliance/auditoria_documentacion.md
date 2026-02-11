@@ -1,672 +1,226 @@
-# Auditoría de Documentación Obligatoria
+# Dokumentazio Beharrrezkoen Auditoria
 ## ISO 27001:2022 + GDPR + IEC 62443
 
-**Fecha:** 24 de Enero de 2026  
-**Proyecto:** Zabala Gailetak - Portal RRHH  
-**Propósito:** Verificar cumplimiento TOTAL de documentación para certificación
+**Data:** 2026ko Urtarrilaren 24a  
+**Proiektua:** Zabala Gailetak - RRHH Ataria  
+**Helburua:** Ziurtatu betetze GUZTIA ziurtagiritzarako
 
 ---
 
-## Resumen Ejecutivo
+## Laburpen Exekutiboa
 
-Tras revisar los estándares oficiales y requisitos de auditoría, he identificado **GAPS CRÍTICOS** en la documentación que **DEBEN** completarse antes de solicitar certificación:
+Estandar ofizialak eta auditoria eskakizunak berrikusi ondoren, **GAPS KRITIKOAK** identifikatu ditut dokumentazioan ziurtagiria eskatu aurretik **OSATU** behar direnak:
 
-### Estado Actual de Documentación
+### Dokumentazioaren Egoera Uneko
 
-| Certificación | Docs Obligatorios | Implementados | Faltantes | % Completado |
-|---------------|-------------------|---------------|-----------|--------------|
+| Ziurtagiria | Dok. Beharrrezkoak | Inplementatuak | Faltan | % Osatua |
+|-------------|-------------------|----------------|--------|----------|
 | **ISO 27001:2022** | 13 + 25 Annex A | 30/38 | **8** | **79%** |
-| **GDPR** | 12 mandatory | 8/12 | **4** | **67%** |
-| **IEC 62443** | 8 (para OT) | 3/8 | **5** | **38%** |
+| **GDPR** | 12 beharrezko | 8/12 | **4** | **67%** |
+| **IEC 62443** | 8 (OT-rako) | 3/8 | **5** | **38%** |
 
-**⚠️ CRÍTICO:** Con la documentación actual, **NO pasarías** una auditoría de certificación.
-
----
-
-## PARTE 1: ISO 27001:2022 - Documentación Obligatoria
-
-### Sección A: Cláusulas 4-10 (Main Body) - 13 DOCUMENTOS OBLIGATORIOS
-
-| # | Cláusula | Documento Obligatorio | Estado | Ubicación Actual | FALTANTE |
-|---|----------|----------------------|--------|------------------|----------|
-| 1 | 4.3 | **ISMS Scope** (Alcance del SGSI) | ✅ | `compliance/sgsi/sgsi_esparrua.md` | - |
-| 2 | 5.1 & 5.2 | **Information Security Policy** (Política de Seguridad) | ✅ | `compliance/sgsi/informazio_segurtasun_politika.md` | - |
-| 3 | 6.1.2 | **Risk Assessment Procedure** (Procedimiento de Evaluación de Riesgos) | ✅ | `compliance/sgsi/arrisku_ebaluazio_prozedura.md` | - |
-| 4 | 6.1.3(d) | **Statement of Applicability (SoA)** | ✅ | `compliance/sgsi/aplikagarritasun_adierazpena.md` | - |
-| 5 | 6.1.3 | **Risk Treatment Procedure** (Procedimiento de Tratamiento de Riesgos) | ✅ | `compliance/sgsi/arrisku_tratamendu_prozedura.md` | - |
-| 6 | 6.2 | **Information Security Objectives** (Objetivos de Seguridad) | ✅ | `compliance/sgsi/segurtasun_helburuak.md` | - |
-| 7 | 7.2 | **Personnel Records** (Competence evidence) | ⚠️ PARCIAL | Archivos HR dispersos | **❌ Registro formal centralizado** |
-| 8 | 8.1 | **ISMS Operational Information** (Procedimientos operativos) | ⚠️ PARCIAL | 12 POPs documentados | **❌ Faltan 5 POPs críticos** |
-| 9 | 8.2 | **Risk Assessment Reports** (Informes de evaluación de riesgos) | ✅ | `compliance/sgsi/arrisku_txostenak/` | - |
-| 10 | 8.3 | **Risk Treatment Plan** (Plan de tratamiento de riesgos) | ✅ | `compliance/sgsi/arrisku_tratamendu_plana.md` | - |
-| 11 | 9.1 | **Security Metrics** (KPIs de seguridad) | ❌ | - | **❌ FALTA COMPLETO** |
-| 12 | 9.2.2 | **Internal Audit Programme & Reports** | ⚠️ PARCIAL | Plantilla creada | **❌ Falta programa de auditoría + informes** |
-| 13 | 9.3.3 | **Management Review Reports** | ❌ | - | **❌ FALTA COMPLETO** |
-
-#### DOCUMENTOS FALTANTES CRÍTICOS (Main Body):
-
-**1. Personnel Competence Records (Cl. 7.2) - OBLIGATORIO**
-
-```markdown
-# Registro de Competencias del Personal
-
-## Formato Requerido
-
-| Empleado | Puesto | Competencias Requeridas | Evidencia | Fecha Evaluación | Próxima Revisión |
-|----------|--------|-------------------------|-----------|------------------|------------------|
-| Jon Etxeberria | CISO | ISO 27001 Lead Implementer | Certificado PECB | 15/01/2026 | 15/01/2027 |
-| Ane Garai | IT Manager | CISSP | Certificado ISC2 | 10/12/2025 | 10/12/2028 |
-| Mikel Uriarte | Sys Admin | Linux hardening | Curso interno | 05/01/2026 | 05/07/2026 |
-
-## Evidencias por Rol
-
-### CISO (Chief Information Security Officer)
-- ✅ ISO 27001 Lead Implementer Certificate
-- ✅ Experiencia >5 años en seguridad
-- ✅ Conocimiento de GDPR y ENS
-
-### IT Manager
-- ✅ Grado en Ingeniería Informática
-- ✅ Certificación en seguridad (CISSP/CEH)
-- ✅ Experiencia en gestión de equipos
-
-### Security Analyst
-- ✅ Formación en ciberseguridad
-- ✅ Conocimiento de SIEM tools
-- ✅ Incident response training
-
-### Developers
-- ✅ Formación en desarrollo seguro (OWASP)
-- ✅ Code review training
-- ✅ Secure coding practices
-```
-
-**ACCIÓN:** Crear en `compliance/sgsi/langileen_gaitasun_erregistroa.xlsx`
+**⚠️ KRITIKOA:** Uneko dokumentazioarekin, **EZ ZENUKE** ziurtagiri auditoria bat gaindituko.
 
 ---
 
-**2. Security Metrics / KPIs (Cl. 9.1) - OBLIGATORIO**
+## 1. ZATIA: ISO 27001:2022 - Dokumentazio Beharrrezkoak
 
-```markdown
-# KPI Segurtasun Metrikak
+### A Atala: 4-10 Klauzelak (Gorputz Nagusia) - 13 DOKUMENTU BEHARRREZKOAK
 
-## KPIs Nahitaezkoak (ISO 27001:2022)
+| # | Klausula | Dokumentu Beharrrezkoa | Egoera | Uneko Kokapena | FALTAN |
+|---|----------|------------------------|--------|----------------|--------|
+| 1 | 4.3 | **SGSI Esparrua** (SGSI-ren Irismena) | ✅ | `compliance/sgsi/sgsi_esparrua.md` | - |
+| 2 | 5.1 & 5.2 | **Informazio Segurtasun Politika** | ✅ | `compliance/sgsi/informazio_segurtasun_politika.md` | - |
+| 3 | 6.1.2 | **Arrisku Ebaluazio Prozedura** | ✅ | `compliance/sgsi/arrisku_ebaluazio_prozedura.md` | - |
+| 4 | 6.1.3(d) | **Aplikagarritasun Adierazpena (SoA)** | ✅ | `compliance/sgsi/aplikagarritasun_adierazpena.md` | - |
+| 5 | 6.1.3 | **Arrisku Tratamendu Prozedura** | ✅ | `compliance/sgsi/arrisku_tratamendu_prozedura.md` | - |
+| 6 | 6.2 | **Informazio Segurtasun Helburuak** | ✅ | `compliance/sgsi/segurtasun_helburuak.md` | - |
+| 7 | 7.2 | **Langileen Erregistroak** (Gaitasun ebidentzia) | ⚠️ PARTZIALA | HR fitxategi sakabanatuak | **❌ Erregistro formal zentralizatua** |
+| 8 | 8.1 | **SGSI Eragiketa Informazioa** (Prozedura operatiboak) | ⚠️ PARTZIALA | 12 POP dokumentatuak | **❌ 5 POP kritiko falta** |
+| 9 | 8.2 | **Arrisku Ebaluazio Txostenak** | ✅ | `compliance/sgsi/arrisku_txostenak/` | - |
+| 10 | 8.3 | **Arrisku Tratamendu Plana** | ✅ | `compliance/sgsi/arrisku_tratamendu_plana.md` | - |
+| 11 | 9.1 | **Segurtasun Metrikak** (KPI-ak) | ❌ | - | **❌ OSOA FALTA** |
+| 12 | 9.2.2 | **Barne Auditoria Programa eta Txostenak** | ⚠️ PARTZIALA | Txantiloia sortua | **❌ Auditoria programa + txostenak falta** |
+| 13 | 9.3.3 | **Zuzendaritzaren Berrikuspen Txostenak** | ❌ | - | **❌ OSOA FALTA** |
 
-### 1. Incidente Kudeaketa
-| KPI | Helburua | Neurketa | Maiztasuna |
-|-----|----------|----------|------------|
-| Zibersegurtasun gorabehera kopurua | <5/hilabete | Gorabehera kopurua hileko | Hilero |
-| Erantzun-denbora batez bestekoa | <30 min (kritikoak) | SLA cumplimiento | Hilero |
-| Gorabeherak konpontzeko denbora (MTTR) | <4 ordu (kritikoak) | Batez besteko ordutan | Hilero |
+#### DOKUMENTU KRITIKO FALTAN (Gorputz Nagusia):
 
-### 2. Ahuleziak eta Patchak
-| KPI | Helburua | Neurketa | Maiztasuna |
-|-----|----------|----------|------------|
-| Ahulezia kritikoen kopurua | 0 | Scan results | Astero |
-| Patch aplikazio-tasa | >95% 30 egunetan | Patched/Total | Hilero |
-| Zaharregotzeko denbora batez bestekoa | <15 egun | Egun kopurua | Hilero |
+**1. Langileen Gaitasun Erregistroak (Kl. 7.2) - BEHARRREZKOA**
 
-### 3. Access Control
-| KPI | Helburua | Neurketa | Maiztasuna |
-|-----|----------|----------|------------|
-| Autentifikazio huts egiteak | <100/eguna | Failed logins | Egunero |
-| MFA adoptazio-tasa | 100% (admin/HR) | Users with MFA / Total | Hilero |
-| Pribilegiatutako kontu azpiketa | 100% hiruhilekoz | Reviewed accounts | Hiruhilekoz |
+Ikusi `compliance/sgsi/langileen_gaitasun_erregistroa.md`
 
-### 4. Backup eta BCP
-| KPI | Helburua | Neurketa | Maiztasuna |
-|-----|----------|----------|------------|
-| Backup arrakasta-tasa | >99% | Successful / Total | Egunero |
-| Backup leheneratzeko probak | 1/hiruhileko | Tests completed | Hiruhilekoz |
-| RTO cumplimiento | <4 ordu | Actual RTO | DR test bakoitzean |
-
-### 5. Training eta Awareness
-| KPI | Helburua | Neurketa | Maiztasuna |
-|-----|----------|----------|------------|
-| Prestakuntza osotzea | >90% | Completed / Total | Urtero |
-| Phishing simulazio arrakasta | <10% klik-tasa | Clicks / Total | Hiruhilekoz |
-| Segurtasun gertakizunen jakinarazpena | >95% | Reported / Total | Hilero |
-
-### 6. Cumplimiento
-| KPI | Helburua | Neurketa | Maiztasuna |
-|-----|----------|----------|------------|
-| ISO 27001 kontrolen betetzea | 100% | Controls implemented | Hiruhilekoz |
-| GDPR aurkikuntza irekiak | 0 | Open findings | Hilero |
-| Politiken eguneratzea | <1 urte zaharregoa | Outdated policies | Hiruhilekoz |
-```
-
-**ACCIÓN:** Crear en `compliance/sgsi/segurtasun_metrikak.md` + Dashboard automatizado
+**EKINTZA:** Sortu `compliance/sgsi/langileen_gaitasun_erregistroa.xlsx`-
 
 ---
 
-**3. Internal Audit Programme (Cl. 9.2.2) - OBLIGATORIO**
+**2. Segurtasun Metrikak / KPI-ak (Kl. 9.1) - BEHARRREZKOA**
 
-```markdown
-# SGSI Barne Auditoria Programa
+Ikusi `compliance/sgsi/segurtasun_metrikak.md`
 
-## Auditoria Egutegia (Urtekoa)
-
-### Q1 (Urtarrila-Martxoa)
-- **Astea 4:** Clause 4 & 5 audit (Context + Leadership)
-- **Astea 8:** Clause 6 audit (Planning + Risk assessment)
-- **Astea 12:** Annex A.5 audit (Organizational controls)
-
-### Q2 (Apirila-Ekaina)
-- **Astea 16:** Clause 7 audit (Support)
-- **Astea 20:** Annex A.6-A.7 audit (People + Physical)
-- **Astea 24:** Clause 8 audit (Operation)
-
-### Q3 (Uztaila-Iraila)
-- **Astea 28:** Annex A.8 audit (Technological controls)
-- **Astea 32:** Clause 9 audit (Performance evaluation)
-- **Astea 36:** GDPR compliance audit
-
-### Q4 (Urria-Abendua)
-- **Astea 40:** Annex A.9 audit (Operations Security)
-- **Astea 44:** Clause 10 audit (Improvement)
-- **Astea 48:** Management Review + Closure
-
-## Auditore Kalifikazioak
-- Lead Auditor: ISO 27001 Lead Auditor certificated
-- Technical Auditors: Minimum 2 years ISMS experience
-- Independence: Auditors don't audit their own work
-
-## Auditoria Prozesua
-1. Planning (2 weeks before)
-2. Opening meeting
-3. Document review
-4. Interviews
-5. Evidence gathering
-6. Findings documentation
-7. Closing meeting
-8. Report (within 1 week)
-9. Corrective actions tracking
-
-## Non-Conformities Kudeaketa
-- Major NC: Root cause analysis + corrective action <30 days
-- Minor NC: Corrective action <90 days
-- Opportunities for Improvement: Recommendations logged
-```
-
-**ACCIÓN:** Crear en `compliance/sgsi/barne_auditoria_programa.md`
+**EKINTZA:** Sortu `compliance/sgsi/segurtasun_metrikak.md` + Dashboard automatizatua
 
 ---
 
-**4. Management Review Reports (Cl. 9.3.3) - OBLIGATORIO**
+**3. Barne Auditoria Programa (Kl. 9.2.2) - BEHARRREZKOA**
 
-```markdown
-# Zuzendaritzaren Berrikusketa Txostena
-## Q4 2025 - Urteko Berrikusketa
+Ikusi `compliance/sgsi/barne_auditoria_programa.md`
 
-**Data:** 15 de Diciembre de 2025  
-**Parte hartzaileak:**
-- CEO: Joseba Zabala
-- CISO: Jon Etxeberria
-- IT Director: Ane Garai
-- HR Director: Leire Mendizabal
-- DPO: Mikel Uriarte
+**EKINTZA:** Sortu `compliance/sgsi/barne_auditoria_programa.md`
 
 ---
 
-### 1. Inputs (Sarrerak)
+**4. Zuzendaritzaren Berrikuspen Txostenak (Kl. 9.3.3) - BEHARRREZKOA**
 
-#### 1.1 Aurreko Berrikusketen Egoerak
-- ✅ MFA inplementazioa osatuta
-- ⚠️ DLP sistema partzialki inplementatuta
-- ✅ GDPR DPIA osatuta
+Ikusi `compliance/sgsi/zuzendaritzaren_berrikusketa_txostenak/2025_Q4.md`
 
-#### 1.2 Kanpoko eta Barneko Aldaketak
-- Europako Batasuneko NIS2 Direktiba (2024/2025)
-- Ransomware erasoak igo dira %30 sektorean
-- Urrutiko lana handitu da %40
-
-#### 1.3 Segurtasun Informazioa
-**Gorabehera Laburpena:**
-- Guztira: 23 gorabehera (2025)
-- Kritikoak: 0
-- Altuak: 2 (SQL injection attempt, DDoS)
-- Ertainak: 7
-- Baxuak: 14
-
-**Ahuleziak:**
-- Kritikoak aurkituak: 3 (patch-ak aplikatuak <24h)
-- Altoak: 12 (konponduak <7 egun)
-
-#### 1.4 Interesatuen Feedbacka
-- Bezeroek MFA berankortasunez kexu (2 min timeout labur)
-- Langileak DLP sistemak PDF blokeatzea
-
-#### 1.5 Arrisku Ebaluazioaren Emaitzak
-- 3 arrisku berri identifikatuak (AI/ML erosoketak)
-- 5 arrisku gutxituak (hardening-aren ondorioz)
-
-#### 1.6 Non-Conformities eta Hobekuntzarako Aukerak
-- 2 NC txikiak (log-atxikipen politika ez aplikatuta lan guztietan)
-- 8 hobekuntzarako oportunidad
-
-#### 1.7 Monitoring eta Neurketen Emaitzak
-(KPIs goiko taulan)
-
-#### 1.8 Barne Auditoria Emaitzak
-- 4 auditoria burutuak (2025)
-- NC handirik ez
-- Adostasun-maila: 93%
-
-#### 1.9 Helburuen Betetze Maila
-| Helburua | Xedea | Lortua | % |
-|----------|-------|--------|---|
-| Zero data breaches | 0 | 0 | ✅ 100% |
-| Patch <30 days | 95% | 97% | ✅ 102% |
-| Security training | 90% | 87% | ⚠️ 97% |
+**EKINTZA:** Sortu `compliance/sgsi/zuzendaritzaren_berrikusketa_txostenak/2025_Q4.md`
 
 ---
 
-### 2. Outputs (Irteera / Erabakiak)
+**5. Faltako POP-ak (Kl. 8.1) - BEHARRREZKOAK**
 
-#### 2.1 Hobekuntza Aukerak
-1. **AI-driven threat detection** sistema ebaluatu
-2. Zero Trust Architecture (ZTA) pilotu egitasuna aztertu
-3. SOAR (Security Orchestration) teknologiak ikertu
+12 POP dituzu baina 5 kritiko falta dira:
 
-#### 2.2 SGSI Aldaketen Beharra
-✅ MFA timeout 2 min → 5 min aldatzea
-✅ DLP politiken erraztzea (false positives gutxitzeko)
-❌ Ez da SGSI-ren esparru aldaketarik behar
+❌ **POP-013: Aldaketa Kudeaketa Prozedura**  
+❌ **POP-014: Kriptografiko Kontrolen Prozedura**  
+❌ **POP-015: Garapen Seguruaren Bizitza Zikloa (SDLC)**  
+❌ **POP-016: Sarbide Fisikoaren Kontrola**  
+❌ **POP-017: Informazio Sailkapena eta Maneiua**  
 
-#### 2.3 Baliabide Beharrak
-- Budget: 15.000€ (2026) pentesting-erako
-- Pertsonal: Security Analyst berria kontratatu (Q1 2026)
-- Teknologia: EDR sistema upgrade (CrowdStrike)
+**EKINTZA:** Sortu 5 POP hauek `compliance/sgsi/prozedura_operatiboak/`
 
 ---
 
-### 3. Ondorioak
+### B Atala: Annex A Kontrolak - 25 DOKUMENTU BEHARRREZKO GEHIAGO
 
-SGSI sistema eraginkorra da eta ISO 27001:2022 bete egiten du.
-Erakundearen zibersegurtasun posizioa sendoa da.
-
-**Hurrengo berrikusketa:** Martxoa 2026
-
----
-
-**Sinadurak:**
-
-CEO: _________________ Data: _______
-CISO: _________________ Data: _______
-```
-
-**ACCIÓN:** Crear en `compliance/sgsi/zuzendaritzaren_berrikusketa_txostenak/2025_Q4.md`
-
----
-
-**5. POPs Faltantes (Cl. 8.1) - OBLIGATORIOS**
-
-Tienes 12 POPs pero faltan 5 críticos:
-
-❌ **POP-013: Change Management Procedure**
-❌ **POP-014: Cryptographic Controls Procedure**
-❌ **POP-015: Secure Development Lifecycle (SDLC)**
-❌ **POP-016: Physical Security Access Control**
-❌ **POP-017: Information Classification & Handling**
-
-**ACCIÓN:** Crear estos 5 POPs en `compliance/sgsi/prozedura_operatiboak/`
-
----
-
-### Sección B: Annex A Controls - 25 DOCUMENTOS OBLIGATORIOS ADICIONALES
-
-| # | Control | Documento Obligatorio | Estado | FALTANTE |
-|---|---------|----------------------|--------|----------|
-| 1 | A.5.1 | Information security policy (ya cubierto arriba) | ✅ | - |
-| 2 | A.5.7 | **Threat intelligence policy** | ❌ | **❌ FALTA** |
+| # | Kontrola | Dokumentu Beharrrezkoa | Egoera | FALTAN |
+|---|----------|------------------------|--------|--------|
+| 1 | A.5.1 | Informazio segurtasun politika (goian estalita) | ✅ | - |
+| 2 | A.5.7 | **Mehatxu inteligentzia politika** | ❌ | **❌ FALTA** |
 | 3 | A.5.10 | **Acceptable Use Policy (AUP)** | ✅ | - |
-| 4 | A.5.14 | **Information transfer policy** | ⚠️ | **❌ Demasiado genérica** |
-| 5 | A.5.23 | **Cloud services security policy** | ❌ | **❌ FALTA** |
-| 6 | A.5.30 | **ICT readiness for business continuity** | ⚠️ | **❌ Falta testing documentation** |
-| 7 | A.5.31 | **Legal, regulatory requirements identification** | ⚠️ | **❌ Falta registro completo** |
-| 8 | A.5.32 | **Intellectual property rights procedure** | ❌ | **❌ FALTA** |
-| 9 | A.5.37 | **Operating procedures documentation** | ⚠️ | **❌ Faltan 5 POPs** |
-| 10 | A.6.1 | **Screening procedure** (employment) | ❌ | **❌ FALTA** |
-| 11 | A.6.2 | **Terms and conditions of employment** (security) | ⚠️ | **❌ Falta cláusulas específicas** |
-| 12 | A.6.4 | **Disciplinary process** (security violations) | ❌ | **❌ FALTA** |
-| 13 | A.6.5 | **Confidentiality/NDA templates** | ✅ | - |
-| 14 | A.6.7 | **Remote working policy** | ⚠️ | **❌ Falta actualizar BYOD** |
-| 15 | A.6.8 | **Information security event reporting procedure** | ✅ | - |
-| 16 | A.7.4 | **Physical security monitoring** | ⚠️ | **❌ Falta procedimiento formal** |
-| 17 | A.7.7 | **Clear desk and clear screen policy** | ✅ | - |
-| 18 | A.8.9 | **Configuration management documentation** | ⚠️ | **❌ Falta baselines** |
-| 19 | A.8.10 | **Information deletion policy** | ❌ | **❌ FALTA** |
-| 20 | A.8.11 | **Data masking policy** | ⚠️ | **❌ Falta procedimientos** |
-| 21 | A.8.12 | **Data leakage prevention (DLP) policy** | ⚠️ | **❌ Falta implementación** |
-| 22 | A.8.15 | **Logging policy** | ✅ | - |
-| 23 | A.8.19 | **Installation of software policy** | ❌ | **❌ FALTA** |
-| 24 | A.8.23 | **Web filtering policy** | ❌ | **❌ FALTA** |
-| 25 | A.8.28 | **Secure coding guidelines** | ⚠️ | **❌ OWASP referenced, falta doc interna** |
+| 4 | A.5.14 | **Informazio transferentzia politika** | ⚠️ | **❌ Oso orokorra** |
+| 5 | A.5.23 | **Hodei zerbitzu segurtasun politika** | ❌ | **❌ FALTA** |
+| 6 | A.5.30 | **ICT prestutasuna negozio jarraitasunerako** | ⚠️ | **❌ Test dokumentazioa falta** |
+| 7 | A.5.31 | **Legezko eskakizunen identifikazioa** | ⚠️ | **❌ Erregistro osoa falta** |
+| 8 | A.5.32 | **Jabetza intelektual eskubideen prozedura** | ❌ | **❌ FALTA** |
+| 9 | A.5.37 | **Eragiketa prozeduren dokumentazioa** | ⚠️ | **❌ 5 POP falta** |
+| 10 | A.6.1 | **Hautaketa prozedura** (enplegua) | ❌ | **❌ FALTA** |
+| 11 | A.6.2 | **Enplegu baldintzak** (segurtasuna) | ⚠️ | **❌ Klauzula espezifikoak falta** |
+| 12 | A.6.4 | **Diziplina prozesua** (segurtasun urraketak) | ❌ | **❌ FALTA** |
+| 13 | A.6.5 | **Konfidentzialtasun/NDA txantiloiak** | ✅ | - |
+| 14 | A.6.7 | **Urrutiko lan politika** | ⚠️ | **❌ BYOD eguneratu falta** |
+| 15 | A.6.8 | **Informazio segurtasun gertakizunen jakinarazpen prozedura** | ✅ | - |
+| 16 | A.7.4 | **Segurtasun fisikoko monitorizazioa** | ⚠️ | **❌ Prozedura formal falta** |
+| 17 | A.7.7 | **Mahai garbi eta pantaila garbi politika** | ✅ | - |
+| 18 | A.8.9 | **Konfigurazio kudeaketa dokumentazioa** | ⚠️ | **❌ Baseline-ak falta** |
+| 19 | A.8.10 | **Informazio ezabatze politika** | ❌ | **❌ FALTA** |
+| 20 | A.8.11 | **Datu maskaratze politika** | ⚠️ | **❌ Prozedurak falta** |
+| 21 | A.8.12 | **Datu isuri prebentzio (DLP) politika** | ⚠️ | **❌ Inplementazioa falta** |
+| 22 | A.8.15 | **Logging politika** | ✅ | - |
+| 23 | A.8.19 | **Software instalazio politika** | ❌ | **❌ FALTA** |
+| 24 | A.8.23 | **Web iragazketa politika** | ❌ | **❌ FALTA** |
+| 25 | A.8.28 | **Kodifikazio seguruko gidaliburuak** | ⚠️ | **❌ OWASP erreferentzia, barne dokumentua falta** |
 
 ---
 
-## PARTE 2: GDPR - Documentación Obligatoria
+## 2. ZATIA: GDPR - Dokumentazio Beharrrezkoak
 
-### 12 DOCUMENTOS OBLIGATORIOS GDPR
+### 12 DOKUMENTU BEHARRREZKOAK GDPR
 
-| # | Artículo | Documento Obligatorio | Estado | Ubicación | FALTANTE |
-|---|----------|----------------------|--------|-----------|----------|
-| 1 | Art. 13-14 | **Privacy Notice / Privacy Policy** | ✅ | `compliance/gdpr/pribatutasun_oharra.md` | - |
-| 2 | Art. 30 | **Record of Processing Activities (ROPA)** | ✅ | `compliance/gdpr/tratamendu_erregistroa.xlsx` | - |
-| 3 | Art. 32 | **Security Measures Documentation** | ✅ | Multiple ISO docs | - |
-| 4 | Art. 33-34 | **Data Breach Notification Procedure** | ✅ | `compliance/gdpr/datu_haustura_prozedura.md` | - |
-| 5 | Art. 35 | **Data Protection Impact Assessment (DPIA)** | ✅ | `compliance/gdpr/dpia_portal_rrhh.md` | - |
-| 6 | Art. 28 | **Data Processing Agreements (DPA)** | ⚠️ PARCIAL | Template exists | **❌ Falta firmar con todos los proveedores** |
-| 7 | Art. 37-39 | **DPO Appointment Letter** | ❌ | - | **❌ FALTA COMPLETO** |
-| 8 | Art. 15-22 | **Data Subject Rights Procedures** | ⚠️ PARCIAL | Basic procedures | **❌ Faltan forms + workflows** |
-| 9 | Art. 17 | **Data Retention Policy** | ⚠️ PARCIAL | Partial documentation | **❌ Falta retention schedule completo** |
-| 10 | Art. 25 | **Data Protection by Design Documentation** | ❌ | - | **❌ FALTA** |
-| 11 | Art. 46 | **International Transfer Mechanisms (SCCs)** | ❌ | - | **❌ FALTA (si se usan servicios US)** |
-| 12 | Art. 7-8 | **Consent Management Records** | ❌ | - | **❌ FALTA** |
+| # | Artikulua | Dokumentu Beharrrezkoa | Egoera | Kokapena | FALTAN |
+|---|-----------|------------------------|--------|----------|--------|
+| 1 | Art. 13-14 | **Pribatutasun Oharra / Pribatutasun Politika** | ✅ | `compliance/gdpr/pribatutasun_oharra.md` | - |
+| 2 | Art. 30 | **Tratamendu Jardueren Erregistroa (RAT)** | ✅ | `compliance/gdpr/tratamendu_erregistroa.xlsx` | - |
+| 3 | Art. 32 | **Segurtasun Neurrien Dokumentazioa** | ✅ | ISO dokumentu anitz | - |
+| 4 | Art. 33-34 | **Datu Haustura Jakinarazpen Prozedura** | ✅ | `compliance/gdpr/datu_haustura_prozedura.md` | - |
+| 5 | Art. 35 | **Datu Babesaren Eragin Ebaluazioa (EIPD)** | ✅ | `compliance/gdpr/eipd_portal_rrhh.md` | - |
+| 6 | Art. 28 | **Datu Tratamendu Akordioak (DPA)** | ⚠️ PARTZIALA | Txantiloia existitzen da | **❌ Hornitzaile guztiekin sinatu falta** |
+| 7 | Art. 37-39 | **DBA Izendapen Gutuna** | ❌ | - | **❌ OSOA FALTA** |
+| 8 | Art. 15-22 | **Datu Subjektu Eskubideen Prozedurak** | ⚠️ PARTZIALA | Oinarrizko prozedurak | **❌ Formularioak + workflow-ak falta** |
+| 9 | Art. 17 | **Datu Atxikipen Politika** | ⚠️ PARTZIALA | Dokumentazio partziala | **❌ Atxikipen egutegi osoa falta** |
+| 10 | Art. 25 | **Data Protection by Design Dokumentazioa** | ❌ | - | **❌ FALTA** |
+| 11 | Art. 46 | **Nazioarteko Transferentzia Mekanismoak (SCCs)** | ❌ | - | **❌ FALTA (US zerbitzuak erabiltzen badira)** |
+| 12 | Art. 7-8 | **Baimen Kudeaketa Erregistroak** | ❌ | - | **❌ FALTA** |
 
-#### DOCUMENTOS FALTANTES CRÍTICOS (GDPR):
+#### DOKUMENTU KRITIKO FALTAN (GDPR):
 
-**1. DPO Appointment Letter (Art. 37) - OBLIGATORIO**
+**1. DBA Izendapen Gutuna (Art. 37) - BEHARRREZKOA**
 
-```markdown
-# Data Protection Officer (DPO) Izendapen Gutuna
+Ikusi `compliance/gdpr/dpo_izendapena.md`
 
-**Eguna:** 1 de Enero de 2026
-
-**Nori:** Mikel Uriarte Garai
-
-**Hargatik:**
-
-Zabala Gailetak, S.L., GDPR-ren 37. artikuluaren arabera, Datu Babesaren Arduraduna (DBA / DPO) izendatzen zaitu.
-
-**Ardurak:**
-
-1. Informatu eta aholkatu erakundea eta langileak GDPR-ren eta beste datu-babeseko legeen betetzeari buruz
-2. GDPR-ren betetzea monitorizatu, politikak esleitu, langileen prestakuntza eta auditoriak koordinatu barne
-3. Eskatutakoan, datuak babesteko eragin-ebaluazioari buruzko aholkuak eman
-4. Gainbegiratze-agintaritzarekin lankidetzan aritu
-5. Datuak babesteko gainbegiratze-agintaritzerako kontaktu-puntu gisa jardun
-
-**Independentzia:**
-
-DPOa zuzendaritza altuenari zuzenean jakinarazten dio eta ez du gainerako funtzioen gatazkak izango.
-
-**Baliabideak:**
-
-- Prestakuntza urtekoa: 2.000€
-- Lan-denbora: 20% dedikazioa (8h/astean)
-- Sarbidea datu guztietara eta sistemetara
-
-**Harremanak:**
-
-- Email: dpo@zabalagailetak.com
-- Tel: +34 XXX XXX XXX
+**EKINTZA:** Sortu `compliance/gdpr/dpo_izendapena.pdf`
 
 ---
 
-**Sinadurak:**
+**2. Datu Subjektu Eskubideen Workflow-ak (Art. 15-22) - BEHARRREZKOA**
 
-CEO (Joseba Zabala): _________________ Data: _______
+Prozedurak + formularioak behar dira eskubide bakoitzeko:
 
-DPO (Mikel Uriarte): _________________ Data: _______
-```
+Ikusi `compliance/gdpr/eskubide_prozedurak.md`
 
-**ACCIÓN:** Crear en `compliance/gdpr/dpo_izendapena.pdf`
-
----
-
-**2. Data Subject Rights Workflows (Art. 15-22) - OBLIGATORIO**
-
-Necesitas procedures + forms para cada derecho:
-
-```markdown
-# ARCO-POL Eskubide Prozedura
-
-## 1. SARBIDE ESKUBIDEA (Art. 15)
-
-### Prozesu Fluxua
-1. Eskaria jaso (email/posta/formularioa)
-2. Identitatea egiaztatu (DNI kopia)
-3. Eskubide bilaketa datu-baseetan (<30 egun)
-4. Datu kopia sortu (JSON/PDF)
-5. Datuen kopia bidali erabiltzaileari
-
-### Formularioa
-[Form link: /gdpr/forms/access-request-form]
-
-### SLA
-- Identitate egiaztatzea: 2 egun
-- Datuen bilaketa: 15 egun
-- Erantzuna: 30 egun (gehienez)
-
-## 2. ZUZENKETAREN ESKUBIDEA (Art. 16)
-[... berdina, procedura bakoitzeko]
-
-## 3. EZABATZEKO ESKUBIDEA - "Ahazteko Eskubidea" (Art. 17)
-
-### Salbuespena
-- Lege-betebeharra (lan-datuak 4 urte)
-- Kontratu betetzea (langileen datuak)
-- Interes legezkoa
-
-## 4. AURKARATZEKO ESKUBIDEA (Art. 21)
-## 5. ERAMANGARRITASUNAREN ESKUBIDEA (Art. 20)
-## 6. TRATAMENDUAREN MUGATZEKO ESKUBIDEA (Art. 18)
-```
-
-**ACCIÓN:** Crear en `compliance/gdpr/eskubide_prozedurak.md` + Forms
+**EKINTZA:** Sortu `compliance/gdpr/eskubide_prozedurak.md` + Formularioak
 
 ---
 
-**3. Data Retention Schedule (Art. 17) - OBLIGATORIO**
+**3. Datu Atxikipen Egutegia (Art. 17) - BEHARRREZKOA**
 
-```markdown
-# Datu Atxikipen Egutegia
+Ikusi `compliance/gdpr/datu_atxikipen_egutegia.md`
 
-| Datu Kategoria | Oinarri Juridikoa | Atxikipen Epea | Ezabatze Prozedura |
-|----------------|-------------------|----------------|---------------------|
-| **Langileen Datuak (Aktiboak)** | Lan kontratua | Kontratuaren iraupena + 4 urte | Auto-delete script |
-| **Langileen Datuak (Ex-langileak)** | Lege-betebeharra | 4 urte (Lan Legea + Fiskalitatea) | Manual review + delete |
-| **Nominas** | Lege-betebeharra | 4 urte (fiskal) | Encrypted archiving |
-| **Kontratazio Prozesuak (Hautatuak)** | Kontratuaren betetzea | Kontratua + 4 urte | Delete after retention |
-| **Kontratazio Prozesuak (EZ hautatuak)** | Baimena | 1 urte | Auto-delete |
-| **Baja Medikal Datuak** | Lege-betebeharra | 5 urte (Osasunbidea) | Secure delete |
-| **Audit Logs** | Lege-betebeharra (ENS) | 2 urte | Archived to cold storage |
-| **Backup-ak** | Segurtasuna | 90 egun | Overwrite |
-| **Email (Mailing Marketin)** | Baimena | Consent withdrawal + 30 days | Unsubscribe = immediate |
-
-## Ezabatze Prozedura
-
-### Ezabatze Automatizatua
-```sql
--- Hautagaiak ez hautatuak (>1 urte)
-DELETE FROM hautagaiak
-WHERE egoera = 'EZ_HAUTATUA'
-  AND data < NOW() - INTERVAL '1 year';
-
--- Backup zaharkituak
-DELETE FROM backup_records
-WHERE backup_data < NOW() - INTERVAL '90 days';
-```
-
-### Ezabatze Manualak
-- Baja medikal datuak: HR Manager review
-- Lan kontratuak: Lege sailaren onespena
-
-## Egiaztapen Auditoria
-- Hilero: Automated deletion reports
-- Hiruhilekoz: Manual review of retention compliance
-```
-
-**ACCIÓN:** Crear en `compliance/gdpr/datu_atxikipen_egutegia.md`
+**EKINTZA:** Sortu `compliance/gdpr/datu_atxikipen_egutegia.md`
 
 ---
 
-**4. Data Processing Agreements (Firmar con proveedores) - OBLIGATORIO**
+**4. Datu Tratamendu Akordioak (Hornitzaile guztiekin sinatu) - BEHARRREZKOA**
 
-Necesitas DPAs firmados con TODOS los proveedores que procesan datos:
+DPAs sinatu behar dira datuak tratatzen dituzten HORNITZAILE GUZTIEKIN:
 
-| Proveedor | Servicio | Datu Motak | DPA Estado |
-|-----------|----------|------------|------------|
-| Google Workspace | Email, Drive | Empleados, documentos | ❌ **SIN FIRMAR** |
-| AWS | Hosting | Todos los datos | ❌ **SIN FIRMAR** |
-| Twilio | SMS (MFA) | Números de teléfono | ❌ **SIN FIRMAR** |
-| SendGrid | Email transaccional | Emails empleados | ❌ **SIN FIRMAR** |
-| Stripe (si se usa) | Pagos | N/A (no aplica RRHH) | N/A |
+| Hornitzailea | Zerbitzua | Datu Motak | DPA Egoera |
+|--------------|-----------|------------|------------|
+| Google Workspace | Email, Drive | Langileak, dokumentuak | ❌ **SINATU GABE** |
+| AWS | Hosting | Datu guztiak | ❌ **SINATU GABE** |
+| Twilio | SMS (MFA) | Telefono zenbakiak | ❌ **SINATU GABE** |
+| SendGrid | Email transakzionala | Langileen emailak | ❌ **SINATU GABE** |
+| Stripe (erabiltzen bada) | Ordainketak | N/A (ez du RRHH-ri aplikatzen) | N/A |
 
-**ACCIÓN:** Firmar DPAs con todos los proveedores antes de certificación
-
----
-
-**5. Consent Management System Documentation - OBLIGATORIO si hay marketing**
-
-```markdown
-# Baimen Kudeaketa Sistema
-
-## Baimen Erregistroak
-
-| Campo | Descripción | Ejemplo |
-|-------|-------------|---------|
-| user_id | ID único del usuario | 12345 |
-| consent_type | Tipo de consentimiento | newsletter, cookies, profiling |
-| consent_given | ¿Consentimiento dado? | TRUE/FALSE |
-| consent_date | Fecha de consentimiento | 2026-01-24 14:32:10 |
-| consent_method | Método (checkbox, verbal, etc.) | web_form |
-| ip_address | IP del usuario | 192.168.1.10 |
-| user_agent | Navegador | Mozilla/5.0... |
-| consent_text | Texto exacto mostrado | "Acepto recibir comunicaciones..." |
-| withdrawn_date | Fecha de retirada (si aplica) | NULL o fecha |
-
-## Procedimiento de Retirada
-
-1. Usuario hace clic en "Unsubscribe"
-2. Sistema marca consent_given = FALSE
-3. Sistema registra withdrawn_date
-4. Sistema para tratamiento en 24h
-5. Confirmación enviada al usuario
-
-## Auditoría
-Registro inmutable de todos los cambios de consentimiento.
-```
-
-**ACCIÓN:** Si NO hay marketing, documentar que no aplica en `compliance/gdpr/baimen_sistema_ez_aplikagarria.md`
+**EKINTZA:** Sinatu DPAs-ak hornitzaile guztiekin ziurtagiriaren aurretik
 
 ---
 
-**6. Data Protection by Design Documentation (Art. 25) - OBLIGATORIO**
+**5. Baimen Kudeaketa Sistema Dokumentazioa - BEHARRREZKOA marketina bada**
 
-```markdown
-# Privacy by Design - Diseinuz Pribatutasuna
+Ikusi `compliance/gdpr/baimen_sistema_ez_aplikagarria.md`
 
-## Principios Aplicados en Portal RRHH
-
-### 1. Minimización de Datos
-**Implementación:**
-- Solo campos esenciales en formularios
-- No se solicita: religión, orientación sexual, afiliación sindical
-- Campos opcionales claramente marcados
-
-**Ejemplo:**
-```php
-class ErabiltzaileaSortu {
-    // ✅ Beharrezkoak
-    public string $izena;
-    public string $eposta;
-    
-    // ❌ EZ beharrezkoak - EZABATU
-    // public string $erlijoa;  // REMOVED
-    // public string $jatorria; // REMOVED
-}
-```
-
-### 2. Cifrado por Defecto
-- TLS 1.3 para tránsito
-- AES-256-GCM para datos en reposo
-- bcrypt para contraseñas
-
-### 3. Pseudonimización
-- User IDs en logs (no nombres)
-- Masking en non-production environments
-
-### 4. Separación de Datos
-- Datos personales en tablas separadas
-- Datos sensibles (salud) con cifrado adicional
-
-### 5. Control de Acceso
-- RBAC implementado
-- Least privilege principle
-- MFA obligatorio
-
-### 6. Audit Trail Completo
-- Todos los accesos registrados
-- Retention 2 años
-
-## Checklist de Nuevas Features
-
-Antes de desarrollar nueva funcionalidad:
-- [ ] ¿Es necesario este dato?
-- [ ] ¿Cuál es la base legal?
-- [ ] ¿Se puede pseudonimizar?
-- [ ] ¿Se puede cifrar?
-- [ ] ¿Necesita DPIA?
-- [ ] ¿Cuál es el plazo de retención?
-```
-
-**ACCIÓN:** Crear en `compliance/gdpr/privacy_by_design.md`
+**EKINTZA:** Marketinik EZ bada, dokumentatu ez dela aplikatzen `compliance/gdpr/baimen_sistema_ez_aplikagarria.md`-n
 
 ---
 
-## PARTE 3: IEC 62443 - Documentación Obligatoria (OT/Industrial)
+**6. Data Protection by Design Dokumentazioa (Art. 25) - BEHARRREZKOA**
 
-### 8 DOCUMENTOS OBLIGATORIOS IEC 62443
+Ikusi `compliance/gdpr/privacy_by_design.md`
 
-| # | Sección | Documento Obligatorio | Estado | FALTANTE |
-|---|---------|----------------------|--------|----------|
-| 1 | 2-1 | **Security Program for IACSs** (Programa de seguridad) | ⚠️ | **❌ Falta programa completo** |
-| 2 | 3-2 | **Security Risk Assessment** (OT-specific) | ⚠️ | **❌ Falta assessment OT** |
-| 3 | 3-3 | **System Security Requirements Specification** | ❌ | **❌ FALTA** |
-| 4 | 4-1 | **Secure Product Development Lifecycle** | ❌ | **❌ FALTA (si desarrolláis software OT)** |
-| 5 | 4-2 | **Technical Security Requirements** | ⚠️ | **❌ Parcial en ISO docs** |
-| 6 | Zones | **Network Segmentation Documentation** (Purdue Model) | ⚠️ | **❌ Falta implementación física** |
-| 7 | Zones | **Conduit Documentation** (inter-zone communication) | ❌ | **❌ FALTA** |
-| 8 | Patch | **OT Patch Management Procedure** | ❌ | **❌ FALTA** |
+**EKINTZA:** Sortu `compliance/gdpr/privacy_by_design.md`
 
-#### DOCUMENTOS FALTANTES CRÍTICOS (IEC 62443):
+---
 
-**1. OT Security Risk Assessment - OBLIGATORIO**
+## 3. ZATIA: IEC 62443 - Dokumentazio Beharrrezkoak (OT/Industrial)
 
-```markdown
-# OT Arrisku Ebaluazioa - Zabala Gailetak
+### 8 DOKUMENTU BEHARRREZKOAK IEC 62443
 
-## 1. Sistema Kritikoen Identifikazioa
+| # | Atala | Dokumentu Beharruzkoa | Egoera | FALTAN |
+|---|-------|------------------------|--------|--------|
+| 1 | 2-1 | **IACSentzako Segurtasun Programa** | ⚠️ | **❌ Programa osoa falta** |
+| 2 | 3-2 | **Segurtasun Arrisku Ebaluazioa** (OT espezifikoa) | ⚠️ | **❌ OT assessment falta** |
+| 3 | 3-3 | **Sistema Segurtasun Eskakizunen Espezifikazioa** | ❌ | **❌ FALTA** |
+| 4 | 4-1 | **Garapen Seguruaren Bizitza Zikloa** | ❌ | **❌ FALTA (OT software garapena baduzu)** |
+| 5 | 4-2 | **Segurtasun Tekniko Eskakizunak** | ⚠️ | **❌ Partziala ISO dokumentuetan** |
+| 6 | Zonak | **Sare Segmentazio Dokumentazioa** (Purdue Model) | ⚠️ | **❌ Fisiko inplementazioa falta** |
+| 7 | Zonak | **Konduitu Dokumentazioa** (zona arteko komunikazioa) | ❌ | **❌ FALTA** |
+| 8 | Patch | **OT Patch Kudeaketa Prozedura** | ❌ | **❌ FALTA** |
 
-### Sistema Kritikoak (Galleta Produkzioa)
+#### DOKUMENTU KRITIKO FALTAN (IEC 62443):
 
-| Sistema | Mota | Fabrikatzailea | Kritikotasuna | Justifikazioa |
-|---------|------|----------------|---------------|---------------|
-| PLC Siemens S7-1500 | Kontrolagailua | Siemens | KRITIKOA | Produkzio prozesua geldituko litzateke |
-| SCADA WinCC | Gainbegiratzea | Siemens | ALTUA | Produkzioa ikusi/aldatu ezin |
-| HMI Touchscreen (3x) | Interfazea | Siemens | ERTAINA | Eskuzko kontrola oraindik posiblea |
-| Nahasketa Makina Motor | Aktuadorea | ABB | KRITIKOA | Galleta nahasketa gelditu |
-| Labe Kontrol Sistema | Tenperatura | Omron | KRITIKOA | Erreketa arriskua |
-| Produktu Konbeiadorea | Garraio sistema | Generic | BAXUA | Eskuzko ordezkoa posible |
+**1. OT Segurtasun Arrisku Ebaluazioa - BEHARRREZKOA**
 
-## 2. Mehatxuen Identifikazioa (OT-specific)
+Ikusi `compliance/iec62443/ot_arrisku_ebaluazioa.md`
 
-| Mehatxua | Probabilitatea | Inpaktua | Arriskua | Kontrol Aktuala |
-|----------|----------------|----------|----------|-----------------|
-| **Ransomware SCADA-n** | ERTAINA | KRITIKOA | ALTUA | ❌ Antivirus zaharkitua |
-| **Produktu Formula Aldaketa** (sabotajea) | BAXUA | KRITIKOA | ERTAINA | ⚠️ RBAC baina ez 2FA |
-| **PLC Programaren Aldaketa** | BAXUA | MUY ALTUA | ALTUA | ❌ Ez dago Change Control |
-| **Labe Tenperatura Manipulazioa** | BAXUA | KRITIKOA | ERTAINA | ⚠️ Alarma fisikala baina ez log |
-| **Network Flooding DoS** | ERTAINA | ALTUA | ALTUA | ❌ Ez dago rate limiting |
-| **USB Malware (PLC)** | ALTUA | MUY ALTUA | KRITIKOA | ❌ USB ez blokeatuta |
-| **Insider Threat** (langile haserre) | BAXUA | ALTUA | ERTAINA | ⚠️ Acceso logging baina ez analisia |
-
-## 3. Security Level (SL) Target
-
-Galleta produkziorako **SL-2 (Security Level 2)** beharrezkoa:
-- Protection against intentional violations using simple means
-- Protection against insider threats
-
-**Justifikazioa:** Produktu kontsumoa (osasuna), erreputa
+**Justifikazioa:** Produktu kontsumoa (osasuna), erreputazioa

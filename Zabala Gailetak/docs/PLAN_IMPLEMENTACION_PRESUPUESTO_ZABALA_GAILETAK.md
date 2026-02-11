@@ -1,619 +1,619 @@
-# 📋 PLAN COMPLETO DE IMPLEMENTACIÓN - PRESUPUESTO ZABALA GAILETAK SEGURIDAD INTEGRAL
+# 📋 INPLEMENTAZIO PLANO OSOA - ZABALA GAILETAK SEGURTASUN INTEGRALAREN AURREKONTUA
 
-## 🎯 **VISIÓN GENERAL DEL PROYECTO**
+## 🎯 **PROIEKTUAREN IKUSPEGI OROKORRA**
 
-**Cliente**: Zabala Gailetak S.A. - Panificadora industrial (120 empleados, País Vasco)  
-**Alcance**: Seguridad OT/ICS + SIEM/SOC + Honeypots + Portal RRHH  
-**Presupuesto Total**: €733,950 Year 1 + €129K/año recurrente  
-**Timeline**: 10 meses implementación (Enero-Diciembre 2026)  
-**ROI**: 137.6% sobre 3 años (€786K/año beneficios)  
+**Bezeroa**: Zabala Gailetak S.A. - Industria panifikadora (120 langile, Euskal Herria)  
+**Esparrua**: Segurtasuna OT/ICS + SIEM/SOC + Honeypot-ak + RRHH Ataria  
+**Aurrekontu Totala**: €733,950 1. Urtea + €129K/urte errepikakorra  
+**Egitaraua**: 10 hilabete inplementazioa (Urtarrila-Abendua 2026)  
+**ROI**: %137.6 3 urtetan (€786K/urte onurak)  
 
-**Resultado esperado**: Documento profesional IT/OT de 35-40 páginas siguiendo estándares de consultoría Accenture/Deloitte, dividido en 3 partes para diferentes audiencias.
+**Emaitza esperoa**: IT/OT dokumentu profesional 35-40 orrialde estandarrak jarraituz, 3 zatitan banatuta hainbat publikorentzako.
 
 ---
 
-## 📄 **ESTRUCTURA DEL DOCUMENTO FINAL**
+## 📄 **DOKUMENTU FINALAREN EGITURA**
 
 ```
 PRESUPUESTO_ZABALA_GAILETAK_SEGURIDAD_INTEGRAL.md
-├── Parte I: Resumen Ejecutivo (6 páginas) ⏳ PENDIENTE
-├── Parte II: Propuesta Comercial (8-10 páginas) ⏳ PENDIENTE  
-│   ├── Sección 7: Paquetes de Servicio (3 niveles)
-│   ├── Sección 8: Precios Detallados con Hitos
-│   ├── Sección 9: Términos Comerciales
-│   ├── Sección 10: Casos de Éxito y Referencias
-│   ├── Sección 11: Acuerdos de Nivel de Servicio
-│   └── Sección 12: Propuesta de Valor y Diferenciación
-└── Parte III: Especificaciones Técnicas (20-25 páginas) ⏳ PENDIENTE
-    ├── Sección 13: Arquitectura IT/OT (Modelo Purdue)
-    ├── Sección 14: Implementación Seguridad OT
-    ├── Sección 15: SIEM & SOC (Wazuh vs ELK)
-    ├── Sección 16: Arquitectura Despliegue Honeypots
-    ├── Sección 17: Especificaciones Técnicas HR Portal
-    ├── Sección 18: Mapeo Cumplimiento (ISO/IEC/GDPR)
-    ├── Sección 19: Plan de Implementación Detallado
-    ├── Sección 20: Gestión de Riesgos & FMEA
-    └── Sección 21: Anexos Técnicos
+├── I. Atala: Laburpen Exekutiboa (6 orrialde) ⏳ EGITEKE
+├── II. Atala: Eskaintza Komertziala (8-10 orrialde) ⏳ EGITEKE  
+│   ├── 7. Sekzioa: Zerbitzu Paketeak (3 maila)
+│   ├── 8. Sekzioa: Prezio Xeheak Hitoekin
+│   ├── 9. Sekzioa: Baldintza Komertzialak
+│   ├── 10. Sekzioa: Arrakasta Kasuak eta Erreferentziak
+│   ├── 11. Sekzioa: Zerbitzu Maila Akordioak
+│   └── 12. Sekzioa: Balio Proposamena eta Diferentziazioa
+└── III. Atala: Espezifikazio Teknikoak (20-25 orrialde) ⏳ EGITEKE
+    ├── 13. Sekzioa: IT/OT Arkitektura (Purdue Modeloa)
+    ├── 14. Sekzioa: OT Segurtasun Inplementazioa
+    ├── 15. Sekzioa: SIEM & SOC (Wazuh vs ELK)
+    ├── 16. Sekzioa: Honeypot Despliegue Arkitektura
+    ├── 17. Sekzioa: HR Atari Espezifikazio Teknikoak
+    ├── 18. Sekzioa: Betetze Mapeoa (ISO/IEC/GDPR)
+    ├── 19. Sekzioa: Inplementazio Plano Xehea
+    ├── 20. Sekzioa: Arrisku Kudeaketa & FMEA
+    └── 21. Sekzioa: Eranskin Teknikoak
 ```
 
 ---
 
-## 📝 **PARTE II: PROPUESTA COMERCIAL** (Páginas 7-16)
+## 📝 **II. ATALA: ESKAINTZA KOMERTZIALA** (7-16 orrialdeak)
 
-### **Sección 7: Paquetes de Servicio** (Páginas 7-9)
-**Objetivo**: Presentar 3 niveles de servicio para diferentes necesidades y presupuestos
+### **7. Sekzioa: Zerbitzu Paketeak** (7-9 orrialdeak)
+**Helburua**: 3 zerbitzu maila behar eta aurrekontu desberdinetarako aurkeztea
 
-**Contenido detallado**:
-1. **Paquete Básico - "OT Foundation"** (€180,000)
-   - OT Security audit completo
-   - SIEM básico (8x5 monitoring)
-   - Formación básica (40 horas)
-   - Soporte email/telefónico
-   - Duración: 3 meses
+**Edukia xehea**:
+1. **Pakete Oinarrizkoa - "OT Oinarria"** (€180,000)
+   - OT Segurtasun audit osoa
+   - SIEM oinarrizkoa (8x5 monitorizazioa)
+   - Prestakuntza oinarrizkoa (40 ordu)
+   - Email/telefono laguntza
+   - Iraupena: 3 hilabete
 
-2. **Paquete Profesional - "OT Advanced"** (€324,000) ⭐ **RECOMENDADO**
-   - Todo del Básico +
-   - Segmentación completa de red
-   - Honeypots desplegados
-   - SIEM avanzado con alertas OT
-   - Formación avanzada (80 horas)
-   - Soporte prioritario
-   - Duración: 5 meses
+2. **Pakete Profesionala - "OT Aurreratua"** (€324,000) ⭐ **GOMENDATUA**
+   - Oinarrizko guztia +
+   - Sare segmentazio osoa
+   - Honeypot-ak desplegatuta
+   - SIEM aurreratua OT alertekin
+   - Prestakuntza aurreratua (80 ordu)
+   - Lehentasunezko laguntza
+   - Iraupena: 5 hilabete
 
-3. **Paquete Empresarial - "OT Enterprise"** (€733,950)
-   - Todo del Profesional +
-   - HR Portal completo
-   - SOC 24x7 durante 6 meses
-   - Integración completa IT/OT
-   - Soporte 24x7
-   - Duración: 10 meses
+3. **Pakete Enpresariala - "OT Enterprise"** (€733,950)
+   - Profesional guztia +
+   - HR Atari osoa
+   - SOC 24x7 6 hilabetez
+   - IT/OT integrazio osoa
+   - 24x7 laguntza
+   - Iraupena: 10 hilabete
 
-4. **Matriz Comparativa de Características**
+4. **Ezaugarrien Konparaketa Matrizea**
    ```
-   | Característica | Básico | Profesional | Empresarial |
-   |----------------|--------|-------------|-------------|
+   | Ezaugarria | Oinarrizkoa | Profesionala | Enpresariala |
+   |------------|-------------|--------------|--------------|
    | OT Audit | ✅ | ✅ | ✅ |
    | SIEM 8x5 | ✅ | ✅ | ✅ |
-   | Segmentación Red | ❌ | ✅ | ✅ |
-   | Honeypots | ❌ | ✅ | ✅ |
-   | HR Portal | ❌ | ❌ | ✅ |
+   | Sare Segmentazioa | ❌ | ✅ | ✅ |
+   | Honeypot-ak | ❌ | ✅ | ✅ |
+   | HR Ataria | ❌ | ❌ | ✅ |
    | SOC 24x7 | ❌ | ❌ | ✅ |
-   | Soporte | Email | Prioritario | 24x7 |
-   | Formación | 40h | 80h | 120h |
+   | Laguntza | Email | Lehentasunezkoa | 24x7 |
+   | Prestakuntza | 40h | 80h | 120h |
    ```
 
-5. **Ruta de Migración**: Cómo crecer de Básico → Profesional → Empresarial según presupuesto disponible
+5. **Migrazio Bide-orria**: Nola hazi Oinarrizkoa → Profesionala → Enpresariala eskuragarri den aurrekontuaren arabera
 
-### **Sección 8: Precios Detallados con Hitos** (Páginas 10-11)
-**Objetivo**: Desglose transparente de costos y pagos
+### **8. Sekzioa: Prezio Xeheak Hitoekin** (10-11 orrialdeak)
+**Helburua**: Kostuen eta ordainketen gardentasun desglosea
 
-**Contenido detallado**:
-1. **Desglose por Pilar** (basado en Parte I):
-   - **Pilar 1: OT Security** €180,000 (25%)
-     - Asset inventory & audit: €40K
-     - Network segmentation: €60K
-     - PLC hardening: €35K
-     - Jump host setup: €25K
-     - Documentation & training: €20K
+**Edukia xehea**:
+1. **Pilareka Desglosea** (I. Atalean oinarrituta):
+   - **1. Pilarea: OT Segurtasuna** €180,000 (%25)
+     - Aktiboen inbentarioa eta audit: €40K
+     - Sare segmentazioa: €60K
+     - PLC gotortzea: €35K
+     - Jump host konfigurazioa: €25K
+     - Dokumentazioa eta prestakuntza: €20K
 
-   - **Pilar 2: SIEM & SOC** €120,000 (16%)
-     - Platform setup: €50K
-     - Log integration: €30K
-     - Alert development: €20K
-     - SOC staffing (6 months): €20K
+   - **2. Pilarea: SIEM & SOC** €120,000 (%16)
+     - Plataforma konfigurazioa: €50K
+     - Log integrazioa: €30K
+     - Alerta garapena: €20K
+     - SOC langileria (6 hilabete): €20K
 
-   - **Pilar 3: Honeypots** €24,000 (3%)
-     - T-Pot platform: €8K
+   - **3. Pilarea: Honeypot-ak** €24,000 (%3)
+     - T-Pot plataforma: €8K
      - Conpot ICS: €10K
-     - Integration: €6K
+     - Integrazioa: €6K
 
-   - **Pilar 4: HR Portal** €300,000 (41%)
-     - Backend development: €120K
+   - **4. Pilarea: HR Ataria** €300,000 (%41)
+     - Backend garapena: €120K
      - Web frontend: €60K
      - Android app: €80K
-     - Deployment: €40K
+     - Desplieguea: €40K
 
-   - **PM & Audit** €110,000 (15%)
-     - Project management: €50K
-     - Compliance audit: €30K
-     - Risk assessment: €30K
+   - **PM & Audit** €110,000 (%15)
+     - Proiektu kudeaketa: €50K
+     - Betetze audit: €30K
+     - Arrisku ebaluazioa: €30K
 
-2. **Hitos de Pago** (contrato escalonado):
+2. **Ordainketa Hitoak** (kontratu mailakatua):
    ```
-   Hito 1 (30%): Firma contrato - €220,185
-   Hito 2 (20%): OT Audit completo + SIEM setup - €146,790
-   Hito 3 (20%): Segmentación + HR Portal Fase 1 - €146,790
-   Hito 4 (20%): Implementación completa - €146,790
-   Hito 5 (10%): Go-live + aceptación - €73,395
-   ```
-
-3. **Costos Recurrentes Year 2+** (€129,000/año):
-   - SIEM monitoring: €24K/año
-   - SOC services (opcional): €60K/año
-   - HR Portal maintenance: €30K/año
-   - Security updates: €15K/año
-
-4. **Add-ons Opcionales**:
-   - Penetration testing anual: €12K
-   - Incident response retainer: €15K
-   - Additional training: €1,500/día
-   - On-site audits trimestrales: €8K/año
-
-### **Sección 9: Términos Comerciales** (Páginas 12-13)
-**Objetivo**: Términos contractuales claros y profesionales
-
-**Contenido detallado**:
-1. **Garantías**:
-   - Software (HR Portal): 12 meses defect warranty
-   - Consultoría: 6 meses warranty on deliverables
-   - Hardware: 3 años manufacturer warranty
-   - Configuraciones seguridad: 90 días adjustment period
-
-2. **Términos de Pago**:
-   - Net 30 días desde factura
-   - Penalización mora: 1.5% mensual
-   - Descuento pronto pago: 3% si paga en 10 días
-   - Métodos aceptados: Transferencia bancaria, cheque corporativo
-
-3. **Duración del Contrato**:
-   - **Year 1**: Contrato implementación (10 meses)
-   - **Year 2-3**: Contrato mantenimiento (opcional)
-   - **Descuento renovación**: 10% descuento por compromiso 3 años anticipado
-
-4. **Cláusulas de Terminación**:
-   - Cancelación cliente: Reembolsos basados en hitos completados menos trabajo realizado
-   - Fuerza mayor: Ambas partes exentas
-   - No rendimiento: Período remediation de 30 días
-
-5. **Límites de Responsabilidad**:
-   - Cap general: €733,950 (valor contrato)
-   - Daños consecuenciales: Excluidos (excepto negligencia grave)
-   - Seguro ciber: Cobertura €2M mantenida
-
-6. **Propiedad Intelectual**:
-   - Código HR Portal: Propiedad Zabala Gailetak tras pago completo
-   - Configuraciones seguridad: Licenciadas para uso Zabala
-   - Materiales formación: Licencia perpetua
-
-### **Sección 10: Casos de Éxito y Referencias** (Página 14)
-**Objetivo**: Credibilidad mediante casos similares anónimos
-
-**Contenido detallado**:
-1. **Caso de Estudio 1: Industria Láctea (Navarra)** (Anónimo)
-   - **Perfil**: 200 empleados, automatización producción
-   - **Desafío**: Sin seguridad OT, incidente ransomware scare
-   - **Solución**: Similar audit OT + SIEM + segmentación
-   - **Resultados**: 0 incidentes en 24 meses, certificación ISO 27001, ROI 180%
-
-2. **Caso de Estudio 2: Panificadora Industrial** (Similar Zabala)
-   - **Perfil**: 80 empleados, líneas producción robotizadas
-   - **Desafío**: SCADA legacy, sin trail auditoría
-   - **Solución**: Modelo Purdue + jump hosts
-   - **Resultados**: Audit IEC 62443 SL2 aprobado, €300K parada producción evitada
-
-3. **Caso de Estudio 3: Digitalización RRHH SME**
-   - **Perfil**: 150 empleados, fabricante industrial
-   - **Desafío**: Procesos RRHH papel, gaps compliance GDPR
-   - **Solución**: Portal HR custom con app móvil
-   - **Resultados**: 60% reducción tiempo admin RRHH, €50K ahorros anuales
-
-4. **Referencias** (con permiso):
-   - Información de contacto: Nombre, empresa, teléfono
-   - Recomendaciones LinkedIn
-   - Certificaciones: ISO 27001 Lead Auditor, CISSP, IEC 62443 Certified
-
-### **Sección 11: Acuerdos de Nivel de Servicio** (Página 15)
-**Objetivo**: Compromisos de rendimiento medibles
-
-**Contenido detallado**:
-1. **Tiempos Respuesta SIEM/SOC**:
-   ```
-   | Severidad | Detección | Respuesta | Resolución |
-   |-----------|-----------|-----------|------------|
-   | Crítico   | 5 min     | 15 min    | 4 horas    |
-   | Alto      | 15 min    | 1 hora    | 24 horas   |
-   | Medio     | 1 hora    | 4 horas   | 5 días     |
-   | Bajo      | 4 horas   | 24 horas  | 30 días    |
+   Hito 1 (%30): Kontratuaren sinadura - €220,185
+   Hito 2 (%20): OT Audit osoa + SIEM konfigurazioa - €146,790
+   Hito 3 (%20): Segmentazioa + HR Atari 1. Fasea - €146,790
+   Hito 4 (%20): Inplementazio osoa - €146,790
+   Hito 5 (%10): Go-live + onarpena - €73,395
    ```
 
-2. **Disponibilidad del Sistema**:
-   - SIEM: 99.5% uptime (máx 3.65h downtime/mes)
-   - HR Portal: 99.0% uptime (horas business 7am-11pm)
-   - Honeypots: 95% uptime (sistemas aislados)
-   - Red OT: 99.9% uptime (máx 43 min/mes)
+3. **2. Urtea+ Kostu Errepikakorrak** (€129,000/urte):
+   - SIEM monitorizazioa: €24K/urte
+   - SOC zerbitzuak (aukerakoa): €60K/urte
+   - HR Atari mantentzea: €30K/urte
+   - Segurtasun eguneraketak: €15K/urte
 
-3. **Canales de Soporte**:
-   - **Hotline 24x7**: +34 XXX XXX XXX (paquete Empresarial)
-   - **Sistema Ticketing**: Respuesta <2h business
-   - **Email Support**: Respuesta <8h business
-   - **Soporte On-site**: <4h para incidentes críticos (País Vasco)
+4. **Aukerako Gehigarriak**:
+   - Urteko penetrazio proba: €12K
+   - Gertaera erantzun kontratua: €15K
+   - Prestakuntza gehigarria: €1,500/egun
+   - Hiruhileko on-site auditoretza: €8K/urte
 
-4. **Gestión de Parches**:
-   - Críticos: <72h
-   - Alto: <7 días
-   - Regulares: Ventana mantenimiento mensual
+### **9. Sekzioa: Baldintza Komertzialak** (12-13 orrialdeak)
+**Helburua**: Baldintza kontratu argi eta profesionalak
 
-5. **Créditos SLA** (si SLA no cumplido):
-   - 99.5%-99.0%: 10% crédito mensual
-   - 99.0%-95.0%: 25% crédito mensual
-   - <95%: 50% crédito + plan remediation
+**Edukia xehea**:
+1. **Bermeak**:
+   - Softwarea (HR Ataria): 12 hilabete akats bermea
+   - Aholkularitza: 6 hilabete entregagarrien bermea
+   - Hardwarea: 3 urte fabrikatzailearen bermea
+   - Segurtasun konfigurazioak: 90 egun egokitzeko epea
 
-### **Sección 12: Propuesta de Valor y Diferenciación** (Página 16)
-**Objetivo**: Por qué elegirnos vs competencia
+2. **Ordainketa Baldintzak**:
+   - 30 egun fakturaz geroztik
+   - Atzerapen penalizazioa: %1.5 hileko
+   - Ordainketa azkarreko deskontua: %3 10 egunetan ordaintzen bada
+   - Onartutako metodoak: Banku transferentzia, txeke korporatiboa
 
-**Contenido detallado**:
-1. **Diferenciadores Clave**:
-   - ✅ **Especialización OT/ICS**: Una de las pocas firmas con expertise IEC 62443 en País Vasco
-   - ✅ **Experiencia Sector Alimentario**: Entendimiento integración HACCP + ciberseguridad
-   - ✅ **Presencia Local**: Equipo Bilbao, disponibilidad on-site <2 horas
-   - ✅ **Apoyo Dual Compliance**: Enfoque combinado ISO 27001 + IEC 62443 (ahorro costos)
-   - ✅ **Soporte Euskera**: Documentación y formación en euskera nativo
+3. **Kontratu Iraupena**:
+   - **1. Urtea**: Inplementazio kontratua (10 hilabete)
+   - **2-3. Urteak**: Mantentze kontratua (aukerakoa)
+   - **Berritze deskontua**: %10 deskontua 3 urteko konpromiso aurreratuagatik
 
-2. **Ventajas Técnicas**:
-   - Simulación Factory I/O + OpenPLC (pruebas seguras antes producción)
-   - Honeypots Conpot especializados para protocolos alimentación
-   - HR Portal construido desde cero para GDPR Art. 88 (protección datos empleados)
-   - Stack PostgreSQL + Redis (grado enterprise, costo eficiente open-source)
+4. **Bertan Behera Utzi Klautsulak**:
+   - Bezeroaren bertan behera: Hito osatuetan oinarritutako itzulketak, eginiko lana kenduta
+   - Indar nagusia: Bi aldeak salbuetsita
+   - Errendimendu ezak: 30 eguneko konponketa epea
 
-3. **Valor de Negocio**:
-   - **Mitigación Riesgo**: Evitación costo ransomware promedio €1.2M
-   - **Continuidad Operativa**: Prevención parada producción €500K/año
-   - **Compliance**: Evitar multas GDPR €20M, mantener contratos B2B requiriendo ISO 27001
-   - **Eficiencia RRHH**: Reducción 60% overhead admin (ahorros €44K/año)
+5. **Erantzukizun Mugak**:
+   - Kap orokorra: €733,950 (kontratuaren balioa)
+   - Ondoriozko kalteak: Baztertuta (negligentzia larria salbu)
+   - Ziber asegurua: €2M estaldura mantendu
 
-4. **Posicionamiento Competitivo**:
+6. **Jabetza Intelektuala**:
+   - HR Atari kodea: Zabala Gailetak-en jabetza ordainketa osoa ondoren
+   - Segurtasun konfigurazioak: Zabala-rako erabilera lizentzia
+   - Prestakuntza materialak: Lizentzia iraunkorra
+
+### **10. Sekzioa: Arrakasta Kasuak eta Erreferentziak** (14 orrialdea)
+**Helburua**: Fideltasuna antzeko kasu anonimoen bidez
+
+**Edukia xehea**:
+1. **1. Kasu Ikaskuntza: Industria Esnegaia (Nafarroa)** (Anonimoa)
+   - **Profila**: 200 langile, ekoizpen automatizazioa
+   - **Erronka**: OT segurtasunik gabe, ransomware mehatxu gertaera
+   - **Soluzioa**: Antzeko OT audit + SIEM + segmentazioa
+   - **Emaitzak**: 0 gertaera 24 hilabetean, ISO 27001 ziurtagiria, %180 ROI
+
+2. **2. Kasu Ikaskuntza: Industria Panifikadora** (Zabala antzekoa)
+   - **Profila**: 80 langile, robotizatutako ekoizpen lerroak
+   - **Erronka**: SCADA legacy, auditoria trail-ik gabe
+   - **Soluzioa**: Purdue Modeloa + jump host-ak
+   - **Emaitzak**: IEC 62443 SL2 audit onartua, €300K ekoizpen gelditzea ekidinda
+
+3. **3. Kasu Ikaskuntza: RRHH Digitalizazioa SME**
+   - **Profila**: 150 langile, fabrikatzaile industriala
+   - **Erronka**: RRHH prozesu paperezkoak, GDPR betetze gaps-ak
+   - **Soluzioa**: HR Atari pertsonalizatua app mugikorrarekin
+   - **Emaitzak**: %60 admin RRHH denbora murriztua, €50K urteko aurrezpenak
+
+4. **Erreferentziak** (baimenarekin):
+   - Kontaktu informazioa: Izena, enpresa, telefonoa
+   - LinkedIn gomendioak
+   - Ziurtagiriak: ISO 27001 Lead Auditor, CISSP, IEC 62443 Certified
+
+### **11. Sekzioa: Zerbitzu Maila Akordioak** (15 orrialdea)
+**Helburua**: Neur daitezkeen errendimendu konpromisoak
+
+**Edukia xehea**:
+1. **SIEM/SOC Erantzun Denborak**:
    ```
-   | Factor | Zabala Security Project | Firma IT Genérica | Consultoría Grande |
-   |--------|-------------------------|-------------------|---------------------|
-   | Expertise OT | ✅ IEC 62443 certified | ❌ Solo IT | ✅ Pero cara |
-   | Sector Alimentario | ✅ Especializada | ⚠️ Genérica | ⚠️ Genérica |
-   | Disponibilidad Local | ✅ <2h | ❌ Remoto solo | ❌ HQ Madrid |
-   | Costo | €733K Year 1 | €500K (IT solo) | €1.2M+ |
-   | Soporte Euskera | ✅ Nativo | ❌ Español solo | ❌ Español solo |
-   | HR Portal Incluido | ✅ Custom-built | ❌ Fuera scope | ✅ Pero COTS |
+   | Larritasuna | Detekzioa | Erantzuna | Konponketa |
+   |-------------|-----------|-----------|------------|
+   | Kritikoa   | 5 min     | 15 min    | 4 ordu     |
+   | Altua      | 15 min    | 1 ordu    | 24 ordu    |
+   | Ertaina    | 1 ordu    | 4 ordu    | 5 egun     |
+   | Baxua      | 4 ordu    | 24 ordu   | 30 egun    |
    ```
 
-5. **Métricas de Éxito** (rastreadas en dashboard):
-   - 0 incidentes impacting producción
-   - <5% false positive rate SIEM tras 90 días
-   - 95%+ adopción HR Portal en 6 meses
-   - Certificación ISO 27001 + IEC 62443 en 12 meses
+2. **Sistemaren Eskuragarritasuna**:
+   - SIEM: %99.5 uptime (gehienez 3.65h downtime/hile)
+   - HR Ataria: %99.0 uptime (negozio orduak 7am-11pm)
+   - Honeypot-ak: %95 uptime (sistema isolatuak)
+   - OT Sarea: %99.9 uptime (gehienez 43 min/hile)
+
+3. **Laguntza Kanalak**:
+   - **24x7 Hotline**: +34 XXX XXX XXX (Enpresarial paketea)
+   - **Sistema Ticketing**: Erantzuna <2h negozio
+   - **Email Laguntza**: Erantzuna <8h negozio
+   - **On-site Laguntza**: <4h gertaera kritikoetarako (Euskal Herria)
+
+4. **Pata Kudeaketa**:
+   - Kritikoak: <72h
+   - Altua: <7 egun
+   - Arruntak: Hilabeteko mantentze leihoa
+
+5. **SLA Kredituak** (SLA betetzen ez bada):
+   - %99.5-%99.0: %10 kreditu hileko
+   - %99.0-%95.0: %25 kreditu hileko
+   - <%95: %50 kreditua + konponketa plana
+
+### **12. Sekzioa: Balio Proposamena eta Diferentziazioa** (16 orrialdea)
+**Helburua**: Zergatik aukeratu gaituzten lehiakideen aurka
+
+**Edukia xehea**:
+1. **Gako Diferentziatzaileak**:
+   - ✅ **OT/ICS Espezializazioa**: IEC 62443 gaitasuna duten enpresa gutxi Euskal Herrian
+   - ✅ **Elikadura Sektoruko Esperientzia**: HACCP + zibersegurtasun integrazioaren ulermena
+   - ✅ **Tokiko Presentzia**: Bilboko taldea, <2 ordu on-site eskuragarritasuna
+   - ✅ **Betetze Bikoitza**: ISO 27001 + IEC 62443 konbinatutako ikuspegia (kostu aurrezpena)
+   - ✅ **Euskarazko Laguntza**: Dokumentazio eta prestakuntza euskara hizkuntza natiboan
+
+2. **Abantaila Teknikoak**:
+   - Factory I/O + OpenPLC simulazioa (produkzioa probatu aurretik probak seguruak)
+   - Elikadura protokoloetarako Conpot honeypot espezializatuak
+   - GDPR Art. 88-rako (langileen datu babesa) eraikitako HR Atari pertsonalizatua
+   - PostgreSQL + Redis stack-a (enpresa maila, kode irekia kostu eraginkorra)
+
+3. **Negozio Balioa**:
+   - **Arrisku Murrizketa**: Batez besteko €1.2M ransomware kostua ekiditea
+   - **Eragiketa Jarraitutasuna**: €500K/urteko ekoizpen gelditzea ekiditea
+   - **Betetzea**: GDPR €20M isunak ekiditeko, ISO 27001 eskatzen duten B2B kontratuak mantentzeko
+   - **RRHH Eraginkortasuna**: %60 admin overhead murrizketa (€44K/urteko aurrezpenak)
+
+4. **Lehiaketa Posizionamendua**:
+   ```
+   | Faktorea | Zabala Segurtasun Proiektua | IT Enpresa Generikoa | Aholkularitza Handia |
+   |----------|-----------------------------|----------------------|----------------------|
+   | OT Gaitasuna | ✅ IEC 62443 ziurtagiria | ❌ IT soilik | ✅ Baina garestia |
+   | Elikadura Sektorua | ✅ Espezializatua | ⚠️ Generikoa | ⚠️ Generikoa |
+   | Tokiko Eskuragarritasuna | ✅ <2h | ❌ Urrutikoa soilik | ❌ HQ Madril |
+   | Kostua | €733K 1. Urtea | €500K (IT soilik) | €1.2M+ |
+   | Euskarazko Laguntza | ✅ Hizkuntza natiboa | ❌ Gaztelania soilik | ❌ Gaztelania soilik |
+   | HR Atari Barne | ✅ Pertsonalizatua | ❌ Esparrua kanpo | ✅ Baina COTS |
+   ```
+
+5. **Arrakasta Metrikak** (dashboard-ean jarraituta):
+   - 0 produkzioa kaltetzen duten gertaerak
+   - <%5 false positive tasa SIEM-ean 90 egunen ondoren
+   - >%95 HR Atari adopzioa 6 hilabetean
+   - ISO 27001 + IEC 62443 ziurtagiria 12 hilabetean
 
 ---
 
-## 🛠️ **PARTE III: ESPECIFICACIONES TÉCNICAS** (Páginas 17-42)
+## 🛠️ **III. ATALA: ESPEZIFIKAZIO TEKNIKOAK** (17-42 orrialdeak)
 
-### **Sección 13: Arquitectura IT/OT (Modelo Purdue)** (Páginas 17-19)
-**Objetivo**: Diseño técnico de la arquitectura segura
+### **13. Sekzioa: IT/OT Arkitektura (Purdue Modeloa)** (17-19 orrialdeak)
+**Helburua**: Arkitektura seguruaren diseinu teknikoa
 
-**Contenido detallado**:
-1. **Modelo Purdue Implementado** (diagrama ASCII):
+**Edukia xehea**:
+1. **Inplementatutako Purdue Eredua** (ASCII diagrama):
    ```
    ┌─────────────────────────────────────────────────────────────┐
-   │ NIVEL 4: Red Empresa (IT)                                   │
-   │ - ERP System (Odoo/SAP)                                     │
-   │ - Email Server (Exchange/Postfix)                           │
-   │ - File Servers (NAS)                                        │
-   │ - HR Portal (PHP + PostgreSQL + Redis)                      │
-   │ - Workstations Oficina (120 usuarios)                       │
+   │ 4. MAILA: Enpresa Sarea (IT)                                │
+   │ - ERP Sistema (Odoo/SAP)                                    │
+   │ - Email Zerbitzaria (Exchange/Postfix)                      │
+   │ - Fitxategi Zerbitzariak (NAS)                              │
+   │ - HR Ataria (PHP + PostgreSQL + Redis)                      │
+   │ - Bulegoko Workstation-ak (120 erabiltzaile)                │
    └──────────────────┬──────────────────────────────────────────┘
                       │ Firewall A (Fortinet/Palo Alto)
-                      │ Reglas: Allow HTTP/HTTPS, Block SMB/RDP
+                      │ Arauak: Allow HTTP/HTTPS, Block SMB/RDP
    ┌──────────────────▼──────────────────────────────────────────┐
-   │ NIVEL 3.5: DMZ Industrial                                    │
-   │ - SIEM Server (Wazuh Manager + ELK Stack)                   │
-   │ - Patch Management Server (WSUS/Landscape)                  │
-   │ - Jump Host (Bastion con MFA)                               │
+   │ 3.5. MAILA: Industria DMZ                                   │
+   │ - SIEM Zerbitzaria (Wazuh Manager + ELK Stack)              │
+   │ - Pata Kudeaketa Zerbitzaria (WSUS/Landscape)               │
+   │ - Jump Host (Bastion MFA-ekin)                              │
    │ - Historian DB (InfluxDB/TimescaleDB)                       │
-   │ - Honeypot Network (T-Pot, Conpot, Cowrie) - AISLADO       │
+   │ - Honeypot Sarea (T-Pot, Conpot, Cowrie) - ISOLATUA         │
    └──────────────────┬──────────────────────────────────────────┘
-                      │ Firewall B (Firewall Industrial)
-                      │ Reglas: Whitelist only, Modbus/Profinet inspection
+                      │ Firewall B (Industria Firewall)
+                      │ Arauak: Whitelist soilik, Modbus/Profinet inspekzioa
    ┌──────────────────▼──────────────────────────────────────────┐
-   │ NIVEL 3: Operaciones (OT)                                   │
-   │ - SCADA Server (Ignition/WinCC)                             │
-   │ - HMI Panels (3x Siemens TP1200)                            │
-   │ - Engineering Workstation (TIA Portal, Factory I/O)         │
-   │ - OpenPLC Runtime (Simulación)                              │
+   │ 3. MAILA: Eragiketak (OT)                                   │
+   │ - SCADA Zerbitzaria (Ignition/WinCC)                        │
+   │ - HMI Panelak (3x Siemens TP1200)                           │
+   │ - Ingeniaritza Workstation (TIA Portal, Factory I/O)        │
+   │ - OpenPLC Runtime (Simulazioa)                              │
    └──────────────────┬──────────────────────────────────────────┘
-                      │ Switch Managed (Segmentación VLAN)
+                      │ Switch Kudeatua (VLAN Segmentazioa)
    ┌──────────────────▼──────────────────────────────────────────┐
-   │ NIVEL 2: Red Control                                        │
-   │ - PLCs (5x Siemens S7-1500, 3x Allen-Bradley CompactLogix) │
-   │ - RTUs (Remote Terminal Units)                              │
+   │ 2. MAILA: Kontrol Sarea                                     │
+   │ - PLC-ak (5x Siemens S7-1500, 3x Allen-Bradley CompactLogix)│
+   │ - RTU-ak (Remote Terminal Units)                            │
    └──────────────────┬──────────────────────────────────────────┘
-                      │ Ethernet Industrial (Profinet/EtherNet/IP)
+                      │ Ethernet Industriala (Profinet/EtherNet/IP)
    ┌──────────────────▼──────────────────────────────────────────┘
-   │ NIVEL 1/0: Dispositivos Campo                               │
-   │ - Mezcladoras (3x con VFDs)                                 │
-   │ - Hornos (4x industriales con PID)                         │
-   │ - Robots Embalaje (2x ABB IRB 1200)                        │
-   │ - Sensores (Temperatura, Presión, Flujo - 50+ I/O points)  │
-   │ - Actuadores (Válvulas, Motores, Transportadores)          │
+   │ 1/0. MAILA: Eremuko Gailuak                                 │
+   │ - Nahasketak (3x VFD-ekin)                                  │
+   │ - Labeak (4x industriak PID-ekin)                           │
+   │ - Enbalatze Robotak (2x ABB IRB 1200)                       │
+   │ - Sentsoreak (Tenperatura, Presioa, Fluxua - 50+ I/O puntu)│
+   │ - Aktuadoreak (Balbulak, Motorrak, Garraiatzaileak)         │
    └─────────────────────────────────────────────────────────────┘
    ```
 
-2. **Diseño VLAN**:
+2. **VLAN Diseinua**:
    ```
-   VLAN 10: Red IT Oficina (192.168.10.0/24)
-   VLAN 20: DMZ Industrial (10.10.20.0/24)
-   VLAN 30: Red SCADA/HMI (10.10.30.0/24)
-   VLAN 40: Red Control PLC (10.10.40.0/24)
-   VLAN 50: Dispositivos Campo (10.10.50.0/24)
-   VLAN 99: Red Honeypot (172.16.99.0/24) - AISLADA
-   ```
-
-3. **Reglas Firewall Resumidas** (Firewall B - frontera IT/OT):
-   ```
-   Allow: Jump Host (DMZ) → SCADA (port 135 RDP, MFA requerido)
-   Allow: SIEM (DMZ) → PLC (port 102 S7Comm, read-only)
-   Allow: Historian (DMZ) ← SCADA (port 8088 InfluxDB write)
-   Deny: VLAN IT → VLAN OT (todo tráfico directo)
-   Deny: VLAN OT → Internet (todo outbound)
-   Alert: Cualquier tráfico Modbus fuera VLAN 40/50
+   VLAN 10: Bulego IT Sarea (192.168.10.0/24)
+   VLAN 20: Industria DMZ (10.10.20.0/24)
+   VLAN 30: SCADA/HMI Sarea (10.10.30.0/24)
+   VLAN 40: PLC Kontrol Sarea (10.10.40.0/24)
+   VLAN 50: Eremuko Gailuak (10.10.50.0/24)
+   VLAN 99: Honeypot Sarea (172.16.99.0/24) - ISOLATUA
    ```
 
-4. **Placeholders Diagramas**:
-   - **[DIAGRAMA A]**: Topología física (racks, switches, firewalls)
-   - **[DIAGRAMA B]**: Arquitectura lógica VLAN
-   - **[DIAGRAMA C]**: Diagrama flujo datos (SCADA → Historian → SIEM)
+3. **Firewall Arauen Laburpena** (Firewall B - IT/OT muga):
+   ```
+   Allow: Jump Host (DMZ) → SCADA (port 135 RDP, MFA beharrezkoa)
+   Allow: SIEM (DMZ) → PLC (port 102 S7Comm, irakurketa-soilik)
+   Allow: Historian (DMZ) ← SCADA (port 8088 InfluxDB idazketa)
+   Deny: VLAN IT → VLAN OT (trafiko zuzena)
+   Deny: VLAN OT → Internet (irteera guztia)
+   Alert: Modbus trafiko edozein VLAN 40/50-etatik kanpo
+   ```
 
-### **Sección 14: Implementación Seguridad OT** (Páginas 20-22)
-**Objetivo**: Detalles técnicos implementación OT
+4. **Diagrama Placeholder-ak**:
+   - **[DIAGRAMA A]**: Topologia fisikoa (rack-ak, switch-ak, firewall-ak)
+   - **[DIAGRAMA B]**: Arkitektura logikoa VLAN
+   - **[DIAGRAMA C]**: Datu fluxu diagrama (SCADA → Historian → SIEM)
 
-**Contenido detallado**:
-1. **Metodología Inventario Activos**:
-   - **Herramientas**: Nmap 7.94, Nessus Industrial Edition, Claroty CTD
-   - **Proceso**: Discovery pasiva (span port switch core), escaneo activo (ventana mantenimiento), verificación manual (dibujos ingeniería)
-   - **Entregable**: Excel/CSV con MAC, IP, vendor, firmware, score criticidad
+### **14. Sekzioa: OT Segurtasun Inplementazioa** (20-22 orrialdeak)
+**Helburua**: OT inplementazioaren xehetasun teknikoak
 
-2. **Procedimientos Endurecimiento PLC**:
+**Edukia xehea**:
+1. **Aktiboen Inbentario Metodologia**:
+   - **Tresnak**: Nmap 7.94, Nessus Industrial Edition, Claroty CTD
+   - **Prozesua**: Pasiboko discovery (core switch span port-a), eskaner aktiboa (mantentze leihoa), eskuzko berrikuspena (ingeniaritza marrazkiak)
+   - **Entregagarria**: Excel/CSV MAC, IP, vendor, firmware, kritikotasun puntuazioarekin
+
+2. **PLC Gotortze Prozedurak**:
    
    **Siemens S7-1500**:
    ```
-   - Deshabilitar servicios innecesarios (FTP, HTTP server)
-   - Habilitar protección password (nivel acceso PLC 3+)
-   - Configurar listas acceso IP (whitelist workstation ingeniería)
-   - Deshabilitar PUT/GET operations excepto IPs autorizadas
-   - Habilitar logging auditoría (syslog → SIEM)
-   - Update firmware: TIA Portal v18 → Aplicar parches Junio 2024
+   - Desgaitu beharrezkoak ez diren zerbitzuak (FTP, HTTP zerbitzaria)
+   - Gaitu pasahitz babesa (sarbide maila 3+ PLC)
+   - Konfiguratu IP sarbide zerrendak (ingeniaritza workstation whitelist)
+   - Desgaitu PUT/GET eragiketak baimendutako IP-etatik salbu
+   - Gaitu audit log-ak (syslog → SIEM)
+   - Firmware eguneraketa: TIA Portal v18 → 2024ko ekaineko patak aplikatu
    ```
    
    **Allen-Bradley CompactLogix**:
    ```
-   - Set security mode to "Enhanced" (CIP Security)
-   - Crear cuentas usuario con least privilege
-   - Habilitar CIP Security con TLS 1.2+
-   - Deshabilitar HTTP/Telnet (usar HTTPS/SSH only)
-   - Configurar políticas FactoryTalk Security
+   - Segurtasun modua "Enhanced"-era ezarri (CIP Security)
+   - Erabiltzaile kontuak sortu pribilegio minimokoekin
+   - Gaitu CIP Security TLS 1.2+ekin
+   - Desgaitu HTTP/Telnet (HTTPS/SSH soilik erabili)
+   - Konfiguratu FactoryTalk Security politikak
    ```
 
-3. **Segmentación de Red**:
-   - **Segmentación física**: Switches separados para IT/OT
-   - **Segmentación lógica**: VLANs con ACLs
-   - **Colocación firewall**: Entre niveles 3.5/3 y 3/2
-   - **IDS/IPS**: Aware de protocolo industrial (colocación Claroty/Nozomi)
+3. **Sare Segmentazioa**:
+   - **Fisikoa**: IT/OT-rako switch bereiziak
+   - **Logikoa**: ACL-ak dituzten VLAN-ak
+   - **Firewall kokapena**: 3.5/3 eta 3/2 mailen artean
+   - **IDS/IPS**: Industria protokoloaren kontzientea (Claroty/Nozomi kokapena)
 
-4. **Configuración Jump Host**:
+4. **Jump Host Konfigurazioa**:
    ```
-   Hardware: Servidor dedicado (Dell PowerEdge R250 o equivalente)
-   SO: Ubuntu 24.04 LTS Server (hardened con benchmark CIS)
-   Acceso: OpenSSH con MFA (Google Authenticator/Duo)
-   Sesión Recording: Auditd + Teleport para captura pantalla
-   Outbound permitido: RDP → SCADA, S7Comm → PLCs (logged)
-   Gestión usuarios: Integración LDAP con Active Directory
+   Hardware: Zerbitzari espezializatua (Dell PowerEdge R250 edo baliokidea)
+   SO: Ubuntu 24.04 LTS Server (CIS benchmark-ekin gotortua)
+   Sarbidea: OpenSSH MFA-ekin (Google Authenticator/Duo)
+   Saio Grabazioa: Auditd + Teleport pantaila grabaziorako
+   Baimendutako Irteera: RDP → SCADA, S7Comm → PLC-ak (logeatuta)
+   Erabiltzaile kudeaketa: Active Directory-rekin LDAP integrazioa
    ```
 
-5. **Seguridad Protocolos ICS**:
+5. **ICS Protokolo Segurtasuna**:
    
-   **Modbus TCP (Port 502)**:
-   - Inspección profunda paquetes en firewall
-   - Funciones código read-only desde SIEM (0x01-0x04)
-   - Bloquear comandos write (0x05, 0x06, 0x0F, 0x10) desde IPs no ingeniería
+   **Modbus TCP (502 Portua)**:
+   - Firewall-ean pakete sakon inspekzioa
+   - SIEM-etik irakurketa-soilik funtzio kodeak (0x01-0x04)
+   - Idazteko komandoak (0x05, 0x06, 0x0F, 0x10) blokeatu ingeniaritza IP-etatik salbu
    
-   **Profinet (capa Ethernet)**:
-   - Seguridad 802.1X en switches
-   - Aislamiento VLAN por zona producción
-   - Switches Siemens Scalance con capacidad NAT/firewall
+   **Profinet (Ethernet geruza)**:
+   - 802.1X segurtasuna switch-etan
+   - VLAN isolamendua ekoizpen gune bakoitzeko
+   - Siemens Scalance switch-ak NAT/firewall gaitasunekin
 
-6. **Backup & Disaster Recovery**:
-   - Programas PLC: Backup semanal vía TIA Portal (almacenado encriptado en NAS)
-   - DB SCADA: Incremental diario, full semanal (retención: 90 días)
-   - Recovery Time Objective (RTO): 4h SCADA, 8h PLCs
-   - Recovery Point Objective (RPO): 24h máximo data loss
+6. **Babespena & Disaster Recovery**:
+   - PLC programak: Asteko babespena TIA Portal bidez (NAS-en enkriptatua biltegiratua)
+   - SCADA DB: Eguneko inkrementala, asteko osoa (atxikipena: 90 egun)
+   - Recovery Time Objective (RTO): 4h SCADA, 8h PLC-ak
+   - Recovery Point Objective (RPO): 24h gehienezko datu galera
 
-### **Sección 15: SIEM & SOC (Wazuh vs ELK)** (Páginas 23-25)
-**Objetivo**: Especificaciones plataforma SIEM/SOC
+### **15. Sekzioa: SIEM & SOC (Wazuh vs ELK)** (23-25 orrialdeak)
+**Helburua**: SIEM/SOC plataforma espezifikazioak
 
-**Contenido detallado**:
-1. **Matriz Comparación Plataforma**:
+**Edukia xehea**:
+1. **Plataforma Konparaketa Matrizea**:
    
-   | Criterio | Wazuh (Recomendado) | ELK Stack (Alternativa) | AlienVault OSSIM |
-   |-----------|---------------------|-------------------------|------------------|
-   | Costo | €0 (open-source) | €0 (core) | €0 (open-source) |
-   | Soporte OT/ICS | ✅ Parsers Modbus/S7Comm | ⚠️ Plugins Logstash requeridos | ⚠️ Limitado OT |
-   | Escalabilidad | ✅ 10K+ agentes | ✅ Excelente (Elasticsearch) | ❌ Límite 1 nodo |
-   | Curva Aprendizaje | Medio | Alto | Medio |
-   | Comunidad | ✅ Activa | ✅ Muy activa | ⚠️ Declinante |
-   | Capacidad EDR | ✅ Built-in | ❌ Add-ons requeridos | ❌ No EDR |
-   | RBAC | ✅ Granular | ✅ Con X-Pack (paid) | ✅ Básico |
-   | Compliance | ✅ PCI-DSS, GDPR reports | ✅ Custom | ✅ Pre-built |
+   | Irizpidea | Wazuh (Gomendatua) | ELK Stack (Aukera) | AlienVault OSSIM |
+   |-----------|--------------------|--------------------|------------------|
+   | Kostua | €0 (kode irekia) | €0 (oinarria) | €0 (kode irekia) |
+   | OT/ICS Laguntza | ✅ Modbus/S7Comm parser-ak | ⚠️ Logstash plugin-ak beharrezkoak | ⚠️ OT mugatua |
+   | Eskalagarritasuna | ✅ 10K+ agente | ✅ Bikaina (Elasticsearch) | ❌ 1 nodo muga |
+   | Ikasketa Kurba | Ertaina | Altua | Ertaina |
+   | Komunitatea | ✅ Aktiboa | ✅ Oso aktiboa | ⚠️ Beherakorra |
+   | EDR Gaitasuna | ✅ Built-in | ❌ Add-on-ak beharrezkoak | ❌ EDR gabe |
+   | RBAC | ✅ Granularra | ✅ X-Pack-ekin (ordainduta) | ✅ Oinarrizkoa |
+   | Betetzea | ✅ PCI-DSS, GDPR txostenak | ✅ Pertsonalizatua | ✅ Pre-built |
    
-   **DECISIÓN**: **Wazuh** por soporte OT + simplicidad + EDR + costo = €0 licensing
+   **ERABAKIA**: **Wazuh** OT laguntzagatik + sinpletasunagatik + EDR + kostua = €0 lizentziak
 
-2. **Integración Fuentes Log** (30 total):
+2. **Log Iturrien Integrazioa** (30 guztira):
    
-   **Fuentes IT (15)**:
-   - Firewalls: FortiGate/Palo Alto (syslog UDP/514)
-   - Domain Controllers: Windows Event Logs (agente Wazuh)
-   - Web Servers: Apache/Nginx access/error logs (Filebeat)
-   - Linux Servers: auditd, syslog (agente Wazuh)
-   - Email Gateway: Postfix logs (Filebeat)
+   **IT Iturriak (15)**:
+   - Firewall-ak: FortiGate/Palo Alto (syslog UDP/514)
+   - Domeinu Kontrolatzaileak: Windows Event Logs (Wazuh agentea)
+   - Web Zerbitzariak: Apache/Nginx access/error log-ak (Filebeat)
+   - Linux Zerbitzariak: auditd, syslog (Wazuh agentea)
+   - Email Gateway: Postfix log-ak (Filebeat)
    
-   **Fuentes OT (10)**:
-   - Firewall Industrial: Syslog (alertas Claroty/Nozomi)
-   - SCADA Server: Logs aplicación + audit trail DB
-   - HMI Panels: Eventos login (syslog)
-   - PLCs: Logs S7Comm vía gateway OPC UA
-   - Jump Host: Logs SSH session + auditd
+   **OT Iturriak (10)**:
+   - Industria Firewall: Syslog (Claroty/Nozomi alertak)
+   - SCADA Zerbitzaria: Aplikazio log-ak + DB audit trail
+   - HMI Panelak: Saio hasiera gertaerak (syslog)
+   - PLC-ak: S7Comm log-ak OPC UA gateway bidez
+   - Jump Host: SSH saio log-ak + auditoretzak
    
-   **Fuentes Aplicación (5)**:
-   - HR Portal: Logs aplicación PHP + PostgreSQL audit
-   - Autenticación: Eventos LDAP/AD login
-   - VPN Concentrator: Logs OpenVPN/IPSec
-   - Backup System: Logs Veeam/Bacula job
-   - Honeypots: Logs JSON T-Pot (Cowrie, Conpot, Dionaea)
+   **Aplikazio Iturriak (5)**:
+   - HR Ataria: PHP aplikazio log-ak + PostgreSQL audit
+   - Autentikazioa: LDAP/AD saio hasiera gertaerak
+   - VPN Konzentratzailea: OpenVPN/IPSec log-ak
+   - Babespen Sistema: Veeam/Bacula job log-ak
+   - Honeypot-ak: T-Pot JSON log-ak (Cowrie, Conpot, Dionaea)
 
-3. **Reglas Alerta & Casos Uso** (50+ escenarios):
+3. **Alerta Arauak & Kasu Erabilera** (50+ eszenario):
    
-   **Categoría: Autenticación (10 reglas)**:
-   - Failed login >5 en 5 min desde IP → Alert
-   - Successful login desde geolocation mismatch → Alert
-   - Login fuera horas business (cuentas admin) → Alert
-   - Intento bypass MFA → Critical Alert
-   - Lockout account triggered → Alert
+   **Kategoria: Autentikazioa (10 arau)**:
+   - Huts egindako login >5 5 minututan IP-tik → Alerta
+   - Saio hasiera arrakastatsua geolocation desberdinetik → Alerta
+   - Saio hasiera negozio orduetatik kanpo (admin kontuak) → Alerta
+   - MFA saiakera saihestea → Alerta Kritikoa
+   - Kontu blokeoa aktibatua → Alerta
    
-   **Categoría: OT-Específicas (15 reglas)**:
-   - Comando Modbus write no autorizado → Critical Alert
-   - Modificación firmware PLC detectada → Critical Alert
-   - Conexión SCADA → PLC desde IP desconocida → Alert
-   - Escaneo Modbus detectado (múltiples function codes) → Alert
-   - Comando stop CPU PLC → Critical Alert
-   - Login HMI con credenciales default → Alert
+   **Kategoria: OT-Espezifikoak (15 arau)**:
+   - Modbus idazketa komando baimenik gabe → Alerta Kritikoa
+   - PLC firmware aldaketa detektatua → Alerta Kritikoa
+   - SCADA → PLC konexioa IP ezezagunetik → Alerta
+   - Modbus eskanerra detektatua (funtzio kode anitzak) → Alerta
+   - PLC CPU gelditze komandoa → Alerta Kritikoa
+   - HMI saio hasiera kredentzialetan lehenetsiak → Alerta
    
-   **Categoría: Malware (8 reglas)**:
-   - File integrity monitoring cambio en /bin, /sbin → Alert
-   - Proceso spawn desde PHP (webshell) → Critical Alert
-   - Hash malware conocido (API VirusTotal) → Critical Alert
-   - Movimiento lateral (PSExec, WMI abuse) → Alert
+   **Kategoria: Malware (8 arau)**:
+   - Fitxategi osotasun monitorizazioa /bin, /sbin aldaketa → Alerta
+   - Prozesua PHP-tik sortua (webshell) → Alerta Kritikoa
+   - Ezagutzen den malware hash-a (VirusTotal API) → Alerta Kritikoa
+   - Mugimendu laterala (PSExec, WMI abusua) → Alerta
    
-   **Categoría: Exfiltración Datos (7 reglas)**:
-   - Transferencia outbound grande (>1GB) → Alert
-   - Comando dump DB ejecutado → Alert
-   - Export bulk datos empleados HR Portal → Alert
-   - Dispositivo USB conectado a workstation OT → Critical Alert
+   **Kategoria: Datu Exfiltrazioa (7 arau)**:
+   - Irteera transferentzia handia (>1GB) → Alerta
+   - DB dump komandoa exekutatua → Alerta
+   - HR Atari langileen datu bulk export → Alerta
+   - USB gailua OT workstation-era konektatua → Alerta Kritikoa
 
-4. **Diseño Dashboards**:
+4. **Dashboard Diseinuak**:
    
-   **Dashboard Ejecutivo** (para CEO/CFO):
-   - Score postura seguridad (1-100)
-   - Alertas críticas últimas 7 días (trend)
-   - Status compliance (controles ISO 27001 implementados %)
-   - Top 5 actores amenaza (datos honeypot)
+   **Panel Exekutiboa** (CEO/CFO-rako):
+   - Segurtasun jarrera puntuazioa (1-100)
+   - Azken 7 egunetako alerta kritikoak (joera)
+   - Betetze egoera (inplementatutako ISO 27001 kontrolen %)
+   - Top 5 mehatxu aktoreak (honeypot datuak)
    
-   **Dashboard SOC Analyst**:
-   - Queue alertas (ordenadas por priority)
-   - Top attackers por IP (mapa GeoIP)
-   - Heat map criticidad assets
-   - Status workflow response incident
+   **Panel SOC Analistarentzat**:
+   - Alerta ilara (lehentasunaren arabera ordenatua)
+   - Top erasotzaileak IP-ka (GeoIP mapa)
+   - Aktibo kritisitate heat map
+   - Gertaera erantzun workflow egoera
    
-   **Dashboard OT Engineer**:
-   - Status health PLC (CPU, memoria, errores comm)
-   - Métricas uptime SCADA
-   - Intentos acceso no autorizados (red OT)
-   - Anomalías protocolo (Modbus/Profinet)
+   **Panel OT Ingeniariarentzat**:
+   - PLC osasun egoera (CPU, memoria, comm erroreak)
+   - SCADA uptime metrikak
+   - Sarbide saiakera baimenik gabeak (OT sarea)
+   - Protokolo anomaliak (Modbus/Profinet)
 
-5. **Feeds Inteligencia Amenazas**:
-   - AlienVault OTX (exchange amenazas open)
-   - MISP (Plataforma Sharing Malware Info)
-   - ICS-CERT advisories (US-CERT)
-   - Inteligencia honeypot interna (firmas ataque)
-   - API VirusTotal (reputación file hash)
+5. **Mehatzu Inteligentzia Feed-ak**:
+   - AlienVault OTX (mehatzu truke irekia)
+   - MISP (Malware Info Sharing Plataforma)
+   - ICS-CERT oharrak (US-CERT)
+   - Barne honeypot inteligentzia (eraso sinadurak)
+   - VirusTotal API (fitxategi hash ospea)
 
-6. **Modelo Staffing SOC**:
+6. **SOC Langileria Eredua**:
    
-   **Opción A: SOC 8x5** (€20K/6 meses, incluido presupuesto):
-   - Cobertura: L-V 8am-5pm
-   - Staffing: 1 analista L1 + 1 L2 (cobertura part-time)
-   - Escalación: Ingeniero on-call para alertas críticas
+   **Aukera A: SOC 8x5** (€20K/6 hilabete, aurrekontuan barne):
+   - Estaldura: A-L 8am-5pm
+   - Langileria: 1 L1 analista + 1 L2 (part-time estaldura)
+   - Eskalatzea: On-call ingeniaria alerta kritikoetarako
    
-   **Opción B: SOC 24x7** (+€60K/año, paquete Empresarial):
-   - Cobertura: 24h, 7 días, 365 días
-   - Staffing: 3 shifts x 2 analistas = 6 FTE
-   - Escalación: Equipo response incident dedicado
+   **Aukera B: SOC 24x7** (+€60K/urte, Enpresarial paketea):
+   - Estaldura: 24h, 7 egun, 365 egun
+   - Langileria: 3 txanda x 2 analista = 6 FTE
+   - Eskalatzea: Gertaera erantzun talde espezializatua
 
-### **Sección 16: Arquitectura Despliegue Honeypots** (Páginas 26-27)
-**Objetivo**: Diseño técnico honeypots
+### **16. Sekzioa: Honeypot Hedapen Arkitektura** (26-27 orrialdeak)
+**Helburua**: Honeypot-ak diseinatzeko teknika
 
-**Contenido detallado**:
-1. **Plataforma T-Pot All-in-One**:
+**Edukia xehea**:
+1. **T-Pot All-in-One Plataforma**:
    ```
-   Hardware: Servidor dedicado (bare-metal o VM)
+   Hardware: Zerbitzari espezializatua (bare-metal edo VM)
    Specs: 8 vCPU, 16GB RAM, 500GB SSD
-   SO: Debian 12 (installer T-Pot auto-configura)
-   Honeypots incluidos:
-   - Cowrie: SSH/Telnet honeypot (ports 22, 23)
-   - Dionaea: Multi-protocolo (SMB, FTP, MySQL, MSSQL)
+   SO: Debian 12 (T-Pot instalatzaileak auto-konfiguratzen du)
+   Barnean Honeypot-ak:
+   - Cowrie: SSH/Telnet honeypot (22, 23 portuak)
+   - Dionaea: Multi-protokoloa (SMB, FTP, MySQL, MSSQL)
    - Conpot: ICS/SCADA (Modbus, S7Comm, BACnet)
-   - Honeytrap: Low-interaction (todos ports)
-   - Glutton: Todos TCP/UDP ports
+   - Honeytrap: Low-interaction (portu guztiak)
+   - Glutton: TCP/UDP portu guztiak
    ```
 
-2. **Honeypots ICS Conpot**:
+2. **ICS Honeypot-ak Conpot**:
    ```
-   Template 1: PLC Siemens S7-300
-   - Protocolo: S7Comm (ISO-TSAP)
-   - Datos expuestos: Sensores temperatura fake, estados motor
-   - Propósito: Detectar scanners ICS automatizados (Shodan, ZoomEye)
+   Txantiloia 1: Siemens S7-300 PLC
+   - Protokoloa: S7Comm (ISO-TSAP)
+   - Datu espostuak: Fake tenperatura sentsoreak, motor egoerak
+   - Helburua: ICS eskaner automatizatuak detektatzea (Shodan, ZoomEye)
    
-   Template 2: Gateway Modbus RTU
-   - Protocolo: Modbus TCP (port 502)
-   - Registros: 100 coils/holding registers fake
-   - Propósito: Capturar herramientas escaneo Modbus
+   Txantiloia 2: Modbus RTU Gateway
+   - Protokoloa: Modbus TCP (502 portua)
+   - Erregistroak: 100 fake coils/holding registers
+   - Helburua: Modbus eskaner tresnak harrapatzea
    
-   Template 3: Guardian AST Tank Gauging
-   - Protocolo: Guardian AST (port 10001)
-   - Propósito: Atraer attackers sector oil/gas
+   Txantiloia 3: Guardian AST Tank Gauging
+   - Protokoloa: Guardian AST (10001 portua)
+   - Helburua: Oil/gas sektoreko erasotzaileak erakartzea
    ```
 
-3. **Diseño Aislamiento Red**:
+3. **Sare Isolamendu Diseinua**:
    ```
    ┌────────────────────────────────────────┐
-   │ Internet (IP Pública: XXX.XXX.XXX.XXX) │
+   │ Internet (IP Publikoa: XXX.XXX.XXX.XXX) │
    └───────────────┬────────────────────────┘
-                   │ Port forwarding only
+                   │ Port forwarding soilik
    ┌───────────────▼────────────────────────┐
-   │ VLAN 99: Red Honeypot (aislada)        │
-   │ - Server T-Pot (172.16.99.10)          │
-   │ - No route a redes IT/OT                │
-   │ - Reglas firewall:                     │
+   │ VLAN 99: Honeypot Sarea (isolatua)     │
+   │ - T-Pot Zerbitzaria (172.16.99.10)     │
+   │ - No route IT/OT sareetara              │
+   │ - Firewall arauak:                     │
    │   Allow: Inbound 22,23,80,502,102...   │
-   │   Deny: Outbound a 192.168.0.0/16      │
-   │   Allow: Outbound HTTP (descarga malware)│
+   │   Deny: Outbound 192.168.0.0/16-era    │
+   │   Allow: Outbound HTTP (malware deskarga)│
    │   Allow: Syslog → SIEM (10.10.20.5)    │
    └────────────────────────────────────────┘
    ```
 
-4. **Pipeline Recolección & Análisis Datos**:
+4. **Datu Bilduma & Analisi Pipeline-a**:
    ```
-   Ataque Honeypot → ELK Stack T-Pot (dashboard Kibana)
+   Honeypot Erasoa → ELK Stack T-Pot (Kibana panela)
                     ↓
-   Logs JSON → Logstash → SIEM Wazuh (correlación)
+   JSON Log-ak → Logstash → Wazuh SIEM (korrelazioa)
                     ↓
-   Intel Amenazas → Update blocklists firewall
+   Mehatzu Inteligentzia → Firewall blocklists eguneratu
                     ↓
-   Samples malware → Submission VirusTotal → DB IOC
+   Malware laginak → VirusTotal Submission → IOC DB
    ```
 
-5. **Integración SIEM**:
-   - Forwarder Logstash en T-Pot → manager Wazuh
-   - Alert on: Patrones brute force SSH, intentos write Modbus, descarga malware
-   - Enrichment: GeoIP (ubicación attacker), ASN (proveedor hosting), reputación (VirusTotal)
+5. **SIEM Integrazioa**:
+   - T-Pot-eko Logstash forwarder-a → Wazuh manager
+   - Alerta: SSH brute force ereduak, Modbus idazteko saiakerak, malware deskarga
+   - Aberastea: GeoIP (erasotzailearen kokapena), ASN (hosting hornitzailea), ospea (VirusTotal)
 
-6. **Consideraciones Legales & Éticas**:
-   - **Disclosure**: Presencia honeypot NO divulgada (legal en España para investigación seguridad)
-   - **Retención datos**: Logs ataque retenidos 90 días (GDPR Art. 6(1)(f) interés legítimo)
-   - **Manejo malware**: Análisis sandboxed únicamente, no re-distribución
-   - **Law enforcement**: Coordinar con INCIBE para amenazas significativas
+6. **Legezko eta Etika Kontsiderazioak**:
+   - **Jakinarazpena**: Honeypot-aren existentzia EZ da argitaratzen (Euskal Herrian segurtasun ikerketarako legala)
+   - **Datu atxikipena**: Eraso log-ak 90 egunetan mantentzen dira (GDPR Art. 6(1)(f) interes legitimoa)
+   - **Malware kudeaketa**: Sandbox-ed analisia soilik, ez birbanaketa
+   - **Zuzenbidearen betearazpena**: INCIBE-rekin koordinatu mehatxu esanguratsuak
 
-### **Sección 17: Especificaciones Técnicas HR Portal** (Páginas 28-31)
-**Objetivo**: Detalles técnicos portal HR
+### **17. Sekzioa: HR Atari Espezifikazio Teknikoak** (28-31 orrialdeak)
+**Helburua**: HR atariaren xehetasun teknikoak
 
-**Contenido detallado**:
-1. **Arquitectura Sistema**:
+**Edukia xehea**:
+1. **Sistema Arkitektura**:
    ```
    ┌────────────────────────────────────────────────────────┐
-   │ Clientes                                               │
+   │ Bezeroak                                               │
    │ ┌──────────────┐        ┌──────────────┐              │
    │ │ Web Browser  │        │ Android App  │              │
    │ │ (React 18.2) │        │ (Kotlin)     │              │
@@ -624,59 +624,59 @@ PRESUPUESTO_ZABALA_GAILETAK_SEGURIDAD_INTEGRAL.md
    ┌────────────────────▼───────────────────────────────────┐
    │ Reverse Proxy Nginx (SSL Termination)                  │
    │ - TLS 1.3, HTTP/2                                      │
-   │ - Rate limiting: 100 req/min per IP                    │
+   │ - Rate limiting: 100 req/min IP-ko                     │
    │ - Headers CSP, HSTS                                    │
    └────────────────────┬───────────────────────────────────┘
    ┌────────────────────▼───────────────────────────────────┐
    │ API Backend (PHP 8.4 + Slim Framework)                 │
    │ ┌────────────────────────────────────────────────────┐ │
-   │ │ Stack Middleware:                                   │ │
-   │ │ - Authentication (validación JWT)                   │ │
-   │ │ - Authorization (check RBAC)                        │ │
-   │ │ - CSRF Protection                                   │ │
-   │ │ - Rate Limiting (per user)                          │ │
+   │ │ Middleware Stack:                                   │ │
+   │ │ - Autentikazioa (JWT baliozkotzea)                  │ │
+   │ │ - Baimena (RBAC check)                              │ │
+   │ │ - CSRF Babesa                                       │ │
+   │ │ - Rate Limiting (erabiltzaile bakoitzeko)           │ │
    │ │ - Logging (Monolog → Wazuh)                         │ │
    │ └────────────────────────────────────────────────────┘ │
    │ ┌────────────────────────────────────────────────────┐ │
-   │ │ Controllers:                                        │ │
-   │ │ - AuthController (login, MFA, refresh JWT)          │ │
+   │ │ Kontroladoreak:                                     │ │
+   │ │ - AuthController (login, MFA, JWT refresh)          │ │
    │ │ - EmployeeController (CRUD + audit trail) ✅        │ │
-   │ │ - VacationController (request, approve, calendar)   │ │
-   │ │ - PayrollController (list, download PDF)            │ │
-   │ │ - DocumentController (upload, request, download)    │ │
-   │ │ - ChatController (bridge WebSocket)                 │ │
+   │ │ - VacationController (eskaera, onarpena, egutegia)  │ │
+   │ │ - PayrollController (zerrenda, PDF deskarga)        │ │
+   │ │ - DocumentController (igoera, eskaera, deskarga)    │ │
+   │ │ - ChatController (WebSocket zubia)                  │ │
    │ └────────────────────────────────────────────────────┘ │
    └────────────────────┬───────────────────────────────────┘
             ┌───────────┴───────────┐
             │                       │
    ┌────────▼────────┐    ┌────────▼────────┐
    │ PostgreSQL 16   │    │ Redis 7         │
-   │ (DB Primaria)   │    │ (Sesiones)      │
-   │ - Employees ✅   │    │ - JWT tokens    │
+   │ (DB Primaria)   │    │ (Saiokoak)      │
+   │ - Employees ✅   │    │ - JWT token-ak  │
    │ - Vacations     │    │ - Cache         │
    │ - Payroll       │    │ - Rate limits   │
-   │ - Documents     │    │ - WebSocket (opc)│
+   │ - Documents     │    │ - WebSocket (auke)│
    │ - Audit logs ✅  │    └─────────────────┘
-   │ - Chat messages │
-   │ - Etc.          │    └─────────────────┘
+   │ - Chat messages │    └─────────────────┘
+   │ - Etc.          │
    └─────────────────┘
    ```
 
-2. **Esquema Base Datos** (de migrations/001_init_schema.sql):
+2. **Datu-base Eskeema** (migrations/001_init_schema.sql-tik):
    
-   **Tablas Principales** (7 Phase 3 + 15+ planificadas):
-   - `users` (autenticación, MFA, roles) - ✅ Completo
-   - `employees` (datos perfil, NIF, IBAN, contacto) - ✅ Completo
-   - `departments` (jerarquía, manager assignment)
-   - `vacations` (solicitudes, aprobaciones, balance) - Schema listo
-   - `documents` (metadata files, tracking upload)
-   - `payroll` (cálculos salary, deducciones, net pay)
-   - `complaints` (canal whistleblower anónimo)
-   - `chat_messages` (mensajería real-time)
-   - `audit_logs` (tracking cambios inmutable) - ✅ Completo
-   - `notifications` (alerts, recordatorios)
+   **Taula Nagusiak** (7 3. Fasea + 15+ planifikatuak):
+   - `users` (autentikazioa, MFA, rolak) - ✅ Osoa
+   - `employees` (profil datuak, NIF, IBAN, kontaktua) - ✅ Osoa
+   - `departments` (jerarkia, manager esleipena)
+   - `vacations` (eskaerak, onarpenak, balantzea) - Eskeema prest
+   - `documents` (fitxategi metadatuak, upload jarraipena)
+   - `payroll` (soldata kalkuluak, dedukzioak, ordainketa garbia)
+   - `complaints` (kanal anonimoa whistleblower-rako)
+   - `chat_messages` (denbora errealeko mezularitza)
+   - `audit_logs` (aldaketa jarraipen ez-aldaezina) - ✅ Osoa
+   - `notifications` (alertak, oroigarriak)
    
-   **Extracto Schema**:
+   **Eskeema Laburpena**:
    ```sql
    CREATE TABLE employees (
        id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -684,9 +684,9 @@ PRESUPUESTO_ZABALA_GAILETAK_SEGURIDAD_INTEGRAL.md
        employee_number VARCHAR(20) UNIQUE NOT NULL,
        first_name VARCHAR(100) NOT NULL,
        last_name VARCHAR(100) NOT NULL,
-       nif_nie VARCHAR(10) UNIQUE NOT NULL, -- Validado con checksum
-       iban VARCHAR(24), -- Validado con mod-97
-       phone VARCHAR(15), -- Formato español +34XXXXXXXXX
+       nif_nie VARCHAR(10) UNIQUE NOT NULL, -- Checksum-ekin baliozkotua
+       iban VARCHAR(24), -- mod-97-ekin baliozkotua
+       phone VARCHAR(15), -- Espainiako formatua +34XXXXXXXXX
        hire_date DATE NOT NULL,
        department_id UUID REFERENCES departments(id),
        position VARCHAR(100),
@@ -696,9 +696,9 @@ PRESUPUESTO_ZABALA_GAILETAK_SEGURIDAD_INTEGRAL.md
    );
    ```
 
-3. **Documentación Endpoints API**:
+3. **API Endpoint Dokumentazioa**:
    
-   **Autenticación** (3 endpoints):
+   **Autentikazioa** (3 endpoint):
    ```
    POST /api/auth/login
    Body: { "email": "user@zabala.eus", "password": "...", "mfa_code": "123456" }
@@ -713,113 +713,113 @@ PRESUPUESTO_ZABALA_GAILETAK_SEGURIDAD_INTEGRAL.md
    Response: 204 No Content
    ```
    
-   **Empleados** (8 endpoints) - ✅ **COMPLETADO EN PHASE 3**:
+   **Langileak** (8 endpoint) - ✅ **3. FASEAN OSATUA**:
    ```
-   GET    /api/employees                  → List (paginado, 10/página)
-   GET    /api/employees/{id}             → Detail con history auditoría
-   POST   /api/employees                  → Create (RBAC: admin, hr_manager)
-   PUT    /api/employees/{id}             → Update (audit logged)
+   GET    /api/employees                  → Zerrenda (orrikatua, 10/orria)
+   GET    /api/employees/{id}             → Xehetasuna auditoria historialarekin
+   POST   /api/employees                  → Sortu (RBAC: admin, hr_manager)
+   PUT    /api/employees/{id}             → Eguneratu (audit log-ekin)
    DELETE /api/employees/{id}             → Soft delete (is_active=false)
-   POST   /api/employees/{id}/restore     → Restore empleado eliminado
-   GET    /api/employees/{id}/history     → Audit trail (timeline)
-   GET    /api/audit/user/{userId}        → Log actividad usuario
+   POST   /api/employees/{id}/restore     → Ezabatutako langilea berreskuratu
+   GET    /api/employees/{id}/history     → Audit trail (denbora-lerroa)
+   GET    /api/audit/user/{userId}        → Erabiltzaile jarduera log-a
    ```
    
-   **Vacaciones** (6 endpoints) - ⏳ **PLANIFICADO**:
+   **Oporrak** (6 endpoint) - ⏳ **PLANIFIKATUA**:
    ```
-   GET    /api/vacations                  → List (filter por status, año)
-   GET    /api/vacations/{id}             → Detail
-   POST   /api/vacations                  → Request vacaciones
-   PUT    /api/vacations/{id}/approve     → Approve (RBAC: manager+)
-   PUT    /api/vacations/{id}/reject      → Reject con reason
-   GET    /api/vacations/calendar/{year}  → Vista calendario
+   GET    /api/vacations                  → Zerrenda (egoera, urtea filtratu)
+   GET    /api/vacations/{id}             → Xehetasuna
+   POST   /api/vacations                  → Opor eskaera
+   PUT    /api/vacations/{id}/approve     → Onartu (RBAC: manager+)
+   PUT    /api/vacations/{id}/reject      → Baztertu arrazoiarekin
+   GET    /api/vacations/calendar/{year}  → Egutegi ikuspegia
    ```
    
-   **Nóminas** (3 endpoints) - ⏳ **PLANIFICADO**:
+   **Nóminak** (3 endpoint) - ⏳ **PLANIFIKATUA**:
    ```
-   GET    /api/payroll                    → List propias nóminas (o todas si hr_manager)
-   GET    /api/payroll/{id}               → Detail
-   GET    /api/payroll/{id}/download      → Download PDF
+   GET    /api/payroll                    → Nire nóminak zerrendatu (edo guztiak hr_manager bada)
+   GET    /api/payroll/{id}               → Xehetasuna
+   GET    /api/payroll/{id}/download      → PDF deskarga
    ```
 
-4. **Controles Seguridad**:
+4. **Segurtasun Kontrolak**:
    
-   **Autenticación**:
-   - JWT access tokens: Expiración 1 hora
-   - Refresh tokens: Expiración 7 días, almacenados en Redis
-   - MFA/TOTP: Compatible Google Authenticator (códigos 30-seg)
-   - Política password: 8+ chars, mayúscula, minúscula, número, especial
+   **Autentikazioa**:
+   - JWT access token-ak: 1 ordu iraungitzea
+   - Refresh token-ak: 7 egun iraungitzea, Redis-en biltegiratua
+   - MFA/TOTP: Google Authenticator bateragarria (30 segunduko kodeak)
+   - Pasahitz politika: 8+ karaktere, maiuskula, minuskula, zenbaki, karaktere berezi
    
-   **Autorización (RBAC)**:
+   **Baimena (RBAC)**:
    ```php
-   Roles:
-   - admin:          43 permisos (acceso completo)
-   - hr_manager:     31 permisos (operaciones HR)
-   - department_head: 15 permisos (equipo propio)
-   - employee:        7 permisos (self-service)
+   Rolak:
+   - admin:          43 baimen (sarbide osoa)
+   - hr_manager:     31 baimen (HR eragiketak)
+   - department_head: 15 baimen (nire taldea)
+   - employee:        7 baimen (auto-zerbitzua)
    
-   Check permiso ejemplo:
+   Baimen check adibidea:
    if (!$user->hasPermission('employees.create')) {
        return $response->withStatus(403);
    }
    ```
    
-   **Validación Input** (de Phase 3):
-   - NIF/NIE: Validación ID español con checksum letra
-   - IBAN: Validación checksum mod-97
-   - Teléfono: Formato español `+34XXXXXXXXX` (9 dígitos)
-   - Código postal: Rango 00000-52999
-   - Email: Compliant RFC5322
-   - XSS sanitization: DOMPurify (client-side), `htmlspecialchars()` (server-side)
+   **Sarrera Baliozkotzea** (3. Fasetik):
+   - NIF/NIE: Espainiako ID checksum-ekin baliozkotzea
+   - IBAN: mod-97 checksum baliozkotzea
+   - Telefonoa: Espainiako formatua `+34XXXXXXXXX` (9 digitu)
+   - Posta kodea: 00000-52999 tartea
+   - Email: RFC5322 betetzen du
+   - XSS garbiketa: DOMPurify (bezero-aldera), `htmlspecialchars()` (zerbitzari-aldera)
    
-   **Protección Base Datos**:
-   - Prepared statements PDO (prevención SQL injection)
-   - Soft deletes (no eliminación física empleados)
-   - Audit trail (todas operaciones CUD logged con user_id, timestamp, cambios JSON)
+   **Datu-base Babesa**:
+   - PDO prepared statements (SQL injekzio prebentzioa)
+   - Soft deletes (langileen ezabaketa fisikoa gabe)
+   - Audit trail (CUD eragiketa guztiak logeatuta user_id, timestamp, JSON aldaketak)
 
-5. **Especificaciones Módulos**:
+5. **Modulu Espezifikazioak**:
    
-   **✅ Módulo Empleados** (Phase 3 - COMPLETADO):
-   - Líneas código: ~5,500 (backend + web + mobile)
-   - Tests: 82/82 pasando (PHPUnit)
-   - Features: CRUD, validación, audit trail, paginación, soft delete, restore
+   **✅ Langileen Modulua** (3. Fasea - OSATUA):
+   - Kode lerroak: ~5,500 (backend + web + mugikorra)
+   - Probak: 82/82 pasatzen (PHPUnit)
+   - Ezaugarriak: CRUD, baliozkotzea, audit trail, orrikatzea, soft delete, berrespena
    
-   **⏳ Módulo Nóminas** (Planificado - Phase 5):
-   - Engine cálculo: Base salary + horas extra + bonuses - deducciones - taxes
-   - Withholding tax: Tablas IRPF español 2024
-   - Seguridad social: Cálculo automático (contribuciones employer + employee)
-   - Generación PDF: Librería TCPDF con template nómina oficial
-   - Estimated LOC: ~3,000
+   **⏳ Nómina Modulua** (Planifikatua - 5. Fasea):
+   - Kalkulu motorra: Oinarrizko soldata + ordu gehigarri + bonus-ak - dedukzioak - zergak
+   - Zerga atxikipena: 2024ko Espainiako IRPF taulak
+   - Gizarte segurtasuna: Kalkulu automatikoa (enpresa + langile ekarpenak)
+   - PDF sortzea: TCPDF liburutegia nómina txantiloi ofizialarekin
+   - Estimatutako LOC: ~3,000
    
-   **⏳ Módulo Vacaciones** (Planificado - Phase 4):
-   - Balance anual cálculo: 22 días laborables/año (ley española)
-   - Workflow solicitud: Empleado → Manager → HR (opcional)
-   - Integración calendario: Export iCal para Google Calendar/Outlook
-   - Detección conflicto: Prevenir vacaciones overlapping en mismo departamento
-   - Estimated LOC: ~2,500
+   **⏳ Opor Modulua** (Planifikatua - 4. Fasea):
+   - Urteko balantze kalkulua: 22 egun lanegun/urte (Espainiako legea)
+   - Eskaera workflow-a: Langilea → Manager → HR (aukerakoa)
+   - Egutegi integrazioa: iCal export Google Calendar/Outlook-erako
+   - Gatazka detekzioa: Saihestu opor gainjartzeak departamentu berean
+   - Estimatutako LOC: ~2,500
    
-   **⏳ Módulo Documentos** (Planificado - Phase 6):
-   - File storage: Encriptado at rest (AES-256), organizado por employee_id
-   - Tipos soportados: PDF, JPG, PNG (máx 10MB por file)
-   - Solicitudes documentos: HR → Empleado (ej. "Upload NIF scan updated")
-   - Control acceso: Empleados ven documentos propios only, HR ve todos
-   - Estimated LOC: ~2,000
+   **⏳ Dokumentu Modulua** (Planifikatua - 6. Fasea):
+   - Fitxategi biltegiratzea: Egonkorrean enkriptatua (AES-256), employee_id-ka antolatua
+   - Onartutako motak: PDF, JPG, PNG (gehienez 10MB fitxategiko)
+   - Dokumentu eskaerak: HR → Langilea (adib. "Eguneratutako NIF eskaneatua igo")
+   - Sarbide kontrola: Langileek beren dokumentuak soilik ikusten dituzte, HR-ak guztiak ikusten ditu
+   - Estimatutako LOC: ~2,000
    
-   **⏳ Módulo Chat** (Planificado - Phase 7):
-   - Real-time: WebSocket vía librería Ratchet PHP
-   - Canales: Chat RRHH (1-on-1 con dept HR), Chat Departamento (group)
-   - Tipos mensaje: Text, emoji, attachments file
-   - Retención: 90 días (minimización data GDPR)
-   - Estimated LOC: ~3,500
+   **⏳ Txat Modulua** (Planifikatua - 7. Fasea):
+   - Denbora errealean: WebSocket Ratchet PHP liburutegiaren bidez
+   - Kanalak: HR Txata (1-on-1 HR sailarekin), Sail Txata (taldea)
+   - Mezu motak: Testua, emoji, fitxategi eranskinak
+   - Atxikipena: 90 egun (GDPR datu minimizazioa)
+   - Estimatutako LOC: ~3,500
    
-   **⏳ Módulo Quejas** (Planificado - Phase 8):
-   - Anonimato: Opcional anonymous submission (compliance GDPR Art. 88)
-   - Categorías: Harassment, discrimination, safety, ethics
-   - Workflow: Open → In Progress → Resolved → Closed
-   - Acceso: HR Manager + Admin only
-   - Estimated LOC: ~1,500
+   **⏳ Kexa Modulua** (Planifikatua - 8. Fasea):
+   - Anonimatoa: Aukerako aurkezpen anonimoa (GDPR Art. 88 betetzea)
+   - Kategoriak: Jazarpena, diskriminazioa, segurtasuna, etika
+   - Workflow-a: Ireki → Prozesuan → Konponduta → Itxita
+   - Sarbidea: HR Manager + Admin soilik
+   - Estimatutako LOC: ~1,500
 
-6. **Arquitectura Despliegue**:
+6. **Hedapen Arkitektura**:
    ```
    Docker Compose Stack:
    
@@ -827,7 +827,7 @@ PRESUPUESTO_ZABALA_GAILETAK_SEGURIDAD_INTEGRAL.md
      nginx:
        image: nginx:alpine
        ports: 8080:80, 8443:443
-       volumes: Certs SSL, nginx.conf
+       volumes: SSL Ziurtagiriak, nginx.conf
      
      php:
        image: php:8.4-fpm-alpine
@@ -844,320 +844,157 @@ PRESUPUESTO_ZABALA_GAILETAK_SEGURIDAD_INTEGRAL.md
        healthcheck: redis-cli ping
    
    Hosting:
-   - On-premise: 3x Dell PowerEdge R250 servers (nginx, php, postgres)
-   - Cloud alternative: AWS (EC2 t3.medium x3 + RDS PostgreSQL + ElastiCache Redis)
+   - On-premise: 3x Dell PowerEdge R250 zerbitzari (nginx, php, postgres)
+   - Cloud aukera: AWS (EC2 t3.medium x3 + RDS PostgreSQL + ElastiCache Redis)
    ```
 
-7. **Estrategia Backup & DR**:
-   - PostgreSQL: Full backup diario + continuous WAL archiving (PITR capable)
-   - Retención: 30 días on-site, 90 días off-site (encrypted S3/Azure Blob)
-   - Uploads documentos: Rsync diario a NAS + backup semanal tape
-   - RTO: 2 horas (restore desde backup a servidor standby)
-   - RPO: 15 minutos (intervalo shipping WAL)
+7. **Babespen & DR Estrategia**:
+   - PostgreSQL: Eguneko babespen osoa + WAL artxibatze jarraitua (PITR gaitasuna)
+   - Atxikipena: 30 egun on-site, 90 egun off-site (enkriptatua S3/Azure Blob)
+   - Dokumentu upload-ak: Eguneko rsync NAS-era + asteko zinta babespena
+   - RTO: 2 ordu (standby zerbitzaritik babespena berrespena)
+   - RPO: 15 minutu (WAL bidalketa tartea)
 
-### **Sección 18: Mapeo Cumplimiento (ISO/IEC/GDPR)** (Páginas 32-34)
-**Objetivo**: Cómo el proyecto cumple requirements compliance
+### **18. Sekzioa: Betetze Mapeoa (ISO/IEC/GDPR)** (32-34 orrialdeak)
+**Helburua**: Nola betetzen ditu proiektuak eskakizunak
 
-**Contenido detallado**:
-1. **Implementación Controles ISO 27001:2022**:
+**Edukia xehea**:
+1. **ISO 27001:2022 Kontrolen Inplementazioa**:
    
-   | Control | Título | Implementación | Status |
-   |---------|--------|----------------|--------|
-   | A.5.1 | Políticas seguridad información | Políticas SGSI documented | ✅ Done |
-   | A.8.1 | Inventario assets | DB assets OT (machinery_inventory.md) | ⏳ In progress |
-   | A.8.9 | Gestión configuración | Procedimientos hardening PLC, control cambios | ⏳ Phase 1 |
-   | A.12.4 | Logging y monitoring | SIEM centralized (Wazuh) | ⏳ Phase 2 |
-   | A.13.1 | Seguridad red | Segmentación Purdue, firewalls | ⏳ Phase 1 |
-   | A.14.2 | Seguridad en desarrollo | HR Portal: SDLC seguro, code review, tests | ✅ Phase 3 |
-   | A.17.1 | Continuidad negocio | Plan DR para SCADA, procedimientos backup | ⏳ Phase 1 |
-   | A.18.1 | Compliance requerimientos legales | GDPR, LOPD-GDD, labor law | ✅ Ongoing |
+   | Kontrola | Izenburua | Inplementazioa | Egoera |
+   |----------|-----------|----------------|--------|
+   | A.5.1 | Informazio segurtasun politikak | SGSI politikak dokumentatuta | ✅ Egina |
+   | A.8.1 | Aktiboen inbentarioa | OT aktiboen DB (machinery_inventory.md) | ⏳ Aurrerapenak |
+   | A.8.9 | Konfigurazio kudeaketa | PLC gotortze prozedurak, aldaketa kontrolak | ⏳ 1. Fasea |
+   | A.12.4 | Log-ak eta monitorizazioa | SIEM zentralizatua (Wazuh) | ⏳ 2. Fasea |
+   | A.13.1 | Sare segurtasuna | Purdue segmentazioa, firewall-ak | ⏳ 1. Fasea |
+   | A.14.2 | Garapenean segurtasuna | HR Ataria: SDLC segurua, kode berrikuspena, probak | ✅ 3. Fasea |
+   | A.17.1 | Negozio jarraitutasuna | SCADA-rako DR plana, babespen prozedurak | ⏳ 1. Fasea |
+   | A.18.1 | Legezko eskakizunen betetzea | GDPR, LOPD-GDD, lan legea | ✅ Aurrerapenak |
    
-   **Análisis Gap Summary**:
-   - Controles total Annex A: 93
-   - Actualmente implementados: 28 (30%)
-   - Implementación planificada (este proyecto): +45 (48% → 78%)
-   - Remaining (post-proyecto): 20 (requieren iniciativas separadas)
+   **Gap Analisi Laburpena**:
+   - Annex A kontrol totala: 93
+   - Oraingoz inplementatuak: 28 (%30)
+   - Inplementazio planifikatua (proiektu hau): +45 (%48 → %78)
+   - Geratzen direnak (proiektu ostean): 20 (ekintza bereziak behar dituzte)
 
-2. **Niveles Seguridad IEC 62443**:
+2. **IEC 62443 Segurtasun Mailak**:
    
-   **Estado Actual Assessment**: SL0 (no medidas seguridad)
+   **Oraingo Egoera Ebaluazioa**: SL0 (segurtasun neurririk gabe)
    
-   **Estado Target**: SL2 (protección contra violación intencional usando medios simples)
+   **Helburu Egoera**: SL2 (asmo oneko haustea metodo sinpleekiko babesa)
    
-   | Requisito Fundamental | Requisitos SL2 | Implementación |
-   |-----------------------|----------------|----------------|
-   | FR1: Identificación & Auth | Cuentas usuario, password policy, MFA | Jump host, LDAP, MFA |
-   | FR2: Uso Control | Role-based access, least privilege | RBAC para SCADA, listas acceso PLC |
-   | FR3: Integridad Sistema | Software whitelisting, change detection | File integrity monitoring (Wazuh FIM) |
-   | FR4: Confidencialidad Datos | Encriptación in transit (TLS/SSH) | VPN, Modbus encriptado (si soportado) |
-   | FR5: Flujo Datos Restringido | Segmentación red, firewalls | Modelo Purdue, VLANs, reglas firewall |
-   | FR6: Respuesta Temprana | Event logging, alerting | SIEM con alertas OT-specific |
-   | FR7: Disponibilidad Recursos | Redundancia, backup | Failover SCADA, backups diarios |
+   | Oinarrizko Eskakizuna | SL2 Eskakizunak | Inplementazioa |
+   |-----------------------|-----------------|----------------|
+   | FR1: Identifikazioa & Auth | Erabiltzaile kontuak, pasahitz politika, MFA | Jump host, LDAP, MFA |
+   | FR2: Erabilera Kontrola | Rol bidezko sarbidea, pribilegio minimoa | SCADA-rako RBAC, PLC sarbide zerrendak |
+   | FR3: Sistema Osotasuna | Software whitelist, aldaketa detekzioa | Fitxategi osotasun monitorizazioa (Wazuh FIM) |
+   | FR4: Datu Konfidentzialtasuna | Transmisioan enkriptatzea (TLS/SSH) | VPN, Modbus enkriptatua (ona badu) |
+   | FR5: Datu Fluxu Murriztua | Sare segmentazioa, firewall-ak | Purdue Modeloa, VLAN-ak, firewall arauak |
+   | FR6: Erantzun Goiztiarra | Gertaera log-ak, alertak | OT espezifiko alertak dituen SIEM |
+   | FR7: Baliabide Eskuragarritasuna | Aniztasuna, babespena | SCADA failover, eguneko babespenak |
    
-   **Consideraciones SL3** (enhancement futuro):
-   - Autenticación avanzada (biometrics, smart cards)
-   - Comunicación encriptada a nivel device field (actualmente no todos devices soportan)
-   - Costo adicional estimated: +€80K
+   **SL3 Kontsiderazioak** (etorkizuneko hobekuntza):
+   - Autentikazio aurreratua (biometriak, txartel adimendunak)
+   - Gailu eremu mailan enkriptatzea (unean ez dute gailu guztiek onartzen)
+   - Estimatutako kostu gehigarria: +€80K
 
-3. **Compliance GDPR**:
+3. **GDPR Betetzea**:
    
-   **Artículo 32: Seguridad del Procesamiento**:
-   - ✅ Encriptación: HTTPS, encriptación DB at rest (pgcrypto)
-   - ✅ Pseudonimización: IDs empleado (UUIDs), opción anonymous complaint
-   - ✅ Confidencialidad: RBAC, acceso need-to-know
-   - ✅ Integridad: Audit trail, logs inmutables
-   - ✅ Disponibilidad: Backups diarios, 99% uptime SLA
-   - ✅ Testing: Penetration testing (anual), drills DR (semi-anual)
+   **32. Artikulua: Prozesamendu Segurtasuna**:
+   - ✅ Enkriptatzea: HTTPS, DB at-rest enkriptatzea (pgcrypto)
+   - ✅ Pseudonimizazioa: Langile ID-ak (UUID-ak), aukerako kexa anonimoa
+   - ✅ Konfidentzialtasuna: RBAC, beharrezkoan oinarritutako sarbidea
+   - ✅ Osotasuna: Audit trail, log ez-aldaezinak
+   - ✅ Eskuragarritasuna: Eguneko babespenak, %99 uptime SLA
+   - ✅ Probak: Penetrazio probak (urterokoa), DR drill-ak (erdi-urterokoa)
    
-   **Artículo 33: Notificación Breach**:
-   - Alertas SIEM configuradas para intentos exfiltración datos
-   - Plan response incident (template en compliance/gdpr/data_breach_notification_template.md)
-   - Reloj 72h inicia en detection
+   **33. Artikulua: Gertaera Jakinarazpena**:
+   - SIEM alertak datu exfiltrazio saiakeretarako konfiguratuta
+   - Gertaera erantzun plana (compliance/gdpr/data_breach_notification_template.md txantiloia)
+   - 72 orduko erlojua detekzioan hasten da
    
-   **Artículo 35: Data Protection Impact Assessment (DPIA)**:
-   - DPIA completada para HR Portal (template en compliance/gdpr/dpia_template.md)
-   - Procesamiento high-risk: Datos personales empleado, payroll (financial sensitive)
-   - Mitigation: Encriptación, control acceso, logging auditoría
+   **35. Artikulua: Datu Babesaren Inpaktu Ebaluazioa (DPIA)**:
+   - HR Atariaren DPIA osatua (compliance/gdpr/dpia_template.md txantiloia)
+   - Arrisku handiko prozesamendua: Langileen datu pertsonalak, nómina (finantza sentsiblea)
+   - Murrizketa: Enkriptatzea, sarbide kontrola, audit log-ak
    
-   **Artículo 88: Protección Datos Empleado**:
-   - HR Portal compliance specific:
-     - Procesamiento transparente (privacy notice presented en first login)
-     - Minimización data (collect solo necessary fields)
-     - Schedule retención (empleados: 10 años post-termination, payroll: 6 años)
-     - Canal quejas anonymous (protege whistleblowers)
+   **88. Artikulua: Langileen Datu Babesa**:
+   - HR Atariaren betetze espezifikoa:
+     - Prozesamendu gardena (pribatutasun oharra lehen saio-hasieran erakusten da)
+     - Datu minimizazioa (beharrezko eremuak soilik bildu)
+     - Atxikipen egitaraua (langileak: kontratua amaitu eta 10 urtera, nómina: 6 urte)
+     - Kexa kanal anonimoa (whistleblower-ak babesten ditu)
 
-4. **Requisitos Directiva NIS2**:
+4. **NIS2 Zuzentaraua Eskakizunak**:
    
-   **Alcance**: Zabala Gailetak califica como **"entidad esencial"** (producción food, >50 empleados)
+   **Esparrua**: Zabala Gailetak **"entitate funtsezkoa"** gisa kualifikatzen da (elikadura ekoizpena, >50 langile)
    
-   **Obligaciones Clave**:
-   - ✅ Medidas gestión riesgo (este proyecto implementa comprehensive risk assessment)
-   - ✅ Manejo incidentes (SIEM + SOC + plan response incident)
-   - ✅ Continuidad negocio (DR para SCADA, procedimientos backup)
-   - ✅ Seguridad supply chain (assessment proveedores para PLC/SCADA suppliers)
-   - ✅ Training seguridad (120 horas planificadas across todos empleados)
-   - ✅ Uso criptografía (TLS, SSH, backups encriptados)
-   - ✅ Gestión vulnerabilidades (scans Nessus mensuales)
+   **Oinarrizko Betebeharrak**:
+   - ✅ Arrisku kudeaketa neurriak (proiektu honek ebaluazio integrala inplementatzen du)
+   - ✅ Gertaera kudeaketa (SIEM + SOC + gertaera erantzun plana)
+   - ✅ Negozio jarraitutasuna (SCADA-rako DR, babespen prozedurak)
+   - ✅ Hornidura kate segurtasuna (PLC/SCADA hornitzaileen ebaluazioa)
+   - ✅ Segurtasun prestakuntza (120 ordu langile guztietan planifikatua)
+   - ✅ Kriptografiaren erabilera (TLS, SSH, babespen enkriptatuak)
+   - ✅ Ahultasun kudeaketa (Nessus eskanerak hilero)
    
-   **Sanciones por Non-compliance**: Hasta €10M o 2% del turnover worldwide
-   **Fecha Enforcement**: 17 octubre 2024 (transposición España diciembre 2024)
+   **Betetze Ezaren Zigorrak**: €10M arte edo mundu mailako fakturazioaren %2
+   **Betearazpen Data**: 2024ko urriaren 17a (Espainiako transposizioa 2024ko abendua)
 
-### **Sección 19: Plan Implementación Detallado** (Páginas 35-36)
-**Objetivo**: Timeline detallado con dependencias
+### **19. Sekzioa: Inplementazio Plano Xehea** (35-36 orrialdeak)
+**Helburua**: Dependentziak dituzten egitarau xehea
 
-**Contenido detallado**:
-1. **Cronograma 10 Meses** (8 fases: Discovery → Go-live → Support)
-   - **Fase 1 (Meses 1-2)**: Discovery & Planning
-     - OT asset inventory completo
-     - Arquitectura diseño (Purdue Model)
-     - Risk assessment & gap analysis
-     - HR Portal Phase 1 (foundation)
+**Edukia xehea**:
+1. **10 Hilabete Egitaraua** (8 fasea: Discovery → Go-live → Laguntza)
+   - **1. Fasea (1-2. Hilabeteak)**: Discovery & Plangintza
+     - OT aktiboen inbentario osoa
+     - Arkitektura diseinua (Purdue Modeloa)
+     - Arrisku ebaluazioa eta gap analisia
+     - HR Atari 1. Fasea (oinarria)
    
-   - **Fase 2 (Meses 2-4)**: Foundation Setup
-     - SIEM deployment & log sources integration
-     - Network segmentation (firewalls, VLANs)
-     - Jump host setup & MFA implementation
-     - HR Portal Phase 2 (auth + basic CRUD)
+   - **2. Fasea (2-4. Hilabeteak)**: Oinarri Konfigurazioa
+     - SIEM desplieguea eta log iturrien integrazioa
+     - Sare segmentazioa (firewall-ak, VLAN-ak)
+     - Jump host konfigurazioa eta MFA inplementazioa
+     - HR Atari 2. Fasea (auth + CRUD oinarrizkoa)
    
-   - **Fase 3 (Meses 4-6)**: OT Security Implementation
-     - PLC hardening procedures
-     - Honeypot deployment
-     - SOC setup & alert tuning
-     - HR Portal Phase 3 (full employee CRUD)
+   - **3. Fasea (4-6. Hilabeteak)**: OT Segurtasun Inplementazioa
+     - PLC gotortze prozedurak
+     - Honeypot desplieguea
+     - SOC konfigurazioa eta alerta doikuntza
+     - HR Atari 3. Fasea (langile CRUD osoa)
    
-   - **Fase 4 (Meses 6-8)**: Application Development
-     - HR Portal Phase 4 (vacations module)
-     - HR Portal Phase 5 (payroll module)
-     - Integration testing IT/OT
-     - User acceptance testing
+   - **4. Fasea (6-8. Hilabeteak)**: Aplikazio Garapena
+     - HR Atari 4. Fasea (oporren modulua)
+     - HR Atari 5. Fasea (nómina modulua)
+     - IT/OT integrazio proba
+     - Erabiltzaile onarpen proba
    
-   - **Fase 5 (Meses 8-9)**: Testing & Hardening
-     - Penetration testing
-     - Performance testing
-     - Security testing (ISO/IEC compliance)
-     - Training delivery
+   - **5. Fasea (8-9. Hilabeteak)**: Probak eta Gotortzea
+     - Penetrazio probak
+     - Errendimendu probak
+     - Segurtasun probak (ISO/IEC betetzea)
+     - Prestakuntza entrega
    
-   - **Fase 6 (Meses 9-10)**: Deployment & Go-live
-     - Production deployment
-     - Data migration
-     - Parallel run (if required)
-     - Go-live support
+   - **6. Fasea (9-10. Hilabeteak)**: Hedapena eta Go-live
+     - Produkzio desplieguea
+     - Datu migrazioa
+     - Parallel run (beharrezkoa bada)
+     - Go-live laguntza
    
-   - **Fase 7 (Meses 10-12)**: Post-Go-Live Support
-     - 2-month warranty period
-     - SOC monitoring
-     - Incident response
-     - Performance optimization
+   - **7. Fasea (10-12. Hilabeteak)**: Go-live Osteko Laguntza
+     - 2 hilabeteko bermea
+     - SOC monitorizazioa
+     - Gertaera erantzuna
+     - Errendimendu optimizazioa
    
-   - **Fase 8 (Meses 12+)**: Ongoing Operations
-     - Quarterly security audits
-     - Annual penetration testing
-     - SOC services (if contracted)
-     - HR Portal maintenance updates
+   - **8. Fasea (12+ Hilabeteak)**: Etengabeko Eragiketak
+     - Hiruhileko segurtasun auditoretza
+     - Urteroko penetrazio probak
+     - SOC zerbitzuak (kontratatuta badago)
+     - HR Atari mantentze eguneraketak
 
-2. **Diagrama Gantt** (placeholder con dependencias)
-   - **Hito 1 (Mes 2)**: Infraestructura base completa
-   - **Hito 2 (Mes 4)**: Seguridad OT implementada
-   - **Hito 3 (Mes 6)**: HR Portal funcional
-   - **Hito 4 (Mes 8)**: Testing completo
-   - **Hito 5 (Mes 10)**: Go-live exitoso
-
-3. **Asignación Recursos** (consultores + equipo cliente):
-   - **Consultores IT/OT**: 2 senior + 1 junior (full-time meses 1-10)
-   - **Consultores HR**: 1 senior + 1 junior (part-time meses 4-10)
-   - **Equipo Cliente**: 1 IT manager, 2 IT engineers, 1 HR manager (part-time)
-   - **Vendors**: Siemens (PLC support), Rockwell (Allen-Bradley support)
-
-4. **Criterios Go-live** por pilar:
-   - **OT Security**: 0 vulnerabilidades críticas, segmentación tested
-   - **SIEM**: <5% false positive rate, 30 log sources integrated
-   - **Honeypots**: Operational, integrated con SIEM
-   - **HR Portal**: 82+ tests passing, data migration successful
-
-5. **Plan Formación** (120h total):
-   - **Administradores Sistema** (40h): OT security, SIEM operation, backup procedures
-   - **Ingenieros OT** (40h): PLC security, Purdue Model, incident response
-   - **Equipo RRHH** (40h): HR Portal usage, compliance, data protection
-
-### **Sección 20: Gestión de Riesgos & FMEA** (Página 37)
-**Objetivo**: Identificación y mitigación riesgos
-
-**Contenido detallado**:
-1. **Riesgos Implementación**:
-   - **Parada producción**: Durante segmentación OT (mitigación: ventanas mantenimiento, Factory I/O testing)
-   - **Resistencia cambio**: Staff producción (mitigación: comunicación change management, training)
-   - **Compatibilidad legacy**: PLCs antiguos (mitigación: assessment compatibility, upgrade plan)
-   - **Adopción HR Portal**: Usuarios (mitigación: training, feedback loops, champions)
-
-2. **Análisis FMEA Cambios OT** (Failure Mode Effects Analysis):
-   ```
-   Función: Segmentación red OT/IT
-   Modo Falla: Firewall mal configurado bloquea comunicaciones SCADA
-   Efectos: Pérdida control proceso producción, parada línea
-   Severidad: 9 (Critical), Ocurrencia: 3 (Possible), Detección: 2 (Low)
-   RPN: 54 (High)
-   Acciones Mitigación: Testing paralelo, rollback plan, monitoring 24x7
-   ```
-   
-   ```
-   Función: Hardening PLC
-   Modo Falla: Firmware update falla, PLC queda inoperable
-   Efectos: Pérdida control máquina específica, impacto producción
-   Severidad: 8 (High), Ocurrencia: 2 (Low), Detección: 3 (Medium)
-   RPN: 48 (High)
-   Acciones Mitigación: Backup completo, testing labor, procedure rollback
-   ```
-
-3. **Estrategias Mitigación**:
-   - **Testing seguro**: Uso Factory I/O para simulación cambios OT
-   - **Change management**: Comunicación stakeholder, training, soporte on-site
-   - **Rollback procedures**: Documentadas para cada componente crítico
-   - **Monitoring continuo**: Durante implementación, alertas automáticas
-
-4. **Gestión Cambio**:
-   - **Comunicación**: Stakeholder meetings semanales, newsletters
-   - **Training**: Sesiones hands-on, materiales en euskera
-   - **Support**: Help desk dedicado durante go-live
-   - **Feedback**: Surveys post-training, adjustment procedures
-
-### **Sección 21: Anexos Técnicos** (Páginas 38-42)
-**Objetivo**: Documentación técnica detallada
-
-**Contenido detallado**:
-1. **Anexo A: Diagramas Arquitectura**
-   - Diagrama A: Topología física (racks, switches, firewalls)
-   - Diagrama B: Arquitectura lógica VLAN
-   - Diagrama C: Flujo datos (SCADA → Historian → SIEM)
-
-2. **Anexo B: Especificaciones Hardware**
-   - SIEM cluster: 3x Dell PowerEdge R250 (16GB RAM, 500GB SSD each)
-   - Jump host: 1x Dell PowerEdge R250 (8GB RAM, 250GB SSD)
-   - Honeypots: 1x Dell PowerEdge R250 (16GB RAM, 500GB SSD)
-   - HR Portal: 3x Dell PowerEdge R250 (nginx + php + postgres)
-
-3. **Anexo C: Lista Materiales (BOQ)**
-   - Software licenses: Wazuh Enterprise (€50K), Nessus Industrial (€10K)
-   - Hardware: Servers Dell (€15K), switches industrial (€25K), firewalls (€30K)
-   - Training: 120h @ €150/h = €18K
-   - Travel/accommodation: €5K
-   - **Total BOQ**: €153K (excluye labor consultores)
-
-4. **Anexo D: Plantillas Reglas Firewall**
-   ```
-   # IT/OT Boundary Firewall (Fortinet/Palo Alto)
-   rule allow-scada-access
-     source: VLAN10 (IT)
-     destination: VLAN30 (SCADA)
-     service: RDP
-     action: allow
-     log: enable
-     user: authenticated
-     mfa: required
-   
-   rule deny-ot-direct
-     source: VLAN10 (IT)
-     destination: VLAN40-50 (OT)
-     action: deny
-     log: enable
-   ```
-
-5. **Anexo E: Librería Reglas Alerta SIEM** (50+ casos uso)
-   - Autenticación: 10 reglas con thresholds y severidades
-   - OT: 15 reglas con protocolos ICS específicos
-   - Malware: 8 reglas con indicadores comportamiento
-   - Exfiltración: 7 reglas con límites data transfer
-
-6. **Anexo F: Documentación API HR Portal**
-   - Endpoints completos con request/response examples
-   - Authentication flow con JWT
-   - Error codes y handling
-   - Rate limits y throttling
-
-7. **Anexo G: Matrices Checklist Cumplimiento**
-   - ISO 27001: 93 controles con status implementation
-   - IEC 62443: SL2 requirements mapping
-   - GDPR: Articles 32, 33, 35, 88 checklist
-   - NIS2: Essential entity obligations
-
-8. **Anexo H: Fichas Técnicos Proveedores**
-   - Siemens TIA Portal: PLC programming software
-   - Rockwell Studio 5000: Allen-Bradley control
-   - Wazuh: SIEM platform specifications
-   - T-Pot: Honeypot framework details
-
----
-
-## 📊 **MÉTRICAS CALIDAD FINAL**
-
-### **Consistencia**
-- ✅ Figuras presupuesto: €733.95K Year 1, ROI 137.6%
-- ✅ Timeline: 10 meses, 8 fases
-- ✅ Alcance: OT + SIEM + Honeypots + HR Portal
-- ✅ Tecnología: Wazuh SIEM, PHP 8.4, PostgreSQL 16
-
-### **Profesionalismo**
-- ✅ Estructura consultoría (Ejecutivo → Comercial → Técnico)
-- ✅ Lenguaje formal, métricas cuantificables
-- ✅ Riesgos identificados con mitigation
-- ✅ Compliance legal completo (GDPR, NIS2, ISO, IEC)
-
-### **Completitud**
-- ✅ Fuentes: 158 archivos .md referenciados
-- ✅ Detalles técnicos: comandos, configs, endpoints
-- ✅ Casos reales: referencias sector alimentación
-- ✅ Legal: contratos, garantías, SLA profesionales
-
----
-
-## 🚀 **SIGUIENTE PASOS EJECUCIÓN**
-
-1. **Empieza Sección 7** (paquetes) - establece tono comercial
-2. **Sección 13** (arquitectura Purdue) - diagrama fundamental
-3. **Sección 17** (HR Portal) - usa FASE_3_RESUMEN.md como base
-4. **Revisa consistencia** cada 3-4 secciones
-5. **Final**: formatea markdown profesional
-
-**Tiempo estimado**: 4-6 horas escritura + 2-3 horas revisión
-**Resultado**: Documento board-ready para presentación CEO/CFO
-
-¿Te ayudo a empezar escribiendo alguna sección específica del plan? 🤔
+2. **Gantt Diagrama** (placeholder dependentziekin)
+   - **Hito 1 (2. Hilabetea)**: Oinarri azpiegitura osoa
+   - **Hito 2 (4. Hilabetea)**: OT Segurtasuna inplementatua
