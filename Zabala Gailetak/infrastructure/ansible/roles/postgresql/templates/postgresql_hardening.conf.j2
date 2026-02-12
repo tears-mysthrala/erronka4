@@ -1,0 +1,222 @@
+################################################################################
+# PostgreSQL Hardening Configuration
+# Zabala Gailetak - Security Hardening
+################################################################################
+
+# ------------------------------------------------------------------------------
+# CONNECTIONS AND AUTHENTICATION
+# ------------------------------------------------------------------------------
+
+# Listen only on specific interface
+listen_addresses = 'localhost,10.10.20.0/24'
+port = 5432
+max_connections = 100
+superuser_reserved_connections = 3
+
+# SSL Configuration
+ssl = on
+ssl_cert_file = '/etc/ssl/certs/postgresql-server.crt'
+ssl_key_file = '/etc/ssl/private/postgresql-server.key'
+ssl_ca_file = '/etc/ssl/certs/postgresql-ca.crt'
+ssl_crl_file = ''
+ssl_ciphers = 'HIGH:!aNULL:!MD5'
+ssl_prefer_server_ciphers = on
+ssl_ecdh_curve = 'prime256v1'
+
+# Force SSL for all connections
+# Host-based authentication will enforce this
+
+# ------------------------------------------------------------------------------
+# AUTHENTICATION AND SECURITY
+# ------------------------------------------------------------------------------
+
+# Password encryption
+password_encryption = scram-sha-256
+
+# Authentication timeout
+authentication_timeout = 1min
+
+# No trust authentication allowed
+# All connections must use md5, scram-sha-256, or certificate
+
+# Statement timeout to prevent long-running queries
+statement_timeout = 30s
+
+# Lock account after failed attempts
+# (managed via pg_hba.conf and external tools)
+
+# ------------------------------------------------------------------------------
+# LOGGING AND AUDITING
+# ------------------------------------------------------------------------------
+
+# Logging configuration
+logging_collector = on
+log_destination = 'stderr'
+log_directory = '/var/log/postgresql'
+log_filename = 'postgresql-%Y-%m-%d_%H%M%S.log'
+log_rotation_age = 1d
+log_rotation_size = 100MB
+log_truncate_on_rotation = off
+
+# What to log
+log_connections = on
+log_disconnections = on
+duration = on
+log_min_duration_statement = 1000  # Log queries > 1 second
+log_checkpoints = on
+log_lock_waits = on
+
+# Log all DDL statements
+log_statement = 'ddl'
+
+# Log content
+log_line_prefix = '%t [%p]: [%l-1] user=%u,db=%d,app=%a,client=%h '
+log_hostname = off
+
+# Do not log passwords
+log_password = off
+
+# ------------------------------------------------------------------------------
+# QUERY LOGGING (SECURITY AUDIT)
+# ------------------------------------------------------------------------------
+
+# Log all statements from specific tables (PII access)
+# Use pgaudit extension for detailed auditing
+shared_preload_libraries = 'pgaudit'
+
+# pgaudit configuration
+pgaudit.log = 'write,ddl'
+pgaudit.log_catalog = off
+pgaudit.log_parameter = off
+pgaudit.log_statement_once = off
+pgaudit.log_level = log
+
+# ------------------------------------------------------------------------------
+# RESOURCE LIMITS
+# ------------------------------------------------------------------------------
+
+# Memory settings
+shared_buffers = 256MB
+effective_cache_size = 768MB
+work_mem = 4MB
+maintenance_work_mem = 64MB
+
+# Cost settings
+effective_io_concurrency = 200
+
+# Parallel queries
+max_parallel_workers_per_gather = 2
+max_parallel_workers = 4
+
+# ------------------------------------------------------------------------------
+# WRITE AHEAD LOG (WAL)
+# ------------------------------------------------------------------------------
+
+wal_level = replica
+wal_compression = on
+max_wal_size = 1GB
+min_wal_size = 80MB
+checkpoint_timeout = 5min
+checkpoint_completion_target = 0.9
+
+# Archive mode for backups
+archive_mode = on
+archive_command = 'cp %p /var/lib/postgresql/archives/%f'
+archive_timeout = 3600
+
+# ------------------------------------------------------------------------------
+# REPLICATION (if applicable)
+# ------------------------------------------------------------------------------
+
+max_wal_senders = 3
+wal_keep_size = 256MB
+max_replication_slots = 3
+
+# ------------------------------------------------------------------------------
+# QUERY TUNING
+# ------------------------------------------------------------------------------
+
+random_page_cost = 1.1
+effective_io_concurrency = 200
+
+# Prevent sequential scans on large tables
+# (enforce index usage for PII queries)
+enable_seqscan = on  # Let optimizer decide, but monitor
+
+# ------------------------------------------------------------------------------
+# ERROR HANDLING AND REPORTING
+# ------------------------------------------------------------------------------
+
+# Client messages
+client_min_messages = notice
+log_min_messages = warning
+log_min_error_statement = error
+
+# Do not expose detailed error messages to clients
+# (application should handle errors gracefully)
+
+# ------------------------------------------------------------------------------
+# VERSION AND PLATFORM COMPATIBILITY
+# ------------------------------------------------------------------------------
+
+# Locale settings
+lc_messages = 'en_US.UTF-8'
+lc_monetary = 'en_US.UTF-8'
+lc_numeric = 'en_US.UTF-8'
+lc_time = 'en_US.UTF-8'
+default_text_search_config = 'pg_catalog.english'
+
+# ------------------------------------------------------------------------------
+# LOCK MANAGEMENT
+# ------------------------------------------------------------------------------
+
+deadlock_timeout = 1s
+max_locks_per_transaction = 64
+max_pred_locks_per_transaction = 64
+
+# ------------------------------------------------------------------------------
+# AUTOVACUUM
+# ------------------------------------------------------------------------------
+
+autovacuum = on
+autovacuum_max_workers = 3
+autovacuum_naptime = 1min
+autovacuum_vacuum_threshold = 50
+autovacuum_analyze_threshold = 50
+
+# ------------------------------------------------------------------------------
+# SECURITY ADDITIONAL SETTINGS
+# ------------------------------------------------------------------------------
+
+# Disable loading external libraries (prevent malicious extensions)
+# unless specifically needed
+allow_system_table_mods = off
+
+# Restrict file system access
+# (use COPY TO/FROM PROGRAM with caution)
+
+# Row Level Security (enable and configure per-table)
+# ALTER TABLE employees ENABLE ROW LEVEL SECURITY;
+
+# ------------------------------------------------------------------------------
+# PERFORMANCE MONITORING
+# ------------------------------------------------------------------------------
+
+track_activities = on
+track_counts = on
+track_io_timing = on
+track_functions = pl
+
+# Statistics
+timing = on
+
+# ------------------------------------------------------------------------------
+# BACKUP AND RECOVERY
+# ------------------------------------------------------------------------------
+
+# Continuous archiving (point-in-time recovery)
+# archive_mode and archive_command set above
+
+# Recovery settings (for standby servers)
+# recovery_target_timeline = 'latest'
+# recovery_target_action = 'pause'

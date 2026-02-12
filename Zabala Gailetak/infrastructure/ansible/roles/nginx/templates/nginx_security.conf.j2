@@ -1,0 +1,81 @@
+################################################################################
+# Nginx Security Configuration - Zabala Gailetak
+# Hardened web server configuration
+################################################################################
+
+# ------------------------------------------------------------------------------
+# SECURITY HEADERS
+# ------------------------------------------------------------------------------
+
+add_header X-Frame-Options "SAMEORIGIN" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header X-XSS-Protection "1; mode=block" always;
+add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none'; form-action 'self';" always;
+add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
+add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+add_header Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=()" always;
+
+# ------------------------------------------------------------------------------
+# RATE LIMITING
+# ------------------------------------------------------------------------------
+
+limit_req_zone $binary_remote_addr zone=login:10m rate=5r/m;
+limit_req_zone $binary_remote_addr zone=api:10m rate=100r/m;
+limit_req_zone $binary_remote_addr zone=general:10m rate=50r/s;
+limit_conn_zone $binary_remote_addr zone=addr:10m;
+
+# ------------------------------------------------------------------------------
+# BLOCK BAD USER AGENTS
+# ------------------------------------------------------------------------------
+
+map $http_user_agent $bad_bot {
+    default 0;
+    ~*(sqlmap|nikto|nmap|masscan|zgrab|gobuster|dirb|wfuzz|burpsuite|metasploit|nessus|openvas) 1;
+}
+
+# ------------------------------------------------------------------------------
+# BLOCK SENSITIVE FILES
+# ------------------------------------------------------------------------------
+
+location ~ /\. { deny all; access_log off; log_not_found off; }
+location ~ /(composer\.(json|lock)|package\.json|\.env|\.git|Dockerfile) { deny all; return 404; }
+location ~* \.(bak|backup|swp|old)$ { deny all; return 404; }
+
+# ------------------------------------------------------------------------------
+# PHP HANDLING
+# ------------------------------------------------------------------------------
+
+location ~ \.php$ {
+    location ~* /(?:uploads|files)/.*\.php$ { deny all; return 403; }
+    try_files $uri =404;
+    fastcgi_pass unix:/var/run/php/php8.4-fpm.sock;
+    fastcgi_hide_header X-Powered-By;
+    include fastcgi_params;
+}
+
+# ------------------------------------------------------------------------------
+# UPLOAD LIMITS
+# ------------------------------------------------------------------------------
+
+client_max_body_size 10M;
+client_body_timeout 12;
+client_header_timeout 12;
+keepalive_timeout 15;
+
+# ------------------------------------------------------------------------------
+# SSL
+# ------------------------------------------------------------------------------
+
+ssl_protocols TLSv1.3;
+ssl_prefer_server_ciphers off;
+ssl_session_timeout 1d;
+ssl_stapling on;
+
+# ------------------------------------------------------------------------------
+# DDOS PROTECTION
+# ------------------------------------------------------------------------------
+
+limit_req zone=general burst=20 nodelay;
+limit_conn addr 10;
+if ($bad_bot) { return 403; }
+server_tokens off;
