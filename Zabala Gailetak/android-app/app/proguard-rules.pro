@@ -69,6 +69,16 @@
 # Keep Credentials
 -keep class androidx.credentials.** { *; }
 
+# Keep Error Handling Interceptor
+-keep class com.zabalagailetak.hrapp.data.auth.ErrorHandlingInterceptor { *; }
+-keep class com.zabalagailetak.hrapp.data.auth.ApiException { *; }
+
+# Keep Update Manager
+-keep class com.zabalagailetak.hrapp.data.update.UpdateManager { *; }
+-keep class com.zabalagailetak.hrapp.data.update.UpdateResult { *; }
+-keep class com.zabalagailetak.hrapp.data.api.UpdateApiService { *; }
+-keep class com.zabalagailetak.hrapp.data.api.VersionInfo { *; }
+
 # Keep Coil
 -keep class coil.** { *; }
 

@@ -3,7 +3,7 @@ name: Android App Release
 on:
   push:
     tags:
-      - 'v*.*.*'  # Triggers on version tags like v1.0.0, v1.2.3
+      - 'v*.*.*'
   workflow_dispatch:
     inputs:
       version_name:
@@ -11,29 +11,29 @@ on:
         required: true
         default: '1.0.0'
       version_code:
-        description: 'Version code (integer)'
-        required: true
-        default: '1'
+        description: 'Version code (optional, auto-generated if empty)'
+        required: false
+        default: ''
       release_notes:
         description: 'Release notes'
         required: false
         default: 'New release'
       create_release:
-        description: 'Create GitHub Release (requires signed APK)'
+        description: 'Create GitHub Release'
         required: false
-        default: 'false'
+        default: 'true'
         type: choice
         options:
           - 'true'
           - 'false'
 
 permissions:
-  contents: write      # Required to create releases
-  actions: read        # Required to download artifacts
+  contents: write
+  actions: read
   
 jobs:
   build:
-    name: 🏗️ Build Android App
+    name: Build Android App
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -58,21 +58,9 @@ jobs:
           cmdline-tools-version: '11076708'
           accept-android-sdk-licenses: true
 
-      - name: Verify Java version
-        run: |
-          echo "JAVA_HOME: $JAVA_HOME"
-          java -version
-          javac -version
-
       - name: Grant execute permission for gradlew
         working-directory: "Zabala Gailetak/android-app"
         run: chmod +x gradlew
-
-      - name: Verify Gradle wrapper
-        working-directory: "Zabala Gailetak/android-app"
-        run: |
-          ./gradlew --version
-          ./gradlew tasks --all | head -20
 
       - name: Extract version from tag or input
         id: version
@@ -82,8 +70,22 @@ jobs:
             VERSION_CODE=$(git rev-list --count HEAD)
           else
             VERSION_NAME="${{ github.event.inputs.version_name }}"
-            VERSION_CODE="${{ github.event.inputs.version_code }}"
+            if [ -n "${{ github.event.inputs.version_code }}" ]; then
+              VERSION_CODE="${{ github.event.inputs.version_code }}"
+            else
+              VERSION_CODE=$(date +%y%m%d%H%M)
+            fi
           fi
+          
+          if ! [[ "$VERSION_CODE" =~ ^[0-9]+$ ]]; then
+            echo "Invalid version code: $VERSION_CODE, using timestamp fallback"
+            VERSION_CODE=$(date +%y%m%d%H%M)
+          fi
+          
+          if [ "$VERSION_CODE" -eq 0 ]; then
+            VERSION_CODE=1
+          fi
+          
           echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_OUTPUT
           echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_OUTPUT
           echo "Building version $VERSION_NAME (code: $VERSION_CODE)"
@@ -94,7 +96,6 @@ jobs:
           sed -i "s/versionCode[[:space:]]*=[[:space:]]*[0-9]\+/versionCode = ${{ steps.version.outputs.VERSION_CODE }}/" build.gradle.kts
           sed -i "s/versionName[[:space:]]*=[[:space:]]*\"[^\"]*\"/versionName = \"${{ steps.version.outputs.VERSION_NAME }}\"/" build.gradle.kts
           echo "Updated version to ${{ steps.version.outputs.VERSION_NAME }} (code: ${{ steps.version.outputs.VERSION_CODE }})"
-          cat build.gradle.kts | grep -A2 "versionCode\|versionName"
 
       - name: Clean build
         working-directory: "Zabala Gailetak/android-app"
@@ -105,37 +106,24 @@ jobs:
         run: ./gradlew assembleDebug --no-daemon --stacktrace
         timeout-minutes: 30
 
-      - name: Build Release APK (unsigned)
+      - name: Build Release APK
         working-directory: "Zabala Gailetak/android-app"
         run: ./gradlew assembleRelease --no-daemon --stacktrace
         timeout-minutes: 30
 
-      - name: List output files before signing
-        working-directory: "Zabala Gailetak/android-app"
-        run: |
-          echo "=== APK Outputs ==="
-          find app/build/outputs/apk -name "*.apk" -type f 2>/dev/null || echo "No APKs found"
-          echo "=== Directory structure ==="
-          ls -la app/build/outputs/apk/ 2>/dev/null || echo "Directory not found"
-
-      # Check if keystore is available for signing
       - name: Check keystore availability
         id: keystore_check
         run: |
           if [ -n "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" ]; then
             echo "KEYSTORE_AVAILABLE=true" >> $GITHUB_OUTPUT
-            echo "Keystore secret is available"
+            echo "Keystore available"
           else
             echo "KEYSTORE_AVAILABLE=false" >> $GITHUB_OUTPUT
-            echo "⚠️ Keystore secret not available - APK will be unsigned"
+            echo "Using debug key"
           fi
 
-      - name: Sign Release APK
-        # Sign when: tag push with keystore OR manual dispatch with create_release=true and keystore
-        if: steps.keystore_check.outputs.KEYSTORE_AVAILABLE == 'true' && (
-              (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) ||
-              (github.event_name == 'workflow_dispatch' && github.event.inputs.create_release == 'true')
-            )
+      - name: Sign Release APK with Production Key
+        if: steps.keystore_check.outputs.KEYSTORE_AVAILABLE == 'true'
         working-directory: "Zabala Gailetak/android-app"
         env:
           KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
@@ -143,26 +131,10 @@ jobs:
           KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
-          echo "Signing release APK..."
-          
-          # Decode keystore from base64
           echo "$KEYSTORE_BASE64" | base64 -d > zabala-gailetak-release.keystore
-          
-          # Find latest build-tools version (fallback to 34.0.0)
           BUILD_TOOLS_VERSION=$(ls -1 ${ANDROID_HOME}/build-tools 2>/dev/null | sort -V | tail -n 1)
-          if [ -z "$BUILD_TOOLS_VERSION" ]; then
-            BUILD_TOOLS_VERSION="34.0.0"
-          fi
-          echo "Using build-tools version: $BUILD_TOOLS_VERSION"
+          [ -z "$BUILD_TOOLS_VERSION" ] && BUILD_TOOLS_VERSION="34.0.0"
           
-          # Check if release APK exists
-          if [ ! -f "app/build/outputs/apk/release/app-release-unsigned.apk" ]; then
-            echo "Error: app-release-unsigned.apk not found"
-            ls -la app/build/outputs/apk/release/ 2>/dev/null || echo "Release directory not found"
-            exit 1
-          fi
-          
-          # Sign the APK
           ${ANDROID_HOME}/build-tools/${BUILD_TOOLS_VERSION}/apksigner sign \
             --ks zabala-gailetak-release.keystore \
             --ks-key-alias "$KEY_ALIAS" \
@@ -171,29 +143,16 @@ jobs:
             --out app/build/outputs/apk/release/app-release-signed.apk \
             app/build/outputs/apk/release/app-release-unsigned.apk
           
-          # Verify signature
-          echo "Verifying APK signature..."
-          ${ANDROID_HOME}/build-tools/${BUILD_TOOLS_VERSION}/apksigner verify \
-            app/build/outputs/apk/release/app-release-signed.apk
-          
-          echo "✅ APK signed successfully"
-          
-          # Clean up keystore
+          ${ANDROID_HOME}/build-tools/${BUILD_TOOLS_VERSION}/apksigner verify app/build/outputs/apk/release/app-release-signed.apk
           rm -f zabala-gailetak-release.keystore
 
-      - name: Generate debug keystore and sign debug APK (fallback)
+      - name: Sign Release APK with Debug Key
         if: steps.keystore_check.outputs.KEYSTORE_AVAILABLE != 'true'
         working-directory: "Zabala Gailetak/android-app"
         run: |
-          echo "Generating debug keystore for APK alignment..."
-          
-          # Find latest build-tools version
           BUILD_TOOLS_VERSION=$(ls -1 ${ANDROID_HOME}/build-tools 2>/dev/null | sort -V | tail -n 1)
-          if [ -z "$BUILD_TOOLS_VERSION" ]; then
-            BUILD_TOOLS_VERSION="34.0.0"
-          fi
+          [ -z "$BUILD_TOOLS_VERSION" ] && BUILD_TOOLS_VERSION="34.0.0"
           
-          # Create a temporary debug keystore
           keytool -genkey -v \
             -keystore debug.keystore \
             -alias androiddebugkey \
@@ -203,71 +162,48 @@ jobs:
             -validity 10000 \
             -dname "CN=Android Debug,O=Android,C=US"
           
-          # Sign the release APK with debug key (for testing purposes)
-          if [ -f "app/build/outputs/apk/release/app-release-unsigned.apk" ]; then
-            ${ANDROID_HOME}/build-tools/${BUILD_TOOLS_VERSION}/apksigner sign \
-              --ks debug.keystore \
-              --ks-key-alias androiddebugkey \
-              --ks-pass "pass:android" \
-              --key-pass "pass:android" \
-              --out app/build/outputs/apk/release/app-release-signed.apk \
-              app/build/outputs/apk/release/app-release-unsigned.apk
-            
-            echo "✅ Release APK signed with debug key"
-          fi
+          ${ANDROID_HOME}/build-tools/${BUILD_TOOLS_VERSION}/apksigner sign \
+            --ks debug.keystore \
+            --ks-key-alias androiddebugkey \
+            --ks-pass "pass:android" \
+            --key-pass "pass:android" \
+            --out app/build/outputs/apk/release/app-release-signed.apk \
+            app/build/outputs/apk/release/app-release-unsigned.apk
           
-          # Clean up
           rm -f debug.keystore
 
       - name: Rename APK files
         working-directory: "Zabala Gailetak/android-app/app/build/outputs/apk"
         run: |
-          # Rename debug APK
+          VERSION_NAME="${{ steps.version.outputs.VERSION_NAME }}"
+          VERSION_CODE="${{ steps.version.outputs.VERSION_CODE }}"
+          
           if [ -f "debug/app-debug.apk" ]; then
-            mv debug/app-debug.apk debug/zabala-gailetak-hrapp-v${{ steps.version.outputs.VERSION_NAME }}-debug.apk
-            echo "✅ Debug APK renamed"
-          else
-            echo "⚠️ Warning: app-debug.apk not found"
-            ls -la debug/ 2>/dev/null || echo "Debug directory not found"
+            mv debug/app-debug.apk "debug/zabala-gailetak-hrapp-v${VERSION_NAME}-debug.apk"
           fi
           
-          # Rename signed release APK
           if [ -f "release/app-release-signed.apk" ]; then
-            mv release/app-release-signed.apk release/zabala-gailetak-hrapp-v${{ steps.version.outputs.VERSION_NAME }}-signed.apk
-            echo "✅ Signed Release APK renamed"
+            if [ "${{ steps.keystore_check.outputs.KEYSTORE_AVAILABLE }}" == "true" ]; then
+              mv release/app-release-signed.apk "release/zabala-gailetak-hrapp-v${VERSION_NAME}-release.apk"
+            else
+              mv release/app-release-signed.apk "release/zabala-gailetak-hrapp-v${VERSION_NAME}-debug-signed.apk"
+            fi
           fi
           
-          # Rename unsigned release APK (keep as backup)
           if [ -f "release/app-release-unsigned.apk" ]; then
-            mv release/app-release-unsigned.apk release/zabala-gailetak-hrapp-v${{ steps.version.outputs.VERSION_NAME }}-release-unsigned.apk
-            echo "✅ Unsigned Release APK renamed"
+            mv release/app-release-unsigned.apk "release/zabala-gailetak-hrapp-v${VERSION_NAME}-unsigned.apk"
           fi
-          
-          echo "=== Final APK files ==="
-          find . -name "*.apk" -type f 2>/dev/null
 
-      - name: Verify APK files
+      - name: Verify APK signatures
         working-directory: "Zabala Gailetak/android-app/app/build/outputs/apk"
         run: |
-          echo "=== Verifying APK files ==="
-          
-          # Find build-tools
           BUILD_TOOLS_VERSION=$(ls -1 ${ANDROID_HOME}/build-tools 2>/dev/null | sort -V | tail -n 1)
-          if [ -z "$BUILD_TOOLS_VERSION" ]; then
-            BUILD_TOOLS_VERSION="34.0.0"
-          fi
+          [ -z "$BUILD_TOOLS_VERSION" ] && BUILD_TOOLS_VERSION="34.0.0"
           
           for apk in $(find . -name "*.apk" 2>/dev/null); do
-            echo ""
             echo "Checking: $apk"
-            ${ANDROID_HOME}/build-tools/${BUILD_TOOLS_VERSION}/aapt dump badging "$apk" 2>/dev/null | head -5 || echo "⚠️ Could not read APK info"
-            
-            # Check if APK is signed
-            if ${ANDROID_HOME}/build-tools/${BUILD_TOOLS_VERSION}/apksigner verify "$apk" 2>/dev/null; then
-              echo "✅ APK is properly signed"
-            else
-              echo "⚠️ APK is NOT signed or has signature issues"
-            fi
+            ${ANDROID_HOME}/build-tools/${BUILD_TOOLS_VERSION}/aapt dump badging "$apk" 2>/dev/null | grep -E "version" | head -2
+            ${ANDROID_HOME}/build-tools/${BUILD_TOOLS_VERSION}/apksigner verify -v "$apk" 2>/dev/null && echo "Signature OK" || echo "Signature check failed"
           done
 
       - name: Upload Debug APK
@@ -277,34 +213,25 @@ jobs:
           name: zabala-gailetak-hrapp-debug
           path: "Zabala Gailetak/android-app/app/build/outputs/apk/debug/*.apk"
           retention-days: 30
-          if-no-files-found: warn
 
-      - name: Upload Release APK (signed)
+      - name: Upload Release APK
         uses: actions/upload-artifact@v4
         with:
-          name: zabala-gailetak-hrapp-release-signed
-          path: "Zabala Gailetak/android-app/app/build/outputs/apk/release/*signed*.apk"
+          name: zabala-gailetak-hrapp-release
+          path: "Zabala Gailetak/android-app/app/build/outputs/apk/release/*.apk"
           retention-days: 90
-          if-no-files-found: warn
 
-      - name: Upload Release APK (unsigned - backup)
-        uses: actions/upload-artifact@v4
-        with:
-          name: zabala-gailetak-hrapp-release-unsigned
-          path: "Zabala Gailetak/android-app/app/build/outputs/apk/release/*unsigned*.apk"
-          retention-days: 30
-          if-no-files-found: ignore
-
-      - name: Generate APK checksums
+      - name: Generate checksums
         working-directory: "Zabala Gailetak/android-app/app/build/outputs/apk"
         run: |
           echo "## APK Checksums" > checksums.txt
           echo "" >> checksums.txt
+          echo "Version: ${{ steps.version.outputs.VERSION_NAME }}" >> checksums.txt
+          echo "Version Code: ${{ steps.version.outputs.VERSION_CODE }}" >> checksums.txt
+          echo "" >> checksums.txt
           for apk in $(find . -name "*.apk" 2>/dev/null); do
-            echo "### $(basename $apk)" >> checksums.txt
-            echo '```' >> checksums.txt
+            echo "File: $(basename $apk)" >> checksums.txt
             sha256sum "$apk" >> checksums.txt
-            echo '```' >> checksums.txt
             echo "" >> checksums.txt
           done
           cat checksums.txt
@@ -315,144 +242,71 @@ jobs:
           name: apk-checksums
           path: "Zabala Gailetak/android-app/app/build/outputs/apk/checksums.txt"
           retention-days: 90
-          if-no-files-found: ignore
 
   release:
-    name: 📦 Create GitHub Release
+    name: Create GitHub Release
     needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: write
       actions: read
-    # Create release on tag push OR manual workflow dispatch (when requested)
     if: |
-      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) || 
-      (github.event_name == 'workflow_dispatch' && github.event.inputs.create_release == 'true')
+      always() && 
+      needs.build.result == 'success' &&
+      ((github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) || 
+       (github.event_name == 'workflow_dispatch' && github.event.inputs.create_release == 'true'))
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Extract version from tag or input
-        id: version
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./artifacts
+
+      - name: Organize artifacts
         run: |
-          if [ "${{ github.event_name }}" == "push" ]; then
-            VERSION_NAME=${GITHUB_REF#refs/tags/v}
-          else
-            VERSION_NAME="${{ github.event.inputs.version_name }}"
-          fi
-          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_OUTPUT
-          echo "Version: $VERSION_NAME"
-
-      - name: Download signed APK
-        uses: actions/download-artifact@v4
-        with:
-          name: zabala-gailetak-hrapp-release-signed
-          path: ./artifacts
-
-      - name: Download debug APK
-        uses: actions/download-artifact@v4
-        with:
-          name: zabala-gailetak-hrapp-debug
-          path: ./artifacts
-
-      - name: Download checksums
-        uses: actions/download-artifact@v4
-        with:
-          name: apk-checksums
-          path: ./artifacts
-          if-no-files-found: ignore
-
-      - name: List artifacts
-        run: |
-          echo "=== Downloaded artifacts ==="
-          ls -la ./artifacts/
+          mkdir -p ./release
+          find ./artifacts -name "*.apk" -type f -exec cp {} ./release/ \;
+          find ./artifacts -name "checksums.txt" -type f -exec cp {} ./release/ \;
+          ls -lh ./release/
 
       - name: Generate release notes
-        id: release_notes
         run: |
-          cat > release_notes.md << 'EOF'
-          # Zabala Gailetak HR App v${{ steps.version.outputs.VERSION_NAME }}
-          
-          ## 📱 Android Application Release
-          
-          ### What's New
-          ${{ github.event.inputs.release_notes || 'See commit history for details.' }}
-          
-          ### 📥 Installation
-          
-          #### Option 1: Signed Release APK (Recommended)
-          1. Download the `zabala-gailetak-hrapp-v${{ steps.version.outputs.VERSION_NAME }}-signed.apk` file below
-          2. On your Android device, enable "Install from Unknown Sources" in Settings
-          3. Open the downloaded APK file to install
-          4. Launch the app and login with your credentials
-          
-          #### Option 2: Debug APK (For Testing)
-          1. Download the `zabala-gailetak-hrapp-v${{ steps.version.outputs.VERSION_NAME }}-debug.apk` file
-          2. Install following the same steps as above
-          
-          ### 🔒 Security
-          
-          - This APK is signed with our release keystore
-          - Verify the SHA-256 checksum matches the one in `checksums.txt`
-          - Only install from official GitHub releases
-          
-          ### 📊 Technical Details
-          
-          - **Version Name:** ${{ steps.version.outputs.VERSION_NAME }}
-          - **Min SDK:** 24 (Android 7.0)
-          - **Target SDK:** 35 (Android 15)
-          - **Architecture:** Universal APK (arm64-v8a, armeabi-v7a, x86, x86_64)
-          
-          ### 🐛 Known Issues
-          
-          - None reported yet
-          
-          ### 📝 Changelog
-          
-          See full commit history: [Commits](https://github.com/${{ github.repository }}/commits/${{ github.ref_name }})
-          
-          ---
-          
-          **Built with:** Kotlin 2.0.21 • Jetpack Compose • Material 3 Design  
-          **Build Date:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")  
-          **Git Commit:** ${{ github.sha }}
-          EOF
+          echo "# Zabala Gailetak HR App Release" > release_notes.md
+          echo "" >> release_notes.md
+          echo "## Installation Instructions" >> release_notes.md
+          echo "" >> release_notes.md
+          echo "### For Updates:" >> release_notes.md
+          echo "1. Download the APK file with the SAME signing type as your current installation" >> release_notes.md
+          echo "2. Open the APK - Android should show 'Update' option" >> release_notes.md
+          echo "3. Tap Update to preserve your data" >> release_notes.md
+          echo "" >> release_notes.md
+          echo "### If Update Fails:" >> release_notes.md
+          echo "1. Backup your data if needed" >> release_notes.md
+          echo "2. Uninstall the old version" >> release_notes.md
+          echo "3. Install the new APK" >> release_notes.md
+          echo "4. Login again" >> release_notes.md
+          echo "" >> release_notes.md
+          echo "### APK Types:" >> release_notes.md
+          echo "- \`*-release.apk\` - Production signed (recommended)" >> release_notes.md
+          echo "- \`*-debug-signed.apk\` - Debug signed (for testing)" >> release_notes.md
+          echo "- \`*-debug.apk\` - Debug build (development only)" >> release_notes.md
+          echo "" >> release_notes.md
+          echo "## Notes" >> release_notes.md
+          echo "- Version code must be higher than installed version for updates" >> release_notes.md
+          echo "- Different signing keys require clean install (data loss)" >> release_notes.md
+          echo "- Verify SHA-256 checksum before installing" >> release_notes.md
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v${{ steps.version.outputs.VERSION_NAME }}
-          name: Zabala Gailetak HR App v${{ steps.version.outputs.VERSION_NAME }}
+          tag_name: v${{ github.event.inputs.version_name || github.ref_name }}
+          name: Zabala Gailetak HR App v${{ github.event.inputs.version_name || github.ref_name }}
           body_path: release_notes.md
           draft: false
           prerelease: false
-          files: |
-            ./artifacts/*.apk
-            ./artifacts/checksums.txt
+          files: ./release/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  notify:
-    name: 📢 Notify Team
-    needs: [build, release]
-    runs-on: ubuntu-latest
-    if: always()
-    
-    steps:
-      - name: Build Status Summary
-        run: |
-          echo "## Android App Build Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **Build Status:** ${{ needs.build.result }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Release Status:** ${{ needs.release.result }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Workflow:** ${{ github.workflow }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Triggered by:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          
-          if [ "${{ needs.build.result }}" == "success" ]; then
-            echo "✅ **Android app built successfully!**" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "❌ **Build failed. Check logs for details.**" >> $GITHUB_STEP_SUMMARY
-          fi

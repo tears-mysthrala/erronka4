@@ -5,7 +5,9 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.zabalagailetak.hrapp.BuildConfig
 import com.zabalagailetak.hrapp.data.api.*
+import com.zabalagailetak.hrapp.data.update.UpdateManager
 import com.zabalagailetak.hrapp.data.auth.AuthInterceptor
+import com.zabalagailetak.hrapp.data.auth.ErrorHandlingInterceptor
 import com.zabalagailetak.hrapp.data.auth.TokenStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Named
@@ -47,12 +49,20 @@ object NetworkModule {
     @Singleton
     fun provideAuthInterceptor(tokenStore: TokenStore): AuthInterceptor = AuthInterceptor(tokenStore)
 
+    @Provides
+    @Singleton
+    fun provideErrorHandlingInterceptor(): ErrorHandlingInterceptor = ErrorHandlingInterceptor()
+
     // Auth OkHttp client (no authenticator, only logging) used for refresh calls
     @Provides
     @Singleton
     @Named("authClient")
-    fun provideAuthOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    fun provideAuthOkHttpClient(
+        loggingInterceptor: HttpLoggingInterceptor,
+        errorHandlingInterceptor: ErrorHandlingInterceptor
+    ): OkHttpClient {
         return OkHttpClient.Builder()
+            .addInterceptor(errorHandlingInterceptor)
             .addInterceptor(loggingInterceptor)
             .build()
     }
@@ -81,9 +91,15 @@ object NetworkModule {
     @Provides
     @Singleton
     @Named("apiClient")
-    fun provideApiOkHttpClient(loggingInterceptor: HttpLoggingInterceptor, authInterceptor: AuthInterceptor, refreshAuthenticator: com.zabalagailetak.hrapp.data.auth.RefreshAuthenticator): OkHttpClient {
+    fun provideApiOkHttpClient(
+        loggingInterceptor: HttpLoggingInterceptor,
+        authInterceptor: AuthInterceptor,
+        errorHandlingInterceptor: ErrorHandlingInterceptor,
+        refreshAuthenticator: com.zabalagailetak.hrapp.data.auth.RefreshAuthenticator
+    ): OkHttpClient {
         return OkHttpClient.Builder()
             .authenticator(refreshAuthenticator)
+            .addInterceptor(errorHandlingInterceptor)
             .addInterceptor(authInterceptor)
             .addInterceptor(loggingInterceptor)
             .build()
@@ -128,5 +144,11 @@ object NetworkModule {
     @Singleton
     fun provideDocumentApiService(@Named("apiRetrofit") retrofit: Retrofit): DocumentApiService {
         return retrofit.create(DocumentApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUpdateApiService(@Named("authRetrofit") retrofit: Retrofit): UpdateApiService {
+        return retrofit.create(UpdateApiService::class.java)
     }
 }

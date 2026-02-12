@@ -2,6 +2,7 @@ package com.zabalagailetak.hrapp.presentation.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.JsonParseException
 import com.zabalagailetak.hrapp.data.api.AuthApiService
 import com.zabalagailetak.hrapp.domain.model.LoginRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,6 +11,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
+import java.net.ConnectException
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 /**
@@ -35,7 +41,7 @@ class AuthViewModel @Inject constructor(
                 val response = authApi.login(LoginRequest(username, password))
                 
                 if (!response.isSuccessful) {
-                    val errorMsg = response.errorBody()?.string() ?: "Errorea login egitean"
+                    val errorMsg = parseErrorResponse(response.errorBody()?.string())
                     _uiState.update {
                         it.copy(
                             isLoading = false,
@@ -45,7 +51,17 @@ class AuthViewModel @Inject constructor(
                     return@launch
                 }
                 
-                val loginResponse = response.body()!!
+                val loginResponse = response.body()
+                
+                if (loginResponse == null) {
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            error = "Erantzuna hutsik dago. Saiatu berriro."
+                        )
+                    }
+                    return@launch
+                }
                 
                 if (loginResponse.mfaRequired) {
                     _uiState.update {
@@ -81,10 +97,11 @@ class AuthViewModel @Inject constructor(
                     }
                 }
             } catch (e: Exception) {
+                val errorMessage = mapExceptionToMessage(e)
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        error = e.message ?: "Errorea konexioan"
+                        error = errorMessage
                     )
                 }
             }
@@ -111,10 +128,11 @@ class AuthViewModel @Inject constructor(
                     )
                 }
             } catch (e: Exception) {
+                val errorMessage = mapExceptionToMessage(e)
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        error = e.message ?: "Errorea MFA egiaztatzean"
+                        error = errorMessage
                     )
                 }
             }
@@ -138,6 +156,70 @@ class AuthViewModel @Inject constructor(
                 mfaRequired = false,
                 mfaToken = null
             )
+        }
+    }
+
+    /**
+     * Maps exceptions to user-friendly messages in Basque
+     */
+    private fun mapExceptionToMessage(e: Exception): String {
+        return when (e) {
+            is UnknownHostException -> 
+                "Ezin da zerbitzaria aurkitu. Egiaztatu zure konexioa."
+            is ConnectException -> 
+                "Ezin da zerbitzariarekin konektatu. Saiatu berriro geroago."
+            is SocketTimeoutException -> 
+                "Konexioa denboraz kanpo. Zerbitzaria ez dago erabilgarri."
+            is IOException -> 
+                "Sare errorea. Egiaztatu zure konexioa."
+            is HttpException -> {
+                when (e.code()) {
+                    404 -> "APIa ez da aurkitu. Zerbitzaria konfiguratzen ari da."
+                    500, 502, 503 -> "Zerbitzari errorea. Saiatu berriro geroago."
+                    401 -> "Kredentzial okerrak. Egiaztatu zure datuak."
+                    403 -> "Sarbidea ukatua."
+                    else -> "Errorea zerbitzarian (${e.code()})."
+                }
+            }
+            is JsonParseException -> 
+                "Zerbitzariaren erantzuna ez da zuzena. Saiatu berriro geroago."
+            else -> {
+                // Check if it's a JSON parsing error
+                val message = e.message ?: ""
+                when {
+                    message.contains("BEGIN_OBJECT") || 
+                    message.contains("Expected") ||
+                    message.contains("JSON") ->
+                        "Zerbitzariaren erantzuna ez da zuzena. Kontsultatu administratzailea."
+                    else -> "Errorea gertatu da: ${e.message ?: "Saiatu berriro"}"
+                }
+            }
+        }
+    }
+
+    /**
+     * Parse error response from API
+     */
+    private fun parseErrorResponse(errorBody: String?): String {
+        if (errorBody.isNullOrBlank()) {
+            return "Errorea gertatu da. Saiatu berriro."
+        }
+        
+        return try {
+            // Try to parse as JSON
+            val json = org.json.JSONObject(errorBody)
+            when {
+                json.has("message") -> json.getString("message")
+                json.has("error") -> json.getString("error")
+                else -> "Errorea gertatu da. Saiatu berriro."
+            }
+        } catch (e: Exception) {
+            // Not JSON, return generic message
+            if (errorBody.contains("<html") || errorBody.contains("<!DOCTYPE")) {
+                "Zerbitzari errorea. Saiatu berriro geroago."
+            } else {
+                errorBody.take(100)
+            }
         }
     }
 }
