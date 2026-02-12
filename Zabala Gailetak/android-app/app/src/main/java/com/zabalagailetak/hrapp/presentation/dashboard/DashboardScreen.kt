@@ -50,9 +50,6 @@ fun DashboardScreen(
         greeting = getGreeting()
     }
     
-    // Pull to refresh state
-    val pullRefreshState = rememberPullToRefreshState()
-    
     Scaffold(
         topBar = {
             TopAppBar(

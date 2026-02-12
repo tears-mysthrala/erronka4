@@ -96,14 +96,14 @@ class ProfileViewModel @Inject constructor(
                 authApi.logout()
                 
                 // Clear local tokens
-                tokenStore.clearTokens()
+                tokenStore.clearToken()
                 
                 _uiState.update {
                     it.copy(logoutSuccess = true)
                 }
             } catch (e: Exception) {
                 // Even if API fails, clear local tokens
-                tokenStore.clearTokens()
+                tokenStore.clearToken()
                 _uiState.update {
                     it.copy(logoutSuccess = true)
                 }

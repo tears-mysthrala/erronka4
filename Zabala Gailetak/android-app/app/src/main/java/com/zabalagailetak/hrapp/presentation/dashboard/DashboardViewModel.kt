@@ -9,6 +9,7 @@ import com.zabalagailetak.hrapp.data.api.DocumentApiService
 import com.zabalagailetak.hrapp.domain.model.Employee
 import com.zabalagailetak.hrapp.domain.model.VacationBalance
 import com.zabalagailetak.hrapp.domain.model.VacationRequest
+import com.zabalagailetak.hrapp.domain.model.VacationStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -92,12 +93,12 @@ class DashboardViewModel @Inject constructor(
                     requestsResult.body()?.requests ?: emptyList()
                 } else emptyList()
                 
-                val pendingCount = requests.count { it.status == "pending" }
+                val pendingCount = requests.count { it.status == VacationStatus.PENDING }
                 
                 // Load documents count
                 val docsResult = documentApi.getMyDocuments()
                 val docsCount = if (docsResult.isSuccessful) {
-                    docsResult.body()?.size ?: 0
+                    docsResult.body()?.documents?.size ?: 0
                 } else 0
                 
                 // Build activity list from real data
@@ -149,7 +150,7 @@ class DashboardViewModel @Inject constructor(
         val activities = mutableListOf<ActivityItem>()
         
         // Add pending vacation requests
-        requests.filter { it.status == "pending" }.take(2).forEachIndexed { index, request ->
+        requests.filter { it.status == VacationStatus.PENDING }.take(2).forEachIndexed { index, request ->
             activities.add(
                 ActivityItem(
                     id = "vac_pending_$index",
@@ -161,12 +162,12 @@ class DashboardViewModel @Inject constructor(
         }
         
         // Add approved vacation requests
-        requests.filter { it.status == "approved" }.take(1).forEachIndexed { index, request ->
+        requests.filter { it.status == VacationStatus.APPROVED }.take(1).forEachIndexed { index, request ->
             activities.add(
                 ActivityItem(
                     id = "vac_approved_$index",
                     title = "Opor eskaera onartua",
-                    time = request.updatedAt ?: request.createdAt ?: "Orain dela gutxi",
+                    time = request.hrApprovedAt ?: request.managerApprovedAt ?: request.createdAt ?: "Orain dela gutxi",
                     type = ActivityType.VACATION_APPROVED
                 )
             )
@@ -191,6 +192,6 @@ class DashboardViewModel @Inject constructor(
      * Get available vacation days
      */
     fun getAvailableDays(): Int {
-        return _uiState.value.vacationBalance?.availableDays ?: 0
+        return _uiState.value.vacationBalance?.availableDays?.toInt() ?: 0
     }
 }
