@@ -76,13 +76,14 @@ class WebVacationController
 
         $companySummary = null;
         if ($isAdmin) {
+            // Calculate available_days dynamically for MySQL compatibility
             $stmt = $this->db->prepare('
                 SELECT 
                     COUNT(DISTINCT employee_id) as employee_count,
                     COALESCE(SUM(total_days), 0) as total_days,
                     COALESCE(SUM(used_days), 0) as used_days,
                     COALESCE(SUM(pending_days), 0) as pending_days,
-                    COALESCE(SUM(available_days), 0) as available_days
+                    COALESCE(SUM(total_days - used_days - pending_days), 0) as available_days
                 FROM vacation_balances
                 WHERE year = :year
             ');
