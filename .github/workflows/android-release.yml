@@ -105,12 +105,12 @@ jobs:
         run: ./gradlew assembleDebug --no-daemon --stacktrace
         timeout-minutes: 30
 
-      - name: Build Release APK
+      - name: Build Release APK (unsigned)
         working-directory: "Zabala Gailetak/android-app"
         run: ./gradlew assembleRelease --no-daemon --stacktrace
         timeout-minutes: 30
 
-      - name: List output files
+      - name: List output files before signing
         working-directory: "Zabala Gailetak/android-app"
         run: |
           echo "=== APK Outputs ==="
@@ -118,11 +118,24 @@ jobs:
           echo "=== Directory structure ==="
           ls -la app/build/outputs/apk/ 2>/dev/null || echo "Directory not found"
 
+      # Check if keystore is available for signing
+      - name: Check keystore availability
+        id: keystore_check
+        run: |
+          if [ -n "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" ]; then
+            echo "KEYSTORE_AVAILABLE=true" >> $GITHUB_OUTPUT
+            echo "Keystore secret is available"
+          else
+            echo "KEYSTORE_AVAILABLE=false" >> $GITHUB_OUTPUT
+            echo "⚠️ Keystore secret not available - APK will be unsigned"
+          fi
+
       - name: Sign Release APK
-        # Sign on tag push OR manual dispatch when creating release
-        if: |
-          (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) ||
-          (github.event_name == 'workflow_dispatch' && github.event.inputs.create_release == 'true')
+        # Sign when: tag push with keystore OR manual dispatch with create_release=true and keystore
+        if: steps.keystore_check.outputs.KEYSTORE_AVAILABLE == 'true' && (
+              (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) ||
+              (github.event_name == 'workflow_dispatch' && github.event.inputs.create_release == 'true')
+            )
         working-directory: "Zabala Gailetak/android-app"
         env:
           KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
@@ -130,11 +143,7 @@ jobs:
           KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
-          # Check if keystore secret is available
-          if [ -z "$KEYSTORE_BASE64" ]; then
-            echo "⚠️ Warning: KEYSTORE_BASE64 not set, skipping signing"
-            exit 0
-          fi
+          echo "Signing release APK..."
           
           # Decode keystore from base64
           echo "$KEYSTORE_BASE64" | base64 -d > zabala-gailetak-release.keystore
@@ -159,15 +168,56 @@ jobs:
             --ks-key-alias "$KEY_ALIAS" \
             --ks-pass "pass:$KEYSTORE_PASSWORD" \
             --key-pass "pass:$KEY_PASSWORD" \
-            --out app/build/outputs/apk/release/zabala-gailetak-hrapp-v${{ steps.version.outputs.VERSION_NAME }}-signed.apk \
+            --out app/build/outputs/apk/release/app-release-signed.apk \
             app/build/outputs/apk/release/app-release-unsigned.apk
           
           # Verify signature
+          echo "Verifying APK signature..."
           ${ANDROID_HOME}/build-tools/${BUILD_TOOLS_VERSION}/apksigner verify \
-            app/build/outputs/apk/release/zabala-gailetak-hrapp-v${{ steps.version.outputs.VERSION_NAME }}-signed.apk
+            app/build/outputs/apk/release/app-release-signed.apk
+          
+          echo "✅ APK signed successfully"
           
           # Clean up keystore
-          rm zabala-gailetak-release.keystore
+          rm -f zabala-gailetak-release.keystore
+
+      - name: Generate debug keystore and sign debug APK (fallback)
+        if: steps.keystore_check.outputs.KEYSTORE_AVAILABLE != 'true'
+        working-directory: "Zabala Gailetak/android-app"
+        run: |
+          echo "Generating debug keystore for APK alignment..."
+          
+          # Find latest build-tools version
+          BUILD_TOOLS_VERSION=$(ls -1 ${ANDROID_HOME}/build-tools 2>/dev/null | sort -V | tail -n 1)
+          if [ -z "$BUILD_TOOLS_VERSION" ]; then
+            BUILD_TOOLS_VERSION="34.0.0"
+          fi
+          
+          # Create a temporary debug keystore
+          keytool -genkey -v \
+            -keystore debug.keystore \
+            -alias androiddebugkey \
+            -storepass android \
+            -keypass android \
+            -keyalg RSA \
+            -validity 10000 \
+            -dname "CN=Android Debug,O=Android,C=US"
+          
+          # Sign the release APK with debug key (for testing purposes)
+          if [ -f "app/build/outputs/apk/release/app-release-unsigned.apk" ]; then
+            ${ANDROID_HOME}/build-tools/${BUILD_TOOLS_VERSION}/apksigner sign \
+              --ks debug.keystore \
+              --ks-key-alias androiddebugkey \
+              --ks-pass "pass:android" \
+              --key-pass "pass:android" \
+              --out app/build/outputs/apk/release/app-release-signed.apk \
+              app/build/outputs/apk/release/app-release-unsigned.apk
+            
+            echo "✅ Release APK signed with debug key"
+          fi
+          
+          # Clean up
+          rm -f debug.keystore
 
       - name: Rename APK files
         working-directory: "Zabala Gailetak/android-app/app/build/outputs/apk"
@@ -175,17 +225,50 @@ jobs:
           # Rename debug APK
           if [ -f "debug/app-debug.apk" ]; then
             mv debug/app-debug.apk debug/zabala-gailetak-hrapp-v${{ steps.version.outputs.VERSION_NAME }}-debug.apk
-            echo "Debug APK renamed"
+            echo "✅ Debug APK renamed"
           else
-            echo "Warning: app-debug.apk not found"
+            echo "⚠️ Warning: app-debug.apk not found"
             ls -la debug/ 2>/dev/null || echo "Debug directory not found"
           fi
           
-          # Rename release APK (unsigned if not creating release)
+          # Rename signed release APK
+          if [ -f "release/app-release-signed.apk" ]; then
+            mv release/app-release-signed.apk release/zabala-gailetak-hrapp-v${{ steps.version.outputs.VERSION_NAME }}-signed.apk
+            echo "✅ Signed Release APK renamed"
+          fi
+          
+          # Rename unsigned release APK (keep as backup)
           if [ -f "release/app-release-unsigned.apk" ]; then
             mv release/app-release-unsigned.apk release/zabala-gailetak-hrapp-v${{ steps.version.outputs.VERSION_NAME }}-release-unsigned.apk
-            echo "Release APK renamed"
+            echo "✅ Unsigned Release APK renamed"
           fi
+          
+          echo "=== Final APK files ==="
+          find . -name "*.apk" -type f 2>/dev/null
+
+      - name: Verify APK files
+        working-directory: "Zabala Gailetak/android-app/app/build/outputs/apk"
+        run: |
+          echo "=== Verifying APK files ==="
+          
+          # Find build-tools
+          BUILD_TOOLS_VERSION=$(ls -1 ${ANDROID_HOME}/build-tools 2>/dev/null | sort -V | tail -n 1)
+          if [ -z "$BUILD_TOOLS_VERSION" ]; then
+            BUILD_TOOLS_VERSION="34.0.0"
+          fi
+          
+          for apk in $(find . -name "*.apk" 2>/dev/null); do
+            echo ""
+            echo "Checking: $apk"
+            ${ANDROID_HOME}/build-tools/${BUILD_TOOLS_VERSION}/aapt dump badging "$apk" 2>/dev/null | head -5 || echo "⚠️ Could not read APK info"
+            
+            # Check if APK is signed
+            if ${ANDROID_HOME}/build-tools/${BUILD_TOOLS_VERSION}/apksigner verify "$apk" 2>/dev/null; then
+              echo "✅ APK is properly signed"
+            else
+              echo "⚠️ APK is NOT signed or has signature issues"
+            fi
+          done
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
@@ -196,27 +279,21 @@ jobs:
           retention-days: 30
           if-no-files-found: warn
 
-      - name: Upload Release APK (unsigned)
-        if: |
-          (github.event_name != 'push' || !startsWith(github.ref, 'refs/tags/')) &&
-          !(github.event_name == 'workflow_dispatch' && github.event.inputs.create_release == 'true')
-        uses: actions/upload-artifact@v4
-        with:
-          name: zabala-gailetak-hrapp-release-unsigned
-          path: "Zabala Gailetak/android-app/app/build/outputs/apk/release/*unsigned*.apk"
-          retention-days: 30
-          if-no-files-found: warn
-
       - name: Upload Release APK (signed)
-        if: |
-          (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) ||
-          (github.event_name == 'workflow_dispatch' && github.event.inputs.create_release == 'true')
         uses: actions/upload-artifact@v4
         with:
           name: zabala-gailetak-hrapp-release-signed
           path: "Zabala Gailetak/android-app/app/build/outputs/apk/release/*signed*.apk"
           retention-days: 90
           if-no-files-found: warn
+
+      - name: Upload Release APK (unsigned - backup)
+        uses: actions/upload-artifact@v4
+        with:
+          name: zabala-gailetak-hrapp-release-unsigned
+          path: "Zabala Gailetak/android-app/app/build/outputs/apk/release/*unsigned*.apk"
+          retention-days: 30
+          if-no-files-found: ignore
 
       - name: Generate APK checksums
         working-directory: "Zabala Gailetak/android-app/app/build/outputs/apk"
@@ -273,6 +350,12 @@ jobs:
           name: zabala-gailetak-hrapp-release-signed
           path: ./artifacts
 
+      - name: Download debug APK
+        uses: actions/download-artifact@v4
+        with:
+          name: zabala-gailetak-hrapp-debug
+          path: ./artifacts
+
       - name: Download checksums
         uses: actions/download-artifact@v4
         with:
@@ -298,10 +381,15 @@ jobs:
           
           ### 📥 Installation
           
+          #### Option 1: Signed Release APK (Recommended)
           1. Download the `zabala-gailetak-hrapp-v${{ steps.version.outputs.VERSION_NAME }}-signed.apk` file below
           2. On your Android device, enable "Install from Unknown Sources" in Settings
           3. Open the downloaded APK file to install
           4. Launch the app and login with your credentials
+          
+          #### Option 2: Debug APK (For Testing)
+          1. Download the `zabala-gailetak-hrapp-v${{ steps.version.outputs.VERSION_NAME }}-debug.apk` file
+          2. Install following the same steps as above
           
           ### 🔒 Security
           

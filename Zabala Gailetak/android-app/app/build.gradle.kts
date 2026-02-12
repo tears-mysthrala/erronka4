@@ -33,10 +33,14 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            // APK will be signed externally in CI/CD or manually
+            signingConfig = null
             buildConfigField("String", "API_BASE_URL", "\"https://zabala-gailetak.infinityfreeapp.com/api/\"")
         }
         debug {
             isMinifyEnabled = false
+            isShrinkResources = false
+            signingConfig = signingConfigs.getByName("debug")
             buildConfigField("String", "API_BASE_URL", "\"https://zabala-gailetak.infinityfreeapp.com/api/\"")
         }
     }
