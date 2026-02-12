@@ -73,15 +73,16 @@ jobs:
             if [ -n "${{ github.event.inputs.version_code }}" ]; then
               VERSION_CODE="${{ github.event.inputs.version_code }}"
             else
-              # Format: MMDDHHMM (month, day, hour, minute) - fits in Int
-              VERSION_CODE=$(date +%m%d%H%M)
+              # Format: YYMMDDHH (year, month, day, hour) - fits in Int until year 2100
+              # Max value: 99123123 = 99,123,123 (Dec 31, 2099, 23h) < 2,147,483,647
+              VERSION_CODE=$(date +%y%m%d%H)
             fi
           fi
           
           # Ensure version code is a valid positive integer
           if ! [[ "$VERSION_CODE" =~ ^[0-9]+$ ]]; then
             echo "Invalid version code: $VERSION_CODE, using timestamp fallback"
-            VERSION_CODE=$(date +%m%d%H%M)
+            VERSION_CODE=$(date +%y%m%d%H)
           fi
           
           # Ensure version code is not 0 and fits in Int (max 2147483647)
