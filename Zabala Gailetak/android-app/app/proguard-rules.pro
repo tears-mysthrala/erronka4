@@ -79,6 +79,13 @@
 -keep class com.zabalagailetak.hrapp.data.api.UpdateApiService { *; }
 -keep class com.zabalagailetak.hrapp.data.api.VersionInfo { *; }
 
+# Keep ViewModels
+-keep class com.zabalagailetak.hrapp.presentation.dashboard.DashboardViewModel { *; }
+-keep class com.zabalagailetak.hrapp.presentation.profile.ProfileViewModel { *; }
+-keep class com.zabalagailetak.hrapp.presentation.documents.DocumentsViewModel { *; }
+-keep class com.zabalagailetak.hrapp.presentation.payslips.PayslipsViewModel { *; }
+-keep class com.zabalagailetak.hrapp.presentation.vacation.VacationViewModel { *; }
+
 # Keep Coil
 -keep class coil.** { *; }
 

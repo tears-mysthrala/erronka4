@@ -1,6 +1,5 @@
 package com.zabalagailetak.hrapp.presentation.payslips
 
-import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -19,30 +18,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.zabalagailetak.hrapp.domain.model.Payslip
 import com.zabalagailetak.hrapp.presentation.ui.theme.*
 import java.text.NumberFormat
 import java.util.*
 
-import androidx.compose.ui.tooling.preview.Preview
-import com.zabalagailetak.hrapp.presentation.ui.theme.ZabalaGaileTakHRTheme
-
 /**
- * Payslips Screen - Display employee payslips
+ * Payslips Screen - Display employee payslips with real data
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PayslipsScreen(
-    onNavigateToDetail: (Int) -> Unit
+    onNavigateToDetail: (Int) -> Unit,
+    viewModel: PayslipsViewModel = hiltViewModel()
 ) {
-    // Mock data for demonstration
-    val payslips = remember {
-        listOf(
-            Payslip(1, 101, 12, 2025, 3500f, 2800f, 500f, 200f, 300f, 200f, null, null, null),
-            Payslip(2, 101, 11, 2025, 3500f, 2800f, 500f, null, 300f, 200f, null, null, null),
-            Payslip(3, 101, 10, 2025, 3500f, 2800f, 500f, null, 300f, 200f, null, null, null)
-        )
-    }
+    val uiState by viewModel.uiState.collectAsState()
     
     Scaffold(
         topBar = {
@@ -51,7 +42,27 @@ fun PayslipsScreen(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = PrimaryBlue,
                     titleContentColor = Color.White
-                )
+                ),
+                actions = {
+                    IconButton(
+                        onClick = { viewModel.refresh() },
+                        enabled = !uiState.isLoading
+                    ) {
+                        if (uiState.isLoading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(20.dp),
+                                color = Color.White,
+                                strokeWidth = 2.dp
+                            )
+                        } else {
+                            Icon(
+                                Icons.Default.Refresh,
+                                contentDescription = "Freskatu",
+                                tint = Color.White
+                            )
+                        }
+                    }
+                }
             )
         }
     ) { paddingValues ->
@@ -63,32 +74,84 @@ fun PayslipsScreen(
                 .padding(horizontal = 20.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // Summary card
-            item {
-                PayslipSummaryCard(latestPayslip = payslips.firstOrNull())
+            // Error message
+            uiState.error?.let { error ->
+                item {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(
+                            containerColor = ErrorRed.copy(alpha = 0.1f)
+                        )
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                Icons.Default.Error,
+                                contentDescription = null,
+                                tint = ErrorRed
+                            )
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Text(
+                                text = error,
+                                color = ErrorRed,
+                                modifier = Modifier.weight(1f)
+                            )
+                            TextButton(onClick = { viewModel.refresh() }) {
+                                Text("Saiatu berriro")
+                            }
+                        }
+                    }
+                }
             }
             
-            // Section header
-            item {
-                Text(
-                    text = "Nominen historiala",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.padding(vertical = 8.dp)
-                )
-            }
-            
-            // Payslips list
-            items(payslips) { payslip ->
-                PayslipCard(
-                    payslip = payslip,
-                    onClick = { onNavigateToDetail(payslip.id) }
-                )
+            // Loading state
+            if (uiState.isLoading && uiState.payslips.isEmpty()) {
+                item {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(32.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
+            } else if (uiState.payslips.isEmpty()) {
+                item {
+                    EmptyPayslipsState()
+                }
+            } else {
+                // Summary card with latest payslip
+                item {
+                    PayslipSummaryCard(latestPayslip = uiState.payslips.firstOrNull())
+                }
+                
+                // Section header
+                item {
+                    Text(
+                        text = "Nominen historiala",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.padding(vertical = 8.dp)
+                    )
+                }
+                
+                // Payslips list
+                items(uiState.payslips) { payslip ->
+                    PayslipCard(
+                        payslip = payslip,
+                        onClick = { onNavigateToDetail(payslip.id) }
+                    )
+                }
             }
         }
     }
-}/**
+}
+
+/**
  * Summary card showing latest payslip info
  */
 @Composable
@@ -152,6 +215,19 @@ fun PayslipSummaryCard(latestPayslip: Payslip?) {
                             color = Color.White
                         )
                     }
+                }
+            } else {
+                // Empty state
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Ez dago nominarik",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = Color.White.copy(alpha = 0.9f)
+                    )
                 }
             }
         }
@@ -227,18 +303,69 @@ fun PayslipCard(
 }
 
 /**
+ * Empty state when no payslips
+ */
+@Composable
+fun EmptyPayslipsState() {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 32.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(48.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                imageVector = Icons.Default.ReceiptLong,
+                contentDescription = null,
+                modifier = Modifier.size(64.dp),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            
+            Spacer(modifier = Modifier.height(16.dp))
+            
+            Text(
+                text = "Ez dago nominarik",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            
+            Spacer(modifier = Modifier.height(8.dp))
+            
+            Text(
+                text = "Oraindik ez dago nominarik eskuragarri",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+            )
+        }
+    }
+}
+
+/**
  * Payslip detail screen
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PayslipDetailScreen(
     payslipId: Int,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    viewModel: PayslipsViewModel = hiltViewModel()
 ) {
-    // Mock data
-    val payslip = remember {
-        Payslip(payslipId, 101, 12, 2025, 3500f, 2800f, 500f, 200f, 300f, 200f, null, null, null)
+    val uiState by viewModel.uiState.collectAsState()
+    
+    // Load payslip detail when screen opens
+    LaunchedEffect(payslipId) {
+        viewModel.loadPayslipDetail(payslipId)
     }
+    
+    val payslip = uiState.selectedPayslip
     
     Scaffold(
         topBar = {
@@ -255,124 +382,138 @@ fun PayslipDetailScreen(
                     navigationIconContentColor = Color.White
                 ),
                 actions = {
-                    IconButton(onClick = { /* Download PDF */ }) {
-                        Icon(
-                            Icons.Default.Download,
-                            contentDescription = "Deskargatu",
-                            tint = Color.White
-                        )
+                    if (payslip != null) {
+                        IconButton(onClick = { viewModel.downloadPayslip(payslip.id) }) {
+                            Icon(
+                                Icons.Default.Download,
+                                contentDescription = "Deskargatu",
+                                tint = Color.White
+                            )
+                        }
                     }
                 }
             )
         }
     ) { paddingValues ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
-                .padding(paddingValues)
-                .padding(20.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            // Header card
-            item {
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(20.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.Transparent
-                    )
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(
-                                brush = Brush.linearGradient(
-                                    colors = listOf(
-                                        Color(0xFF667EEA),
-                                        Color(0xFF764BA2)
+        if (uiState.isLoading) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        } else if (payslip == null) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center
+            ) {
+                Text("Ez da nominarik aurkitu")
+            }
+        } else {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(paddingValues)
+                    .padding(20.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                // Header card
+                item {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(20.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.Transparent
+                        )
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(
+                                    brush = Brush.linearGradient(
+                                        colors = listOf(
+                                            Color(0xFF667EEA),
+                                            Color(0xFF764BA2)
+                                        )
                                     )
                                 )
-                            )
-                            .padding(24.dp)
-                    ) {
-                        Column {
-                            Text(
-                                text = "${payslip.monthName} ${payslip.year}",
-                                style = MaterialTheme.typography.headlineSmall,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            )
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Text(
-                                text = "Soldata garbia",
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = Color.White.copy(alpha = 0.8f)
-                            )
-                            Text(
-                                text = formatCurrency(payslip.netSalary),
-                                style = MaterialTheme.typography.displayMedium,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            )
+                                .padding(24.dp)
+                        ) {
+                            Column {
+                                Text(
+                                    text = "${payslip.monthName} ${payslip.year}",
+                                    style = MaterialTheme.typography.headlineSmall,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White
+                                )
+                                Spacer(modifier = Modifier.height(16.dp))
+                                Text(
+                                    text = "Soldata garbia",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = Color.White.copy(alpha = 0.8f)
+                                )
+                                Text(
+                                    text = formatCurrency(payslip.netSalary),
+                                    style = MaterialTheme.typography.displayMedium,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White
+                                )
+                            }
                         }
                     }
                 }
-            }
-            
-            // Details section
-            item {
-                PayslipDetailItem(
-                    label = "Soldata gordina",
-                    value = formatCurrency(payslip.grossSalary),
-                    icon = Icons.Default.AttachMoney
-                )
-            }
-            
-            item {
-                PayslipDetailItem(
-                    label = "Bonuak",
-                    value = formatCurrency(payslip.bonuses ?: 0f),
-                    icon = Icons.Default.Star,
-                    valueColor = SuccessGreen
-                )
-            }
-            
-            item {
-                PayslipDetailItem(
-                    label = "Gizarte Segurantza",
-                    value = "- ${formatCurrency(payslip.socialSecurity)}",
-                    icon = Icons.Default.HealthAndSafety,
-                    valueColor = ErrorRed
-                )
-            }
-            
-            item {
-                PayslipDetailItem(
-                    label = "IRPF",
-                    value = "- ${formatCurrency(payslip.irpf)}",
-                    icon = Icons.Default.AccountBalance,
-                    valueColor = ErrorRed
-                )
-            }
-            
-            item {
-                PayslipDetailItem(
-                    label = "Beste kenkariak",
-                    value = "- ${formatCurrency(payslip.deductions)}",
-                    icon = Icons.Default.Remove,
-                    valueColor = ErrorRed
-                )
+                
+                // Details section
+                item {
+                    PayslipDetailItem(
+                        label = "Soldata gordina",
+                        value = formatCurrency(payslip.grossSalary),
+                        icon = Icons.Default.AttachMoney
+                    )
+                }
+                
+                item {
+                    PayslipDetailItem(
+                        label = "Bonuak",
+                        value = formatCurrency(payslip.bonuses ?: 0f),
+                        icon = Icons.Default.Star,
+                        valueColor = SuccessGreen
+                    )
+                }
+                
+                item {
+                    PayslipDetailItem(
+                        label = "Gizarte Segurantza",
+                        value = "- ${formatCurrency(payslip.socialSecurity)}",
+                        icon = Icons.Default.HealthAndSafety,
+                        valueColor = ErrorRed
+                    )
+                }
+                
+                item {
+                    PayslipDetailItem(
+                        label = "IRPF",
+                        value = "- ${formatCurrency(payslip.irpf)}",
+                        icon = Icons.Default.AccountBalance,
+                        valueColor = ErrorRed
+                    )
+                }
+                
+                item {
+                    PayslipDetailItem(
+                        label = "Beste kenkariak",
+                        value = "- ${formatCurrency(payslip.deductions)}",
+                        icon = Icons.Default.Remove,
+                        valueColor = ErrorRed
+                    )
+                }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PayslipDetailScreenPreview() {
-    ZabalaGaileTakHRTheme {
-        PayslipDetailScreen(1, {})
     }
 }
 
@@ -425,27 +566,4 @@ fun PayslipDetailItem(
 private fun formatCurrency(amount: Float): String {
     val format = NumberFormat.getCurrencyInstance(Locale("eu", "ES"))
     return format.format(amount)
-}
-
-@Preview(showBackground = true, name = "Default")
-@Composable
-fun PayslipsScreenPreview() {
-    ZabalaGaileTakHRTheme {
-        PayslipsScreen({})
-    }
-}
-
-@Preview(showBackground = true, name = "Empty State")
-@Composable
-fun PayslipsScreenEmptyPreview() {
-    ZabalaGaileTakHRTheme {
-        Box(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text("Ez dago nominik")
-        }
-    }
 }

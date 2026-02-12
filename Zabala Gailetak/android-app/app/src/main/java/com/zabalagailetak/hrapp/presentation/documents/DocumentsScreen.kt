@@ -16,37 +16,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.zabalagailetak.hrapp.domain.model.Document
 import com.zabalagailetak.hrapp.domain.model.DocumentCategory
 import com.zabalagailetak.hrapp.presentation.ui.theme.*
 
-import androidx.compose.ui.tooling.preview.Preview
-import com.zabalagailetak.hrapp.presentation.ui.theme.ZabalaGaileTakHRTheme
-
 /**
- * Documents Screen - Display employee documents
+ * Documents Screen - Display employee documents with real data
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DocumentsScreen() {
-    var selectedTab by remember { mutableStateOf(0) }
+fun DocumentsScreen(
+    viewModel: DocumentsViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsState()
     val tabs = listOf("Nire dokumentuak", "Publikoak")
-    
-    // Mock data
-    val myDocuments = remember {
-        listOf(
-            Document(1, 101, "Lan kontratua 2025", "Kontratu berritu berria", DocumentCategory.CONTRACT, "/docs/contract.pdf", null, "pdf", false, 1, null),
-            Document(2, 101, "Nomina - Abendua 2025", "Azken nomina", DocumentCategory.PAYSLIP, "/docs/payslip.pdf", null, "pdf", false, 1, null),
-            Document(3, 101, "Lan ziurtagiria", "Ziurtagiri orokorra", DocumentCategory.CERTIFICATE, "/docs/cert.pdf", null, "pdf", false, 1, null)
-        )
-    }
-    
-    val publicDocuments = remember {
-        listOf(
-            Document(4, null, "Segurtasun politika", "Enpresaren segurtasun politika", DocumentCategory.POLICY, "/docs/security_policy.pdf", null, "pdf", true, 1, null),
-            Document(5, null, "Barneko arautegia", "Enpresaren arautegia", DocumentCategory.POLICY, "/docs/regulations.pdf", null, "pdf", true, 1, null)
-        )
-    }
     
     Scaffold(
         topBar = {
@@ -55,7 +39,27 @@ fun DocumentsScreen() {
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = PrimaryBlue,
                     titleContentColor = Color.White
-                )
+                ),
+                actions = {
+                    IconButton(
+                        onClick = { viewModel.refresh() },
+                        enabled = !uiState.isLoading
+                    ) {
+                        if (uiState.isLoading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(20.dp),
+                                color = Color.White,
+                                strokeWidth = 2.dp
+                            )
+                        } else {
+                            Icon(
+                                Icons.Default.Refresh,
+                                contentDescription = "Freskatu",
+                                tint = Color.White
+                            )
+                        }
+                    }
+                }
             )
         }
     ) { paddingValues ->
@@ -65,21 +69,53 @@ fun DocumentsScreen() {
                 .background(MaterialTheme.colorScheme.background)
                 .padding(paddingValues)
         ) {
+            // Error message
+            uiState.error?.let { error ->
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = ErrorRed.copy(alpha = 0.1f)
+                    )
+                ) {
+                    Row(
+                        modifier = Modifier.padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            Icons.Default.Error,
+                            contentDescription = null,
+                            tint = ErrorRed
+                        )
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Text(
+                            text = error,
+                            color = ErrorRed,
+                            modifier = Modifier.weight(1f)
+                        )
+                        TextButton(onClick = { viewModel.refresh() }) {
+                            Text("Saiatu berriro")
+                        }
+                    }
+                }
+            }
+            
             // Tab row
             TabRow(
-                selectedTabIndex = selectedTab,
+                selectedTabIndex = uiState.selectedTab,
                 containerColor = MaterialTheme.colorScheme.surface,
                 contentColor = PrimaryBlue
             ) {
                 tabs.forEachIndexed { index, title ->
                     Tab(
-                        selected = selectedTab == index,
-                        onClick = { selectedTab = index },
+                        selected = uiState.selectedTab == index,
+                        onClick = { viewModel.selectTab(index) },
                         text = {
                             Text(
                                 text = title,
                                 style = MaterialTheme.typography.titleSmall,
-                                fontWeight = if (selectedTab == index) FontWeight.Bold else FontWeight.Normal
+                                fontWeight = if (uiState.selectedTab == index) FontWeight.Bold else FontWeight.Normal
                             )
                         }
                     )
@@ -93,15 +129,29 @@ fun DocumentsScreen() {
                     .padding(horizontal = 20.dp, vertical = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                val documents = if (selectedTab == 0) myDocuments else publicDocuments
+                val documents = if (uiState.selectedTab == 0) uiState.myDocuments else uiState.publicDocuments
                 
-                items(documents) { document ->
-                    DocumentCard(document = document)
-                }
-                
-                if (documents.isEmpty()) {
+                if (uiState.isLoading && documents.isEmpty()) {
+                    item {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(32.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator()
+                        }
+                    }
+                } else if (documents.isEmpty()) {
                     item {
                         EmptyDocumentsState()
+                    }
+                } else {
+                    items(documents) { document ->
+                        DocumentCard(
+                            document = document,
+                            onDownload = { viewModel.downloadDocument(document.id) }
+                        )
                     }
                 }
             }
@@ -109,19 +159,15 @@ fun DocumentsScreen() {
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun DocumentsScreenPreview() {
-    ZabalaGaileTakHRTheme {
-        DocumentsScreen()
-    }
-}
-@Composable
-fun DocumentCard(document: Document) {
+fun DocumentCard(
+    document: Document,
+    onDownload: () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { /* Download or open document */ },
+            .clickable { /* Open document */ },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
@@ -186,7 +232,7 @@ fun DocumentCard(document: Document) {
                 }
             }
             
-            IconButton(onClick = { /* Download */ }) {
+            IconButton(onClick = onDownload) {
                 Icon(
                     imageVector = Icons.Default.Download,
                     contentDescription = "Deskargatu",
@@ -255,17 +301,12 @@ private fun getDocumentColor(category: DocumentCategory): Color {
     }
 }
 
-@Preview(showBackground = true, name = "Light")
-@Composable
-fun DocumentsScreenPreview2() {
-    ZabalaGaileTakHRTheme {
-        Box(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
-            Text("Documentuaren iruzkina")
-        }
+private fun DocumentCategory.toBasqueString(): String {
+    return when (this) {
+        DocumentCategory.CONTRACT -> "Kontratua"
+        DocumentCategory.PAYSLIP -> "Nomina"
+        DocumentCategory.CERTIFICATE -> "Ziurtagiria"
+        DocumentCategory.POLICY -> "Politika"
+        DocumentCategory.OTHER -> "Bestelakoa"
     }
 }

@@ -7,7 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -24,18 +23,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.zabalagailetak.hrapp.presentation.ui.theme.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import android.annotation.TargetApi
 
-import androidx.compose.ui.tooling.preview.Preview
-import com.zabalagailetak.hrapp.presentation.ui.theme.ZabalaGaileTakHRTheme
-
 /**
- * Dashboard Screen - Main hub with innovative design
- * Features: Cards with gradients, quick actions, stats overview
+ * Dashboard Screen - Main hub with real data from API
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @TargetApi(26)
@@ -43,13 +39,19 @@ import com.zabalagailetak.hrapp.presentation.ui.theme.ZabalaGaileTakHRTheme
 fun DashboardScreen(
     onNavigateToVacations: () -> Unit,
     onNavigateToPayslips: () -> Unit,
-    onNavigateToDocuments: () -> Unit
+    onNavigateToDocuments: () -> Unit,
+    onNavigateToProfile: () -> Unit = {},
+    viewModel: DashboardViewModel = hiltViewModel()
 ) {
+    val uiState by viewModel.uiState.collectAsState()
     var greeting by remember { mutableStateOf(getGreeting()) }
     
     LaunchedEffect(Unit) {
         greeting = getGreeting()
     }
+    
+    // Pull to refresh state
+    val pullRefreshState = rememberPullToRefreshState()
     
     Scaffold(
         topBar = {
@@ -59,222 +61,304 @@ fun DashboardScreen(
                     containerColor = Color.Transparent
                 ),
                 actions = {
-                    IconButton(onClick = { /* Notifications */ }) {
-                        BadgedBox(
-                            badge = {
-                                Badge(
-                                    containerColor = ErrorRed,
-                                    contentColor = Color.White
-                                ) {
-                                    Text("3")
+                    // Notifications icon (hidden if no notifications)
+                    if (uiState.pendingRequests > 0) {
+                        IconButton(onClick = { onNavigateToVacations() }) {
+                            BadgedBox(
+                                badge = {
+                                    Badge(
+                                        containerColor = ErrorRed,
+                                        contentColor = Color.White
+                                    ) {
+                                        Text(uiState.pendingRequests.toString())
+                                    }
                                 }
+                            ) {
+                                Icon(
+                                    Icons.Default.Notifications,
+                                    contentDescription = "Jakinarazpenak",
+                                    tint = TextPrimary
+                                )
                             }
-                        ) {
-                            Icon(
-                                Icons.Default.Notifications,
-                                contentDescription = "Jakinarazpenak",
-                                tint = TextPrimary
-                            )
                         }
+                    }
+                    
+                    // Profile icon
+                    IconButton(onClick = onNavigateToProfile) {
+                        Icon(
+                            Icons.Default.Person,
+                            contentDescription = "Profila",
+                            tint = TextPrimary
+                        )
                     }
                 }
             )
         }
     ) { paddingValues ->
-        LazyColumn(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
-                .padding(paddingValues),
-            contentPadding = PaddingValues(bottom = 24.dp)
+                .padding(paddingValues)
         ) {
-            // Header Section
-            item {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp, vertical = 16.dp)
-                ) {
-                    Text(
-                        text = greeting,
-                        style = MaterialTheme.typography.headlineMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                    
-                    Spacer(modifier = Modifier.height(4.dp))
-                    
-                    Text(
-                        text = LocalDate.now().format(
-                            DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy", Locale("eu"))
-                        ),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background),
+                contentPadding = PaddingValues(bottom = 24.dp)
+            ) {
+                // Loading indicator
+                if (uiState.isLoading) {
+                    item {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(32.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator()
+                        }
+                    }
                 }
-            }
-            
-            // Quick Actions Section
-            item {
-                Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp)) {
-                    Text(
-                        text = "Ekintza azkarrak",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.padding(bottom = 12.dp)
-                    )
-                    
-                    LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.fillMaxWidth()
+                
+                // Error message
+                uiState.error?.let { error ->
+                    item {
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(20.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = ErrorRed.copy(alpha = 0.1f)
+                            )
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(16.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Icon(
+                                    Icons.Default.Error,
+                                    contentDescription = null,
+                                    tint = ErrorRed
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Text(
+                                    text = error,
+                                    color = ErrorRed,
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Button(onClick = { viewModel.refresh() }) {
+                                    Text("Saiatu berriro")
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                // Header Section
+                item {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp, vertical = 16.dp)
                     ) {
-                        item {
-                            QuickActionCard(
-                                icon = Icons.Default.BeachAccess,
-                                title = "Oporrak",
-                                subtitle = "Eskaera berria",
-                                gradient = Brush.linearGradient(
-                                    colors = listOf(Color(0xFF667EEA), Color(0xFF764BA2))
-                                ),
+                        Text(
+                            text = greeting,
+                            style = MaterialTheme.typography.headlineMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                        
+                        Spacer(modifier = Modifier.height(4.dp))
+                        
+                        // Show user name if available
+                        val userName = uiState.employee?.fullName
+                        if (userName != null) {
+                            Text(
+                                text = "Kaixo, $userName",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                        }
+                        
+                        Text(
+                            text = LocalDate.now().format(
+                                DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy", Locale("eu"))
+                            ),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+                
+                // Quick Actions Section
+                item {
+                    Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp)) {
+                        Text(
+                            text = "Ekintza azkarrak",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier.padding(bottom = 12.dp)
+                        )
+                        
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            item {
+                                QuickActionCard(
+                                    icon = Icons.Default.BeachAccess,
+                                    title = "Oporrak",
+                                    subtitle = "Eskaera berria",
+                                    gradient = Brush.linearGradient(
+                                        colors = listOf(Color(0xFF667EEA), Color(0xFF764BA2))
+                                    ),
+                                    onClick = onNavigateToVacations
+                                )
+                            }
+                            
+                            item {
+                                QuickActionCard(
+                                    icon = Icons.Default.Receipt,
+                                    title = "Nominak",
+                                    subtitle = "Ikusi nominak",
+                                    gradient = Brush.linearGradient(
+                                        colors = listOf(Color(0xFFf093fb), Color(0xFFf5576c))
+                                    ),
+                                    onClick = onNavigateToPayslips
+                                )
+                            }
+                            
+                            item {
+                                QuickActionCard(
+                                    icon = Icons.Default.Folder,
+                                    title = "Dokumentuak",
+                                    subtitle = "Kontsultatu",
+                                    gradient = Brush.linearGradient(
+                                        colors = listOf(Color(0xFF4facfe), Color(0xFF00f2fe))
+                                    ),
+                                    onClick = onNavigateToDocuments
+                                )
+                            }
+                        }
+                    }
+                }
+                
+                // Statistics Overview with real data
+                item {
+                    Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)) {
+                        Text(
+                            text = "Zure laburpena",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier.padding(bottom = 12.dp)
+                        )
+                        
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            StatCard(
+                                title = "Opor Egunak",
+                                value = uiState.vacationBalance?.availableDays?.toString() ?: "-",
+                                subtitle = "eskuragarri",
+                                icon = Icons.Default.CalendarToday,
+                                color = SuccessGreen,
+                                modifier = Modifier.weight(1f),
+                                onClick = onNavigateToVacations
+                            )
+                            
+                            StatCard(
+                                title = "Eskaerak",
+                                value = uiState.pendingRequests.toString(),
+                                subtitle = "zain",
+                                icon = Icons.Default.PendingActions,
+                                color = if (uiState.pendingRequests > 0) WarningAmber else SuccessGreen,
+                                modifier = Modifier.weight(1f),
                                 onClick = onNavigateToVacations
                             )
                         }
                         
-                        item {
-                            QuickActionCard(
-                                icon = Icons.Default.Receipt,
+                        Spacer(modifier = Modifier.height(12.dp))
+                        
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            StatCard(
+                                title = "Dokumentuak",
+                                value = if (uiState.totalDocuments > 0) uiState.totalDocuments.toString() else "-",
+                                subtitle = "guztira",
+                                icon = Icons.Default.Description,
+                                color = AccentPurple,
+                                modifier = Modifier.weight(1f),
+                                onClick = onNavigateToDocuments
+                            )
+                            
+                            StatCard(
                                 title = "Nominak",
-                                subtitle = "Ikusi nominak",
-                                gradient = Brush.linearGradient(
-                                    colors = listOf(Color(0xFFf093fb), Color(0xFFf5576c))
-                                ),
+                                value = "Ikusi",
+                                subtitle = "azkenak",
+                                icon = Icons.Default.Receipt,
+                                color = InfoBlue,
+                                modifier = Modifier.weight(1f),
                                 onClick = onNavigateToPayslips
                             )
                         }
+                    }
+                }
+                
+                // Recent Activity Section with real data
+                item {
+                    Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)) {
+                        Text(
+                            text = "Azken jarduera",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier.padding(bottom = 12.dp)
+                        )
                         
-                        item {
-                            QuickActionCard(
-                                icon = Icons.Default.Folder,
-                                title = "Dokumentuak",
-                                subtitle = "Kontsultatu",
-                                gradient = Brush.linearGradient(
-                                    colors = listOf(Color(0xFF4facfe), Color(0xFF00f2fe))
-                                ),
-                                onClick = onNavigateToDocuments
-                            )
+                        if (uiState.recentActivities.isEmpty()) {
+                            Card(
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.surface
+                                )
+                            ) {
+                                Text(
+                                    text = "Ez dago jarduerarik oraindik",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.padding(16.dp)
+                                )
+                            }
+                        } else {
+                            uiState.recentActivities.forEach { activity ->
+                                val (icon, color) = when (activity.type) {
+                                    ActivityType.VACATION_APPROVED -> Icons.Default.CheckCircle to SuccessGreen
+                                    ActivityType.VACATION_PENDING -> Icons.Default.HourglassEmpty to WarningAmber
+                                    ActivityType.PAYSLIP_AVAILABLE -> Icons.Default.Receipt to InfoBlue
+                                    ActivityType.DOCUMENT_UPLOADED -> Icons.Default.Description to AccentPurple
+                                    ActivityType.GENERAL -> Icons.Default.Info to TextSecondary
+                                }
+                                
+                                ActivityItem(
+                                    icon = icon,
+                                    title = activity.title,
+                                    time = activity.time,
+                                    iconColor = color
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
                         }
                     }
                 }
             }
-            
-            // Statistics Overview
-            item {
-                Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)) {
-                    Text(
-                        text = "Zure laburpena",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.padding(bottom = 12.dp)
-                    )
-                    
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        StatCard(
-                            title = "Opor Egunak",
-                            value = "15",
-                            subtitle = "eskuragarri",
-                            icon = Icons.Default.CalendarToday,
-                            color = SuccessGreen,
-                            modifier = Modifier.weight(1f)
-                        )
-                        
-                        StatCard(
-                            title = "Ordutegiak",
-                            value = "8.5h",
-                            subtitle = "gaur",
-                            icon = Icons.Default.AccessTime,
-                            color = InfoBlue,
-                            modifier = Modifier.weight(1f)
-                        )
-                    }
-                    
-                    Spacer(modifier = Modifier.height(12.dp))
-                    
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        StatCard(
-                            title = "Eskaerak",
-                            value = "2",
-                            subtitle = "zain",
-                            icon = Icons.Default.PendingActions,
-                            color = WarningAmber,
-                            modifier = Modifier.weight(1f)
-                        )
-                        
-                        StatCard(
-                            title = "Dokumentuak",
-                            value = "12",
-                            subtitle = "guztira",
-                            icon = Icons.Default.Description,
-                            color = AccentPurple,
-                            modifier = Modifier.weight(1f)
-                        )
-                    }
-                }
-            }
-            
-            // Recent Activity Section
-            item {
-                Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)) {
-                    Text(
-                        text = "Azken jarduera",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.padding(bottom = 12.dp)
-                    )
-                    
-                    ActivityItem(
-                        icon = Icons.Default.CheckCircle,
-                        title = "Opor eskaera onartua",
-                        time = "Atzo, 14:30",
-                        iconColor = SuccessGreen
-                    )
-                    
-                    Spacer(modifier = Modifier.height(8.dp))
-                    
-                    ActivityItem(
-                        icon = Icons.Default.Description,
-                        title = "Nomina eskuragarri - Abendua",
-                        time = "3 egun",
-                        iconColor = InfoBlue
-                    )
-                    
-                    Spacer(modifier = Modifier.height(8.dp))
-                    
-                    ActivityItem(
-                        icon = Icons.Default.Upload,
-                        title = "Dokumentu berria kargatu da",
-                        time = "Aste 1",
-                        iconColor = AccentPurple
-                    )
-                }
-            }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DashboardPreview() {
-    ZabalaGaileTakHRTheme {
-        DashboardScreen({}, {}, {})
     }
 }
 
@@ -308,12 +392,7 @@ fun QuickActionCard(
                 shape = RoundedCornerShape(20.dp),
                 spotColor = ShadowColor
             )
-            .clickable(
-                onClick = {
-                    pressed = true
-                    onClick()
-                }
-            ),
+            .clickable(onClick = onClick),
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.Transparent
@@ -364,10 +443,13 @@ fun StatCard(
     subtitle: String,
     icon: ImageVector,
     color: Color,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null
 ) {
     Card(
-        modifier = modifier.height(110.dp),
+        modifier = modifier
+            .height(110.dp)
+            .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
@@ -473,11 +555,13 @@ fun ActivityItem(
                     fontWeight = FontWeight.Medium,
                     color = MaterialTheme.colorScheme.onSurface
                 )
-                Text(
-                    text = time,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                if (time.isNotBlank()) {
+                    Text(
+                        text = time,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
             
             Icon(
@@ -499,17 +583,5 @@ private fun getGreeting(): String {
         in 6..12 -> "Egun on"
         in 13..20 -> "Arratsalde on"
         else -> "Gau on"
-    }
-}
-
-@Preview(showBackground = true, name = "Light")
-@Composable
-fun DashboardScreenPreview() {
-    ZabalaGaileTakHRTheme {
-        DashboardScreen(
-            onNavigateToVacations = {},
-            onNavigateToPayslips = {},
-            onNavigateToDocuments = {}
-        )
     }
 }

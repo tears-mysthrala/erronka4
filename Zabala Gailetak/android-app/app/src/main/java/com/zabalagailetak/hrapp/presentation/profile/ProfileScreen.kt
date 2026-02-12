@@ -19,20 +19,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.zabalagailetak.hrapp.presentation.ui.theme.*
 
-import androidx.compose.ui.tooling.preview.Preview
-import com.zabalagailetak.hrapp.presentation.ui.theme.ZabalaGaileTakHRTheme
-
 /**
- * Profile Screen - User profile and settings
+ * Profile Screen - User profile with real data from API
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    onLogout: () -> Unit
+    onLogout: () -> Unit,
+    viewModel: ProfileViewModel = hiltViewModel()
 ) {
+    val uiState by viewModel.uiState.collectAsState()
     var showLogoutDialog by remember { mutableStateOf(false) }
+    
+    // Handle logout success
+    LaunchedEffect(uiState.logoutSuccess) {
+        if (uiState.logoutSuccess) {
+            onLogout()
+        }
+    }
     
     Scaffold(
         topBar = {
@@ -42,12 +49,23 @@ fun ProfileScreen(
                     containerColor = Color.Transparent
                 ),
                 actions = {
-                    IconButton(onClick = { /* Edit profile */ }) {
-                        Icon(
-                            Icons.Default.Edit,
-                            contentDescription = "Editatu",
-                            tint = MaterialTheme.colorScheme.onBackground
-                        )
+                    // Refresh button
+                    IconButton(
+                        onClick = { viewModel.refresh() },
+                        enabled = !uiState.isLoading
+                    ) {
+                        if (uiState.isLoading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(24.dp),
+                                strokeWidth = 2.dp
+                            )
+                        } else {
+                            Icon(
+                                Icons.Default.Refresh,
+                                contentDescription = "Freskatu",
+                                tint = MaterialTheme.colorScheme.onBackground
+                            )
+                        }
                     }
                 }
             )
@@ -60,6 +78,40 @@ fun ProfileScreen(
                 .padding(paddingValues),
             contentPadding = PaddingValues(bottom = 24.dp)
         ) {
+            // Error message
+            uiState.error?.let { error ->
+                item {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(20.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = ErrorRed.copy(alpha = 0.1f)
+                        )
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                Icons.Default.Error,
+                                contentDescription = null,
+                                tint = ErrorRed
+                            )
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Text(
+                                text = error,
+                                color = ErrorRed,
+                                modifier = Modifier.weight(1f)
+                            )
+                            TextButton(onClick = { viewModel.refresh() }) {
+                                Text("Saiatu berriro")
+                            }
+                        }
+                    }
+                }
+            }
+            
             // Profile header with gradient
             item {
                 Card(
@@ -109,32 +161,37 @@ fun ProfileScreen(
                             
                             Spacer(modifier = Modifier.height(16.dp))
                             
+                            // Name - using real data
                             Text(
-                                text = "Jon Doe",
+                                text = viewModel.getFullName(),
                                 style = MaterialTheme.typography.headlineSmall,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
                             )
                             
-                            Text(
-                                text = "jon.doe@zabalagailetak.com",
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = Color.White.copy(alpha = 0.9f)
-                            )
+                            // Email
+                            val email = viewModel.getEmail()
+                            if (email.isNotBlank()) {
+                                Text(
+                                    text = email,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = Color.White.copy(alpha = 0.9f)
+                                )
+                            }
                             
                             Spacer(modifier = Modifier.height(16.dp))
                             
-                            // Job info
+                            // Job info badges
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(16.dp)
                             ) {
                                 ProfileBadge(
                                     icon = Icons.Default.Work,
-                                    text = "Garatzailea"
+                                    text = viewModel.getRole()
                                 )
                                 ProfileBadge(
                                     icon = Icons.Default.Business,
-                                    text = "IT Saila"
+                                    text = viewModel.getDepartment()
                                 )
                             }
                         }
@@ -161,7 +218,7 @@ fun ProfileScreen(
                 ProfileInfoCard(
                     icon = Icons.Default.Phone,
                     label = "Telefonoa",
-                    value = "+34 123 456 789"
+                    value = viewModel.getPhone()
                 )
             }
             
@@ -173,7 +230,7 @@ fun ProfileScreen(
                 ProfileInfoCard(
                     icon = Icons.Default.LocationOn,
                     label = "Helbidea",
-                    value = "Bilbo, Bizkaia"
+                    value = viewModel.getAddress()
                 )
             }
             
@@ -185,7 +242,7 @@ fun ProfileScreen(
                 ProfileInfoCard(
                     icon = Icons.Default.CalendarToday,
                     label = "Kontratazio data",
-                    value = "2023-01-15"
+                    value = viewModel.getHireDate()
                 )
             }
             
@@ -204,12 +261,14 @@ fun ProfileScreen(
                 }
             }
             
+            // Security - coming soon
             item {
                 SettingsOptionCard(
                     icon = Icons.Default.Lock,
                     title = "Segurtasuna",
-                    subtitle = "Aldatu pasahitza eta MFA",
-                    onClick = { /* Navigate to security settings */ }
+                    subtitle = "Aldatu pasahitza eta MFA (laster)",
+                    onClick = { /* TODO: Navigate to security settings */ },
+                    enabled = false
                 )
             }
             
@@ -217,12 +276,14 @@ fun ProfileScreen(
                 Spacer(modifier = Modifier.height(8.dp))
             }
             
+            // Notifications - coming soon
             item {
                 SettingsOptionCard(
                     icon = Icons.Default.Notifications,
                     title = "Jakinarazpenak",
-                    subtitle = "Kudeatu jakinarazpen hobespenak",
-                    onClick = { /* Navigate to notification settings */ }
+                    subtitle = "Kudeatu jakinarazpen hobespenak (laster)",
+                    onClick = { /* TODO: Navigate to notification settings */ },
+                    enabled = false
                 )
             }
             
@@ -230,12 +291,14 @@ fun ProfileScreen(
                 Spacer(modifier = Modifier.height(8.dp))
             }
             
+            // Language - coming soon
             item {
                 SettingsOptionCard(
                     icon = Icons.Default.Language,
                     title = "Hizkuntza",
-                    subtitle = "Euskara",
-                    onClick = { /* Change language */ }
+                    subtitle = "Euskara (ezin da aldatu oraingoz)",
+                    onClick = { /* TODO: Change language */ },
+                    enabled = false
                 )
             }
             
@@ -248,7 +311,8 @@ fun ProfileScreen(
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 20.dp),
+                        .padding(horizontal = 20.dp)
+                        .clickable { showLogoutDialog = true },
                     shape = RoundedCornerShape(16.dp),
                     colors = CardDefaults.cardColors(
                         containerColor = ErrorRed.copy(alpha = 0.1f)
@@ -268,10 +332,22 @@ fun ProfileScreen(
                                 contentDescription = null,
                                 tint = ErrorRed
                             )
-                        },
-                        modifier = Modifier.clickable {
-                            showLogoutDialog = true
                         }
+                    )
+                }
+            }
+            
+            // Version info
+            item {
+                Spacer(modifier = Modifier.height(24.dp))
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Zabala Gailetak HR App",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
@@ -299,7 +375,7 @@ fun ProfileScreen(
                 Button(
                     onClick = {
                         showLogoutDialog = false
-                        onLogout()
+                        viewModel.logout()
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = ErrorRed
@@ -399,54 +475,68 @@ fun SettingsOptionCard(
     icon: ImageVector,
     title: String,
     subtitle: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    enabled: Boolean = true
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp)
-            .clickable(onClick = onClick),
+            .clickable(
+                enabled = enabled,
+                onClick = onClick
+            ),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = if (enabled) 
+                MaterialTheme.colorScheme.surface 
+            else 
+                MaterialTheme.colorScheme.surface.copy(alpha = 0.5f)
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = if (enabled) 1.dp else 0.dp
+        )
     ) {
         ListItem(
             headlineContent = {
                 Text(
                     text = title,
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.Medium,
+                    color = if (enabled) 
+                        MaterialTheme.colorScheme.onSurface 
+                    else 
+                        MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                 )
             },
             supportingContent = {
                 Text(
                     text = subtitle,
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodySmall,
+                    color = if (enabled) 
+                        MaterialTheme.colorScheme.onSurfaceVariant 
+                    else 
+                        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
                 )
             },
             leadingContent = {
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    tint = PrimaryBlue
+                    tint = if (enabled) 
+                        PrimaryBlue 
+                    else 
+                        PrimaryBlue.copy(alpha = 0.5f)
                 )
             },
             trailingContent = {
-                Icon(
-                    imageVector = Icons.Default.ChevronRight,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                if (enabled) {
+                    Icon(
+                        imageVector = Icons.Default.ChevronRight,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
         )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ProfileScreenPreview() {
-    ZabalaGaileTakHRTheme {
-        ProfileScreen(onLogout = {})
     }
 }
