@@ -73,17 +73,23 @@ jobs:
             if [ -n "${{ github.event.inputs.version_code }}" ]; then
               VERSION_CODE="${{ github.event.inputs.version_code }}"
             else
-              VERSION_CODE=$(date +%y%m%d%H%M)
+              # Format: MMDDHHMM (month, day, hour, minute) - fits in Int
+              VERSION_CODE=$(date +%m%d%H%M)
             fi
           fi
           
+          # Ensure version code is a valid positive integer
           if ! [[ "$VERSION_CODE" =~ ^[0-9]+$ ]]; then
             echo "Invalid version code: $VERSION_CODE, using timestamp fallback"
-            VERSION_CODE=$(date +%y%m%d%H%M)
+            VERSION_CODE=$(date +%m%d%H%M)
           fi
           
+          # Ensure version code is not 0 and fits in Int (max 2147483647)
           if [ "$VERSION_CODE" -eq 0 ]; then
             VERSION_CODE=1
+          elif [ "$VERSION_CODE" -gt 2147483647 ]; then
+            echo "Version code too large: $VERSION_CODE, using modulo"
+            VERSION_CODE=$((VERSION_CODE % 2147483647))
           fi
           
           echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_OUTPUT
