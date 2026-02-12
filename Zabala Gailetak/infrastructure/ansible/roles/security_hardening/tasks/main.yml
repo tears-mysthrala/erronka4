@@ -1,0 +1,122 @@
+---
+# Security Hardening Tasks - CIS Benchmark Ubuntu 22.04
+
+- name: 1.1.1 - Ez erabiltzeko filesystem-ak desgaitu
+  lineinfile:
+    path: /etc/modprobe.d/CIS.conf
+    line: "install {{ item }} /bin/true"
+    create: yes
+  loop:
+    - cramfs
+    - freevxfs
+    - jffs2
+    - hfs
+    - hfsplus
+    - squashfs
+    - udf
+
+- name: 1.3.1 - AIDE (File Integrity) Instalatu
+  apt:
+    name:
+      - aide
+      - aide-common
+    state: present
+    
+- name: 1.3.1 - AIDE Hasieratu
+  command: aideinit
+  args:
+    creates: /var/lib/aide/aide.db.new
+
+- name: 1.5.1 - Core Dumps Desgaitu
+  lineinfile:
+    path: /etc/security/limits.conf
+    line: "* hard core 0"
+
+- name: 1.5.3 - ASLR Gaitu
+  sysctl:
+    name: kernel.randomize_va_space
+    value: '2'
+    state: present
+
+- name: 3.2.2 - IP Forwarding Desgaitu
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: '0'
+    state: present
+
+- name: 3.3.1 - Source Routed Packets Blokeatu
+  sysctl:
+    name: net.ipv4.conf.all.accept_source_route
+    value: '0'
+    state: present
+
+- name: 3.3.2 - ICMP Redirects Onartu Ez
+  sysctl:
+    name: net.ipv4.conf.all.accept_redirects
+    value: '0'
+    state: present
+
+- name: 3.5.1.1 - UFW Instalatu eta Gaitu
+  apt:
+    name: ufw
+    state: present
+    
+- name: 3.5.1.1 - UFW Gaitu
+  ufw:
+    state: enabled
+    policy: deny
+    
+- name: 3.5.1.1 - UFW Arauak
+  ufw:
+    rule: allow
+    port: '{{ item.port }}'
+    proto: '{{ item.proto }}'
+  loop:
+    - { port: 22, proto: tcp }
+    - { port: 80, proto: tcp }
+    - { port: 443, proto: tcp }
+
+- name: 4.1.1.1 - Auditd Instalatu
+  apt:
+    name: auditd
+    state: present
+    
+- name: 4.1.1.2 - Auditd Gaitu
+  service:
+    name: auditd
+    state: started
+    enabled: yes
+
+- name: 5.2.4 - SSH X11 Forwarding Desgaitu
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^X11Forwarding'
+    line: 'X11Forwarding no'
+  notify: restart sshd
+
+- name: 5.2.5 - SSH MaxAuthTries
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^MaxAuthTries'
+    line: 'MaxAuthTries 3'
+  notify: restart sshd
+
+- name: 5.2.6 - SSH PermitRootLogin
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^PermitRootLogin'
+    line: 'PermitRootLogin no'
+  notify: restart sshd
+
+- name: 5.2.8 - SSH PasswordAuthentication Desgaitu
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^PasswordAuthentication'
+    line: 'PasswordAuthentication no'
+  notify: restart sshd
+
+- name: 5.3.1 - Password Creation Requirements
+  lineinfile:
+    path: /etc/pam.d/common-password
+    regexp: '^password.*requisite.*pam_pwquality.so'
+    line: 'password requisite pam_pwquality.so try_first_pass retry=3 minlen=12 ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1'

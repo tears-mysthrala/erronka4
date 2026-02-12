@@ -1,0 +1,110 @@
+---
+# Zabala Gailetak - Infrastructure as Code (IaC)
+# Ansible Playbook Orokorra - Sistema Guztiak Konfiguratzeko
+
+- name: Zabala Gailetak - Segurtasun Konfigurazio Orokorra
+  hosts: all
+  become: yes
+  gather_facts: yes
+  
+  vars:
+    company_name: "Zabala Gailetak"
+    domain: "zabala-gailetak.com"
+    ntp_server: "es.pool.ntp.org"
+    syslog_server: "10.10.10.10"
+    
+  roles:
+    - common
+    - security_hardening
+    - monitoring
+    - backup
+
+- name: Web Zerbitzariak Konfiguratu
+  hosts: web_servers
+  become: yes
+  
+  vars:
+    nginx_version: "1.24.0"
+    php_version: "8.4"
+    
+  roles:
+    - nginx
+    - php
+    - waf
+    
+  tasks:
+    - name: Segurtasun Header-ak Konfiguratu
+      template:
+        src: security_headers.conf.j2
+        dest: /etc/nginx/conf.d/security_headers.conf
+      notify: reload nginx
+      
+    - name: Rate Limiting Konfiguratu
+      template:
+        src: rate_limit.conf.j2
+        dest: /etc/nginx/conf.d/rate_limit.conf
+      notify: reload nginx
+
+- name: Datu-base Zerbitzariak Konfiguratu
+  hosts: db_servers
+  become: yes
+  
+  vars:
+    postgres_version: "16"
+    
+  roles:
+    - postgresql
+    - postgresql_hardening
+    
+  tasks:
+    - name: SSL/TLS Enkriptazioa Gaitu
+      postgresql_query:
+        query: "ALTER SYSTEM SET ssl = on;"
+      notify: restart postgresql
+      
+    - name: Logak Konfiguratu
+      template:
+        src: postgresql_logging.conf.j2
+        dest: /etc/postgresql/16/main/conf.d/logging.conf
+      notify: reload postgresql
+
+- name: SIEM/Segurtasun Zerbitzariak
+  hosts: security_servers
+  become: yes
+  
+  roles:
+    - wazuh_server
+    - elasticsearch
+    - kibana
+    - logstash
+    
+  tasks:
+    - name: Wazuh Alert Rules Kopiatu
+      copy:
+        src: ../siem/wazuh_alert_rules.xml
+        dest: /var/ossec/etc/rules/zabala_gailetak_rules.xml
+        owner: root
+        group: ossec
+        mode: '0640'
+      notify: restart wazuh-manager
+
+- name: OT/SCADA Sarea Isolatu
+  hosts: ot_gateway
+  become: yes
+  
+  roles:
+    - firewall
+    - ot_security
+    
+  tasks:
+    - name: IT-OT Firewall Arauak Konfiguratu
+      template:
+        src: ot_firewall_rules.sh.j2
+        dest: /usr/local/bin/ot_firewall_rules.sh
+        mode: '0750'
+        
+    - name: Modbus Monitorizazioa Konfiguratu
+      template:
+        src: modbus_monitor.conf.j2
+        dest: /etc/suricata/rules/modbus.rules
+      notify: restart suricata

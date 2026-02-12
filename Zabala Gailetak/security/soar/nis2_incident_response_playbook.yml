@@ -1,0 +1,281 @@
+---
+# SOAR Playbook: NIS2 Incident Response Automation
+# Zabala Gailetak - Automated Incident Response
+# Compatible with: Splunk SOAR, Palo Alto XSOAR, Shuffle
+
+playbook:
+  name: "NIS2 Incident Response - Automated"
+  version: "1.0"
+  description: "Automated incident response for NIS2 significant incidents with 24h/72h notification requirements"
+  
+  triggers:
+    - type: webhook
+      name: "wazuh_critical_alert"
+      conditions:
+        - field: "rule.level"
+          operator: "gte"
+          value: 12
+        - field: "rule.groups"
+          operator: "contains"
+          value: "nis2"
+    
+    - type: schedule
+      name: "check_nis2_timers"
+      cron: "*/5 * * * *"  # Every 5 minutes
+  
+  phases:
+    # PHASE 1: Initial Detection & Triage (0-1h)
+    phase_1_detection:
+      - name: "Extract Incident Data"
+        action: "parse_alert"
+        tool: "wazuh_api"
+        output:
+          - incident_id
+          - timestamp
+          - severity
+          - affected_systems
+          - source_ip
+          - rule_description
+      
+      - name: "Enrich Threat Intelligence"
+        action: "enrich_ioc"
+        tool: "misp_integration"
+        inputs:
+          - "{{ source_ip }}"
+        output:
+          - threat_score
+          - known_malicious
+          - threat_actor
+      
+      - name: "Classify Incident Severity"
+        action: "decision"
+        conditions:
+          - if: "{{ severity }} >= 13 OR {{ known_malicious }} == true"
+            then: 
+              - set_variable: "nis2_significant", "true"
+              - set_variable: "response_level", "critical"
+          - elif: "{{ severity }} >= 10"
+            then:
+              - set_variable: "nis2_significant", "false"
+              - set_variable: "response_level", "high"
+          - else:
+              - set_variable: "nis2_significant", "false"
+              - set_variable: "response_level", "medium"
+      
+      - name: "Start NIS2 Timer"
+        action: "start_timer"
+        condition: "{{ nis2_significant }} == true"
+        timers:
+          - name: "early_warning_24h"
+            duration: "82800"  # 23h (buffer before 24h)
+          - name: "full_report_72h"
+            duration: "259200"  # 72h
+      
+      - name: "Create Incident Ticket"
+        action: "create_ticket"
+        tool: "jira"
+        fields:
+          project: "SEC"
+          issuetype: "Security Incident"
+          summary: "[{{ response_level }}] {{ rule_description }}"
+          description: |
+            **Incident ID:** {{ incident_id }}
+            **Detected:** {{ timestamp }}
+            **Severity:** {{ severity }}
+            **NIS2 Significant:** {{ nis2_significant }}
+            
+            **Affected Systems:**
+            {{ affected_systems }}
+            
+            **Threat Intel:**
+            - Known Malicious: {{ known_malicious }}
+            - Threat Score: {{ threat_score }}
+          priority: "{{ 'Critical' if response_level == 'critical' else 'High' }}"
+          labels: ["nis2", "automated", "{{ response_level }}"]
+    
+    # PHASE 2: Immediate Response (0-15min)
+    phase_2_containment:
+      - name: "Notify CSIRT Team"
+        action: "send_notification"
+        tool: "slack"
+        channel: "#security-incidents"
+        message: |
+          🚨 **SECURITY INCIDENT DETECTED**
+          
+          **Level:** {{ response_level }}
+          **NIS2 Significant:** {{ nis2_significant }}
+          **Ticket:** {{ jira_ticket_url }}
+          
+          @ciso @soc-lead respond immediately
+        
+      - name: "Email CISO and DPO"
+        action: "send_email"
+        condition: "{{ nis2_significant }} == true"
+        to: ["ciso@zabalagailetak.com", "dpo@zabalagailetak.com"]
+        subject: "URGENT: NIS2 Significant Incident - {{ incident_id }}"
+        body: |
+          A NIS2 significant incident has been detected.
+          
+          Early Warning notification to INCIBE required within 24 hours.
+          Full report required within 72 hours.
+          
+          Ticket: {{ jira_ticket_url }}
+      
+      - name: "Automatic Containment - Block IP"
+        action: "firewall_block"
+        condition: "{{ known_malicious }} == true"
+        tool: "pfsense_api"
+        parameters:
+          ip: "{{ source_ip }}"
+          duration: "24h"
+          reason: "SOAR: Automated response to malicious activity"
+      
+      - name: "Isolate Affected Endpoint"
+        action: "network_isolation"
+        condition: "{{ response_level }} == 'critical'"
+        tool: "wazuh_active_response"
+        parameters:
+          agent_id: "{{ agent.id }}"
+          isolation_type: "network_quarantine"
+      
+      - name: "Capture Memory Dump"
+        action: "collect_evidence"
+        condition: "{{ response_level }} == 'critical'"
+        tool: "velociraptor"
+        artifacts:
+          - "Windows.Memory.Acquisition"
+          - "Windows.Sysinternals.ProcDump"
+        output_location: "/evidence/{{ incident_id }}/"
+    
+    # PHASE 3: Investigation (1h - ongoing)
+    phase_3_investigation:
+      - name: "Collect System Logs"
+        action: "log_collection"
+        tool: "wazuh_api"
+        parameters:
+          agent_ids: "{{ affected_systems }}"
+          time_range: "-1h to now"
+          log_types: ["syslog", "auth", "audit"]
+        output: "/evidence/{{ incident_id }}/logs/"
+      
+      - name: "Network Traffic Analysis"
+        action: "pcap_collection"
+        tool: "suricata"
+        parameters:
+          filter: "host {{ source_ip }}"
+          duration: "300"
+        output: "/evidence/{{ incident_id }}/pcap/"
+      
+      - name: "File Integrity Check"
+        action: "fim_check"
+        tool: "wazuh_api"
+        parameters:
+          agent_id: "{{ agent.id }}"
+          check_integrity: true
+      
+      - name: "YARA Scan"
+        action: "malware_scan"
+        condition: "{{ response_level }} == 'critical'"
+        tool: "yara"
+        rules: "/rules/malware_indicators.yar"
+        target: "/opt/{{ agent.name }}/"
+    
+    # PHASE 4: NIS2 Notifications (24h / 72h)
+    phase_4_nis2_notifications:
+      - name: "Generate Early Warning (24h)"
+        action: "generate_report"
+        trigger: "timer.early_warning_24h"
+        template: "compliance/nis2/notifications/early_warning_24h_template.md"
+        fields:
+          incident_id: "{{ incident_id }}"
+          detection_time: "{{ timestamp }}"
+          incident_type: "{{ rule_description }}"
+          affected_systems: "{{ affected_systems }}"
+          initial_assessment: "{{ initial_assessment }}"
+          containment_actions: "{{ containment_actions }}"
+      
+      - name: "Send Early Warning to INCIBE"
+        action: "submit_report"
+        trigger: "timer.early_warning_24h"
+        tool: "email"
+        to: "incidencias@incibe-cert.es"
+        cc: ["ciso@zabalagailetak.com", "dpo@zabalagailetak.com"]
+        subject: "[NIS2 Early Warning] {{ incident_id }} - Zabala Gailetak"
+        attachment: "{{ early_warning_report }}"
+      
+      - name: "Generate Full Report (72h)"
+        action: "generate_report"
+        trigger: "timer.full_report_72h"
+        template: "compliance/nis2/notifications/full_report_72h_template.md"
+        fields:
+          incident_id: "{{ incident_id }}"
+          executive_summary: "{{ investigation_summary }}"
+          technical_details: "{{ technical_findings }}"
+          impact_assessment: "{{ impact_analysis }}"
+          root_cause: "{{ root_cause_analysis }}"
+          lessons_learned: "{{ lessons_learned }}"
+          corrective_actions: "{{ corrective_actions }}"
+      
+      - name: "Send Full Report to INCIBE"
+        action: "submit_report"
+        trigger: "timer.full_report_72h"
+        tool: "email"
+        to: "incidencias@incibe-cert.es"
+        subject: "[NIS2 Full Report] {{ incident_id }} - Zabala Gailetak"
+        attachment: "{{ full_report }}"
+    
+    # PHASE 5: Recovery and Closure
+    phase_5_recovery:
+      - name: "Eradication Checklist"
+        action: "approval_gate"
+        approvers: ["ciso", "it-lead"]
+        checklist:
+          - "Malware removed from all systems"
+          - "Vulnerabilities patched"
+          - "Backdoors eliminated"
+          - "Systems hardened"
+      
+      - name: "Restore from Backup"
+        action: "system_restore"
+        tool: "veeam_api"
+        parameters:
+          restore_point: "{{ last_known_good_backup }}"
+          target_systems: "{{ affected_systems }}"
+      
+      - name: "Post-Incident Review"
+        action: "schedule_meeting"
+        condition: "{{ incident_closed }} == true"
+        attendees: ["ciso", "dpo", "it-lead", "soc-team"]
+        agenda: "Post-incident review and lessons learned"
+      
+      - name: "Update Security Metrics"
+        action: "update_metrics"
+        metrics:
+          - name: "mttr"
+            value: "{{ resolution_time }}"
+          - name: "incident_count"
+            increment: 1
+
+  integrations:
+    wazuh:
+      api_url: "https://wazuh.zabalagailetak.com:55000"
+      auth_method: "jwt"
+    
+    jira:
+      server: "https://jira.zabalagailetak.com"
+      project: "SEC"
+    
+    slack:
+      webhook: "{{ env.SLACK_WEBHOOK_URL }}"
+    
+    velociraptor:
+      server: "velociraptor.zabalagailetak.com:8000"
+    
+    misp:
+      server: "https://misppriv.circl.lu"
+      api_key: "{{ env.MISP_API_KEY }}"
+
+  logging:
+    level: "INFO"
+    output: "/var/log/soar/playbook_executions.log"
+    audit_trail: true

@@ -1,0 +1,17 @@
+{
+  "name": "entregables",
+  "version": "1.0.0",
+  "description": "",
+  "main": "convert_html_to_pdf.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "markdown-it": "^14.1.1",
+    "playwright": "^1.58.2"
+  }
+}
