@@ -1,0 +1,221 @@
+---
+################################################################################
+# SOAR Playbook: Phishing Response
+# Zabala Gailetak - NIS2 Compliant
+# Automatización de respuesta a incidentes de phishing
+################################################################################
+
+playbook:
+  name: "Phishing Incident Response"
+  version: "1.0"
+  description: "Automated response workflow for phishing email incidents"
+  nis2_category: "Incident Notification"
+  response_time_sla: "4h"  # NIS2 requirement
+  
+  triggers:
+    - type: wazuh_alert
+      rule_id: "phishing_detected"
+      level: ">= 7"
+    - type: manual
+      channel: "security_dashboard"
+      
+  priority_matrix:
+    - severity: "critical"
+      conditions:
+        - credentials_compromised: true
+        - admin_targeted: true
+      sla: "1h"
+    - severity: "high"
+      conditions:
+        - multiple_recipients: true
+      sla: "2h"
+    - severity: "medium"
+      conditions:
+        - single_recipient: true
+      sla: "4h"
+
+  phases:
+    ################################################################################
+    # FASE 1: CONTENCIÓN INMEDIATA (< 15 min)
+    ################################################################################
+    containment:
+      steps:
+        - name: "Isolate affected mailbox"
+          action: "exchange_block_email"
+          params:
+            email_address: "{{ incident.affected_user }}"
+            block_inbound: true
+            block_outbound: true
+          
+        - name: "Block sender domain"
+          action: "dns_block_domain"
+          params:
+            domain: "{{ incident.sender_domain }}"
+            duration: "24h"
+            
+        - name: "Quarantine similar emails"
+          action: "email_quarantine"
+          params:
+            subject_pattern: "{{ incident.email_subject }}"
+            sender_pattern: "{{ incident.sender_domain }}"
+            timeframe: "24h"
+            
+        - name: "Disable compromised account"
+          action: "ad_disable_user"
+          params:
+            username: "{{ incident.affected_user }}"
+            condition: "{{ incident.credentials_entered }}"
+          
+        - name: "Send alert to SOC"
+          action: "slack_notification"
+          params:
+            channel: "#security-incidents"
+            message: |
+              🚨 PHISHING DETECTED
+              User: {{ incident.affected_user }}
+              Sender: {{ incident.sender_email }}
+              Subject: {{ incident.email_subject }}
+              Actions taken: Account isolated, domain blocked
+
+    ################################################################################
+    # FASE 2: INVESTIGACIÓN (< 1h)
+    ################################################################################
+    investigation:
+      steps:
+        - name: "Extract email headers"
+          action: "email_analyze_headers"
+          output_var: "email_analysis"
+          
+        - name: "Check URL reputation"
+          action: "virustotal_check"
+          params:
+            urls: "{{ incident.urls_found }}"
+          output_var: "url_reputation"
+          
+        - name: "Analyze attachments"
+          action: "sandbox_analysis"
+          params:
+            attachments: "{{ incident.attachments }}"
+            sandbox: "cuckoo"
+            timeout: "300"
+          output_var: "malware_analysis"
+          
+        - name: "Check for data exfiltration"
+          action: "siem_query"
+          params:
+            query: |
+              source="proxy_logs" 
+              user="{{ incident.affected_user }}"
+              bytes_out > 1000000
+              earliest=-24h
+            
+        - name: "Identify lateral movement"
+          action: "edr_query"
+          params:
+            query: "process_parent:Outlook.exe AND suspicious:true"
+            scope: "organization"
+
+    ################################################################################
+    # FASE 3: ERRADICACIÓN (< 2h)
+    ################################################################################
+    eradication:
+      steps:
+        - name: "Remove malicious emails from all mailboxes"
+          action: "email_hard_delete"
+          params:
+            message_id: "{{ incident.message_id }}"
+            scope: "organization"
+            
+        - name: "Reset compromised credentials"
+          action: "ad_reset_password"
+          params:
+            username: "{{ incident.affected_user }}"
+            temp_password: "{{ generate_secure_password() }}"
+            require_mfa: true
+          condition: "{{ incident.credentials_entered }}"
+          
+        - name: "Revoke active sessions"
+          action: "azure_revoke_sessions"
+          params:
+            user: "{{ incident.affected_user }}"
+            
+        - name: "Block malicious IPs"
+          action: "firewall_block_ips"
+          params:
+            ips: "{{ email_analysis.suspicious_ips }}"
+            duration: "7d"
+
+    ################################################################################
+    # FASE 4: RECUPERACIÓN (< 4h)
+    ################################################################################
+    recovery:
+      steps:
+        - name: "Re-enable account with restrictions"
+          action: "ad_enable_user"
+          params:
+            username: "{{ incident.affected_user }}"
+            require_password_change: true
+            enable_mfa: true
+            
+        - name: "Notify user"
+          action: "email_send"
+          params:
+            to: "{{ incident.affected_user }}"
+            template: "phishing_recovery_notification"
+            
+        - name: "Schedule security training"
+          action: "training_assign"
+          params:
+            user: "{{ incident.affected_user }}"
+            course: "phishing_awareness"
+            due_date: "+7d"
+
+    ################################################################################
+    # FASE 5: POST-INCIDENTE (24-72h)
+    ################################################################################
+    post_incident:
+      steps:
+        - name: "Generate incident report"
+          action: "report_generate"
+          params:
+            template: "nis2_incident_report"
+            include_timeline: true
+            include_indicators: true
+            
+        - name: "Update threat intelligence"
+          action: "ti_update_iocs"
+          params:
+            iocs: "{{ incident.iocs }}"
+            feed: "internal_blocklist"
+            
+        - name: "NIS2 Notification assessment"
+          action: "nis2_assess_notification"
+          params:
+            incident_type: "phishing"
+            impact_assessment: "{{ incident.impact }}"
+            
+        - name: "Send NIS2 notification if required"
+          action: "nis2_notify_authority"
+          params:
+            authority: "incibe"
+            notification_type: "{{ nis2_assess_notification.result }}"
+          condition: "{{ nis2_assess_notification.requires_notification }}"
+
+  notifications:
+    initial:
+      channels: ["slack", "email"]
+      recipients: ["soc@zabala-gailetak.com"]
+      
+    status_update:
+      interval: "1h"
+      channels: ["slack"]
+      
+    resolved:
+      channels: ["slack", "email"]
+      recipients: ["soc@zabala-gailetak.com", "ciso@zabala-gailetak.com"]
+      
+  metrics:
+    - mttd: "mean_time_to_detect"
+    - mttr: "mean_time_to_respond"
+    - containment_time: "time_to_contain"
+    - false_positive_rate: "false_positives / total_alerts"
