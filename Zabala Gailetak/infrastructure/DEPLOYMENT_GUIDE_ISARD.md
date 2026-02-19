@@ -23,7 +23,7 @@ Sortu BM hauek zure hiperbisorean.
 
 ---
 
-## 🌍 1. FASEA: ZG-GATEWAY IMPLEMENTAZIOA
+## 🌍 1. FASEA: ZG-GATEWAY INPLEMENTAZIOA
 
 **Hasi saioa `ZG-Gateway`-n SSH bidez.**
 
@@ -37,7 +37,7 @@ ip -br link
 *   IP helbidea duena (DHCP-tik) zure **WAN** da.
 *   "DOWN" dagoena edo IPrik gabea zure **LAN** da.
 
-**👇 KOPIATU ETA ITSASTU BLOKE HAU (Izenak eguneratu behar badira) 👇**
+**👇 KOPIATU ETA ITSATSI BLOKE HAU (Izenak eguneratu behar badira) 👇**
 
 ```bash
 # EZARRI ZURE INTERFAZE IZENAK HEMEN
@@ -76,7 +76,7 @@ sysctl -p /etc/sysctl.d/99-routing.conf
 systemctl restart networking
 
 # Konfiguratu DHCP
-sed -i "s/INTERFACESv4=""/INTERFACESv4=\"$LAN_IF\"/" /etc/default/isc-dhcp-server
+sed -i "s/INTERFACESv4=\"\"/INTERFACESv4=\"$LAN_IF\"/" /etc/default/isc-dhcp-server
 cat <<EOF > /etc/dhcp/dhcpd.conf
 default-lease-time 600;
 max-lease-time 7200;
@@ -139,7 +139,7 @@ systemctl enable nftables
 
 ---
 
-## 💾 2. FASEA: ZG-DATA IMPLEMENTAZIOA
+## 💾 2. FASEA: ZG-DATA INPLEMENTAZIOA
 
 **Hasi saioa `ZG-Data`-n.**
 
@@ -176,7 +176,7 @@ docker compose up -d
 
 ---
 
-## 💻 3. FASEA: ZG-APP IMPLEMENTAZIOA
+## 💻 3. FASEA: ZG-APP INPLEMENTAZIOA
 
 **Hasi saioa `ZG-App`-n.**
 
@@ -210,7 +210,7 @@ docker compose up -d
 
 ---
 
-## 🛡️ 4. FASEA: ZG-SECOPS IMPLEMENTAZIOA
+## 🛡️ 4. FASEA: ZG-SECOPS INPLEMENTAZIOA
 
 **Hasi saioa `ZG-SecOps`-n.**
 
@@ -252,7 +252,7 @@ docker compose up -d
 
 ---
 
-## 🏭 5. FASEA: ZG-OT IMPLEMENTAZIOA
+## 🏭 5. FASEA: ZG-OT INPLEMENTAZIOA
 
 **Hasi saioa `ZG-OT`-n.**
 
@@ -291,7 +291,7 @@ docker compose exec -T api /bin/bash -c \
     export PGPASSWORD=$DB_PASS
     psql -h $DB_HOST -U $DB_USER -d $DB_NAME -f "$f"
   done
-' 
+'
 ```
 
 ---

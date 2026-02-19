@@ -1,375 +1,375 @@
-# Zabala Gailetak - App Unification Plan
+# Zabala Gailetak - Aplikazio Bateratze Plana
 
-## Executive Summary
-This document outlines the plan to unify the Android app and web portal by:
-1. Adding missing features from Android to web
-2. Aligning the Android app visual design with the web design system
-3. Ensuring feature parity across both platforms
+## Laburpen Exekutiboa
+Dokumentu honek Android aplikazioa eta web portala bateratzeko plana azaltzen du:
+1. Android-etik falta diren ezaugarriak web-era gehituz
+2. Android aplikazioaren diseinu bisualaren lerrokatzea web diseinu sistemarekin
+3. Bi plataformetan ezaugarri parekotasuna ziurtatuz
 
-**Status:** Planning Phase  
-**Target Completion:** Q2 2026  
-**Priority:** High
-
----
-
-## 1. Feature Gap Analysis
-
-### 1.1 Android Features Missing from Web
-
-#### A. Payslips Module (HIGH PRIORITY)
-**Current State:** 
-- ❌ Web: Not implemented (TODO placeholders in routes)
-- ✅ Android: Fully functional with modern UI
-
-**Required Implementation:**
-- [ ] Database schema for payslips table
-- [ ] Backend API endpoints:
-  - `GET /api/payroll` - List employee payslips
-  - `GET /api/payroll/{id}` - Get specific payslip details
-  - `GET /api/payroll/{id}/download` - Download PDF
-- [ ] Web UI Pages:
-  - Payslips list view with cards
-  - Detailed payslip view showing breakdown
-  - PDF generation/download functionality
-- [ ] Features:
-  - Month/year filtering
-  - Salary breakdown (gross, net, deductions, IRPF, social security)
-  - Bonus display
-  - Historical data access
-
-**Android UI Elements to Port:**
-- Gradient summary cards
-- Clean breakdown layout
-- Month/year navigation
-- Download icons and actions
+**Egoera:** Plangintza Fasea
+**Helburuko Amaiera:** 2026 Q2
+**Lehentasuna:** Altua
 
 ---
 
-#### B. Documents Module (HIGH PRIORITY)
-**Current State:**
-- ❌ Web: Not implemented (TODO placeholders)
-- ✅ Android: Full document management with categorization
+## 1. Ezaugarri Hutsune Analisia
 
-**Required Implementation:**
-- [ ] Database schema for documents table (already exists in models)
-- [ ] Backend API endpoints:
-  - `GET /api/documents` - List documents
-  - `GET /api/documents/{id}` - Get document details
-  - `POST /api/documents/upload` - Upload new document
-  - `GET /api/documents/{id}/download` - Download document
-  - `DELETE /api/documents/{id}` - Delete document (admin only)
-- [ ] Web UI Pages:
-  - Documents list view with tabs (My Documents / Public Documents)
-  - Document upload form
-  - Document viewer/preview
-- [ ] Document Categories:
+### 1.1 Web-en Falta diren Android Ezaugarriak
+
+#### A. Nominen Modulua (LEHENTASUN ALTUA)
+**Oraingo Egoera:**
+- ❌ Web: Inplementatu gabe (TODO placeholder-ak errutetan)
+- ✅ Android: Erabat funtzionala UI modernoarekin
+
+**Beharrezko Inplementazioa:**
+- [ ] Nominen taularentzako datu-base eskema
+- [ ] Backend API amaiera-puntuak:
+  - `GET /api/payroll` - Langilearen nominen zerrenda
+  - `GET /api/payroll/{id}` - Nomina zehatzaren xehetasunak lortu
+  - `GET /api/payroll/{id}/download` - PDF deskargatu
+- [ ] Web UI Orriak:
+  - Nominen zerrenda ikuspegia txartelekin
+  - Nomina xehetasun ikuspegia xehapenarekin
+  - PDF sortzea/deskarga funtzionalitatea
+- [ ] Ezaugarriak:
+  - Hilabete/urte iragazkia
+  - Soldata xehapena (gordina, garbia, kenkariak, IRPF, gizarte segurantza)
+  - Bonu bistaratzea
+  - Datu historikoetarako sarbidea
+
+**Android-etik Portutzeko UI Elementuak:**
+- Gradiente laburpen txartelak
+- Xehapen diseinu garbia
+- Hilabete/urte nabigazioa
+- Deskarga ikonoak eta ekintzak
+
+---
+
+#### B. Dokumentuen Modulua (LEHENTASUN ALTUA)
+**Oraingo Egoera:**
+- ❌ Web: Inplementatu gabe (TODO placeholder-ak)
+- ✅ Android: Dokumentu kudeaketa osoa kategorizazioarekin
+
+**Beharrezko Inplementazioa:**
+- [ ] Dokumentu taularentzako datu-base eskema (modeloetan badago dagoeneko)
+- [ ] Backend API amaiera-puntuak:
+  - `GET /api/documents` - Dokumentu zerrenda
+  - `GET /api/documents/{id}` - Dokumentu xehetasunak lortu
+  - `POST /api/documents/upload` - Dokumentu berria igo
+  - `GET /api/documents/{id}/download` - Dokumentua deskargatu
+  - `DELETE /api/documents/{id}` - Dokumentua ezabatu (admin soilik)
+- [ ] Web UI Orriak:
+  - Dokumentu zerrenda ikuspegia fitxekin (Nire Dokumentuak / Dokumentu Publikoak)
+  - Dokumentu igoera formularioa
+  - Dokumentu ikusteko/aurrebista
+- [ ] Dokumentu Kategoriak:
   - CONTRACT (Kontratuak)
   - PAYSLIP (Nominak)
   - CERTIFICATE (Ziurtagiriak)
   - POLICY (Politikak)
   - OTHER (Beste batzuk)
-- [ ] Features:
-  - File type icons and colors
-  - Category filtering
-  - Search functionality
-  - Bulk download option
+- [ ] Ezaugarriak:
+  - Fitxategi mota ikonoak eta koloreak
+  - Kategoria iragazkia
+  - Bilaketa funtzionalitatea
+  - Deskarga anitza aukera
 
-**Android UI Elements to Port:**
-- Tabbed interface
-- Category badges with colors
-- Icon-based file type display
-- Empty state designs
-
----
-
-#### C. Enhanced Dashboard (MEDIUM PRIORITY)
-**Current State:**
-- ⚠️ Web: Basic dashboard with stats
-- ✅ Android: Rich dashboard with multiple sections
-
-**Required Enhancements:**
-- [ ] Quick Action Cards Section:
-  - Gradient card designs
-  - Icon-based navigation
-  - Direct links to common actions
-- [ ] Statistics Overview:
-  - Vacation days remaining
-  - Hours worked today
-  - Pending requests count
-  - Total documents count
-- [ ] Recent Activity Feed:
-  - Timeline of recent actions
-  - Status indicators (approved, pending, rejected)
-  - Timestamps
-- [ ] Personalization:
-  - Time-based greetings (Basque/Spanish)
-  - User-specific data display
-  - Notification badges
-
-**Android UI Elements to Port:**
-- Gradient quick action cards
-- Stat cards with icons
-- Activity timeline component
-- Notification badges
+**Android-etik Portutzeko UI Elementuak:**
+- Fitxadun interfazea
+- Kategoria badge-ak koloreekin
+- Ikono-oinarritutako fitxategi mota bistaratzea
+- Egoera hutsik diseinuak
 
 ---
 
-#### D. Profile/Settings (MEDIUM PRIORITY)
-**Current State:**
-- ⚠️ Web: Basic profile edit
-- ✅ Android: Comprehensive profile management
+#### C. Aginte-panel Hobetua (LEHENTASUN ERTAINA)
+**Oraingo Egoera:**
+- ⚠️ Web: Oinarrizko aginte-panela estatistikak
+- ✅ Android: Aginte-panel aberatsa atal anitzez
 
-**Required Enhancements:**
-- [ ] Profile viewing/editing
-- [ ] Avatar/photo upload
-- [ ] Password change functionality
-- [ ] MFA settings toggle
-- [ ] Language preference
-- [ ] Notification preferences
-- [ ] Logout functionality
+**Beharrezko Hobekuntzak:**
+- [ ] Ekintza Azkar Txartel Sekzioa:
+  - Gradiente txartel diseinuak
+  - Ikono-oinarritutako nabigazioa
+  - Ekintza arruntetarako esteka zuzenak
+- [ ] Estatistika Ikuspegi Orokorra:
+  - Opor egunak geratzen direnak
+  - Gaur lan egindako orduak
+  - Eskaera zai kopurua
+  - Dokumentu guztira kopurua
+- [ ] Jarduera Berriaren Jarioa:
+  - Jarduera berriaren denbora-lerroa
+  - Egoera adierazleak (onartua, zai, baztertua)
+  - Denbora-markak
+- [ ] Pertsonalizazioa:
+  - Denboraren araberako agurrak (euskara/gaztelania)
+  - Erabiltzaile-espezifiko datu bistaratzea
+  - Jakinarazpen badge-ak
+
+**Android-etik Portutzeko UI Elementuak:**
+- Gradiente ekintza azkar txartelak
+- Estatistika txartelak ikonoekin
+- Jarduera denbora-lerro osagaia
+- Jakinarazpen badge-ak
 
 ---
 
-### 1.2 Web Features Not in Android
-- ❌ Employee List Management (Admin only - not needed in mobile app)
-- ❌ HR Approval Workflows (Admin only - mobile has read-only view)
+#### D. Profila/Ezarpenak (LEHENTASUN ERTAINA)
+**Oraingo Egoera:**
+- ⚠️ Web: Oinarrizko profil edizioa
+- ✅ Android: Profil kudeaketa integrala
+
+**Beharrezko Hobekuntzak:**
+- [ ] Profila ikusi/editatu
+- [ ] Avatar/argazki igoera
+- [ ] Pasahitz aldaketa funtzionalitatea
+- [ ] MFA ezarpen aldaketa
+- [ ] Hizkuntza lehentasuna
+- [ ] Jakinarazpen lehentasunak
+- [ ] Saioa itxi funtzionalitatea
 
 ---
 
-## 2. Design System Alignment
+### 1.2 Android-en Ez Dauden Web Ezaugarriak
+- ❌ Langileen Zerrenda Kudeaketa (Admin soilik - mugikorreko aplikazioan ez da beharrezkoa)
+- ❌ HR Onarpen Lan-fluxuak (Admin soilik - mugikorrak irakurtzeko-soilik ikuspegia du)
 
-### 2.1 Color Palette Unification
+---
 
-**Current Web Colors (from industrial-v2.php):**
+## 2. Diseinu Sistema Lerrokadura
+
+### 2.1 Kolore Paleta Bateraketa
+
+**Oraingo Web Koloreak (industrial-v2.php-tik):**
 ```css
---primary: #1D4ED8 (Deep Blue)
---accent: #0EA5E9 (Light Blue)
---success: #059669 (Green)
---warning: #D97706 (Amber)
---danger: #DC2626 (Red)
+--primary: #1D4ED8 (Urdin Sakona)
+--accent: #0EA5E9 (Urdin Argia)
+--success: #059669 (Berdea)
+--warning: #D97706 (Anbarra)
+--danger: #DC2626 (Gorria)
 ```
 
-**Current Android Colors (from Color.kt):**
+**Oraingo Android Koloreak (Color.kt-tik):**
 ```kotlin
-PrimaryBlue = #2C3E95 (Royal Blue)
-SecondaryTeal = #06B6D4 (Teal/Cyan)
-AccentOrange = #FF6B35 (Orange)
-AccentPurple = #9333EA (Purple)
-SuccessGreen = #10B981 (Green)
+PrimaryBlue = #2C3E95 (Erregearen Urdina)
+SecondaryTeal = #06B6D4 (Teal/Zian)
+AccentOrange = #FF6B35 (Laranja)
+AccentPurple = #9333EA (Morea)
+SuccessGreen = #10B981 (Berdea)
 ```
 
-**⚠️ CONFLICT:** Different primary blues
+**⚠️ GATAZKA:** Urdin nagusi desberdinak
 
-**Decision:** **Use Web Colors as Standard** (already in production)
+**Erabakia:** **Web Koloreak Estandar gisa Erabili** (dagoeneko produkzioan)
 
-**Action Items:**
-- [ ] Update Android Color.kt to match web palette:
+**Ekintza Elementuak:**
+- [ ] Eguneratu Android Color.kt web paletarekin bat egiteko:
   ```kotlin
-  PrimaryBlue = Color(0xFF1D4ED8)  // Match web --primary
-  AccentBlue = Color(0xFF0EA5E9)   // Match web --accent
-  SuccessGreen = Color(0xFF059669) // Match web --success
-  WarningAmber = Color(0xFFD97706) // Match web --warning
-  ErrorRed = Color(0xFFDC2626)     // Match web --danger
+  PrimaryBlue = Color(0xFF1D4ED8)  // Web --primary bat
+  AccentBlue = Color(0xFF0EA5E9)   // Web --accent bat
+  SuccessGreen = Color(0xFF059669) // Web --success bat
+  WarningAmber = Color(0xFFD97706) // Web --warning bat
+  ErrorRed = Color(0xFFDC2626)     // Web --danger bat
   ```
-- [ ] Keep gradient colors as enhancement (not in web yet)
-- [ ] Update all Android UI components to use new colors
-- [ ] Test color contrast ratios (WCAG AA compliance)
+- [ ] Mantendu gradiente koloreak hobetze gisa (oraindik ez web-en)
+- [ ] Eguneratu Android UI osagai guztiak kolore berriak erabiltzeko
+- [ ] Probatu kolore kontrastea arrazoi (WCAG AA betetze)
 
 ---
 
-### 2.2 Typography Alignment
+### 2.2 Tipografia Lerrokadura
 
 **Web (Industrial v2):**
-- Font: System fonts (-apple-system, Segoe UI, Roboto)
-- Sizes: xs(0.75rem) to 5xl(3rem)
+- Font-a: Sistema font-ak (-apple-system, Segoe UI, Roboto)
+- Tamainak: xs(0.75rem) 5xl-ra(3rem)
 
 **Android (Material 3):**
-- Font: Default Material Typography
-- Scale: bodySmall to displayLarge
+- Font-a: Defektuzko Material Tipografia
+- Eskala: bodySmall displayLarge-ra
 
-**Action Items:**
-- [ ] Ensure Android uses system font (already does via Material 3)
-- [ ] Map text sizes consistently between platforms
-- [ ] Use same font weights (400, 600, 700, 800)
-
----
-
-### 2.3 Component Style Alignment
-
-#### Buttons
-**Web:** Rounded (--radius-md: 10px), solid colors
-**Android:** Rounded (RoundedCornerShape(16.dp)), gradient options
-
-**Action:** 
-- [ ] Update Android buttons to match web radius (10dp)
-- [ ] Remove gradients from buttons (keep for cards)
-- [ ] Use solid colors matching web palette
-
-#### Cards
-**Web:** Subtle shadows (--shadow-md), light borders
-**Android:** Elevation-based shadows, gradient options
-
-**Action:**
-- [ ] Reduce Android card elevation to match web
-- [ ] Keep gradient cards for dashboard quick actions only
-- [ ] Use consistent border radius (16dp / 16px)
-
-#### Navigation
-**Web:** Top navbar with horizontal links
-**Android:** Bottom navigation bar with icons
-
-**Action:**
-- [ ] Keep platform-specific navigation (expected pattern)
-- [ ] Ensure same color scheme applies
-- [ ] Use same icon set (Material Icons)
+**Ekintza Elementuak:**
+- [ ] Ziurtatu Android-ek sistema font-a erabiltzen duela (dagoeneko Material 3 bidez)
+- [ ] Mapatu testu tamainak modu koherentean plataformen artean
+- [ ] Erabili font pisu berberak (400, 600, 700, 800)
 
 ---
 
-### 2.4 Iconography
+### 2.3 Osagai Estilo Lerrokadura
 
-**Both platforms:** Use Material Icons
+#### Botoiak
+**Web:** Biribildua (--radius-md: 10px), kolore solidoak
+**Android:** Biribildua (RoundedCornerShape(16.dp)), gradiente aukerak
 
-**Action:**
-- [ ] Audit all icons used in both platforms
-- [ ] Ensure consistent icon usage (e.g., both use BeachAccess for vacations)
-- [ ] Update icon colors to match new palette
+**Ekintza:**
+- [ ] Eguneratu Android botoiak web erradio bat egiteko (10dp)
+- [ ] Kendu gradienteak botoietatik (mantendu txarteletarako)
+- [ ] Erabili kolore solidoak web paletarekin bat
 
----
+#### Txartelak
+**Web:** Itzal finak (--shadow-md), ertz arginak
+**Android:** Elebazioan oinarritutako itzalak, gradiente aukerak
 
-## 3. Implementation Roadmap
+**Ekintza:**
+- [ ] Murriztu Android txartel elebazioa web-ekin bat egiteko
+- [ ] Mantendu gradiente txartelak aginte-panel ekintza azkarretarako soilik
+- [ ] Erabili ertz erradio koherentea (16dp / 16px)
 
-### Phase 1: Backend Foundation (Week 1-2)
-**Priority:** HIGH  
-**Effort:** 40 hours
+#### Nabigazioa
+**Web:** Goiko nabarra esteka horizontalekin
+**Android:** Beheko nabigazio barra ikonoekin
 
-- [ ] Design payslips database table
-- [ ] Design documents table (already in models, verify)
-- [ ] Create migration scripts
-- [ ] Implement PayrollController with CRUD operations
-- [ ] Implement DocumentController with upload/download
-- [ ] Create API endpoints for both modules
-- [ ] Write unit tests for controllers
-- [ ] Add audit logging for sensitive operations
-
-**Deliverables:**
-- Functional API endpoints for payslips
-- Functional API endpoints for documents
-- Database schema updated
-- API documentation updated
+**Ekintza:**
+- [ ] Mantendu plataforma-espezifiko nabigazioa (espero den eredua)
+- [ ] Ziurtatu kolore eskema berbera aplikatzen dela
+- [ ] Erabili ikono multzo berbera (Material Icons)
 
 ---
 
-### Phase 2: Web Frontend - Payslips (Week 3-4)
-**Priority:** HIGH  
-**Effort:** 35 hours
+### 2.4 Ikonografia
 
-- [ ] Create payslips list view (PHP template)
-- [ ] Create payslip detail view
-- [ ] Implement PDF generation using TCPDF or similar
-- [ ] Add filtering (month, year)
-- [ ] Style using existing industrial CSS
-- [ ] Add download functionality
-- [ ] Implement salary breakdown display
-- [ ] Add navigation link in main menu
-- [ ] Test responsive design
+**Bi plataformetan:** Erabili Material Icons
 
-**Deliverables:**
-- Functional payslips module in web
-- PDF download capability
-- Responsive UI matching design system
+**Ekintza:**
+- [ ] Auditatu bi plataformetan erabilitako ikono guztiak
+- [ ] Ziurtatu ikono erabilera koherentea (adib. biek BeachAccess erabiltzen dute oporretarako)
+- [ ] Eguneratu ikono koloreak paleta berriarekin bat egiteko
 
 ---
 
-### Phase 3: Web Frontend - Documents (Week 5-6)
-**Priority:** HIGH  
-**Effort:** 35 hours
+## 3. Inplementazio Bide-orria
 
-- [ ] Create documents list view with tabs
-- [ ] Implement file upload form with validation
-- [ ] Create document categorization UI
-- [ ] Add download functionality
-- [ ] Implement category badges with icons
-- [ ] Add search/filter functionality
-- [ ] Create empty state designs
-- [ ] Add navigation link in main menu
-- [ ] Implement file type detection and icons
-- [ ] Test file upload security
+### 1. Fasea: Backend Oinarria (1-2. Astea)
+**Lehentasuna:** ALTUA
+**Ahalegina:** 40 ordu
 
-**Deliverables:**
-- Functional documents module in web
-- File upload/download working
-- Category-based organization
-- Responsive UI
+- [ ] Diseinatu nominen datu-base taula
+- [ ] Diseinatu dokumentuen taula (dagoeneko modeloetan, egiaztatu)
+- [ ] Sortu migrazio scriptak
+- [ ] Inplementatu PayrollController CRUD eragiketekin
+- [ ] Inplementatu DocumentController igoera/deskargarekin
+- [ ] Sortu API amaiera-puntuak bi moduluentzat
+- [ ] Idatzi unitate probak kontroladoreetarako
+- [ ] Gehitu auditoretza erregistroa eragiketa sentikorretan
 
----
-
-### Phase 4: Web Frontend - Enhanced Dashboard (Week 7)
-**Priority:** MEDIUM  
-**Effort:** 20 hours
-
-- [ ] Add quick action cards section
-- [ ] Implement statistics overview cards
-- [ ] Create recent activity feed
-- [ ] Add time-based greeting
-- [ ] Style with gradient cards (match Android)
-- [ ] Add notification badge functionality
-- [ ] Implement AJAX for real-time updates
-- [ ] Test performance with live data
-
-**Deliverables:**
-- Enhanced dashboard matching Android design
-- Quick actions working
-- Real-time statistics
+**Entregagarriak:**
+- Nominen API amaiera-puntu funtzionalak
+- Dokumentuen API amaiera-puntu funtzionalak
+- Datu-base eskema eguneratua
+- API dokumentazioa eguneratua
 
 ---
 
-### Phase 5: Android Style Updates (Week 8)
-**Priority:** MEDIUM  
-**Effort:** 25 hours
+### 2. Fasea: Web Frontend - Nominak (3-4. Astea)
+**Lehentasuna:** ALTUA
+**Ahalegina:** 35 ordu
 
-- [ ] Update Color.kt with web palette
-- [ ] Update all screens to use new colors
-- [ ] Adjust button styles (remove gradients)
-- [ ] Update card elevations
-- [ ] Test all screens with new design
-- [ ] Update theme configurations
-- [ ] Rebuild and test app thoroughly
-- [ ] Update screenshots and marketing materials
+- [ ] Sortu nominen zerrenda ikuspegia (PHP txantiloia)
+- [ ] Sortu nomina xehetasun ikuspegia
+- [ ] Inplementatu PDF sortzea TCPDF edo antzekoa erabiliz
+- [ ] Gehitu iragazkia (hilabetea, urtea)
+- [ ] Estilizatu industrial CSS existitzailea erabiliz
+- [ ] Gehitu deskarga funtzionalitatea
+- [ ] Inplementatu soldata xehapen bistaratzea
+- [ ] Gehitu nabigazio esteka menu nagusian
+- [ ] Probatu diseinu erantzulea
 
-**Deliverables:**
-- Android app visually aligned with web
-- Consistent color palette across platforms
-- No functional regressions
-
----
-
-### Phase 6: Testing & Documentation (Week 9-10)
-**Priority:** HIGH  
-**Effort:** 30 hours
-
-- [ ] Cross-platform feature testing
-- [ ] Security audit (file uploads, downloads)
-- [ ] Performance testing (PDF generation)
-- [ ] Accessibility testing (WCAG AA)
-- [ ] Update API documentation
-- [ ] Update user guides
-- [ ] Create training materials
-- [ ] Conduct user acceptance testing
-- [ ] Fix identified bugs
-
-**Deliverables:**
-- Test reports
-- Updated documentation
-- UAT sign-off
-- Production-ready code
+**Entregagarriak:**
+- Nominen modulu funtzionala web-en
+- PDF deskarga gaitasuna
+- Diseinu sistemarekin bat datorren UI erantzulea
 
 ---
 
-## 4. Technical Specifications
+### 3. Fasea: Web Frontend - Dokumentuak (5-6. Astea)
+**Lehentasuna:** ALTUA
+**Ahalegina:** 35 ordu
 
-### 4.1 Database Schema
+- [ ] Sortu dokumentuen zerrenda ikuspegia fitxekin
+- [ ] Inplementatu fitxategi igoera formularioa egiaztapenarekin
+- [ ] Sortu dokumentu kategorizazio UI
+- [ ] Gehitu deskarga funtzionalitatea
+- [ ] Inplementatu kategoria badge-ak ikonoekin
+- [ ] Gehitu bilaketa/iragazki funtzionalitatea
+- [ ] Sortu egoera hutsaren diseinuak
+- [ ] Gehitu nabigazio esteka menu nagusian
+- [ ] Inplementatu fitxategi mota detekzioa eta ikonoak
+- [ ] Probatu fitxategi igoera segurtasuna
 
-#### Payslips Table
+**Entregagarriak:**
+- Dokumentuen modulu funtzionala web-en
+- Fitxategi igoera/deskarga funtzionatzen
+- Kategoria-oinarritutako antolamendua
+- UI erantzulea
+
+---
+
+### 4. Fasea: Web Frontend - Aginte-panel Hobetua (7. Astea)
+**Lehentasuna:** ERTAINA
+**Ahalegina:** 20 ordu
+
+- [ ] Gehitu ekintza azkar txartel sekzioa
+- [ ] Inplementatu estatistika ikuspegi orokor txartelak
+- [ ] Sortu jarduera berriaren jarioa
+- [ ] Gehitu denboraren araberako agurrak
+- [ ] Estilizatu gradiente txartelekin (Android-ekin bat eginez)
+- [ ] Gehitu jakinarazpen badge funtzionalitatea
+- [ ] Inplementatu AJAX denbora errealeko eguneraketarako
+- [ ] Probatu errendimendua datu biziarekin
+
+**Entregagarriak:**
+- Android diseinuarekin bat datorren aginte-panel hobetua
+- Ekintza azkarrak funtzionatzen
+- Denbora errealeko estatistikak
+
+---
+
+### 5. Fasea: Android Estilo Eguneraketak (8. Astea)
+**Lehentasuna:** ERTAINA
+**Ahalegina:** 25 ordu
+
+- [ ] Eguneratu Color.kt web paletarekin
+- [ ] Eguneratu pantaila guztiak kolore berriak erabiltzeko
+- [ ] Doitu botoi estiloak (kendu gradienteak)
+- [ ] Eguneratu txartel elebazioak
+- [ ] Probatu pantaila guztiak diseinu berriarekin
+- [ ] Eguneratu gai konfigurazioak
+- [ ] Berreraikitzen eta probatu aplikazioa ondo
+- [ ] Eguneratu pantaila-argazkiak eta marketing materialak
+
+**Entregagarriak:**
+- Android aplikazioa bisualki web-ekin lerrokatuta
+- Kolore paleta koherentea plataformen artean
+- Funtzional erregresioak gabe
+
+---
+
+### 6. Fasea: Probak eta Dokumentazioa (9-10. Astea)
+**Lehentasuna:** ALTUA
+**Ahalegina:** 30 ordu
+
+- [ ] Plataforma-arteko ezaugarri probak
+- [ ] Segurtasun auditoria (fitxategi igoerak, deskargak)
+- [ ] Errendimendua probak (PDF sortzea)
+- [ ] Irisgarritasun probak (WCAG AA)
+- [ ] Eguneratu API dokumentazioa
+- [ ] Eguneratu erabiltzaile gidak
+- [ ] Sortu prestakuntza materialak
+- [ ] Burutu erabiltzaile onarpen probak
+- [ ] Konpondu identifikaturiko akatsak
+
+**Entregagarriak:**
+- Proba txostenak
+- Dokumentazio eguneratua
+- UAT sinadura
+- Produkziorako prest kodea
+
+---
+
+## 4. Espezifikazio Teknikoak
+
+### 4.1 Datu-base Eskema
+
+#### Nominen Taula
 ```sql
 CREATE TABLE payslips (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -393,11 +393,11 @@ CREATE TABLE payslips (
 );
 ```
 
-#### Documents Table (verify existing schema)
+#### Dokumentuen Taula (egiaztatu dagoen eskema)
 ```sql
 CREATE TABLE documents (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    employee_id INT NULL, -- NULL for public documents
+    employee_id INT NULL, -- NULL dokumentu publikoetarako
     title VARCHAR(255) NOT NULL,
     description TEXT,
     category ENUM('CONTRACT', 'PAYSLIP', 'CERTIFICATE', 'POLICY', 'OTHER') NOT NULL,
@@ -418,260 +418,135 @@ CREATE TABLE documents (
 
 ---
 
-### 4.2 API Endpoints
+## 5. Kalitate Ziurtagiria
 
-#### Payslips API
-```
-GET    /api/payroll                - List employee's payslips
-GET    /api/payroll/{id}           - Get specific payslip details
-GET    /api/payroll/{id}/download  - Download payslip PDF
-POST   /api/payroll                - Create new payslip (ADMIN only)
-PUT    /api/payroll/{id}           - Update payslip (ADMIN only)
-DELETE /api/payroll/{id}           - Delete payslip (ADMIN only)
-```
+### 5.1 Proba Egiaztapen Zerrenda
 
-#### Documents API
-```
-GET    /api/documents              - List documents (personal + public)
-GET    /api/documents/{id}         - Get document details
-GET    /api/documents/{id}/download - Download document file
-POST   /api/documents/upload       - Upload new document
-DELETE /api/documents/{id}         - Delete document (owner or ADMIN)
-GET    /api/documents/categories   - Get document categories
-```
+#### Unitate Probak
+- [ ] PayrollController metodoak
+- [ ] DocumentController metodoak
+- [ ] Fitxategi igoera egiaztapena
+- [ ] PDF sortzea
+- [ ] Sarbide kontrola logika
 
----
+#### Integrazio Probak
+- [ ] API amaiera-puntuen erantzunak
+- [ ] Fitxategi igoera fluxua
+- [ ] PDF deskarga fluxua
+- [ ] Autentifikazio middleware
+- [ ] Baimen egiaztapenak
 
-### 4.3 Security Considerations
+#### E2E Probak
+- [ ] Erabiltzaileak nominak ikusten ditu
+- [ ] Erabiltzaileak nomina PDF deskargatzen du
+- [ ] Erabiltzaileak dokumentua igotzen du
+- [ ] Erabiltzaileak dokumentua deskargatzen du
+- [ ] Admin-ek nomina sortzen du
+- [ ] Sarbide ukatze agertokiak
 
-#### File Upload Security
-- [ ] Validate file types (whitelist: PDF, DOC, DOCX, JPG, PNG)
-- [ ] Limit file size (max 10MB)
-- [ ] Sanitize file names (remove special characters)
-- [ ] Store files outside web root
-- [ ] Generate unique file names (UUID)
-- [ ] Scan files for malware (ClamAV integration)
-- [ ] Verify MIME types (don't trust extension)
+#### Segurtasun Probak
+- [ ] Fitxategi igoera ahultasunak
+- [ ] Bidea zeharkaltzeko erasoak
+- [ ] Baimenik gabeko sarbide saiakerak
+- [ ] XSS dokumentu izenetan
+- [ ] SQL injekzioa iragazkietan
 
-#### Access Control
-- [ ] Users can only view their own payslips
-- [ ] Users can only view their own documents + public documents
-- [ ] ADMIN/RRHH_MGR can view all payslips
-- [ ] ADMIN can upload/delete documents
-- [ ] Audit log all download actions
-
-#### PDF Generation
-- [ ] Use secure PDF library (TCPDF)
-- [ ] Prevent XSS in PDF content
-- [ ] Add watermark with generation timestamp
-- [ ] Include digital signature (optional)
+#### Errendimendua Probak
+- [ ] PDF sortzea denbora (< 3 segundo)
+- [ ] Fitxategi igoera denbora (< 10 segundo 10MB-rako)
+- [ ] Zerrenda kontsultak (< 500ms)
+- [ ] Deskarga bazkideak (100 erabiltzaile)
 
 ---
 
-## 5. Quality Assurance
+## 6. Arriskuen Kudeaketa
 
-### 5.1 Testing Checklist
+### 6.1 Identifikaturiko Arriskuak
 
-#### Unit Tests
-- [ ] PayrollController methods
-- [ ] DocumentController methods
-- [ ] File upload validation
-- [ ] PDF generation
-- [ ] Access control logic
-
-#### Integration Tests
-- [ ] API endpoint responses
-- [ ] File upload flow
-- [ ] PDF download flow
-- [ ] Authentication middleware
-- [ ] Authorization checks
-
-#### E2E Tests
-- [ ] User views payslips
-- [ ] User downloads payslip PDF
-- [ ] User uploads document
-- [ ] User downloads document
-- [ ] Admin creates payslip
-- [ ] Access denied scenarios
-
-#### Security Tests
-- [ ] File upload vulnerabilities
-- [ ] Path traversal attacks
-- [ ] Unauthorized access attempts
-- [ ] XSS in document names
-- [ ] SQL injection in filters
-
-#### Performance Tests
-- [ ] PDF generation time (< 3 seconds)
-- [ ] File upload time (< 10 seconds for 10MB)
-- [ ] List queries (< 500ms)
-- [ ] Concurrent downloads (100 users)
-
----
-
-### 5.2 Acceptance Criteria
-
-#### Payslips Module
-- ✅ Employees can view list of their payslips
-- ✅ Employees can filter by month/year
-- ✅ Employees can view detailed breakdown
-- ✅ Employees can download PDF
-- ✅ PDF contains all required information
-- ✅ Admin can create/edit payslips
-- ✅ Responsive design (mobile, tablet, desktop)
-
-#### Documents Module
-- ✅ Employees can view personal documents
-- ✅ All users can view public documents
-- ✅ Documents categorized correctly
-- ✅ Employees can download documents
-- ✅ Admin can upload documents
-- ✅ File upload validates correctly
-- ✅ No security vulnerabilities
-
-#### Design Alignment
-- ✅ Android app uses web color palette
-- ✅ Consistent typography
-- ✅ Consistent component styling
-- ✅ Consistent iconography
-- ✅ Both platforms feel cohesive
-
----
-
-## 6. Risk Management
-
-### 6.1 Identified Risks
-
-| Risk | Probability | Impact | Mitigation |
+| Arriskua | Probabilitatea | Eragina | Murrizketa |
 |------|-------------|--------|------------|
-| PDF generation performance issues | Medium | High | Implement caching, async generation |
-| File upload security vulnerabilities | High | Critical | Comprehensive security validation |
-| Color change breaks Android UI | Low | Medium | Thorough testing, rollback plan |
-| Database schema changes break existing code | Medium | High | Comprehensive migration testing |
-| User confusion with new features | Medium | Medium | User training, in-app guides |
-| Timeline overrun | Medium | Medium | Prioritize features, agile approach |
-
-### 6.2 Contingency Plans
-
-**If PDF generation is slow:**
-- Implement asynchronous generation with email notification
-- Cache generated PDFs
-- Consider external service (WeasyPrint, wkhtmltopdf)
-
-**If file upload has security issues:**
-- Temporarily disable upload for non-admins
-- Implement stricter validation
-- Add additional malware scanning
-
-**If Android color changes cause issues:**
-- Maintain color variants in theme
-- Use semantic color naming
-- Implement feature flags for gradual rollout
+| PDF sortzea errendimendua arazoak | Ertaina | Altua | Inplementatu cache, async sortzea |
+| Fitxategi igoera segurtasun ahultasunak | Altua | Kritikoa | Segurtasun egiaztapen integrala |
+| Kolore aldaketak Android UI hausten ditu | Baxua | Ertaina | Proba zorrotza, atzera plana |
+| Datu-base eskema aldaketak dagoen kodea hausten du | Ertaina | Altua | Migrazio proba integrala |
+| Erabiltzaile nahasmena ezaugarri berriekin | Ertaina | Ertaina | Erabiltzaile prestakuntza, aplikazioko gidak |
+| Epemuga gainkargua | Ertaina | Ertaina | Ezaugarriak lehenetsi, agile ikuspuntua |
 
 ---
 
-## 7. Success Metrics
+## 7. Arrakasta Metrikak
 
-### 7.1 Technical Metrics
-- [ ] 100% API endpoint coverage for new features
-- [ ] 90%+ unit test coverage for new code
-- [ ] < 3 second PDF generation time
-- [ ] < 2 second page load times
-- [ ] Zero critical security vulnerabilities
-- [ ] WCAG AA accessibility compliance
+### 7.1 Metriko Teknikoak
+- [ ] API amaiera-puntuen %100 estaldura ezaugarri berrietarako
+- [ ] Unitate proba estaldura %90+ kode berrirako
+- [ ] < 3 segundo PDF sortzea denbora
+- [ ] < 2 segundo orri karga denborak
+- [ ] Zero segurtasun ahultasun kritiko
+- [ ] WCAG AA irisgarritasun betetze
 
-### 7.2 User Experience Metrics
-- [ ] 95%+ user satisfaction rating
-- [ ] < 5% support tickets related to new features
-- [ ] 80%+ feature adoption within first month
-- [ ] Mobile app rating maintains 4.5+ stars
-- [ ] Zero data breach incidents
+### 7.2 Erabiltzaile Esperientzia Metrikoak
+- [ ] Erabiltzaile gogobetetze kalifikazioa %95+
+- [ ] < %5 laguntza tiketak ezaugarri berriei lotuta
+- [ ] Ezaugarri adopzioa %80+ lehen hilabetean
+- [ ] Mugikorreko aplikazio kalifikazioa 4.5+ izarrak mantentzen
+- [ ] Zero datu-haustea gertaerak
 
-### 7.3 Business Metrics
-- [ ] Reduce HR administrative time by 30%
-- [ ] 100% digital payslip distribution
-- [ ] Reduce paper document storage costs
-- [ ] Improve compliance audit scores
-- [ ] Increase employee self-service usage
-
----
-
-## 8. Post-Launch Activities
-
-### 8.1 Monitoring
-- [ ] Set up monitoring for new API endpoints
-- [ ] Monitor file storage usage
-- [ ] Track PDF generation performance
-- [ ] Monitor download bandwidth
-- [ ] Track feature usage analytics
-
-### 8.2 Maintenance
-- [ ] Monthly security audits
-- [ ] Quarterly performance reviews
-- [ ] Regular backup verification
-- [ ] File storage cleanup (old documents)
-- [ ] PDF cache maintenance
-
-### 8.3 Future Enhancements
-- [ ] Bulk payslip upload for HR
-- [ ] Electronic signature for documents
-- [ ] Document versioning
-- [ ] Document expiry notifications
-- [ ] Advanced search with filters
-- [ ] Document preview in browser
-- [ ] Mobile document scanning
+### 7.3 Negozio Metrikoak
+- [ ] Murriztu HR administratibo denbora %30
+- [ ] %100 nomina banaketa digitala
+- [ ] Murriztu paper dokumentu biltegiratze kostuak
+- [ ] Hobetu betetze auditoretza puntuazioak
+- [ ] Handitu langile autozerbitzu erabilpena
 
 ---
 
-## 9. Team & Resources
+## 8. Arrakasta Ondorengo Jarduerak
 
-### 9.1 Required Skills
-- PHP backend development
-- PostgreSQL database design
-- PDF generation (TCPDF)
-- File upload handling
-- Kotlin/Jetpack Compose (Android)
-- Material Design 3
-- Security best practices
-- Testing (Unit, Integration, E2E)
+### 8.1 Monitorizazioa
+- [ ] Konfiguratu monitorizazioa API amaiera-puntu berrietarako
+- [ ] Monitorizatu fitxategi biltegiratze erabilpena
+- [ ] Jarraitu PDF sortzea errendimendua
+- [ ] Monitorizatu deskarga banda-zabalera
+- [ ] Jarraitu ezaugarri erabilpen analitikak
 
-### 9.2 Estimated Effort
-- **Total:** 185 hours (~23 days)
-- **Backend:** 40 hours
-- **Web Frontend:** 90 hours
-- **Android Updates:** 25 hours
-- **Testing & QA:** 30 hours
+### 8.2 Mantentzea
+- [ ] Hileko segurtasun auditoriak
+- [ ] Hiruhileko errendimendua berrikuspenak
+- [ ] Erregularra babeskopia egiaztapena
+- [ ] Fitxategi biltegiratze garbitzea (dokumentu zaharrak)
+- [ ] PDF cache mantentzea
 
-### 9.3 Dependencies
-- PHP 8.4+
-- PostgreSQL 16
-- TCPDF library
-- File storage space (estimated 100GB)
-- Testing environments
-- CI/CD pipeline updates
+### 8.3 Etorkizuneko Hobekuntzak
+- [ ] Nomina igoera masibo HR-rentzat
+- [ ] Dokumentuentzako sinadura elektronikoa
+- [ ] Dokumentu bertsiokatzea
+- [ ] Dokumentu iraungitzeko jakinarazpenak
+- [ ] Bilaketa aurreratua iragazkiekin
+- [ ] Dokumentu aurrebista nabigatzailean
+- [ ] Dokumentu eskaneraketa mugikorran
 
 ---
 
-## 10. Conclusion
+## 9. Ondorioa
 
-This unification plan will bring feature parity between the Android app and web portal while ensuring a consistent visual design across both platforms. The phased approach allows for iterative development with regular testing and validation.
+Bateratze plan honek Android aplikazioa eta web portalaren artean ezaugarri parekotasuna ekarriko du, bi plataformetan diseinu bisual koherentea ziurtatzen den bitartean. Fase-zatitutako ikuspuntuak garapen iteratiboa ahalbidetzen du proba eta balioztapen erregularrekin.
 
-**Next Steps:**
-1. Review and approve this plan
-2. Allocate resources and timeline
-3. Begin Phase 1: Backend Foundation
-4. Set up project tracking (Jira/GitHub Projects)
-5. Schedule weekly progress reviews
+**Hurrengo Urratsak:**
+1. Berrikusi eta onartu plan hau
+2. Esleitu baliabideak eta epemugua
+3. Hasi 1. Fasea: Backend Oinarria
+4. Konfiguratu proiektu jarraipena (Jira/GitHub Projects)
+5. Programatu asteko aurrerapen berrikuspenak
 
-**Sign-off Required:**
-- [ ] Technical Lead
-- [ ] Product Owner
-- [ ] Security Team
-- [ ] Stakeholders
+**Sinadura Beharrezkoa:**
+- [ ] Lider Teknikoa
+- [ ] Produktu Jabea
+- [ ] Segurtasun Taldea
+- [ ] Interesdun-ak
 
 ---
 
-**Document Version:** 1.0  
-**Last Updated:** 2026-02-06  
-**Author:** AI Development Assistant  
-**Status:** Awaiting Approval
+**Dokumentu Bertsioa:** 1.0
+**Azken Eguneraketa:** 2026-02-06
+**Egilea:** AI Garapen Laguntzailea
+**Egoera:** Onarpena Zain

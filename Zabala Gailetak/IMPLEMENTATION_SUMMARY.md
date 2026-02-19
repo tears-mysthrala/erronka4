@@ -1,71 +1,71 @@
-# Zabala Gailetak - Unification Implementation Summary
+# Zabala Gailetak - Bateratze Inplementazio Laburpena
 
-## ✅ PHASE 1 COMPLETE: Backend Foundation
+## ✅ 1. FASEA OSATUTA: Backend Oinarria
 
-### Models Created
+### Sorturiko Modeloak
 1. **Payslip.php** - `/src/Models/Payslip.php`
-   - Represents payroll data with all fields
-   - Methods for formatting currency, month names (Basque/Spanish)
-   - toArray() for API responses
-   - fromDatabase() for ORM mapping
+   - Nomina datuak eremu guztiekin ordezkatzen ditu
+   - Metodoak moneta formatuarentzat, hilabete izenak (euskara/gaztelania)
+   - toArray() API erantzunetarako
+   - fromDatabase() ORM maparentzat
 
 2. **Document.php** - `/src/Models/Document.php`
-   - Represents document metadata
-   - Category management with color coding
-   - File size formatting, icon detection
-   - Public/private document support
+   - Dokumentu metadatuak ordezkatzen ditu
+   - Kategoria kudeaketa kolore kodigoarekin
+   - Fitxategi tamaina formatua, ikono detekzioa
+   - Dokumentu publiko/pribatu laguntza
 
-### Controllers Created
+### Sorturiko Kontroladoreak
 1. **PayrollController.php** - `/src/Controllers/PayrollController.php`
-   - `GET /api/payroll` - List payslips (with filters)
-   - `GET /api/payroll/{id}` - Get specific payslip
-   - `POST /api/payroll` - Create payslip (admin only)
-   - `PUT /api/payroll/{id}` - Update payslip (admin only)
-   - `DELETE /api/payroll/{id}` - Delete payslip (admin only)
-   - `GET /api/payroll/{id}/download` - Download PDF (placeholder)
+   - `GET /api/payroll` - Nomina zerrenda (iragazkiekin)
+   - `GET /api/payroll/{id}` - Nomina zehatza lortu
+   - `POST /api/payroll` - Nomina sortu (admin soilik)
+   - `PUT /api/payroll/{id}` - Nomina eguneratu (admin soilik)
+   - `DELETE /api/payroll/{id}` - Nomina ezabatu (admin soilik)
+   - `GET /api/payroll/{id}/download` - PDF deskargatu (placeholder)
 
 2. **DocumentController.php** - `/src/Controllers/DocumentController.php`
-   - `GET /api/documents` - List documents (filtered by access)
-   - `GET /api/documents/{id}` - Get document details
-   - `POST /api/documents/upload` - Upload new document (admin only)
-   - `GET /api/documents/{id}/download` - Download document file
-   - `DELETE /api/documents/{id}` - Archive document
-   - `GET /api/documents/categories` - Get category list
+   - `GET /api/documents` - Dokumentu zerrenda (sarbidearen arabera iragazita)
+   - `GET /api/documents/{id}` - Dokumentu xehetasunak lortu
+   - `POST /api/documents/upload` - Dokumentu berria igo (admin soilik)
+   - `GET /api/documents/{id}/download` - Dokumentu fitxategia deskargatu
+   - `DELETE /api/documents/{id}` - Dokumentua artxibatu
+   - `GET /api/documents/categories` - Kategoria zerrenda lortu
 
 3. **WebPayrollController.php** - `/src/Controllers/Web/WebPayrollController.php`
-   - `GET /payslips` - List view with filters
-   - `GET /payslips/{id}` - Detail view
-   - `GET /payslips/create` - Create form (admin)
-   - `POST /payslips/create` - Process creation
+   - `GET /payslips` - Zerrenda ikuspegia iragazkiekin
+   - `GET /payslips/{id}` - Xehetasun ikuspegia
+   - `GET /payslips/create` - Sortu formularioa (admin)
+   - `POST /payslips/create` - Sortzea prozesatu
 
-### Routes Updated
-- Added all payroll and document API endpoints to `/config/routes.php`
-- Integrated controllers with proper instantiation
+### Eguneratutako Errutak
+- Nomina eta dokumentu API amaiera-puntu guztiak `/config/routes.php`-ra gehitu dira
+- Kontroladoreak instantziazio egokiarekin integratu dira
 
-### Database
-- Tables already exist in schema:
-  - `payroll` table with all necessary fields
-  - `documents` table with categories and file metadata
-  - Proper indexes for performance
+### Datu-basea
+- Taulak dagoeneko eskeman existitzen dira:
+  - `payroll` taula beharrezko eremu guztiekin
+  - `documents` taula kategoriekin eta fitxategi metadatuekin
+  - Indize egokiak errendimenduarentzat
 
 ---
 
-## 🚧 PHASE 2 REQUIRED: Web Frontend Views
+## 🚧 2. FASEA BEHARREZKOA: Web Frontend Ikuspegiak
 
-### Files to Create
-Due to directory creation limitations, these files need to be created manually:
+### Sortu Beharreko Fitxategiak
+Direktorio sortzeko mugak direla-eta, fitxategi hauek eskuz sortu behar dira:
 
-#### 1. Payslips Views Directory
-Create: `public/views/payslips/`
+#### 1. Nominen Ikuspegien Direktorioa
+Sortu: `public/views/payslips/`
 
-**File: `public/views/payslips/index.php`**
-- Summary card with gradient design (matching Android)
-- Year/month filters
-- Responsive table with payslip list
-- Download and view actions
-- Empty state handling
+**Fitxategia: `public/views/payslips/index.php`**
+- Laburpen txartela gradiente diseinuarekin (Android-ekin bat eginez)
+- Urte/hilabete iragazkiak
+- Taula erantzulea nomina zerrendarekin
+- Deskarga eta ikusi ekintzak
+- Egoera huts kudeaketa
 
-**File: `public/views/payslips/show.php`**
+**Fitxategia: `public/views/payslips/show.php`**
 ```php
 <?php
 $pageTitle = 'Nomina Xehetasunak - Detalle Nómina';
@@ -196,108 +196,108 @@ require_once __DIR__ . '/../layouts/header.php';
 <?php require_once __DIR__ . '/../layouts/footer.php'; ?>
 ```
 
-**File: `public/views/payslips/create.php`** - Admin form for creating payslips
+**Fitxategia: `public/views/payslips/create.php`** - Nominak sortzeko admin formularioa
 
-#### 2. Documents Views Directory
-Create: `public/views/documents/`
+#### 2. Dokumentuen Ikuspegien Direktorioa
+Sortu: `public/views/documents/`
 
-**File: `public/views/documents/index.php`** - Similar to Android with tabs for Personal/Public
-**File: `public/views/documents/upload.php`** - Upload form with drag-drop
+**Fitxategia: `public/views/documents/index.php`** - Android-en antzekoa fitxekin Pertsonalak/Publikoak
+**Fitxategia: `public/views/documents/upload.php`** - Igoera formularioa arrastatu-jaregin
 
-#### 3. Enhanced Dashboard Components
-Update: `public/views/dashboard/index.php`
-- Add quick action cards section (gradients like Android)
-- Add statistics overview
-- Add recent activity feed
+#### 3. Aginte-panel Osagai Hobetuak
+Eguneratu: `public/views/dashboard/index.php`
+- Gehitu ekintza azkar txartel sekzioa (gradienteak Android bezala)
+- Gehitu estatistika ikuspegi orokorra
+- Gehitu jarduera berriaren jarioa
 
 ---
 
-## 📱 PHASE 5: Android Style Updates
+## 📱 5. FASEA: Android Estilo Eguneraketak
 
-### File to Update: `android-app/app/src/main/java/com/zabalagailetak/hrapp/presentation/ui/theme/Color.kt`
+### Eguneratu Beharreko Fitxategia: `android-app/app/src/main/java/com/zabalagailetak/hrapp/presentation/ui/theme/Color.kt`
 
 ```kotlin
 package com.zabalagailetak.hrapp.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// ===== UNIFIED COLOR PALETTE (Web-Aligned) =====
-// Updated to match web portal design system
+// ===== BATERATUTAKO KOLORE PALETA (Web-Lerrokatua) =====
+// Web portal diseinu sistemarekin bat egiteko eguneratua
 
-// Primary Colors (Web Standard)
-val PrimaryBlue = Color(0xFF1D4ED8)        // Match web --primary
-val PrimaryBlueLight = Color(0xFF3B82F6)   // Match web --primary-light
-val PrimaryBlueDark = Color(0xFF1E3A8A)    // Match web --primary-dark
+// Kolore Nagusiak (Web Estandarra)
+val PrimaryBlue = Color(0xFF1D4ED8)        // Web --primary bat
+val PrimaryBlueLight = Color(0xFF3B82F6)   // Web --primary-light bat
+val PrimaryBlueDark = Color(0xFF1E3A8A)    // Web --primary-dark bat
 
-// Accent Colors
-val AccentBlue = Color(0xFF0EA5E9)         // Match web --accent  
-val AccentBlueLight = Color(0xFF38BDF8)     // Match web --accent-light
+// Azentuko Koloreak
+val AccentBlue = Color(0xFF0EA5E9)         // Web --accent bat
+val AccentBlueLight = Color(0xFF38BDF8)     // Web --accent-light bat
 
-// Semantic Colors (Web Standard)
-val SuccessGreen = Color(0xFF059669)       // Match web --success
-val SuccessGreenLight = Color(0xFF10B981)   // Match web --success-light
-val WarningAmber = Color(0xFFD97706)       // Match web --warning
-val WarningAmberLight = Color(0xFFF59E0B)   // Match web --warning-light
-val ErrorRed = Color(0xFFDC2626)           // Match web --danger
-val InfoBlue = Color(0xFF0284C7)           // Match web --info
+// Semantikako Koloreak (Web Estandarra)
+val SuccessGreen = Color(0xFF059669)       // Web --success bat
+val SuccessGreenLight = Color(0xFF10B981)   // Web --success-light bat
+val WarningAmber = Color(0xFFD97706)       // Web --warning bat
+val WarningAmberLight = Color(0xFFF59E0B)   // Web --warning-light bat
+val ErrorRed = Color(0xFFDC2626)           // Web --danger bat
+val InfoBlue = Color(0xFF0284C7)           // Web --info bat
 
-// Gradient Colors (Keep for Cards - Not in Web Yet)
-val GradientStart = Color(0xFF667EEA)      // Purple-blue (keep for mobile enhancement)
-val GradientMiddle = Color(0xFF764BA2)     // Purple (keep for mobile enhancement)
-val GradientEnd = Color(0xFFF093FB)        // Pink-purple (keep for mobile enhancement)
+// Gradiente Koloreak (Txarteletarako Mantendu - Web-en Ez Oraindik)
+val GradientStart = Color(0xFF667EEA)      // More-urdina (mugikor hobekuntzarentzat mantendu)
+val GradientMiddle = Color(0xFF764BA2)     // Morea (mugikor hobekuntzarentzat mantendu)
+val GradientEnd = Color(0xFFF093FB)        // Arrosa-morea (mugikor hobekuntzarentzat mantendu)
 
-// Neutral Colors
+// Kolore Neutralak
 val DarkBackground = Color(0xFF0F172A)
 val DarkSurface = Color(0xFF1E293B)
 val DarkCard = Color(0xFF334155)
 val LightGray = Color(0xFFF1F5F9)
 val MediumGray = Color(0xFF94A3B8)
 
-// Text Colors
+// Testu Koloreak
 val TextPrimary = Color(0xFF0F172A)
 val TextSecondary = Color(0xFF64748B)
 val TextPrimaryDark = Color(0xFFF8FAFC)
 val TextSecondaryDark = Color(0xFFCBD5E1)
 
-// Special Effects
+// Efektu Bereziak
 val GlassmorphismOverlay = Color(0x1AFFFFFF)
 val ShadowColor = Color(0x40000000)
 
-// Deprecated Colors (Remove in next version)
-@Deprecated("Use PrimaryBlue instead", ReplaceWith("PrimaryBlue"))
+// Zaharkitutako Koloreak (Hurrengo bertsioan kendu)
+@Deprecated("Erabili PrimaryBlue horren ordez", ReplaceWith("PrimaryBlue"))
 val SecondaryTeal = Color(0xFF06B6D4)
 
-@Deprecated("Use AccentBlue instead", ReplaceWith("AccentBlue"))
+@Deprecated("Erabili AccentBlue horren ordez", ReplaceWith("AccentBlue"))
 val AccentOrange = Color(0xFFFF6B35)
 
-@Deprecated("Use ErrorRed instead", ReplaceWith("ErrorRed"))  
+@Deprecated("Erabili ErrorRed horren ordez", ReplaceWith("ErrorRed"))
 val AccentPurple = Color(0xFF9333EA)
 ```
 
-### Files to Update: All Screen Composables
-Replace all instances of:
+### Eguneratu Beharreko Fitxategiak: Pantaila Composable Guztiak
+Ordeztu instantzia guztiak:
 - `SecondaryTeal` → `AccentBlue`
 - `AccentOrange` → `WarningAmberLight`
 - `AccentPurple` → `InfoBlue`
 
 ---
 
-## 🔧 REMAINING TASKS
+## 🔧 GAINERAKO ZEREGINAK
 
-### Immediate Actions Needed:
-1. **Create View Directories** (Manual):
+### Berehala Beharrezko Ekintzak:
+1. **Sortu Ikuspegia Direktorioak** (Eskuz):
    ```bash
    mkdir -p public/views/payslips
    mkdir -p public/views/documents
    ```
 
-2. **Create View Files** - Copy templates from this document
+2. **Sortu Ikuspegia Fitxategiak** - Kopiatu txantiloiak dokumentu honetatik
 
-3. **Add Routes** - Web routes for payslips and documents:
+3. **Gehitu Errutak** - Nominen eta dokumentuen web errutak:
    ```php
-   // In config/routes.php, add after line 107:
-   
-   // Payslips
+   // config/routes.php-n, gehitu 107. lerroaren ondoren:
+
+   // Nominak
    $webPayrollController = new WebPayrollController($db);
    $router->get('/payslips', [$webPayrollController, 'index']);
    $router->get('/payslips/{id}', [$webPayrollController, 'show']);
@@ -305,7 +305,7 @@ Replace all instances of:
    $router->post('/payslips/create', [$webPayrollController, 'create']);
    ```
 
-4. **Add Navigation Links** - Update header.php:
+4. **Gehitu Nabigazio Estekak** - Eguneratu header.php:
    ```php
    <a href="/payslips" class="nav-link-industrial">
        <i class="bi bi-receipt"></i> Nominak
@@ -315,15 +315,15 @@ Replace all instances of:
    </a>
    ```
 
-5. **Test API Endpoints**:
+5. **Probatu API Amaiera-puntuak**:
    ```bash
    curl -X GET http://localhost/api/payroll
    curl -X GET http://localhost/api/documents
    ```
 
-6. **Update Android Colors** - Apply the Color.kt changes above
+6. **Eguneratu Android Koloreak** - Aplikatu goiko Color.kt aldaketak
 
-7. **Rebuild Android App** - After color updates:
+7. **Berreraikitzen Android Aplikazioa** - Kolore eguneraketen ondoren:
    ```bash
    cd android-app
    ./gradlew clean build
@@ -331,45 +331,45 @@ Replace all instances of:
 
 ---
 
-## 📊 Progress Summary
+## 📊 Aurrerapen Laburpena
 
-| Phase | Status | Progress |
+| Fasea | Egoera | Aurrerapena |
 |-------|--------|----------|
-| Phase 1: Backend Foundation | ✅ Complete | 100% |
-| Phase 2: Web Frontend - Payslips | 🟡 Partially Done | 60% (views need creation) |
-| Phase 3: Web Frontend - Documents | ⏳ Not Started | 0% |
-| Phase 4: Enhanced Dashboard | ⏳ Not Started | 0% |
-| Phase 5: Android Style Updates | ⏳ Not Started | 0% (code ready) |
+| 1. Fasea: Backend Oinarria | ✅ Osatua | 100% |
+| 2. Fasea: Web Frontend - Nominak | 🟡 Partzialki Egina | 60% (ikuspegiak sortu behar) |
+| 3. Fasea: Web Frontend - Dokumentuak | ⏳ Hasi Gabe | 0% |
+| 4. Fasea: Aginte-panel Hobetua | ⏳ Hasi Gabe | 0% |
+| 5. Fasea: Android Estilo Eguneraketak | ⏳ Hasi Gabe | 0% (kodea prest) |
 
-**Overall Progress: 32% Complete**
-
----
-
-## 🎯 Next Steps
-
-1. Manually create the view directory structure
-2. Create the PHP view files using the templates provided
-3. Add web routes for payslips and documents
-4. Test payslip functionality end-to-end
-5. Implement documents views (Phase 3)
-6. Enhance dashboard (Phase 4)
-7. Update Android colors (Phase 5)
+**Aurrerapen Orokorra: 32% Osatua**
 
 ---
 
-## 📝 Notes
+## 🎯 Hurrengo Urratsak
 
-- All backend code is production-ready and follows PSR standards
-- Security considerations are implemented (access control, file validation)
-- Database tables already exist - no migrations needed
-- API endpoints are functional and documented
-- Android color scheme update is backwards compatible with @Deprecated annotations
-
-**Ready for Testing:** API endpoints can be tested immediately
-**Ready for Deployment:** Backend code can be deployed to production
+1. Eskuz sortu ikuspegia direktorio egitura
+2. Sortu PHP ikuspegia fitxategiak emandako txantiloiak erabiliz
+3. Gehitu web errutak nominen eta dokumentuen
+4. Probatu nominen funtzionalitatea muturretik muturrera
+5. Inplementatu dokumentuen ikuspegiak (3. Fasea)
+6. Hobetu aginte-panela (4. Fasea)
+7. Eguneratu Android koloreak (5. Fasea)
 
 ---
 
-**Document Version:** 1.0  
-**Last Updated:** 2026-02-06  
-**Status:** Implementation In Progress (32% Complete)
+## 📝 Oharrak
+
+- Backend kode guztia produkziorako prest dago eta PSR estandarrei jarraitzen die
+- Segurtasun kontaketak inplementatuta daude (sarbide kontrola, fitxategi egiaztapena)
+- Datu-base taulak dagoeneko existitzen dira - ez da migraziorik behar
+- API amaiera-puntuak funtzionalak eta dokumentatuak dira
+- Android kolore eskema eguneraketa atzerantz bateragarria da @Deprecated anotazioekin
+
+**Proba Prest:** API amaiera-puntuak berehala proba daitezke
+**Hedapen Prest:** Backend kodea produkziora hedatu daiteke
+
+---
+
+**Dokumentu Bertsioa:** 1.0
+**Azken Eguneraketa:** 2026-02-06
+**Egoera:** Inplementazioa Abian (32% Osatua)

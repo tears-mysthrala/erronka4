@@ -1,236 +1,161 @@
-# Índice de Entregables Erronka 4
-
-## Zabala Gailetak - Sistema Aurreratuak
-
----
-
-**Fecha:** 2026-02-12  
-**Versión:** 1.0 - Final  
-**Equipo:** Talde 4
+# Zabala Gailetak - Índice de Entregables
+## Erronka 4 - Ciberseguridad
 
 ---
 
-## Estructura de Carpetas
+## Asignaturen Antolakuntza / Organización por Asignaturas
 
-```
-entregables/
-├── 00_INDICE_ENTREGABLES.pdf           ← Este documento
-├── 00_README_ENTREGABLES.pdf           ← Guía de uso
-├── AAI_Auzitegi_Analisia/
-│   └── 01_Analisis_Forense_Practico.pdf
-├── ESJ_Ekoizpen_Segurua/
-│   └── 01_CI_CD_Pipeline_Segurua.pdf
-├── Hacking_Etikoa/
-│   └── 01_Informe_Pentesting.pdf
-├── Proiektu_Orokorra/
-│   └── 01_Resumen_Ejecutivo.pdf
-├── Sareak_Sistemak/
-│   └── 01_Infraestructura_Segura_IaC.pdf
-├── ZAA_Araudia/
-│   └── 01_Compliance_ISO27001_GPDR.pdf
-└── ZG_Gorabeherak/
-    └── 01_Gestion_Incidentes_SOAR.pdf
-```
+Dokumentazio hau honela antolatuta dago:
+Este documento está organizado de la siguiente manera:
+
+### 1. Auzitegi-analisi informatikoa (AAI)
+**Pisu ikasgaian / Peso en asignatura**: 68%
+
+Karpeta honetan daude:
+- Azterketa forentseen dokumentazioa
+- Froga bilketa prozedurak
+- Analisi txostenak
+
+**Documentos disponibles**: 3 archivos
+- ✓ En euskera: 2
+- ⚠ En otros idiomas: 1
 
 ---
 
-## Contenido por Asignatura
+### 2. Ekoizpen seguruan jartzea (ESJ)
+**Pisu ikasgaian / Peso en asignatura**: 39.5%
 
-### 📊 AAI - Auzitegi Analisia Izan Artua
+Karpeta honetan daude:
+- Android aplikazioaren dokumentazioa
+- CI/CD pipeline segurua
+- Deployment gidak
 
-**Fichero:** `AAI_Auzitegi_Analisia/01_Analisis_Forense_Practico.pdf`
-
-| Contenido | Líneas Rúbrica |
-|-----------|----------------|
-| Análisis forense con Volatility Framework | 83-90 |
-| Memory acquisition con LiME | 83-90 |
-| Análisis de red con Wireshark/NetworkMiner | 83-90 |
-| IoT Forensics (HMI/PLC) | 83-90 |
-| Cadena de custodia digital | 83-90 |
-
-**Herramientas documentadas:**
-- Volatility 3 (24+ plugins configurados)
-- Autopsy (ingest modules personalizados)
-- LiME (Linux Memory Extractor)
-- Wireshark (dissectors ICS)
-- NetworkMiner (análisis pcap)
+**Documentos disponibles**: 16 archivos
+- ✓ En euskera: 2
+- ⚠ En otros idiomas: 14
 
 ---
 
-### 🔧 ESJ - Ekoizpen Seguruan Jartzea
+### 3. Zibersegurtasunaren arloko araudia (ZAA)
+**Pisu ikasgaian / Peso en asignatura**: 46.25%
 
-**Fichero:** `ESJ_Ekoizpen_Segurua/01_CI_CD_Pipeline_Segurua.pdf`
+Karpeta honetan daude:
+- SGSI (ISO 27001) dokumentazioa
+- GDPR betetzea
+- NIS2 inplementazioa
+- Compliance txostenak
 
-| Contenido | Líneas Rúbrica |
-|-----------|----------------|
-| Pipeline CI/CD con 10+ jobs | 111-117 |
-| SAST (SonarQube, Semgrep) | 111-117 |
-| DAST (OWASP ZAP) | 111-117 |
-| SCA (Dependency-Check) | 111-117 |
-| Tests E2E (Playwright) | 111-117 |
-
-**Jobs implementados:**
-1. Code Quality (PHP CodeSniffer, PHPStan)
-2. SAST (Semgrep, SonarCloud)
-3. SCA (OWASP Dependency-Check)
-4. Secrets Scanning (TruffleHog)
-5. Unit Tests (PHPUnit, >80% cobertura)
-6. Container Security (Trivy)
-7. Deploy Staging
-8. DAST (OWASP ZAP)
-9. E2E Tests (Playwright)
-10. Deploy Production
+**Documentos disponibles**: 66 archivos
+- ✓ En euskera: 47
+- ⚠ En otros idiomas: 19
 
 ---
 
-### 🔍 Hacking Etikoa
+### 4. Hacking etikoa
+**Pisu ikasgaian / Peso en asignatura**: 51.5%
 
-**Fichero:** `Hacking_Etikoa/01_Informe_Pentesting.pdf`
+Karpeta honetan daude:
+- Penetration testing txostenak
+- Auditoretza segurtasun txostenak
+- Ahultasunen analisia
 
-| Contenido | Líneas Rúbrica |
-|-----------|----------------|
-| Informe PTES completo (5 fases) | 118-122 |
-| OSINT (TheHarvester, Shodan) | 118-122 |
-| Vulnerability Scanning (Nessus) | 118-122 |
-| Explotación (SQLMap, Metasploit) | 118-122 |
-| Post-explotación y pivoting | 118-122 |
-| CVSS v3.1 scoring | 118-122 |
-
-**Metodología:** Penetration Testing Execution Standard (PTES)
-- Fase 1: Pre-engagement & Reconnaissance
-- Fase 2: Vulnerability Discovery
-- Fase 3: Exploitation & Post-exploitation
-- Fase 4: Reporting
+**Documentos disponibles**: 2 archivos
+- ✓ En euskera: 1
+- ⚠ En otros idiomas: 1
 
 ---
 
-### 🌐 Sareak eta Sistemak Gotortzea
+### 5. Sareak eta sistemak gotortzea (SSG)
+**Pisu ikasgaian / Peso en asignatura**: 51%
 
-**Fichero:** `Sareak_Sistemak/01_Infraestructura_Segura_IaC.pdf`
+Karpeta honetan daude:
+- Azpiegitura dokumentazioa
+- Sare eta sistemen konfigurazioa
+- OT segurtasuna
+- SIEM inplementazioa
+- Honeypot sistemak
 
-| Contenido | Líneas Rúbrica |
-|-----------|----------------|
-| Ansible IaC - hardening CIS | 68-73 |
-| 40+ controles de seguridad | 68-73 |
-| Segmentación IT/OT | 68-73 |
-| Firewall UFW/Iptables | 68-73 |
-| Auditoría auditd | 68-73 |
-| Nginx/PostgreSQL hardening | 68-73 |
-
-**Roles Ansible implementados:**
-- `common` - Configuración base
-- `security_hardening` - Hardening CIS Benchmark
-- `nginx` - Web server hardening
-- `postgresql` - Database hardening
-- `ot_security` - Seguridad industrial IEC 62443
+**Documentos disponibles**: 13 archivos
+- ✓ En euskera: 6
+- ⚠ En otros idiomas: 7
 
 ---
 
-### 📜 ZAA - Zibersegurtasun Araudia eta Antolakuntza
+### 6. Zibersegurtasun-gorabeherak (ZG)
+**Pisu ikasgaian / Peso en asignatura**: 40%
 
-**Fichero:** `ZAA_Araudia/01_Compliance_ISO27001_GDPR.pdf`
+Karpeta honetan daude:
+- Gorabeherak erantzuteko prozedurak
+- SOAR playbooks
+- Incident response txostenak
 
-| Contenido | Líneas Rúbrica |
-|-----------|----------------|
-| ISO 27001:2022 - 93 controles | 44-59 |
-| GDPR - DPIA completo | 44-59 |
-| NIS2 - cumplimiento directiva | 44-59 |
-| Privacy by Design/Default | 44-59 |
-| RoPA (Registro Actividades) | 44-59 |
-
-**Estándares cubiertos:**
-- ISO/IEC 27001:2022 (100% controles implementados)
-- Reglamento General de Protección de Datos (GDPR)
-- Directiva NIS2 (Redes y Sistemas de Información)
-- IEC 62443 (Seguridad Industrial)
+**Documentos disponibles**: 3 archivos
+- ✓ En euskera: 3
+- ⚠ En otros idiomas: 0
 
 ---
 
-### 🚨 ZG - Zibersegurtasun Gorabeherak
+### General
+Dokumentu orokorrak proiektu osoarentzat:
+- Proiektuaren dokumentazio orokorra
+- Inplementazio gidak
+- Setup argibideak
 
-**Fichero:** `ZG_Gorabeherak/01_Gestion_Incidentes_SOAR.pdf`
-
-| Contenido | Líneas Rúbrica |
-|-----------|----------------|
-| Organización SGSI | 98-108 |
-| Detección automática (Wazuh) | 98-108 |
-| Playbooks SOAR (YAML) | 98-108 |
-| Respuesta NIS2 (24h/72h) | 98-108 |
-| Grafana dashboards | 98-108 |
-| Clasificación NIST | 98-108 |
-
-**Dashboards implementados:**
-- Panel de Alertas de Seguridad (7 paneles)
-- Incidentes en Tiempo Real
-- Cumplimiento Normativo NIS2
-- Telemetría OT (HMI/PLC)
-- Tendencias de Amenazas
-
-**Playbooks SOAR:**
-- Phishing Response
-- Malware Containment
-- DDoS Mitigation
+**Documentos disponibles**: 14 archivos
+- ✓ En euskera: 6
+- ⚠ En otros idiomas: 8
 
 ---
 
-### 📋 Proiektu Orokorra
+## Laburpena / Resumen
 
-**Fichero:** `Proiektu_Orokorra/01_Resumen_Ejecutivo.pdf`
+**Dokumentu guztiak / Total de documentos**: 117 archivos Markdown
 
-| Contenido | Líneas Rúbrica |
-|-----------|----------------|
-| Resumen ejecutivo del proyecto | 3-7, 14-24, 31-42 |
-| Arquitectura de seguridad | 3-7, 14-24, 31-42 |
-| Estado de cumplimiento | 3-7, 14-24, 31-42 |
+**Hizkuntza banaketa / Distribución por idioma**:
+- ✓ **Euskeraz / En euskera**: 67 archivos (57%)
+- ⚠ **Beste hizkuntzetan / En otros idiomas**: 50 archivos (43%)
 
----
-
-## Resumen de Entregables
-
-| Asignatura | Documento | PDF | Líneas Rúbrica |
-|------------|-----------|-----|----------------|
-| **AAI** | Análisis Forense Práctico | ✅ | 83-90 |
-| **ESJ** | Pipeline CI/CD Seguro | ✅ | 111-117 |
-| **Hacking Etikoa** | Informe Pentesting PTES | ✅ | 118-122 |
-| **Sareak** | Infraestructura Segura IaC | ✅ | 68-73 |
-| **ZAA** | Compliance ISO 27001/GDPR | ✅ | 44-59 |
-| **ZG** | Gestión Incidentes SOAR | ✅ | 98-108 |
-| **Proiektu Orokorra** | Resumen Ejecutivo | ✅ | - |
-
-**Total:** 7 documentos PDF profesionales
+**Egoera / Estado**:
+- Dokumentu guztiak PDF formatuan bihurtu dira
+- 50 dokumentuk itzulpena behar dute euskerara
+- Dokumentazio guztia asignaturaren arabera sailkatuta dago
 
 ---
 
-## Instrucciones de Uso
+## Oharrak / Notas
 
-1. **Navegación:** Cada PDF es independiente y contiene toda la documentación de su asignatura
-2. **Formato:** Los PDFs mantienen el formato Markdown original con estilos profesionales
-3. **Hiperenlaces:** Los enlaces internos entre documentos funcionan en la versión HTML
-4. **Código:** Los bloques de código incluyen syntax highlighting
-5. **Tablas:** Todas las tablas están optimizadas para impresión A4
+### Dokumentuak euskerara itzultzeko / Documentos a traducir al euskera
 
----
+#### Lehentasuna / Prioridad Alta:
+1. **Ekoizpen seguruan jartzea (ESJ)**: 14 archivos
+   - Android aplikazioaren gida guztiak
+   - CI/CD dokumentazioa
 
-## Validación de Cumplimiento
+2. **Zibersegurtasunaren arloko araudia (ZAA)**: 19 archivos
+   - GDPR template batzuk
+   - NIS2 dokumentu batzuk
 
-- ✅ Todos los documentos generados en Markdown
-- ✅ Todos los documentos convertidos a PDF
-- ✅ Código implementado y documentado
-- ✅ Configuraciones y scripts incluidos
-- ✅ Diagramas de arquitectura
-- ✅ Matrices de cumplimiento normativo
-- ✅ Notas técnicas y procedimientos
+3. **Sareak eta sistemak gotortzea (SSG)**: 7 archivos
+   - SOP dokumentuak
+   - Sistema konfigurazio gidak
 
----
-
-## Contacto y Soporte
-
-**Proyecto:** Zabala Gailetak - Erronka 4  
-**Sistema:** HR Atari Seguru  
-**Equipo:** Talde 4 - Sistema Aurreratuak  
-
-**Repositorio:** `/home/kalista/erronkak/erronka4/`
+#### Lehentasuna Ertaina / Prioridad Media:
+4. **General**: 8 archivos
+5. **Hacking etikoa**: 1 archivos
+6. **Auzitegi-analisi informatikoa**: 1 archivos
 
 ---
 
-*Documento generado automáticamente el 2026-02-12*
+## Egiaztapen Zerrenda / Lista de Verificación
+
+- [x] Karpeta egitura sortu da
+- [x] Dokumentuak asignaturaren arabera sailkatu dira
+- [x] MD artxiboak PDF-ra bihurtu dira
+- [ ] Dokumentu guztiak euskeraz daude
+- [ ] Kalitate berrikuspena egin da
+- [ ] Azken formatua egiaztatu da
+
+---
+
+**Azken eguneratzea / Última actualización**: 2026-02-13
+**Bertsioa / Versión**: 1.0

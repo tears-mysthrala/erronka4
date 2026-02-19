@@ -1,35 +1,35 @@
-# 🎯 Zabala Gailetak - Quick Implementation Guide
+# 🎯 Zabala Gailetak - Inplementazio Gida Azkarra
 
-## ✅ What's Done (53% Complete)
+## ✅ Zer Eginda Dago (53% Osatua)
 
-### Backend (100% Complete)
-- ✅ **Models**: Payslip.php, Document.php
-- ✅ **API Controllers**: PayrollController, DocumentController
-- ✅ **Web Controllers**: WebPayrollController
-- ✅ **Routes**: All API endpoints added
-- ✅ **Database**: Tables already exist in schema
+### Backend (100% Osatua)
+- ✅ **Modeloak**: Payslip.php, Document.php
+- ✅ **API Kontroladoreak**: PayrollController, DocumentController
+- ✅ **Web Kontroladoreak**: WebPayrollController
+- ✅ **Errutak**: API amaiera-puntu guztiak gehitu dira
+- ✅ **Datu-basea**: Taulak dagoeneko eskeman existitzen dira
 
-### Android (100% Complete)
-- ✅ **Colors**: Updated Color.kt with web-aligned palette
-- ✅ **Deprecation**: Old colors marked for removal
-- ✅ **Documentation**: Color mappings documented
+### Android (100% Osatua)
+- ✅ **Koloreak**: Color.kt eguneratua web-lerrokatutako paletarekin
+- ✅ **Zaharkitzea**: Kolore zaharrak kentzeko markatuak
+- ✅ **Dokumentazioa**: Kolore mapatzeak dokumentatuak
 
 ---
 
-## 🔧 What You Need to Do (47% Remaining)
+## 🔧 Zer Egin Behar Duzu (47% Geratzen)
 
-### Step 1: Create View Directories
+### 1. Urratsa: Sortu Ikuspegia Direktorioak
 ```bash
 cd "c:\Users\idz60\Downloads\erronka4-main\erronka4-main\Zabala Gailetak\hr-portal\public\views"
 mkdir payslips
 mkdir documents
 ```
 
-### Step 2: Add Web Routes
-Open `config/routes.php` and add after line 107 (after Vacations routes):
+### 2. Urratsa: Gehitu Web Errutak
+Ireki `config/routes.php` eta gehitu 107. lerroaren ondoren (Vacations errutaren ondoren):
 
 ```php
-// Payslips (Web)
+// Nominak (Web)
 $webPayrollController = new \ZabalaGailetak\HrPortal\Controllers\Web\WebPayrollController($db);
 $router->get('/payslips', [$webPayrollController, 'index']);
 $router->get('/payslips/{id}', [$webPayrollController, 'show']);
@@ -37,8 +37,8 @@ $router->get('/payslips/create', [$webPayrollController, 'createForm']);
 $router->post('/payslips/create', [$webPayrollController, 'create']);
 ```
 
-### Step 3: Update Navigation (header.php)
-Open `public/views/layouts/header.php` and add these links in the nav section:
+### 3. Urratsa: Eguneratu Nabigazioa (header.php)
+Ireki `public/views/layouts/header.php` eta gehitu esteka hauek nabigazio atalean:
 
 ```php
 <a href="/payslips" class="nav-link-industrial <?= $_SERVER['REQUEST_URI'] === '/payslips' ? 'active' : '' ?>">
@@ -49,19 +49,19 @@ Open `public/views/layouts/header.php` and add these links in the nav section:
 </a>
 ```
 
-### Step 4: Test API Endpoints
+### 4. Urratsa: Probatu API Amaiera-puntuak
 ```bash
-# Test payroll endpoint
+# Probatu nomina amaiera-puntua
 curl http://localhost/api/payroll
 
-# Test documents endpoint
+# Probatu dokumentu amaiera-puntua
 curl http://localhost/api/documents
 
-# Test categories
+# Probatu kategoriak
 curl http://localhost/api/documents/categories
 ```
 
-### Step 5: Rebuild Android App
+### 5. Urratsa: Berreraikitzen Android Aplikazioa
 ```bash
 cd "c:\Users\idz60\Downloads\erronka4-main\erronka4-main\Zabala Gailetak\android-app"
 ./gradlew clean build
@@ -69,175 +69,175 @@ cd "c:\Users\idz60\Downloads\erronka4-main\erronka4-main\Zabala Gailetak\android
 
 ---
 
-## 📂 View Files Needed
+## 📂 Beharrezko Ikuspegia Fitxategiak
 
-Since directory creation failed, you'll need to manually create these files in `public/views/payslips/`:
+Direktorio sortzeak huts egin zuenez, eskuz sortu behar dituzu fitxategi hauek `public/views/payslips/`-en:
 
-### File 1: `index.php` (Payslips List)
-See `IMPLEMENTATION_SUMMARY.md` for the full template
+### 1. Fitxategia: `index.php` (Nominen Zerrenda)
+Ikusi `IMPLEMENTATION_SUMMARY.md` txantiloi osorako
 
-Key features:
-- Gradient summary card
-- Year/month filters
-- Responsive table
-- Download links
+Ezaugarri nagusiak:
+- Gradiente laburpen txartela
+- Urte/hilabete iragazkiak
+- Taula erantzulea
+- Deskarga estekak
 
-### File 2: `show.php` (Payslip Detail)  
-See `IMPLEMENTATION_SUMMARY.md` for the full template
+### 2. Fitxategia: `show.php` (Nomina Xehetasuna)
+Ikusi `IMPLEMENTATION_SUMMARY.md` txantiloi osorako
 
-Key features:
-- Header with gradient
-- Salary breakdown cards
-- Icon-based layout
-- Download PDF button
+Ezaugarri nagusiak:
+- Goiburua gradientearekin
+- Soldata xehapen txartelak
+- Ikono-oinarritutako diseinua
+- PDF deskarga botoia
 
-### File 3: `create.php` (Admin Form)
-Basic form for creating payslips (admin only)
+### 3. Fitxategia: `create.php` (Admin Formularioa)
+Oinarrizko formularioa nominak sortzeko (admin soilik)
 
 ---
 
-## 🎨 Style Alignment Summary
+## 🎨 Estilo Lerrokadura Laburpena
 
-### Colors Now Unified
-| Component | Old Android | New (Web-Aligned) |
+### Koloreak Orain Bateratuak
+| Osagaia | Android Zaharra | Berria (Web-Lerrokatua) |
 |-----------|-------------|-------------------|
-| Primary | #2C3E95 | #1D4ED8 ✅ |
-| Accent | #FF6B35 (orange) | #0EA5E9 (blue) ✅ |
-| Success | #10B981 | #059669 ✅ |
-| Warning | #F59E0B | #D97706 ✅ |
-| Error | #EF4444 | #DC2626 ✅ |
+| Nagusia | #2C3E95 | #1D4ED8 ✅ |
+| Azentua | #FF6B35 (laranja) | #0EA5E9 (urdina) ✅ |
+| Arrakasta | #10B981 | #059669 ✅ |
+| Abisua | #F59E0B | #D97706 ✅ |
+| Errorea | #EF4444 | #DC2626 ✅ |
 
-### What Stays Mobile-Only
-- Gradient colors (for quick action cards)
-- Bottom navigation (vs top nav on web)
-- Material 3 specific components
+### Zer Geratzen da Mugikorra-Soilik
+- Gradiente koloreak (ekintza azkar txarteletarako)
+- Beheko nabigazioa (vs goiko nabigazio web-en)
+- Material 3 osagai espezifikoak
 
 ---
 
-## 🚀 Quick Start Testing
+## 🚀 Hasiera Azkarreko Probak
 
-1. **Test Backend APIs**:
+1. **Probatu Backend API-ak**:
    ```bash
    curl http://localhost/api/payroll
    curl http://localhost/api/documents
    ```
 
-2. **Check Database**:
+2. **Egiaztatu Datu-basea**:
    ```sql
    SELECT * FROM payroll LIMIT 5;
    SELECT * FROM documents LIMIT 5;
    ```
 
-3. **Create Test Data** (if tables are empty):
+3. **Sortu Proba Datuak** (taulak hutsik badaude):
    ```sql
-   -- Insert test payslip
+   -- Sartu proba nomina
    INSERT INTO payroll (employee_id, period_start, period_end, base_salary, net_salary, taxes, social_security, other_deductions)
    VALUES ('your-employee-uuid', '2026-01-01', '2026-01-31', 3500, 2800, 500, 300, 200);
-   
-   -- Insert test document
+
+   -- Sartu proba dokumentua
    INSERT INTO documents (employee_id, type, filename, original_filename, file_path, mime_type, file_size, uploaded_by)
    VALUES (NULL, 'policy', 'policy.pdf', 'Company Policy.pdf', '/path/to/policy.pdf', 'application/pdf', 100000, 'admin-uuid');
    ```
 
-4. **Access Web Views** (after creating view files):
+4. **Atzitu Web Ikuspegiak** (ikuspegia fitxategiak sortu ondoren):
    - http://localhost/payslips
    - http://localhost/payslips/{uuid}
    - http://localhost/documents
 
 ---
 
-## ⚠️ Known Limitations
+## ⚠️ Ezagutzen Mugak
 
-1. **PDF Generation**: Not yet implemented in `PayrollController::download()`
-   - Currently returns placeholder JSON
-   - TODO: Implement with TCPDF or similar
+1. **PDF Sortzea**: Oraindik ez dago inplementatuta `PayrollController::download()`-n
+   - Orain placeholder JSON itzultzen du
+   - TODO: Inplementatu TCPDF edo antzekoarekin
 
-2. **File Upload UI**: Web upload form not created yet
-   - API endpoint works
-   - Need to create `documents/upload.php` view
+2. **Fitxategi Igoera UI**: Web igoera formularioa oraindik ez da sortu
+   - API amaiera-puntua funtzionatzen du
+   - `documents/upload.php` ikuspegia sortu behar da
 
-3. **Enhanced Dashboard**: Not implemented yet
-   - Current dashboard is basic
-   - Needs quick action cards, stats, activity feed
+3. **Aginte-panel Hobetua**: Oraindik ez dago inplementatuta
+   - Oraingo aginte-panela oinarrizkoa da
+   - Ekintza azkar txartelak, estatistikak, jarduera jarioa behar dira
 
 ---
 
-## 📊 Progress Tracker
+## 📊 Aurrerapen Jarraipena
 
-| Feature | API | Web View | Android | Status |
+| Ezaugarria | API | Web Ikuspegia | Android | Egoera |
 |---------|-----|----------|---------|--------|
-| Payslips List | ✅ | ⏳ Manual | ✅ | 66% |
-| Payslip Detail | ✅ | ⏳ Manual | ✅ | 66% |
-| Documents List | ✅ | ⏳ | ✅ | 66% |
-| Document Upload | ✅ | ❌ | ✅ | 66% |
-| Color Alignment | N/A | ✅ | ✅ | 100% |
+| Nominen Zerrenda | ✅ | ⏳ Eskuz | ✅ | 66% |
+| Nomina Xehetasuna | ✅ | ⏳ Eskuz | ✅ | 66% |
+| Dokumentuen Zerrenda | ✅ | ⏳ | ✅ | 66% |
+| Dokumentu Igoera | ✅ | ❌ | ✅ | 66% |
+| Kolore Lerrokadura | N/A | ✅ | ✅ | 100% |
 
-**Overall: 73% Backend, 33% Frontend, 100% Android**
-
----
-
-## 🎯 Next Session Tasks
-
-1. **Immediate (30 min)**:
-   - Create view directories
-   - Copy view templates
-   - Add web routes
-   - Test payslips page
-
-2. **Short-term (2-3 hours)**:
-   - Complete documents views
-   - Add PDF generation
-   - Enhance dashboard
-
-3. **Medium-term (1 week)**:
-   - Full E2E testing
-   - Security audit
-   - Performance optimization
-   - User acceptance testing
+**Orokorra: 73% Backend, 33% Frontend, 100% Android**
 
 ---
 
-## 📝 Files Created This Session
+## 🎯 Hurrengo Saiorako Zereginak
 
-1. `src/Models/Payslip.php` - Payslip data model
-2. `src/Models/Document.php` - Document data model
-3. `src/Controllers/PayrollController.php` - API controller for payslips
-4. `src/Controllers/DocumentController.php` - API controller for documents
-5. `src/Controllers/Web/WebPayrollController.php` - Web controller for payslips
-6. `android-app/.../Color.kt` - Updated with unified colors
-7. `UNIFICATION_PLAN.md` - Detailed implementation plan
-8. `IMPLEMENTATION_SUMMARY.md` - Progress summary
-9. `QUICK_GUIDE.md` - This file
+1. **Berehalakoa (30 min)**:
+   - Sortu ikuspegia direktorioak
+   - Kopiatu ikuspegia txantiloiak
+   - Gehitu web errutak
+   - Probatu nominen orria
 
-**Total Lines of Code Added: ~1,500+**
+2. **Epe laburrekoa (2-3 ordu)**:
+   - Osatu dokumentuen ikuspegiak
+   - Gehitu PDF sortzea
+   - Hobetu aginte-panela
 
----
-
-## ✨ Success Criteria
-
-- [x] API endpoints functional and tested
-- [x] Models properly structured with validation
-- [x] Android colors aligned with web
-- [ ] Web views displaying payslips
-- [ ] Documents upload working
-- [ ] No security vulnerabilities
-- [ ] Cross-platform consistency achieved
+3. **Erdi epekorakoa (aste 1)**:
+   - E2E proba osoa
+   - Segurtasun auditoria
+   - Errendimendua optimizazioa
+   - Erabiltzaile onarpen probak
 
 ---
 
-**Ready to Deploy:** Backend code ✅  
-**Ready to Test:** API endpoints ✅  
-**Ready to Use:** After view files created ⏳
+## 📝 Saio Honetan Sorturiko Fitxategiak
 
-**Next Command:**
+1. `src/Models/Payslip.php` - Nomina datu modeloa
+2. `src/Models/Document.php` - Dokumentu datu modeloa
+3. `src/Controllers/PayrollController.php` - Nominen API kontroladorea
+4. `src/Controllers/DocumentController.php` - Dokumentuen API kontroladorea
+5. `src/Controllers/Web/WebPayrollController.php` - Nominen web kontroladorea
+6. `android-app/.../Color.kt` - Bateratutako koloreekin eguneratua
+7. `UNIFICATION_PLAN.md` - Inplementazio plan xehatua
+8. `IMPLEMENTATION_SUMMARY.md` - Aurrerapen laburpena
+9. `QUICK_GUIDE.md` - Fitxategi hau
+
+**Gehitutako Kode Lerro Guztira: ~1,500+**
+
+---
+
+## ✨ Arrakasta Irizpideak
+
+- [x] API amaiera-puntuak funtzionalak eta probatuak
+- [x] Modeloak egokiro egituratuak egiaztapenarekin
+- [x] Android koloreak web-ekin lerrokatuak
+- [ ] Web ikuspegiak nominak erakusten
+- [ ] Dokumentu igoera funtzionatzen
+- [ ] Segurtasun ahultasunik ez
+- [ ] Plataforma arteko koherentzia lortua
+
+---
+
+**Hedatzeko Prest:** Backend kodea ✅
+**Probatzeko Prest:** API amaiera-puntuak ✅
+**Erabiltzeko Prest:** Ikuspegia fitxategiak sortu ondoren ⏳
+
+**Hurrengo Komandoa:**
 ```bash
-# Create the directories and test
+# Sortu direktorioak eta probatu
 mkdir -p public/views/{payslips,documents}
 curl http://localhost/api/payroll
 ```
 
 ---
 
-*Generated: 2026-02-06*  
-*Session Progress: 53% Complete*  
-*Estimated Completion: 3-4 hours remaining*
+*Sortua: 2026-02-06*
+*Saioaren Aurrerapena: 53% Osatua*
+*Kalkulatutako Amaiera: 3-4 ordu geratzen*

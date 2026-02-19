@@ -1,72 +1,72 @@
 # Zabala Gailetak - HR Portal 🏢
 
-Sistema interno de gestión de recursos humanos con seguridad avanzada implementada.
+Giza baliabideen kudeaketarako barne sistema segurtasun aurreratua inplementatuta.
 
-## 🎯 Estado del Proyecto
+## 🎯 Proiektuaren Egoera
 
-**Fase Actual**: ✅ Fase 3 Completa - Employee CRUD Full Stack  
-**Última Actualización**: 15 de Enero, 2026
+**Uneko Fasea**: ✅ 3. Fasea Osatuta - Employee CRUD Full Stack
+**Azken Eguneratzea**: 2026ko urtarrilaren 15a
 
-### Fases Completadas
+### Osaturiko Faseak
 
-- ✅ **Fase 1**: Estructura Base y Migraciones
-- ✅ **Fase 2**: Autenticación Avanzada (JWT + MFA + RBAC)
-- ✅ **Fase 3**: Employee CRUD Full Stack
-  - ✅ Backend API PHP completo
-  - ✅ Validación avanzada de datos españoles (NIF/NIE, IBAN, teléfono, CP)
-  - ✅ Sanitización automática de entrada
-  - ✅ Audit Trail / Historial de cambios
-  - ✅ 82/82 tests unitarios pasando
-  - ✅ 8 endpoints API funcionales
-  - ✅ Interfaz web React con styled-components (~1,400 líneas)
-  - ✅ App móvil React Native con Expo (~1,300 líneas)
+- ✅ **1. Fasea**: Oinarrizko Egitura eta Migrazioak
+- ✅ **2. Fasea**: Autentifikazio Aurreratua (JWT + MFA + RBAC)
+- ✅ **3. Fasea**: Employee CRUD Full Stack
+  - ✅ PHP API Backend osoa
+  - ✅ Datu espainiarra baliozkotzea aurreratua (NIF/NIE, IBAN, telefonoa, PK)
+  - ✅ Sarrera automatikoki garbitzea
+  - ✅ Audit Trail / Aldaketa historiala
+  - ✅ 82/82 proba unitario gaindituak
+  - ✅ 8 API endpoint funtzional
+  - ✅ React web interfazea styled-components-ekin (~1.400 lerro)
+  - ✅ React Native mugikorreko app Expo-rekin (~1.300 lerro)
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Hasiera Azkarra
 
-### Prerequisitos
+### Aurrebaldintza
 
 - Docker & Docker Compose
-- Arch Linux (o compatible)
-- Puertos disponibles: 8080 (HTTP), 8443 (HTTPS), 5432 (PostgreSQL), 6379 (Redis)
+- Arch Linux (edo bateragarria)
+- Ataka erabilgarriak: 8080 (HTTP), 8443 (HTTPS), 5432 (PostgreSQL), 6379 (Redis)
 
-### Inicio Rápido
+### Hasiera Azkarra
 
 ```bash
-# 1. Clonar repositorio
+# 1. Klonatu repositorioa
 cd "Zabala Gailetak"
 
-# 2. Configurar variables de entorno
+# 2. Konfiguratu ingurune aldagaiak
 cd hr-portal
 cp .env.example .env
-# Editar .env con tus secretos
+# Editatu .env zure sekretuekin
 
-# 3. Iniciar servicios
+# 3. Abiarazi zerbitzuak
 cd ..
 docker-compose -f docker-compose.hrportal.yml up -d
 
-# 4. Instalar dependencias PHP
+# 4. Instalatu PHP dependentziak
 docker-compose -f docker-compose.hrportal.yml exec php composer install
 
-# 5. Ejecutar migraciones
+# 5. Exekutatu migrazioak
 docker-compose -f docker-compose.hrportal.yml exec postgres psql -U hr_user -d hr_portal -f /docker-entrypoint-initdb.d/001_init_schema.sql
 
-# 6. Iniciar interfaz web (opcional)
+# 6. Abiarazi web interfazea (aukerakoa)
 cd hr-portal/web
 npm install
 npm run dev
-# Web disponible en: http://localhost:3001
+# Web eskuragarri hemen: http://localhost:3001
 
-# 7. Verificar instalación
+# 7. Egiaztatu instalazioa
 curl http://localhost:8080/api/health
 ```
 
 ---
 
-## 📋 Arquitectura
+## 📋 Arkitektura
 
-### Stack Tecnológico
+### Teknologia Stack-a
 
 **Backend**:
 - PHP 8.4 (FPM Alpine)
@@ -83,182 +83,182 @@ curl http://localhost:8080/api/health
 - Axios
 - Vite
 
-### Servicios Docker
+### Docker Zerbitzuak
 
-| Servicio | Puerto | Estado | Descripción |
+| Zerbitzua | Ataka | Egoera | Deskribapena |
 |----------|--------|--------|-------------|
-| nginx | 8080, 8443 | ✅ Running | Reverse proxy y SSL |
+| nginx | 8080, 8443 | ✅ Running | Reverse proxy eta SSL |
 | php | 9000 | ✅ Running | PHP-FPM 8.4 |
-| postgres | 5432 | ✅ Healthy | Base de datos principal |
-| redis | 6379 | ✅ Healthy | Cache y sesiones |
+| postgres | 5432 | ✅ Healthy | Datu-base nagusia |
+| redis | 6379 | ✅ Healthy | Cache eta saioak |
 
 ---
 
-## 🔐 Autenticación y Seguridad
+## 🔐 Autentifikazioa eta Segurtasuna
 
-### Características Implementadas
+### Inplementaturiko Ezaugarriak
 
-- ✅ **JWT Tokens**: Access tokens (1h) y refresh tokens (7d)
-- ✅ **MFA/TOTP**: Autenticación de dos factores con códigos QR
-- ✅ **RBAC**: Control de acceso basado en roles (4 roles, 43 permisos)
-- ✅ **Session Management**: Sesiones persistentes en Redis
-- ✅ **Rate Limiting**: Protección contra fuerza bruta
-- ✅ **Account Locking**: Bloqueo tras intentos fallidos
-- ✅ **Backup Codes**: Códigos de respaldo para MFA
+- ✅ **JWT Tokens**: Access token-ak (1h) eta refresh token-ak (7e)
+- ✅ **MFA/TOTP**: Bi faktoreko autentifikazioa QR kodeekin
+- ✅ **RBAC**: Roletan oinarritutako sarbide kontrola (4 rol, 43 baimen)
+- ✅ **Session Management**: Redis-en saio iraunkorrak
+- ✅ **Rate Limiting**: Indar brutoaren aurkako babesa
+- ✅ **Account Locking**: Blokeo huts egindako saiakeren ondoren
+- ✅ **Backup Codes**: MFA-rako babes kodeak
 
-### Roles y Permisos
+### Rolak eta Baimenak
 
-| Rol | Permisos | Descripción |
+| Rola | Baimenak | Deskribapena |
 |-----|----------|-------------|
-| **admin** | 43 (todos) | Acceso completo al sistema |
-| **hr_manager** | 31 | Gestión de RRHH |
-| **department_head** | 15 | Gestión de departamento |
-| **employee** | 7 | Acceso básico |
+| **admin** | 43 (guztiak) | Sistemara sarbide osoa |
+| **hr_manager** | 31 | GIZA baliabideen kudeaketa |
+| **department_head** | 15 | Departamentuaren kudeaketa |
+| **employee** | 7 | Oinarrizko sarbidea |
 
 ---
 
 ## 🔌 API Endpoints
 
-Ver documentación completa en:
-- [FASE_2_COMPLETADA.md](./FASE_2_COMPLETADA.md) - Autenticación
+Ikusi dokumentazio osoa hemen:
+- [FASE_2_COMPLETADA.md](./FASE_2_COMPLETADA.md) - Autentifikazioa
 - [FASE_3_EMPLOYEE_CRUD.md](./FASE_3_EMPLOYEE_CRUD.md) - Employee CRUD
 
-### Públicos
+### Publikoak
 - `GET /api/health` - Health check
 - `POST /api/auth/login` - Login
-- `POST /api/auth/refresh` - Renovar token
+- `POST /api/auth/refresh` - Berritu token-a
 
-### Protegidos - Auth
-- `GET /api/auth/me` - Usuario actual
-- `POST /api/auth/logout` - Cerrar sesión
-- `POST /api/auth/mfa/setup` - Configurar MFA
-- `POST /api/auth/mfa/enable` - Activar MFA
-- `POST /api/auth/mfa/verify` - Verificar MFA
-- `POST /api/auth/mfa/disable` - Desactivar MFA
+### Babestuak - Auth
+- `GET /api/auth/me` - Uneko erabiltzailea
+- `POST /api/auth/logout` - Itxi saioa
+- `POST /api/auth/mfa/setup` - Konfiguratu MFA
+- `POST /api/auth/mfa/enable` - Aktibatu MFA
+- `POST /api/auth/mfa/verify` - Egiaztatu MFA
+- `POST /api/auth/mfa/disable` - Desaktibatu MFA
 
-### Protegidos - Employees (Fase 3 ✨)
-- `GET /api/employees` - Listar empleados (con paginación)
-- `GET /api/employees/{id}` - Detalle de empleado
-- `POST /api/employees` - Crear empleado
-- `PUT /api/employees/{id}` - Actualizar empleado
-- `DELETE /api/employees/{id}` - Baja lógica (soft delete)
-- `POST /api/employees/{id}/restore` - Reactivar empleado
-- `GET /api/employees/{id}/history` - Historial de cambios (Audit Trail)
-- `GET /api/audit/user/{userId}` - Actividad del usuario
+### Babestuak - Employees (3. Fasea ✨)
+- `GET /api/employees` - Zerrendatu langileak (paginazioarekin)
+- `GET /api/employees/{id}` - Langilearen xehetasuna
+- `POST /api/employees` - Sortu langiilea
+- `PUT /api/employees/{id}` - Eguneratu langiilea
+- `DELETE /api/employees/{id}` - Baja logikoa (soft delete)
+- `POST /api/employees/{id}/restore` - Berraktibatu langiilea
+- `GET /api/employees/{id}/history` - Aldaketa historiala (Audit Trail)
+- `GET /api/audit/user/{userId}` - Erabiltzailearen jarduera
 
 ---
 
-## 🧪 Testing
+## 🧪 Probak
 
 ```bash
-# Tests unitarios
+# Proba unitarioak
 docker-compose -f docker-compose.hrportal.yml exec php ./vendor/bin/phpunit --testdox
 
-# Estado: ✅ 82/82 tests passing
-# - TokenManager: 11/11 tests (Fase 2)
-# - EmployeeController: 11/11 tests (Fase 3)
-# - EmployeeValidator: 40/40 tests (Fase 3)
-# - AuditLogger: 11/11 tests (Fase 3 - Audit Trail)
-# - AuditController: 9/9 tests (Fase 3 - Audit Trail)
+# Egoera: ✅ 82/82 proba gaindituak
+# - TokenManager: 11/11 proba (2. Fasea)
+# - EmployeeController: 11/11 proba (3. Fasea)
+# - EmployeeValidator: 40/40 proba (3. Fasea)
+# - AuditLogger: 11/11 proba (3. Fasea - Audit Trail)
+# - AuditController: 9/9 proba (3. Fasea - Audit Trail)
 ```
 
-### Cobertura de Tests
+### Proben Estaldura
 
-**Autenticación** (11 tests):
-- JWT token generation/validation
-- MFA/TOTP setup
-- Session management
+**Autentifikazioa** (11 proba):
+- JWT token sortze/balidazioa
+- MFA/TOTP konfigurazioa
+- Saioen kudeaketa
 
-**Employee CRUD** (11 tests):
-- CRUD operations con RBAC
-- Paginación y filtros
-- Soft delete y restauración
+**Employee CRUD** (11 proba):
+- CRUD eragiketak RBAC-ekin
+- Paginazioa eta filtroak
+- Soft delete eta berrezartzea
 
-**Validación de Datos** (40 tests):
-- NIF/NIE español con letra correcta
-- IBAN con checksum válido
-- Teléfono español (+34)
-- Código postal español (00000-52999)
+**Datuen Balidazioa** (40 proba):
+- NIF/NIE espainiarra letra zuzena
+- IBAN checksum baliodunarekin
+- Telefono espainiarra (+34)
+- Posta kode espainiarra (00000-52999)
 - Email RFC5322
-- Contraseña fuerte
-- Sanitización XSS
+- Pasahitz sendoa
+- XSS garbitzea
 
-**Audit Trail** (20 tests):
-- AuditLogger (11 tests): Create, Update, Delete, Restore logging
-- AuditController (9 tests): Historial de entidades, actividad de usuarios
+**Audit Trail** (20 proba):
+- AuditLogger (11 proba): Create, Update, Delete, Restore logging
+- AuditController (9 proba): Entitateen historiala, erabiltzaileen jarduera
 
 ---
 
-## 👥 Usuario de Prueba
+## 👥 Proba Erabiltzailea
 
 ```
 Email: admin@zabalagailetak.com
 Password: password
-Rol: admin
+Rola: admin
 ```
 
 ---
 
-## 📚 Documentación
+## 📚 Dokumentazioa
 
 ### Backend
-- [FASE_2_COMPLETADA.md](./FASE_2_COMPLETADA.md) - Autenticación JWT + MFA + RBAC
-- [FASE_3_EMPLOYEE_CRUD.md](./FASE_3_EMPLOYEE_CRUD.md) - Employee CRUD Backend + Tests
+- [FASE_2_COMPLETADA.md](./FASE_2_COMPLETADA.md) - Autentifikazioa JWT + MFA + RBAC
+- [FASE_3_EMPLOYEE_CRUD.md](./FASE_3_EMPLOYEE_CRUD.md) - Employee CRUD Backend + Probak
 
 ### Frontend
-- [FASE_3_WEB_INTERFACE.md](./FASE_3_WEB_INTERFACE.md) - Interfaz Web React (~1,400 líneas)
-- [FASE_3_MOBILE.md](./FASE_3_MOBILE.md) - App Móvil React Native (~1,300 líneas)
-- [web/README.md](./web/README.md) - Setup y uso de React app
-- [mobile/README.md](./mobile/README.md) - Setup y uso de mobile app
+- [FASE_3_WEB_INTERFACE.md](./FASE_3_WEB_INTERFACE.md) - React Web Interfazea (~1.400 lerro)
+- [FASE_3_MOBILE.md](./FASE_3_MOBILE.md) - React Native Mugikorreko App (~1.300 lerro)
+- [web/README.md](./web/README.md) - React app konfigurazioa eta erabilera
+- [mobile/README.md](./mobile/README.md) - Mugikorreko app konfigurazioa eta erabilera
 
-### General
-- [API_DOCUMENTATION.md](../API_DOCUMENTATION.md) - API completa
-- [MIGRATION_PLAN.md](../MIGRATION_PLAN.md) - Plan de migración
-- [CORRECCIONES_TIPOS_SEGURIDAD.md](./CORRECCIONES_TIPOS_SEGURIDAD.md) - ✨ Correcciones de tipos y seguridad
+### Orokorra
+- [API_DOCUMENTATION.md](../API_DOCUMENTATION.md) - API osoa
+- [MIGRATION_PLAN.md](../MIGRATION_PLAN.md) - Migrazio plana
+- [CORRECCIONES_TIPOS_SEGURIDAD.md](./CORRECCIONES_TIPOS_SEGURIDAD.md) - ✨ Tipo eta segurtasun zuzenketak
 
 ---
 
-## 📱 Clientes Disponibles
+## 📱 Bezero Eskuragarriak
 
 ### 1. Web App (React)
 
 ```bash
 cd web
 npm install
-npm start  # Abre en http://localhost:3001
+npm start  # Ireki http://localhost:3001
 ```
 
-**Características**:
+**Ezaugarriak**:
 - ✅ React 18.2 + React Router v6
-- ✅ Styled-components para estilos
-- ✅ 4 páginas: Login, Lista, Detalle, Formulario
-- ✅ Paginación (10 items/página)
-- ✅ Audit Trail timeline visual
-- ✅ Interfaz en euskera
+- ✅ Styled-components estiloetarako
+- ✅ 4 orri: Login, Zerrenda, Xehetasuna, Formularioa
+- ✅ Paginazioa (10 elementu/orri)
+- ✅ Audit Trail denboraren timeline bisuala
+- ✅ Interfazea euskeraz
 
-Ver [FASE_3_WEB_INTERFACE.md](./FASE_3_WEB_INTERFACE.md) para detalles.
+Ikusi [FASE_3_WEB_INTERFACE.md](./FASE_3_WEB_INTERFACE.md) xehetasunetarako.
 
 ### 2. Mobile App (React Native)
 
 ```bash
 cd mobile
 npm install
-npm start  # Abre Expo DevTools
+npm start  # Ireki Expo DevTools
 ```
 
-**Características**:
+**Ezaugarriak**:
 - ✅ Expo 50.0.0 + React Native 0.73.2
 - ✅ React Navigation 6.1.9 (Stack Navigator)
-- ✅ 4 pantallas: Login, Lista, Detalle, Formulario
+- ✅ 4 pantaila: Login, Zerrenda, Xehetasuna, Formularioa
 - ✅ Pull-to-refresh
-- ✅ AsyncStorage para tokens
-- ✅ iOS y Android ready
-- ✅ Interfaz en euskera
+- ✅ AsyncStorage token-etarako
+- ✅ iOS eta Android prest
+- ✅ Interfazea euskeraz
 
-Ver [FASE_3_MOBILE.md](./FASE_3_MOBILE.md) para detalles.
+Ikusi [FASE_3_MOBILE.md](./FASE_3_MOBILE.md) xehetasunetarako.
 
 ---
 
-**Versión**: 1.0.0-alpha  
-**Estado**: En desarrollo activo  
-**Licencia**: Proprietary - Zabala Gailetak
+**Bertsioa**: 1.0.0-alpha
+**Egoera**: Garapen aktiboan
+**Lizentzia**: Proprietary - Zabala Gailetak

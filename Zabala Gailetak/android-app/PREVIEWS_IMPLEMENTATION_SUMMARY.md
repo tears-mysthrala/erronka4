@@ -1,157 +1,157 @@
-# ✅ Previews Android App - Resumen Implementación
+# ✅ Preview-ak Android App - Inplementazio Laburpena
 
-**Fecha**: Febrero 3, 2026  
-**Estado**: ✅ Completado
+**Data**: Otsaila 3, 2026
+**Egoera**: ✅ Amaituta
 
-## 📊 Resumen Ejecutivo
+## 📊 Laburpen Exekutiboa
 
-Se han configurado **17 Previews** en 7 pantallas principales de la aplicación Android. Todos los previews están funcionales en Android Studio y permiten visualizar la UI en tiempo de diseño.
+**17 Preview** konfiguratu dira Android aplikazioaren 7 pantaila nagusietan. Preview guztiak funtzionalak dira Android Studio-n eta UI-a diseinuaren denboran bistaratzeko aukera ematen dute.
 
-### Estadísticas
-- ✅ **Cobertura**: 100% (7/7 archivos con previews)
-- ✅ **Total de Previews**: 17
-- ✅ **Variantes**:
-  - 3 en LoginScreen (normal, loading, error)
-  - 2 en DashboardScreen
-  - 2 en DocumentsScreen
-  - 4 en PayslipsScreen
-  - 1 en ProfileScreen
-  - 2 en VacationDashboardScreen
-  - 3 en NewVacationRequestScreen
+### Estatistikak
+- ✅ **Estaldura**: 100% (7/7 fitxategi preview-ekin)
+- ✅ **Preview Guztira**: 17
+- ✅ **Aldaerak**:
+  - 3 LoginScreen-en (normala, kargatzen, errorea)
+  - 2 DashboardScreen-en
+  - 2 DocumentsScreen-en
+  - 4 PayslipsScreen-en
+  - 1 ProfileScreen-en
+  - 2 VacationDashboardScreen-en
+  - 3 NewVacationRequestScreen-en
 
-## 📝 Cambios realizados
+## 📝 Egindako Aldaketak
 
-### 1. **LoginScreen.kt** (3 previews)
+### 1. **LoginScreen.kt** (3 preview)
 ```
-✅ LoginPreview - Normal
-✅ LoginPreviewLoading - Estado de carga
-✅ LoginPreviewError - Con error
-```
-
-### 2. **DashboardScreen.kt** (2 previews)
-```
-✅ DashboardScreenPreview - Vista principal
-✅ DashboardScreenEmptyPreview - Estado vacío (opcional)
+✅ LoginPreview - Normala
+✅ LoginPreviewLoading - Karga egoera
+✅ LoginPreviewError - Errorearekin
 ```
 
-### 3. **DocumentsScreen.kt** (2 previews)
+### 2. **DashboardScreen.kt** (2 preview)
 ```
-✅ DocumentsScreenPreview - Lista de documentos
-✅ Preview adicional con datos mock
-```
-
-### 4. **PayslipsScreen.kt** (4 previews)
-```
-✅ PayslipsScreenPreview - Default
-✅ PayslipsScreenEmptyPreview - Sin nóminas
-✅ Y 2 variantes adicionales
+✅ DashboardScreenPreview - Ikuspegi nagusia
+✅ DashboardScreenEmptyPreview - Egoera hutsa (aukerakoa)
 ```
 
-### 5. **ProfileScreen.kt** (1 preview) ⭐ NUEVO
+### 3. **DocumentsScreen.kt** (2 preview)
 ```
-✅ ProfileScreenPreview - Pantalla de perfil
-```
-
-### 6. **VacationDashboardScreen.kt** (2 previews)
-```
-✅ VacationDashboardScreenPreview - Dashboard vacaciones
-✅ Preview con mock data
+✅ DocumentsScreenPreview - Dokumentu zerrenda
+✅ Preview gehigarria mock datuekin
 ```
 
-### 7. **NewVacationRequestScreen.kt** (3 previews)
+### 4. **PayslipsScreen.kt** (4 preview)
 ```
-✅ NewVacationRequestScreenPreview - Formulario normal
-✅ NewVacationRequestScreenErrorPreview - Con error
-✅ Variante adicional
+✅ PayslipsScreenPreview - Lehenetsia
+✅ PayslipsScreenEmptyPreview - Nominarik gabe
+✅ Eta 2 aldaera gehigarri
 ```
 
-## 📚 Archivos de Documentación Creados
+### 5. **ProfileScreen.kt** (1 preview) ⭐ BERRIA
+```
+✅ ProfileScreenPreview - Profil pantaila
+```
+
+### 6. **VacationDashboardScreen.kt** (2 preview)
+```
+✅ VacationDashboardScreenPreview - Oporrak dashboard-a
+✅ Preview mock datuekin
+```
+
+### 7. **NewVacationRequestScreen.kt** (3 preview)
+```
+✅ NewVacationRequestScreenPreview - Formulario normala
+✅ NewVacationRequestScreenErrorPreview - Errorearekin
+✅ Aldaera gehigarria
+```
+
+## 📚 Sortutako Dokumentazio Fitxategiak
 
 ### 1. **PREVIEWS_GUIDE.md**
-Guía completa sobre:
-- ¿Qué son los Previews?
-- Dónde están los Previews
-- Cómo usarlos en Android Studio
-- Tips y troubleshooting
-- Referencias
+Gida osoa:
+- Zer dira Preview-ak?
+- Non daude Preview-ak
+- Nola erabili Android Studio-n
+- Aholkuak eta arazo-konponketa
+- Erreferentziak
 
 ### 2. **verify-previews.sh**
-Script de verificación que:
-- Comprueba que todos los archivos tengan `@Preview`
-- Cuenta el número de previews por archivo
-- Muestra estadísticas de cobertura
-- ✅ Resultado: **100% de cobertura**
+Egiaztapen script-a:
+- Egiaztatu fitxategi guztiek `@Preview` dutela
+- Zenbatu preview kopurua fitxategi bakoitzeko
+- Erakutsi estalduraren estatistikak
+- ✅ Emaitza: **100% estaldura**
 
-## 🎯 Características Implementadas
+## 🎯 Inplementatutako Ezaugarriak
 
-### Previews con temas
-- ✅ Todos usan `ZabalaGaileTakHRTheme` correctamente
-- ✅ Soporte automático para modo claro/oscuro
+### Gaiekin Preview-ak
+- ✅ Guztiek `ZabalaGaileTakHRTheme` zuzen erabiltzen dute
+- ✅ Modu argi/ilun automatiko euskarria
 
-### Previews con datos mock
-- ✅ LoginScreen: Estados de autenticación
-- ✅ DocumentsScreen: Documentos de ejemplo
-- ✅ PayslipsScreen: Nóminas simuladas
-- ✅ VacationScreens: Solicitudes de vacaciones
+### Mock datuekin Preview-ak
+- ✅ LoginScreen: Autentifikazio egoerak
+- ✅ DocumentsScreen: Adibideko dokumentuak
+- ✅ PayslipsScreen: Simulatutako nominak
+- ✅ VacationScreens: Oporretako eskaerak
 
-### Nombres descriptivos
-- ✅ Cada preview tiene un `name` que aparece en Android Studio
-- ✅ Facilita identificar qué variante se está visualizando
+### Izen deskribatzaileak
+- ✅ Preview bakoitzak Android Studio-n agertzen den `name` bat du
+- ✅ Zein aldaera ikusten ari den identifikatzea errazten du
 
-### Imports correctos
+### Inportazio zuzenak
 - ✅ `androidx.compose.ui.tooling.preview.Preview`
 - ✅ `com.zabalagailetak.hrapp.presentation.ui.theme.ZabalaGaileTakHRTheme`
 
-## 🚀 Cómo usar en Android Studio
+## 🚀 Nola erabili Android Studio-n
 
-### Opción 1: Panel Preview (recomendado)
-1. Abre el archivo con `@Preview`
-2. Haz clic en el botón "Preview" en la esquina superior derecha
-3. ¡Los cambios se verán en tiempo real!
+### Aukera 1: Preview Panela (gomendatua)
+1. Ireki `@Preview` duen fitxategia
+2. Egin klik goiko eskuineko aldean "Preview" botoian
+3. Aldaketak denbora errealean ikusiko dira!
 
-### Opción 2: Gutter Icons
-1. Busca el ícono de vista previa junto al número de línea
-2. Haz clic para abrir el preview
+### Aukera 2: Gutter Icons
+1. Bilatu preview ikonoa lerro zenbakiaren ondoan
+2. Egin klik preview-a irekitzeko
 
-### Opción 3: Split View
+### Aukera 3: Split View
 1. View → Split Editor
-2. Abre el archivo con previews
-3. Código a la izquierda, preview a la derecha
+2. Ireki preview-ak dituen fitxategia
+3. Kodea ezkerrean, preview eskuinean
 
-## 📱 Pantallas con Preview
+## 📱 Preview-ekin Pantailak
 
-| Pantalla | Archivo | Previews | Estado |
+| Pantaila | Fitxategia | Preview-ak | Egoera |
 |----------|---------|----------|--------|
 | Login | `auth/LoginScreen.kt` | 3 | ✅ |
 | Dashboard | `dashboard/DashboardScreen.kt` | 2 | ✅ |
-| Documentos | `documents/DocumentsScreen.kt` | 2 | ✅ |
-| Nóminas | `payslips/PayslipsScreen.kt` | 4 | ✅ |
-| Perfil | `profile/ProfileScreen.kt` | 1 | ✅ |
-| Vacaciones (Dashboard) | `vacation/VacationDashboardScreen.kt` | 2 | ✅ |
-| Vacaciones (Nueva Solicitud) | `vacation/NewVacationRequestScreen.kt` | 3 | ✅ |
-| **TOTAL** | | **17** | ✅ |
+| Dokumentuak | `documents/DocumentsScreen.kt` | 2 | ✅ |
+| Nominak | `payslips/PayslipsScreen.kt` | 4 | ✅ |
+| Profila | `profile/ProfileScreen.kt` | 1 | ✅ |
+| Oporrak (Dashboard) | `vacation/VacationDashboardScreen.kt` | 2 | ✅ |
+| Oporrak (Eskaera Berria) | `vacation/NewVacationRequestScreen.kt` | 3 | ✅ |
+| **GUZTIRA** | | **17** | ✅ |
 
-## 🔍 Verificación de Previews
+## 🔍 Preview-en Egiaztapena
 
-Ejecuta el script de verificación:
+Exekutatu egiaztapen script-a:
 
 ```bash
 cd "Zabala Gailetak/android-app"
 ./verify-previews.sh
 ```
 
-**Resultado esperado:**
+**Espero den emaitza:**
 ```
-🎉 ¡Excelente! Todos los archivos tienen previews configurados
+🎉 Bikain! Fitxategi guztiek preview-ak konfiguratuta dituzte
 ```
 
-## 📖 Próximos pasos (opcional)
+## 📖 Hurrengo urratsak (aukerakoa)
 
-1. **Agregar más variantes**: Puedes crear más previews para diferentes estados
-2. **Testing con previews**: Usar PreviewParameterProvider para datos parametrizados
-3. **Compose testing**: Integrar con Compose UI Testing
+1. **Gehitu aldaera gehiago**: Preview gehiago sor ditzakezu egoera desberdinetarako
+2. **Preview-ekin probak**: Erabili PreviewParameterProvider datu parametrizatuetarako
+3. **Compose testing**: Integratu Compose UI Testing-ekin
 
-## 📂 Ubicación de archivos
+## 📂 Fitxategien Kokapena
 
 ```
 Zabala Gailetak/android-app/
@@ -160,23 +160,23 @@ Zabala Gailetak/android-app/
 │   ├── dashboard/DashboardScreen.kt ✅
 │   ├── documents/DocumentsScreen.kt ✅
 │   ├── payslips/PayslipsScreen.kt ✅
-│   ├── profile/ProfileScreen.kt ✅ (NUEVO)
+│   ├── profile/ProfileScreen.kt ✅ (BERRIA)
 │   └── vacation/
 │       ├── VacationDashboardScreen.kt ✅
 │       └── NewVacationRequestScreen.kt ✅
-├── PREVIEWS_GUIDE.md ✅ (NUEVO)
-├── verify-previews.sh ✅ (NUEVO)
-└── README.md (actualizado)
+├── PREVIEWS_GUIDE.md ✅ (BERRIA)
+├── verify-previews.sh ✅ (BERRIA)
+└── README.md (eguneratua)
 ```
 
-## ✨ Beneficios
+## ✨ Onurak
 
-- ⚡ **Desarrollo rápido**: Sin necesidad de ejecutar la app
-- 🎨 **Visualización instantánea**: Los cambios se ven en tiempo real
-- 🔄 **Múltiples variantes**: Prueba diferentes estados sin código extra
-- 📱 **Responsive design**: Visualiza en diferentes tamaños de pantalla
-- 🌙 **Temas**: Previsualiza automáticamente modo claro/oscuro
+- ⚡ **Garapen azkarra**: Aplikazioa exekutatu beharrik gabe
+- 🎨 **Bistaratzea berehalakoa**: Aldaketak denbora errealean ikusten dira
+- 🔄 **Aldaera anitzak**: Proba egoera desberdinak kode gehigarririk gabe
+- 📱 **Responsive design**: Bistaratu pantaila tamaina desberdinetan
+- 🌙 **Gaiak**: Aurreikusi automatikoki modu argi/iluna
 
 ---
 
-**¡Todo listo para desarrollar y previsualizar tu app Android! 🎉**
+**Dena prest zure Android app-a garatu eta aurreikusteko! 🎉**

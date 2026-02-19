@@ -1,95 +1,95 @@
 # Zabala Gailetak HR - Android App
 
-Aplicación móvil Android para el sistema de gestión de recursos humanos de Zabala Gailetak.
+Zabala Gailetak-en giza baliabideen kudeaketa sistemaren Android aplikazio mugikorra.
 
-## ⚡ Stack Actualizado (2026-01-23)
+## ⚡ Stack Eguneratua (2026-01-23)
 
 - **Gradle**: 8.10.2
 - **Android Gradle Plugin**: 8.7.3
-- **Kotlin**: 2.0.21 (con Compose plugin oficial)
-- **KSP**: 2.0.21-1.0.28 (migrado desde KAPT)
-- **Min SDK**: 24 (Android 7.0) - ampliada compatibilidad
+- **Kotlin**: 2.0.21 (Compose plugin ofizialarekin)
+- **KSP**: 2.0.21-1.0.28 (KAPT-etik migratuta)
+- **Min SDK**: 24 (Android 7.0) - bateragarritasuna zabalduta
 - **Target SDK**: 35 (Android 15)
 - **JDK**: 17
 
-## 🚀 Tecnologías
+## 🚀 Teknologiak
 
-- **Lenguaje**: Kotlin 2.0.21
+- **Hizkuntza**: Kotlin 2.0.21
 - **UI**: Jetpack Compose (BOM 2024.12.01) + Material 3
-- **Arquitectura**: Clean Architecture + MVI
-- **DI**: Hilt 2.54 (con KSP)
+- **Arkitektura**: Clean Architecture + MVI
+- **DI**: Hilt 2.54 (KSP-rekin)
 - **Networking**: Retrofit 2.11.0 + OkHttp 4.12.0
-- **Local DB**: Room 2.6.1 (con KSP)
+- **Local DB**: Room 2.6.1 (KSP-rekin)
 - **Async**: Coroutines 1.9.0 + Flow
-- **Seguridad**: Credential Manager API 1.5.0, Biometric 1.2.0, Android Keystore
+- **Segurtasuna**: Credential Manager API 1.5.0, Biometric 1.2.0, Android Keystore
 
-> ⚠️ **Nota**: `androidx.security:security-crypto` fue eliminado (deprecado). Ver [MIGRATION_KOTLIN_2.0.md](MIGRATION_KOTLIN_2.0.md) para migración.
+> ⚠️ **Oharra**: `androidx.security:security-crypto` kendu egin da (zaharkituta). Ikusi [MIGRATION_KOTLIN_2.0.md](MIGRATION_KOTLIN_2.0.md) migrazioa egiteko.
 
-## 📋 Requisitos
+## 📋 Eskakizunak
 
-- **Android Studio**: Koala (2024.1) o superior
+- **Android Studio**: Koala (2024.1) edo berriagoa
 - **JDK**: 17
 - **Android SDK**: 35
-- **Gradle**: 8.10.2 (incluido en wrapper)
+- **Gradle**: 8.10.2 (wrapper-ean sartuta)
 
-## 🏗️ Setup del Proyecto
+## 🏗️ Proiektuaren Setup
 
-### Primera vez (o después de actualización)
+### Lehen aldiz (edo eguneraketa ondoren)
 
-1. Clonar el repositorio
-2. Abrir el proyecto en Android Studio
-3. **Importante**: Si vienes de versión anterior, ejecutar script de migración:
+1. Klonatu biltegia
+2. Ireki proiektua Android Studio-n
+3. **Garrantzitsua**: Bertsio zaharretik bazatoz, exekutatu migrazio script-a:
    ```bash
    cd android-app
    ./post-migration-check.sh
    ```
-4. En Android Studio: **File → Invalidate Caches / Restart**
-5. Sync Gradle files (puede tardar en primera sincronización con AGP 9)
-6. Configurar emulador o dispositivo físico
-7. Run app
+4. Android Studio-n: **File → Invalidate Caches / Restart**
+5. Sync Gradle fitxategiak (AGP 9-rekin lehen sinkronizazioak denbora hartu dezake)
+6. Konfiguratu emuladorea edo gailu fisikoa
+7. Exekutatu app-a
 
-### Después de actualización Kotlin 2.0 / AGP 9
+### Kotlin 2.0 / AGP 9 eguneraketa ondoren
 
-Si experimentas problemas después del pull:
-- Ejecutar `./post-migration-check.sh` para verificar configuración
-- Limpiar caches: `./gradlew clean`
-- Invalidar caches de Android Studio
-- Consultar [MIGRATION_KOTLIN_2.0.md](MIGRATION_KOTLIN_2.0.md) para detalles completos
+Pull egin ondoren arazoak izaten badituzu:
+- Exekutatu `./post-migration-check.sh` konfigurazioa egiaztatzeko
+- Garbitu cache-ak: `./gradlew clean`
+- Baliogabetu Android Studio cache-ak
+- Kontsultatu [MIGRATION_KOTLIN_2.0.md](MIGRATION_KOTLIN_2.0.md) xehetasun osorako
 
-## 📁 Estructura del Proyecto
+## 📁 Proiektuaren Egitura
 
 ```
 app/
 ├── src/main/
 │   ├── java/com/zabalagailetak/hrapp/
-│   │   ├── HrApplication.kt                  # Application class
+│   │   ├── HrApplication.kt                  # Application klase
 │   │   │
-│   │   ├── data/                             # Data layer
-│   │   │   ├── local/                        # Local data (Room)
-│   │   │   ├── remote/                       # Remote data (Retrofit)
-│   │   │   └── repository/                   # Repository implementations
+│   │   ├── data/                             # Datu geruza
+│   │   │   ├── local/                        # Datu lokalak (Room)
+│   │   │   ├── remote/                       # Urruneko datuak (Retrofit)
+│   │   │   └── repository/                   # Repository inplementazioak
 │   │   │
-│   │   ├── di/                               # Dependency injection
+│   │   ├── di/                               # Menpekotasun injekzioa
 │   │   │   ├── AppModule.kt
 │   │   │   ├── NetworkModule.kt
 │   │   │   ├── DatabaseModule.kt
 │   │   │   └── RepositoryModule.kt
 │   │   │
-│   │   ├── domain/                           # Domain layer
-│   │   │   ├── model/                        # Domain models
-│   │   │   ├── repository/                   # Repository interfaces
-│   │   │   └── usecase/                      # Use cases
+│   │   ├── domain/                           # Dominio geruza
+│   │   │   ├── model/                        # Dominio modeloak
+│   │   │   ├── repository/                   # Repository interfazeak
+│   │   │   └── usecase/                      # Use case-ak
 │   │   │
-│   │   ├── presentation/                     # Presentation layer
+│   │   ├── presentation/                     # Aurkezpen geruza
 │   │   │   ├── MainActivity.kt
-│   │   │   ├── navigation/                   # Navigation
-│   │   │   ├── ui/                           # UI components & screens
+│   │   │   ├── navigation/                   # Nabigazioa
+│   │   │   ├── ui/                           # UI osagaiak & pantailak
 │   │   │   └── viewmodel/                    # ViewModels
 │   │   │
-│   │   ├── security/                         # Security utilities
-│   │   └── util/                             # Utilities
+│   │   ├── security/                         # Segurtasun utilitateak
+│   │   └── util/                             # Utilitateak
 │   │
-│   ├── res/                                  # Resources
+│   ├── res/                                  # Baliabideak
 │   │   ├── values/
 │   │   ├── drawable/
 │   │   └── xml/
@@ -99,50 +99,50 @@ app/
 └── build.gradle.kts
 ```
 
-## 🔧 Configuración de API
+## 🔧 API Konfigurazioa
 
-El endpoint de la API se configura en `build.gradle.kts`:
+API endpoint-a `build.gradle.kts`-en konfiguratzen da:
 
-- **Debug**: `http://10.0.2.2:8080/api/` (localhost desde emulador)
+- **Debug**: `http://10.0.2.2:8080/api/` (localhost emuladoretik)
 - **Release**: `http://zabalagailetak.rf.gd/api/` (InfinityFree)
 
-Para cambiar la URL en desarrollo, edita la variable `API_BASE_URL` en el buildType debug.
+Garapenean URL-a aldatzeko, editatu `API_BASE_URL` aldagaia debug buildType-an.
 
 ## 🧪 Testing
 
 ```bash
-# Unit tests
+# Unit testak
 ./gradlew test
 
-# Instrumented tests
+# Instrumented testak
 ./gradlew connectedAndroidTest
 
-# Lint check
+# Lint egiaztapena
 ./gradlew lint
 ```
 
-## 🔒 Seguridad
+## 🔒 Segurtasuna
 
-- ✅ Network Security Config (solo HTTPS en producción)
+- ✅ Network Security Config (produkzioan HTTPS soilik)
 - ✅ Certificate pinning
-- ✅ EncryptedSharedPreferences para datos sensibles
-- ✅ Credential Manager API para passkeys
-- ✅ Biometric authentication
-- ✅ ProGuard/R8 ofuscación en release
-- ✅ No cleartext traffic
+- ✅ EncryptedSharedPreferences datu sentikorrentzat
+- ✅ Credential Manager API passkey-rentzat
+- ✅ Biometric autentifikazioa
+- ✅ ProGuard/R8 ofuskazioa release-an
+- ✅ Cleartext traffic-ik ez
 
-## 📱 Features Implementadas
+## 📱 Inplementatutako Funtzionalitate
 
-- [ ] Autenticación (Login/Logout)
+- [ ] Autentifikazioa (Login/Logout)
 - [ ] MFA (TOTP)
-- [ ] Passkey authentication
-- [ ] Gestión de empleados
-- [ ] Solicitud de vacaciones
-- [ ] Consulta de nóminas
-- [ ] Gestión de documentos
-- [ ] Chat interno
-- [ ] Sistema de quejas
-- [ ] Notificaciones push
+- [ ] Passkey autentifikazioa
+- [ ] Langileen kudeaketa
+- [ ] Opor eskaerak
+- [ ] Nominen kontsulta
+- [ ] Dokumentuen kudeaketa
+- [ ] Barne txata
+- [ ] Kexen sistema
+- [ ] Push jakinarazpenak
 
 ## 🚀 Build & Deploy
 
@@ -158,56 +158,56 @@ Para cambiar la URL en desarrollo, edita la variable `API_BASE_URL` en el buildT
 ./gradlew assembleRelease
 ```
 
-El APK se generará en: `app/build/outputs/apk/release/app-release.apk`
+APK-a sortuko da hemen: `app/build/outputs/apk/release/app-release.apk`
 
 ### Signing
 
-Para firmar la app en release:
+Release-an app-a sinatzeko:
 
-1. Crear keystore
-2. Configurar signing en `build.gradle.kts`
+1. Sortu keystore
+2. Konfiguratu signing `build.gradle.kts`-en
 3. Build release
 
-## 🎨 Previews en Android Studio
+## 🎨 Android Studio-n Preview-ak
 
-Esta app incluye **Compose Previews** para todas las pantallas principales, permitiéndote visualizar la UI sin ejecutar la app.
+App honek pantaila nagusi guztientzat **Compose Preview-ak** ditu, aplikazioa exekutatu gabe UI-a bistaratzeko aukera emanez.
 
-### Acceso rápido a Previews
+### Preview-etarako Sarbide Azkarra
 
-- ✅ **LoginScreen**: 3 variantes (normal, loading, error)
-- ✅ **DashboardScreen**: Vista principal
-- ✅ **DocumentsScreen**: Lista de documentos
-- ✅ **PayslipsScreen**: Nóminas (2 variantes)
-- ✅ **ProfileScreen**: Perfil de usuario
-- ✅ **VacationDashboardScreen**: Dashboard de vacaciones
-- ✅ **NewVacationRequestScreen**: Solicitud nueva (2 variantes)
+- ✅ **LoginScreen**: 3 aldaera (normala, kargatzen, errorea)
+- ✅ **DashboardScreen**: Ikuspegi nagusia
+- ✅ **DocumentsScreen**: Dokumentu zerrenda
+- ✅ **PayslipsScreen**: Nominak (2 aldaera)
+- ✅ **ProfileScreen**: Erabiltzaile profila
+- ✅ **VacationDashboardScreen**: Oporretako dashboard-a
+- ✅ **NewVacationRequestScreen**: Eskaera berria (2 aldaera)
 
-**Documentación completa**: Ver [PREVIEWS_GUIDE.md](PREVIEWS_GUIDE.md)
+**Dokumentazio osoa**: Ikusi [PREVIEWS_GUIDE.md](PREVIEWS_GUIDE.md)
 
-### Verificar Previews
+### Preview-ak Egiaztatu
 
 ```bash
 ./verify-previews.sh
 ```
 
-Este script verifica que todos los archivos tengan previews configurados correctamente.
+Script honek fitxategi guztiek preview-ak behar bezala konfiguratuta dituztela egiaztatzen du.
 
-## 📚 Documentación
+## 📚 Dokumentazioa
 
 - [API Documentation](/docs/API.md)
 - [Security Guidelines](/docs/SECURITY.md)
 - [Architecture](/docs/ARCHITECTURE.md)
-- [Previews Guide](PREVIEWS_GUIDE.md) - **Cómo usar Compose Previews**
+- [Previews Guide](PREVIEWS_GUIDE.md) - **Nola erabili Compose Preview-ak**
 
-## 👥 Contribuir
+## 👥 Lagundu
 
-Ver [CONTRIBUTING.md](/docs/CONTRIBUTING.md)
+Ikusi [CONTRIBUTING.md](/docs/CONTRIBUTING.md)
 
-## 📝 Licencia
+## 📝 Lizentzia
 
-Propietario - Zabala Gailetak
+Jabetza - Zabala Gailetak
 
 ---
 
-**Versión**: 1.0.0  
-**Última actualización**: Febrero 2026
+**Bertsioa**: 1.0.0
+**Azken eguneraketa**: Otsaila 2026

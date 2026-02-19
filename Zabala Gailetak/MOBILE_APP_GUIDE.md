@@ -3,7 +3,7 @@
 **Plataforma:** Android (Native)
 **Teknologia:** Kotlin 2.0, Jetpack Compose, Material 3
 **Arkitektura:** Clean Architecture + MVI
-**Bertsioa:** 2.0 (Migration Complete)
+**Bertsioa:** 2.0 (Migrazioa Osatua)
 
 ---
 
@@ -14,10 +14,10 @@ Zabala Gailetak Android aplikazioa enpresako langileentzat diseinatutako tresna 
 ### 1.1 Ezaugarri Nagusiak
 - ✅ Autentifikazioa (JWT + MFA TOTP)
 - ✅ Langileen Zerrenda eta Xehetasunak
-- ✅ Oporren Kudeaketa (Egutegia eta Solicitudak)
+- ✅ Oporren Kudeaketa (Egutegia eta Eskaerak)
 - ✅ Dokumentuen Kudeaketa (Igoera eta Deskarga)
-- ✅ Nominak (PDF Ikuslea)
-- ✅ Barne Txata (Real-time)
+- ✅ Nominak (PDF Ikusteko)
+- ✅ Barne Txata (Denbora errealean)
 
 ---
 
@@ -25,16 +25,16 @@ Zabala Gailetak Android aplikazioa enpresako langileentzat diseinatutako tresna 
 
 Aplikazioak Clean Architecture printzipioak jarraitzen ditu:
 
-- **Domain Layer:** Business logic, Models, Use Cases.
-- **Data Layer:** Repository implementations, Retrofit (API), Room (Local DB).
-- **Presentation Layer:** Jetpack Compose UI, ViewModels (MVI pattern).
+- **Domain Geruza:** Negozio logika, Modeloak, Erabilera Kasuak.
+- **Data Geruza:** Repository inplementazioak, Retrofit (API), Room (Datu-base Lokala).
+- **Presentation Geruza:** Jetpack Compose UI, ViewModels (MVI eredua).
 
 ### 2.1 Tech Stack
 - **DI:** Hilt
 - **Networking:** Retrofit + OkHttp
 - **Async:** Coroutines + Flow
 - **JSON:** Kotlinx Serialization
-- **Image Loading:** Coil
+- **Irudi Karga:** Coil
 
 ---
 
@@ -59,16 +59,16 @@ Aplikazioak Clean Architecture printzipioak jarraitzen ditu:
 ## 4. Segurtasuna
 
 ### 4.1 Datuen Biltegiratzea
-- **EncryptedSharedPreferences:** Tokenak eta informazio sentikorra gordetzeko.
-- **Certificate Pinning:** API komunikazioa zifratzeko eta MITM erasoak ekiditeko.
+- **EncryptedSharedPreferences:** Token-ak eta informazio sentikorra gordetzeko.
+- **Certificate Pinning:** API komunikazioa zifratzeko eta MITM erasoak saihesteko.
 
 ### 4.2 Autentifikazioa
 - **MFA:** TOTP bidezko bigarren faktorea.
-- **Biometria:** Hatza-marka edo Face ID integrazioa saioa hasteko.
+- **Biometria:** Hatz-marka edo Face ID integrazioa saioa hasteko.
 
 ---
 
-## 5. Komando Baliagarriak
+## 5. Komando Erabilgarriak
 
 ```bash
 # Build Debug APK

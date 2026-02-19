@@ -1,15 +1,15 @@
-# Notas Técnicas para Desarrolladores
+# Ohar Teknikoak Garatzaileentzat
 
-**Migración Kotlin 2.0 + AGP 9 + KSP**  
-**Fecha:** 2026-01-23
+**Migrazioa Kotlin 2.0 + AGP 9 + KSP**
+**Data:** 2026-01-23
 
 ---
 
-## 🔧 Cambios en Tooling
+## 🔧 Tooling Aldaketak
 
 ### Gradle Configuration Cache
 
-**Estado:** Ahora **ACTIVADO** (antes deshabilitado)
+**Egoera:** Orain **AKTIBATUTA** (lehenago desgaituta)
 
 ```properties
 # gradle.properties
@@ -17,55 +17,55 @@ org.gradle.configuration-cache=true
 org.gradle.configuration-cache.problems=warn
 ```
 
-**Impacto:**
-- ⚡ Builds ~50% más rápidos cuando cache hit
-- ⚠️ Puede mostrar warnings en tareas que no son cache-friendly
-- 🔧 Si hay problemas persistentes, desactivar temporalmente
+**Eragina:**
+- ⚡ Build-ak ~% 50 azkarragoak cache hit-aren kasuan
+- ⚠️ Abisu batzuk erakutsi ditzake cache-friendly ez diren zereginetan
+- 🔧 Arazo iraunkorrak badaude, aldi baterako desaktibatu
 
-**Comandos útiles:**
+**Komando erabilgarriak:**
 ```bash
-# Invalidar configuration cache
+# Configuration cache baliogabetu
 ./gradlew --stop
 rm -rf .gradle/configuration-cache
 
-# Ver problemas de cache
+# Cache arazoak ikusi
 ./gradlew :app:assembleDebug --configuration-cache-problems=warn
 ```
 
 ### KSP vs KAPT
 
-**Cambio:** Toda la generación de código migrada de KAPT → KSP
+**Aldaketa:** Kode sortzaile guztiak KAPT-etik → KSP-ra migratuta
 
-| Aspecto | KAPT (antes) | KSP (ahora) |
+| Alderdia | KAPT (lehenago) | KSP (orain) |
 |---------|--------------|-------------|
-| Path generado | `build/generated/source/kapt/` | `build/generated/ksp/` |
-| Velocidad | Baseline | 30-40% más rápido |
-| Incremental | Limitado | Mejor soporte |
-| Compatibilidad Kotlin 2 | Degradada | Nativa |
+| Sortutako path-a | `build/generated/source/kapt/` | `build/generated/ksp/` |
+| Abiadura | Oinarria | % 30-40 azkarragoa |
+| Incremental | Mugatua | Euskarri hobea |
+| Kotlin 2 bateragarritasuna | Degradatua | Natiboa |
 
-**Implicaciones para desarrollo:**
+**Garapenerako ondorioak:**
 
-1. **Clean builds más importantes:**
-   - Si ves errores extraños de clases no encontradas, hacer clean
-   - KSP es incremental pero a veces requiere regeneración completa
+1. **Clean build-ak garrantzitsuagoak:**
+   - Akats arraroak ikusten badituzu klaseak ez direla aurkitzen, egin clean
+   - KSP inkrementala da baina batzuetan berregite osoa behar du
 
 2. **IDE indexing:**
-   - Primera vez después de clean puede tardar más
-   - Android Studio debe indexar nuevos paths
+   - Lehen aldiz clean egin ondoren denbora gehiago har dezake
+   - Android Studio-k path berriak indexatu behar ditu
 
 3. **Debugging:**
-   - Código generado está en nuevo path
-   - `Find Usages` en clases anotadas puede tardar más la primera vez
+   - Sortutako kodea path berrian dago
+   - `Find Usages` anotatutako klaseetan lehen aldiz denbora gehiago har dezake
 
-**Verificar generación de código:**
+**Kodearen sorkuntza egiaztatu:**
 ```bash
-# Hilt components
+# Hilt osagaiak
 find app/build/generated/ksp -name "*Hilt*"
 
-# Room implementations
+# Room inplementazioak
 find app/build/generated/ksp -name "*_Impl.kt"
 
-# Ver todo lo generado
+# Ikusi sortutako guztia
 ls -R app/build/generated/ksp/debug/kotlin/
 ```
 
@@ -73,7 +73,7 @@ ls -R app/build/generated/ksp/debug/kotlin/
 
 ## 🎨 Compose Compiler
 
-### Antes (Kotlin 1.9.x)
+### Lehenago (Kotlin 1.9.x)
 
 ```kotlin
 // app/build.gradle.kts
@@ -82,7 +82,7 @@ composeOptions {
 }
 ```
 
-### Ahora (Kotlin 2.0.x)
+### Orain (Kotlin 2.0.x)
 
 ```kotlin
 // build.gradle.kts (root)
@@ -95,17 +95,17 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
-// composeOptions ya NO es necesario
+// composeOptions dagoeneko EZ da beharrezkoa
 ```
 
-**Ventajas:**
-- ✅ Automático: plugin selecciona versión compatible
-- ✅ Sin preocuparse por compatibility matrix
-- ✅ Mejor optimización con Kotlin 2.0
+**Abantailak:**
+- ✅ Automatikoa: plugin-ak bertsio bateragarria hautatzen du
+- ✅ Ez da behar compatibility matrix-ez kezkatu
+- ✅ Optimizazio hobea Kotlin 2.0-rekin
 
-**Compose Compiler Reports (opcional):**
+**Compose Compiler Reports (aukerakoa):**
 
-Para ver métricas de Compose:
+Compose metrikak ikusteko:
 ```kotlin
 // app/build.gradle.kts
 android {
@@ -122,7 +122,7 @@ android {
 }
 ```
 
-Ver reportes:
+Txostenak ikusi:
 ```bash
 ./gradlew :app:assembleDebug
 open app/build/compose_metrics/
@@ -130,69 +130,69 @@ open app/build/compose_metrics/
 
 ---
 
-## 📦 Dependencias: Breaking Changes
+## 📦 Mendekotasunak: Breaking Changes
 
 ### Retrofit 2.9 → 2.11
 
-**Cambios menores, mayormente compatibles**
+**Aldaketa txikiak, gehienbat bateragarriak**
 
-- Kotlin Coroutines support mejorado
-- Mejor manejo de `null` en responses
-- Serialization plugins actualizados
+- Kotlin Coroutines euskarria hobetua
+- `null` kudeaketa hobea response-etan
+- Serialization plugin-ak eguneratuta
 
-**Verificar:**
+**Egiaztatu:**
 ```kotlin
-// Si usas custom converters, verificar firma
+// Custom converter-ak erabiltzen badituzu, egiaztatu sinadura
 interface CustomConverter : Converter.Factory {
-    // API debería ser igual, pero revisar tipos
+    // API-a berdina izan beharko litzateke, baina berrikusi motak
 }
 ```
 
 ### Coroutines 1.7.3 → 1.9.0
 
-**Cambios importantes:**
+**Aldaketa garrantzitsuak:**
 
-1. **`Flow.collect` más estricto:**
+1. **`Flow.collect` zorrotzagoa:**
    ```kotlin
-   // Antes: podía no cancelar correctamente
+   // Lehenago: agian ez zuen behar bezala bertan behera utzi
    flow.collect { value ->
        // ...
    }
-   
-   // Ahora: cancelación más predecible
-   // (código existente debería funcionar, pero tests pueden comportarse diferente)
+
+   // Orain: bertan behera uztea aurreikusgarriagoa
+   // (dagoen kodeak funtzionatu beharko luke, baina testak modu desberdinean joka dezakete)
    ```
 
-2. **`TestDispatcher` API cambió:**
+2. **`TestDispatcher` API-a aldatu da:**
    ```kotlin
-   // Antes (posiblemente en tus tests)
+   // Lehenago (agian zure testetan)
    @Before
    fun setup() {
        Dispatchers.setMain(TestCoroutineDispatcher())
    }
-   
-   // Ahora (recomendado)
+
+   // Orain (gomendatua)
    @Before
    fun setup() {
        Dispatchers.setMain(StandardTestDispatcher())
    }
    ```
 
-3. **`runTest` más robusto:**
+3. **`runTest` sendoagoa:**
    ```kotlin
    @Test
    fun myTest() = runTest {
-       // Mejor manejo de tiempo virtual
-       // Puede detectar leaks que antes no detectaba
+       // Denbora birtualaren kudeaketa hobea
+       // Lehenago detektatu ez zituen leak-ak detekta ditzake
    }
    ```
 
 ### Compose BOM 2024.02 → 2024.12
 
-**Nuevos componentes disponibles:**
+**Osagai berri eskuragarriak:**
 
 ```kotlin
-// DatePicker moderno
+// DatePicker modernoa
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.rememberDatePickerState
 
@@ -206,32 +206,32 @@ fun MyDatePicker() {
 import androidx.compose.material3.TimeInput
 import androidx.compose.material3.rememberTimePickerState
 
-// ModalBottomSheet mejorado
+// ModalBottomSheet hobetua
 import androidx.compose.material3.ModalBottomSheet
 ```
 
-**Breaking changes menores:**
-- `BottomSheetScaffold` tiene nuevos parámetros opcionales
-- `Snackbar` durations más consistentes
-- `TextField` outline rendering mejorado
+**Breaking change txikiak:**
+- `BottomSheetScaffold`-ek parametro aukerako berriak ditu
+- `Snackbar` iraupen koherenteagoak
+- `TextField` outline rendering hobetua
 
 ---
 
-## 🔒 Seguridad: Keystore vs security-crypto
+## 🔒 Segurtasuna: Keystore vs security-crypto
 
-### Patrón Recomendado
+### Gomendatutako Patroia
 
-**Para SharedPreferences cifradas:**
+**SharedPreferences zifratuetarako:**
 
 ```kotlin
 // KeystoreManager.kt
 object KeystoreManager {
     private const val KEY_ALIAS = "app_master_key"
     private const val KEYSTORE = "AndroidKeyStore"
-    
+
     fun getOrCreateKey(): SecretKey {
         val keyStore = KeyStore.getInstance(KEYSTORE).apply { load(null) }
-        
+
         return if (keyStore.containsAlias(KEY_ALIAS)) {
             keyStore.getKey(KEY_ALIAS, null) as SecretKey
         } else {
@@ -244,7 +244,7 @@ object KeystoreManager {
                         .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
                         .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
                         .setKeySize(256)
-                        .setUserAuthenticationRequired(false) // O true si quieres biometric
+                        .setUserAuthenticationRequired(false) // Edo true biometric nahi baduzu
                         .build()
                     )
                 }
@@ -256,31 +256,31 @@ object KeystoreManager {
 // CryptoHelper.kt
 object CryptoHelper {
     private const val TRANSFORMATION = "AES/GCM/NoPadding"
-    
+
     fun encrypt(plaintext: String): EncryptedData {
         val cipher = Cipher.getInstance(TRANSFORMATION)
         cipher.init(Cipher.ENCRYPT_MODE, KeystoreManager.getOrCreateKey())
-        
+
         val ciphertext = cipher.doFinal(plaintext.toByteArray(Charsets.UTF_8))
         val iv = cipher.iv
-        
+
         return EncryptedData(
             ciphertext = Base64.encodeToString(ciphertext, Base64.NO_WRAP),
             iv = Base64.encodeToString(iv, Base64.NO_WRAP)
         )
     }
-    
+
     fun decrypt(encrypted: EncryptedData): String {
         val cipher = Cipher.getInstance(TRANSFORMATION)
         val iv = Base64.decode(encrypted.iv, Base64.NO_WRAP)
         val ciphertext = Base64.decode(encrypted.ciphertext, Base64.NO_WRAP)
-        
+
         cipher.init(
             Cipher.DECRYPT_MODE,
             KeystoreManager.getOrCreateKey(),
             GCMParameterSpec(128, iv)
         )
-        
+
         val plaintext = cipher.doFinal(ciphertext)
         return String(plaintext, Charsets.UTF_8)
     }
@@ -288,10 +288,10 @@ object CryptoHelper {
 
 data class EncryptedData(val ciphertext: String, val iv: String)
 
-// SecureStorage.kt (con DataStore)
+// SecureStorage.kt (DataStore-rekin)
 class SecureStorage(context: Context) {
     private val dataStore = context.dataStore
-    
+
     suspend fun saveSecure(key: String, value: String) {
         val encrypted = CryptoHelper.encrypt(value)
         dataStore.edit { prefs ->
@@ -299,12 +299,12 @@ class SecureStorage(context: Context) {
             prefs[stringPreferencesKey("${key}_iv")] = encrypted.iv
         }
     }
-    
+
     suspend fun getSecure(key: String): String? {
         val prefs = dataStore.data.first()
         val ciphertext = prefs[stringPreferencesKey("${key}_data")] ?: return null
         val iv = prefs[stringPreferencesKey("${key}_iv")] ?: return null
-        
+
         return try {
             CryptoHelper.decrypt(EncryptedData(ciphertext, iv))
         } catch (e: Exception) {
@@ -315,7 +315,7 @@ class SecureStorage(context: Context) {
 }
 ```
 
-**Testing del código de cifrado:**
+**Zifratze kodearen testeak:**
 
 ```kotlin
 @Test
@@ -323,7 +323,7 @@ fun `encrypt and decrypt returns original value`() = runTest {
     val original = "sensitive_token_123"
     val encrypted = CryptoHelper.encrypt(original)
     val decrypted = CryptoHelper.decrypt(encrypted)
-    
+
     assertEquals(original, decrypted)
     assertNotEquals(original, encrypted.ciphertext)
 }
@@ -333,12 +333,12 @@ fun `different encryptions of same value produce different ciphertexts`() = runT
     val value = "test"
     val encrypted1 = CryptoHelper.encrypt(value)
     val encrypted2 = CryptoHelper.encrypt(value)
-    
-    // IVs diferentes = ciphertexts diferentes (seguridad)
+
+    // IV desberdinak = ciphertext desberdinak (segurtasuna)
     assertNotEquals(encrypted1.ciphertext, encrypted2.ciphertext)
     assertNotEquals(encrypted1.iv, encrypted2.iv)
-    
-    // Pero ambos decryptan al original
+
+    // Baina biak jatorrizkora deszifratzen dira
     assertEquals(value, CryptoHelper.decrypt(encrypted1))
     assertEquals(value, CryptoHelper.decrypt(encrypted2))
 }
@@ -346,35 +346,35 @@ fun `different encryptions of same value produce different ciphertexts`() = runT
 
 ---
 
-## 🧪 Testing con Kotlin 2.0
+## 🧪 Testing Kotlin 2.0-rekin
 
-### TestDispatcher Changes
+### TestDispatcher Aldaketak
 
 ```kotlin
-// MainDispatcherRule.kt (actualizado)
+// MainDispatcherRule.kt (eguneratua)
 class MainDispatcherRule(
     private val dispatcher: TestDispatcher = StandardTestDispatcher()
 ) : TestWatcher() {
     override fun starting(description: Description) {
         Dispatchers.setMain(dispatcher)
     }
-    
+
     override fun finished(description: Description) {
         Dispatchers.resetMain()
     }
 }
 
-// Uso en tests
+// Testetan erabilera
 class ViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
-    
+
     @Test
     fun `test with coroutines`() = runTest {
-        // Usar advanceUntilIdle() más explícitamente
+        // Erabili advanceUntilIdle() argiago
         viewModel.loadData()
         advanceUntilIdle()
-        
+
         // Assertions
         assertEquals(expected, viewModel.state.value)
     }
@@ -384,7 +384,7 @@ class ViewModelTest {
 ### Room Testing
 
 ```kotlin
-// Con KSP, asegurar que esquema se genera
+// KSP-rekin, ziurtatu eskema sortzen dela
 android {
     defaultConfig {
         javaCompileOptions {
@@ -393,8 +393,8 @@ android {
             }
         }
     }
-    
-    // Con KSP:
+
+    // KSP-rekin:
     ksp {
         arg("room.schemaLocation", "$projectDir/schemas")
     }
@@ -403,30 +403,30 @@ android {
 
 ---
 
-## 🚀 Performance Tips
+## 🚀 Performance Aholkuak
 
-### 1. Usar Build Analyzer
+### 1. Erabili Build Analyzer
 
 ```bash
-# Build con análisis
+# Build analisiarekin
 ./gradlew :app:assembleDebug --profile --scan
 
-# En Android Studio:
+# Android Studio-n:
 # View → Tool Windows → Build Analyzer
 ```
 
 ### 2. Parallel Execution
 
 ```properties
-# gradle.properties (ya configurado)
+# gradle.properties (dagoeneko konfiguratuta)
 org.gradle.parallel=true
-org.gradle.workers.max=8  # Ajustar según CPU
+org.gradle.workers.max=8  # CPU-aren arabera doitu
 ```
 
 ### 3. Incremental Compilation
 
 ```properties
-# gradle.properties (ya configurado)
+# gradle.properties (dagoeneko konfiguratuta)
 kotlin.incremental=true
 ksp.incremental=true
 ```
@@ -434,28 +434,28 @@ ksp.incremental=true
 ### 4. Avoid Full Rebuilds
 
 ```kotlin
-// En lugar de:
+// Honen ordez:
 ./gradlew clean build
 
-// Hacer:
+// Egin:
 ./gradlew :app:assembleDebug
 
-// Clean solo cuando sea necesario (errores extraños)
+// Clean beharrezkoa denean soilik (akats arraroak)
 ```
 
 ---
 
-## 📱 Compatibilidad minSdk 24
+## 📱 Bateragarritasuna minSdk 24
 
-### APIs a tener cuidado
+### API-ak kontuz
 
-**Java Time API** (requiere desugaring):
+**Java Time API** (desugaring behar du):
 ```kotlin
-// Si usas:
+// Erabiltzen baduzu:
 import java.time.LocalDateTime
 import java.time.ZonedDateTime
 
-// Agregar en app/build.gradle.kts:
+// Gehitu app/build.gradle.kts-n:
 android {
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
@@ -468,7 +468,7 @@ dependencies {
 
 **Notification Channels** (API 26+):
 ```kotlin
-// Verificar versión antes de usar
+// Egiaztatu bertsioa erabili aurretik
 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
     createNotificationChannel()
 }
@@ -477,40 +477,40 @@ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 **Adaptive Icons** (API 26+):
 ```xml
 <!-- res/mipmap-anydpi-v26/ic_launcher.xml -->
-<!-- Proveer fallback para API < 26 -->
+<!-- Eman fallback API < 26-rako -->
 ```
 
 ---
 
-## 🔍 Debugging Tips
+## 🔍 Debugging Aholkuak
 
-### AGP 9 Changes
+### AGP 9 Aldaketak
 
 ```bash
-# Ver tareas disponibles
+# Ikusi eskuragarri dauden zereginak
 ./gradlew tasks --all | grep app
 
-# Dependencias tree
+# Mendekotasunen zuhaitza
 ./gradlew :app:dependencies
 
-# Ver configuración aplicada
+# Ikusi aplikatutako konfigurazioa
 ./gradlew :app:properties
 ```
 
-### KSP Generated Code
+### KSP Sortutako Kodea
 
 ```bash
-# Regenerar código
+# Berregeneratu kodea
 ./gradlew clean :app:kspDebugKotlin
 
-# Ver logs de generación
+# Ikusi sorkuntza log-ak
 ./gradlew :app:kspDebugKotlin --info | grep KSP
 ```
 
 ### Compose Debugging
 
 ```kotlin
-// Ver recompositions en Logcat
+// Ikusi recomposition-ak Logcat-en
 import androidx.compose.runtime.SideEffect
 
 @Composable
@@ -524,7 +524,7 @@ fun MyComposable() {
 
 ---
 
-## 📚 Recursos Adicionales
+## 📚 Baliabide Gehigarriak
 
 - [Kotlin 2.0 Migration Guide](https://kotlinlang.org/docs/kotlin-2-migration-guide.html)
 - [AGP 9 Known Issues](https://developer.android.com/studio/releases/gradle-plugin#9-0-0-known-issues)
@@ -533,5 +533,5 @@ fun MyComposable() {
 
 ---
 
-**Última actualización:** 2026-01-23  
-**Contacto:** Ver [AGENTS.md](../AGENTS.md) para convenciones del proyecto
+**Azken eguneraketa:** 2026-01-23
+**Kontaktua:** Ikusi [AGENTS.md](../AGENTS.md) proiektuaren konbentzioentzat

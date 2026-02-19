@@ -2,43 +2,46 @@
 
 ## Auditoria Egutegia (Urtekoa)
 
-### Q1 (Urtarrila-Martxoa)
-- **Astea 4:** Clause 4 & 5 audit (Kontestua + Lidergoa)
-- **Astea 8:** Clause 6 audit (Planifikazioa + Arrisku ebaluazioa)
-- **Astea 12:** Annex A.5 audit (Antolamendu kontrolak)
+### 1. Hiruhilekoa (Urtarrila-Martxoa)
+- **4. Astea:** 4. eta 5. klausulen auditoria (Testuingurua + Lidergoa)
+- **8. Astea:** 6. klausularen auditoria (Planifikazioa + Arriskuen ebaluazioa)
+- **12. Astea:** A.5 eranskinaren auditoria (Antolakuntza kontrolak)
 
-### Q2 (Apirila-Ekaina)
-- **Astea 16:** Clause 7 audit (Euskarria)
-- **Astea 20:** Annex A.6-A.7 audit (Pertsonak + Fisikoa)
-- **Astea 24:** Clause 8 audit (Eragiketa)
+### 2. Hiruhilekoa (Apirila-Ekaina)
+- **16. Astea:** 7. klausularen auditoria (Euskarria)
+- **20. Astea:** A.6-A.7 eranskinen auditoria (Pertsonak + Fisikoa)
+- **24. Astea:** 8. klausularen auditoria (Eragiketa)
 
-### Q3 (Uztaila-Iraila)
-- **Astea 28:** Annex A.8 audit (Teknologiko kontrolak)
-- **Astea 32:** Clause 9 audit (Errendimendu ebaluazioa)
-- **Astea 36:** GDPR compliance audit
+### 3. Hiruhilekoa (Uztaila-Iraila)
+- **28. Astea:** A.8 eranskinaren auditoria (Teknologia kontrolak)
+- **32. Astea:** 9. klausularen auditoria (Errendimenduaren ebaluazioa)
+- **36. Astea:** GDPR betetzearen auditoria
 
-### Q4 (Urria-Abendua)
-- **Astea 40:** Annex A.9 audit (Eragiketa Segurtasuna)
-- **Astea 44:** Clause 10 audit (Hobekuntza)
-- **Astea 48:** Zuzendaritzaren Berrikusketa + Itxiera
+### 4. Hiruhilekoa (Urria-Abendua)
+- **40. Astea:** A.9 eranskinaren auditoria (Eragiketaren Segurtasuna)
+- **44. Astea:** 10. klausularen auditoria (Hobekuntza)
+- **48. Astea:** Zuzendaritzaren Berrikusketa + Itxiera
 
 ## Auditore Kalifikazioak
-- Lead Auditor: ISO 27001 Lead Auditor certificated
-- Technical Auditors: Minimum 2 years ISMS esperientzia
-- Independentzia: Auditoreek beren lana auditatzen ez dute
+- Auditore Nagusia: ISO 27001 Lead Auditor ziurtagiria duen pertsona
+- Auditore Teknikoak: Gutxienez 2 urteko esperientzia ISMS arloan
+- Independentzia: Auditoreek ezin dute beren lana auditatu
 
 ## Auditoria Prozesua
 1. Planifikazioa (2 aste lehenago)
-2. Irekiera bilerak
-3. Dokumentuen berrikusketa
+2. Hasierako bilera
+3. Dokumentuen berrikuspena
 4. Elkarrizketak
-5. Ebidentzia bilketa
-6. Aurkikuntzak dokumentatzea
-7. Itxiera bilerak
+5. Ebidentzien bilketa
+6. Aurkikuntzak dokumentatu
+7. Amaierako bilera
 8. Txostena (aste 1ean)
-9. Ekintza zuzenketen jarraipena
+9. Ekintza zuzentzaileen jarraipena
 
-## Non-Conformities Kudeaketa
-- Major NC: Root cause analysis + ekintza zuzenketa <30 egun
-- Minor NC: Ekintza zuzenketa <90 egun
-- Hobekuntzarako Aukerak: Gomendioak erregistratuta
+## Desbideratzeen Kudeaketa
+- Desbideratze Larriak: Erro kausaren analisia + ekintza zuzentzailea <30 egun
+- Desbideratze Arinak: Ekintza zuzentzailea <90 egun
+- Hobekuntzarako Aukerak: Gomendioak erregistratu
+
+---
+**Erregistroak:** Jira Change Management / RFC Txartelak

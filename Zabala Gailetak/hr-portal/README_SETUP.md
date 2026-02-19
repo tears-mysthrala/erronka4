@@ -1,48 +1,48 @@
-# Quick Setup Script - Creates all necessary files and directories
+# Konfigurazio Script Azkarra - Sortzen ditu beharrezkoak diren fitxategi eta direktorio guztiak
 
-## Instructions:
-1. Open Command Prompt (cmd)
-2. Navigate to: cd "c:\Users\idz60\Downloads\erronka4-main\erronka4-main\Zabala Gailetak\hr-portal"
-3. Run: SETUP.bat
+## Argibideak:
+1. Ireki Command Prompt (cmd)
+2. Nabigatu hona: cd "c:\Users\idz60\Downloads\erronka4-main\erronka4-main\Zabala Gailetak\hr-portal"
+3. Exekutatu: SETUP.bat
 
-OR
+EDO
 
-1. Open PowerShell
-2. Navigate to: cd "c:\Users\idz60\Downloads\erronka4-main\erronka4-main\Zabala Gailetak\hr-portal"
-3. Run: powershell -ExecutionPolicy Bypass -File SETUP.ps1
+1. Ireki PowerShell
+2. Nabigatu hona: cd "c:\Users\idz60\Downloads\erronka4-main\erronka4-main\Zabala Gailetak\hr-portal"
+3. Exekutatu: powershell -ExecutionPolicy Bypass -File SETUP.ps1
 
-The scripts will:
-- Create payslips/ and documents/ directories
-- Create the view files with full content
-- Show success message
+Script-ek egingo dute:
+- Sortu payslips/ eta documents/ direktorioak
+- Sortu ikuspegi fitxategiak eduki osoarekin
+- Erakutsi arrakasta mezua
 
-## Manual Alternative:
+## Eskuzko Aukera:
 
-If scripts don't work, use Windows Explorer:
+Script-ak ez badabil, erabili Windows Explorer:
 
-1. Navigate to: c:\Users\idz60\Downloads\erronka4-main\erronka4-main\Zabala Gailetak\hr-portal\public\views
+1. Nabigatu hona: c:\Users\idz60\Downloads\erronka4-main\erronka4-main\Zabala Gailetak\hr-portal\public\views
 
-2. Create two new folders:
-   - Right-click → New → Folder → Name it "payslips"
-   - Right-click → New → Folder → Name it "documents"
+2. Sortu bi karpeta berri:
+   - Eskuineko klika → Berria → Karpeta → Izendatu "payslips"
+   - Eskuineko klika → Berria → Karpeta → Izendatu "documents"
 
-3. Inside the "payslips" folder, create two new text files:
-   - Right-click → New → Text Document → Rename to "index.php"
-   - Right-click → New → Text Document → Rename to "show.php"
+3. "payslips" karpetaren barruan, sortu bi testu fitxategi berri:
+   - Eskuineko klika → Berria → Testu Dokumentua → Berrizendatu "index.php"
+   - Eskuineko klika → Berria → Testu Dokumentua → Berrizendatu "show.php"
 
-4. Copy the content from SETUP_INSTRUCTIONS.md:
-   - Open SETUP_INSTRUCTIONS.md
-   - Find section "PAYSLIPS INDEX VIEW"
-   - Copy all the PHP code
-   - Paste into payslips/index.php
-   - Repeat for "PAYSLIPS SHOW VIEW" → payslips/show.php
+4. Kopiatu edukia SETUP_INSTRUCTIONS.md-tik:
+   - Ireki SETUP_INSTRUCTIONS.md
+   - Aurkitu "PAYSLIPS INDEX VIEW" atala
+   - Kopiatu PHP kode guztia
+   - Itsatsi payslips/index.php-n
+   - Errepikatu "PAYSLIPS SHOW VIEW" → payslips/show.php-rako
 
-5. Save files and test:
-   - Visit http://localhost:8080/payslips
+5. Gorde fitxategiak eta probatu:
+   - Bisitatu http://localhost:8080/payslips
 
-## File Locations:
-- SETUP.bat - Windows batch script (simple, no admin needed)
-- SETUP.ps1 - PowerShell script (more advanced, extracts content automatically)
-- SETUP_INSTRUCTIONS.md - Complete manual with all file contents
+## Fitxategi Kokapena:
+- SETUP.bat - Windows batch script-a (sinplea, ez du admin behar)
+- SETUP.ps1 - PowerShell script-a (aurreratuagoa, edukia automatikoki ateratzen du)
+- SETUP_INSTRUCTIONS.md - Eskuliburu osoa fitxategi eduki guztiekin
 
-Choose whichever method works best for you!
+Aukeratu zure beharretarako hobekien dabilena!

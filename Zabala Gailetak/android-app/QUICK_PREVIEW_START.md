@@ -1,11 +1,11 @@
-# 🎬 Quick Start - Android Previews
+# 🎬 Hasiera Azkarra - Android Preview-ak
 
-## ⚡ 3 pasos para ver los Previews
+## ⚡ Preview-ak ikusteko 3 urrats
 
-### Paso 1: Abre Android Studio
-Asegúrate de tener el proyecto Android abierto en Android Studio.
+### 1. Urratsa: Ireki Android Studio
+Ziurtatu Android proiektua irekita duzula Android Studio-n.
 
-### Paso 2: Abre uno de estos archivos
+### 2. Urratsa: Ireki fitxategi hauetako bat
 ```
 app/src/main/java/com/zabalagailetak/hrapp/presentation/
 ├── auth/LoginScreen.kt
@@ -18,17 +18,17 @@ app/src/main/java/com/zabalagailetak/hrapp/presentation/
     └── NewVacationRequestScreen.kt
 ```
 
-### Paso 3: Haz clic en "Preview"
-En la parte superior derecha del editor, verás un botón **"Preview"**.
-Haz clic y se abrirá el panel con la visualización.
+### 3. Urratsa: Egin klik "Preview"-n
+Editorearen goiko eskuineko aldean, **"Preview"** botoia ikusiko duzu.
+Egin klik eta bistaratzea duen panela irekiko da.
 
 ---
 
-## 🔍 Ubicación del botón Preview
+## 🔍 Preview botoiaren kokapena
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  LoginScreen.kt                     [Code] [Preview] ← ← ← HERE!
+│  LoginScreen.kt                     [Code] [Preview] ← ← ← HEMEN!
 ├─────────────────────────────────────────────────────────┤
 │                                                           │
 │  package com.zabalagailetak.hrapp.presentation.auth      │
@@ -48,9 +48,9 @@ Haz clic y se abrirá el panel con la visualización.
 
 ---
 
-## 🎨 Icono de Preview en el margen
+## 🎨 Preview ikonoa ertzean
 
-También verás un pequeño icono de teléfono 📱 en el margen izquierdo:
+Telefono txiki baten 📱 ikonoa ere ikusiko duzu ezkerreko ertzean:
 
 ```
 │  328    @Preview(showBackground = true, name = "Light")      📱
@@ -60,55 +60,55 @@ También verás un pequeño icono de teléfono 📱 en el margen izquierdo:
 │  332            LoginContent(...)
 ```
 
-**Haz clic en ese icono** para abrir el preview directamente.
+**Egin klik ikono horretan** preview-a zuzenean irekitzeko.
 
 ---
 
-## 📱 Opciones del Panel Preview
+## 📱 Preview Panelaren Aukerak
 
-Una vez abierto el panel:
+Panela irekita dagoenean:
 
 ### Zoom
-- **Rueda del ratón**: Zoom in/out
-- **Ctrl + Rueda**: Zoom más rápido
+- **Saguaren gurpila**: Zoom in/out
+- **Ctrl + Gurpila**: Zoom azkarragoa
 
-### Cambiar variante
-Si hay múltiples `@Preview`, aparecerán en una lista:
+### Aldaera aldatu
+Hainbat `@Preview` badaude, zerrendan agertuko dira:
 ```
 □ LoginPreview - Light
 □ LoginPreviewLoading - With Loading
 □ LoginPreviewError - With Error
 ```
 
-### Interacción (limitada)
-- Los previews son estáticos
-- **No permiten clicks** (usa el emulador para pruebas interactivas)
+### Interakzioa (mugatua)
+- Preview-ak estatikoak dira
+- **Ez dute klik-ik onartzen** (erabili emuladorea proba interaktiboetarako)
 
-### Configuración
-- **Show wireframe**: Muestra bordes de layouts
-- **Show grid**: Muestra cuadrícula
-- **Device**: Elige dispositivo para previsualizar
-
----
-
-## ⚙️ Actualizar Preview
-
-Si los cambios no se ven:
-
-**Opción 1**: Presiona `Ctrl+Alt+B` (Rebuild)
-**Opción 2**: Guarda el archivo (Ctrl+S) y espera
-**Opción 3**: Reinicia Android Studio
+### Konfigurazioa
+- **Show wireframe**: Erakutsi layout-en ertzak
+- **Show grid**: Erakutsi sareta
+- **Device**: Aukeratu gailua aurreikusteko
 
 ---
 
-## 📊 Panel Split (Código + Preview)
+## ⚙️ Preview-a Eguneratu
 
-Para ver código y preview lado a lado:
+Aldaketak ez badituzu ikusten:
 
-1. Ve a **View** en el menú
-2. Click en **Split Editor**
-3. Abre el archivo con previews
-4. ¡Verás el código a la izquierda y el preview a la derecha!
+**Aukera 1**: Sakatu `Ctrl+Alt+B` (Rebuild)
+**Aukera 2**: Gorde fitxategia (Ctrl+S) eta itxaron
+**Aukera 3**: Berrabiarazi Android Studio
+
+---
+
+## 📊 Split Panela (Kodea + Preview)
+
+Kodea eta preview-a alboz albo ikusteko:
+
+1. Joan **View** menura
+2. Egin klik **Split Editor**-en
+3. Ireki preview-ak dituen fitxategia
+4. Kodea ezkerrean eta preview-a eskuinean ikusiko dituzu!
 
 ```
 ┌─────────────────────────┬─────────────────────────┐
@@ -123,7 +123,7 @@ Para ver código y preview lado a lado:
 │                         │   │ │              ││   │
 │                         │   │ └──────────────┘│   │
 │                         │   │                 │   │
-│                         │   │ Password:       │   │
+│                         │   │ Pasahitza:      │   │
 │                         │   │ ┌──────────────┐│   │
 │                         │   │ │●●●●●●●●●●●● ││   │
 │                         │   │ └──────────────┘│   │
@@ -135,51 +135,51 @@ Para ver código y preview lado a lado:
 
 ---
 
-## 🚀 Atajos útiles
+## 🚀 Lasterbide erabilgarriak
 
-| Acción | Atajo (Windows/Linux) | Atajo (Mac) |
+| Ekintza | Lasterbidea (Windows/Linux) | Lasterbidea (Mac) |
 |--------|----------------------|------------|
 | Rebuild | `Ctrl+Alt+B` | `Cmd+Option+B` |
-| Guardar | `Ctrl+S` | `Cmd+S` |
-| Split Editor | Menú View | Menú View |
-| Buscar | `Ctrl+F` | `Cmd+F` |
+| Gorde | `Ctrl+S` | `Cmd+S` |
+| Split Editor | View menua | View menua |
+| Bilatu | `Ctrl+F` | `Cmd+F` |
 
 ---
 
-## 💡 Tips Pro
+## 💡 Pro Aholkuak
 
-1. **Desarrolla rápido**: No necesitas ejecutar la app en emulador constantemente
-2. **Múltiples variantes**: Cada `@Preview` es un estado diferente
-3. **Datos mock**: Ya están incluidos en los previews
-4. **Tema automático**: Se aplica automáticamente (ZabalaGaileTakHRTheme)
+1. **Garatu azkar**: Ez duzu aplikazioa emuladorean etengabe exekutatu beharrik
+2. **Aldaera anitzak**: `@Preview` bakoitza egoera desberdina da
+3. **Mock datuak**: Dagoeneko preview-etan sartuta daude
+4. **Gai automatikoa**: Automatikoki aplikatzen da (ZabalaGaileTakHRTheme)
 
 ---
 
-## ❓ Problemas comunes
+## ❓ Arazo ohikoak
 
-### "No veo el botón Preview"
-- Asegúrate de que el archivo tiene `@Preview`
-- El archivo debe tener una función Composable con `@Preview` antes
+### "Ez dut Preview botoia ikusten"
+- Ziurtatu fitxategiak `@Preview` duela
+- Fitxategiak `@Preview` duen funtzio Composable bat izan behar du
 
-### "Preview no actualiza"
-- Guarda el archivo: `Ctrl+S`
+### "Preview-a ez da eguneratzen"
+- Gorde fitxategia: `Ctrl+S`
 - Rebuild: `Ctrl+Alt+B`
-- Espera 2-3 segundos
+- Itxaron 2-3 segundo
 
-### "Error de compilación en preview"
-- Comprueba que importaste: `androidx.compose.ui.tooling.preview.Preview`
-- Verifica que `ZabalaGaileTakHRTheme` existe
-
----
-
-## 📚 Más información
-
-- [PREVIEWS_GUIDE.md](PREVIEWS_GUIDE.md) - Guía completa
-- [PREVIEWS_IMPLEMENTATION_SUMMARY.md](PREVIEWS_IMPLEMENTATION_SUMMARY.md) - Resumen de cambios
-- [README.md](README.md) - Info general del proyecto
+### "Konpilazio errorea preview-an"
+- Egiaztatu inportatu duzula: `androidx.compose.ui.tooling.preview.Preview`
+- Egiaztatu `ZabalaGaileTakHRTheme` existitzen dela
 
 ---
 
-**¡Disfruta desarrollando con Previews! 🎉**
+## 📚 Informazio gehiago
 
-¿Tienes preguntas? Lee la documentación completa en **PREVIEWS_GUIDE.md**
+- [PREVIEWS_GUIDE.md](PREVIEWS_GUIDE.md) - Gida osoa
+- [PREVIEWS_IMPLEMENTATION_SUMMARY.md](PREVIEWS_IMPLEMENTATION_SUMMARY.md) - Aldaketen laburpena
+- [README.md](README.md) - Proiektuaren informazio orokorra
+
+---
+
+**Gozatu Preview-ekin garatzen! 🎉**
+
+Galderak dituzu? Irakurri dokumentazio osoa **PREVIEWS_GUIDE.md**-n

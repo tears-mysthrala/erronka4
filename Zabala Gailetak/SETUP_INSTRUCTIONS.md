@@ -1,17 +1,17 @@
-# 🚀 Final Setup Instructions - DO THIS NOW
+# 🚀 Azken Konfigurazio Jarraibideak - EGIN HAU ORAIN
 
-## ✅ What I've Already Done:
+## ✅ Nik Dagoeneko Egindakoa:
 
-1. ✅ Updated `config/routes.php` - Added payslips web routes
-2. ✅ Updated `public/views/layouts/header.php` - Added navigation links for Nominak and Dokumentuak
-3. ✅ Created all backend controllers and models
-4. ✅ Updated Android Color.kt with unified colors
+1. ✅ `config/routes.php` eguneratua - Nominen web errutak gehitu dira
+2. ✅ `public/views/layouts/header.php` eguneratua - Nominak eta Dokumentuak nabigazio estekak gehitu dira
+3. ✅ Backend kontroladore eta modelo guztiak sortu dira
+4. ✅ Android Color.kt eguneratua bateratutako koloreekin
 
-## ⚠️ What You MUST Do Manually (5 minutes):
+## ⚠️ Eskuz Egin Behar Duzuna (5 minutu):
 
-### Step 1: Create Directories
+### 1. Urratsa: Sortu Direktorioak
 
-Open Command Prompt (cmd) or Windows Explorer and create these directories:
+Ireki Command Prompt (cmd) edo Windows Explorer eta sortu direktorio hauek:
 
 ```cmd
 cd "c:\Users\idz60\Downloads\erronka4-main\erronka4-main\Zabala Gailetak\hr-portal\public\views"
@@ -19,47 +19,47 @@ mkdir payslips
 mkdir documents
 ```
 
-**OR** in Windows Explorer:
-1. Navigate to: `c:\Users\idz60\Downloads\erronka4-main\erronka4-main\Zabala Gailetak\hr-portal\public\views`
-2. Right-click → New Folder → Name it `payslips`
-3. Right-click → New Folder → Name it `documents`
+**EDO** Windows Explorer-en:
+1. Nabigatu hona: `c:\Users\idz60\Downloads\erronka4-main\erronka4-main\Zabala Gailetak\hr-portal\public\views`
+2. Eskuin-klik → Karpeta Berria → Izena jarri `payslips`
+3. Eskuin-klik → Karpeta Berria → Izena jarri `documents`
 
 ---
 
-### Step 2: Create Payslips Views
+### 2. Urratsa: Sortu Nominen Ikuspegiak
 
-#### File 1: `public/views/payslips/index.php`
+#### 1. Fitxategia: `public/views/payslips/index.php`
 
-Create this file and paste the content from the section below "PAYSLIPS INDEX VIEW"
+Sortu fitxategi hau eta itsatsi edukia beheko "NOMINEN INDEX IKUSPEGIA" ataletik
 
-#### File 2: `public/views/payslips/show.php`
+#### 2. Fitxategia: `public/views/payslips/show.php`
 
-Create this file and paste the content from the section below "PAYSLIPS SHOW VIEW"
+Sortu fitxategi hau eta itsatsi edukia beheko "NOMINEN SHOW IKUSPEGIA" ataletik
 
 ---
 
-### Step 3: Test the Implementation
+### 3. Urratsa: Probatu Inplementazioa
 
-1. **Start your server** (if not running):
+1. **Hasi zure zerbitzaria** (martxan ez badago):
    ```bash
    php -S localhost:8080 -t public/
    ```
 
-2. **Test API endpoints**:
+2. **Probatu API amaiera-puntuak**:
    ```bash
    curl http://localhost:8080/api/payroll
    curl http://localhost:8080/api/documents
    ```
 
-3. **Access in browser**:
-   - Login: http://localhost:8080/login
-   - Dashboard: http://localhost:8080/dashboard
-   - **NEW:** Payslips: http://localhost:8080/payslips
-   - **NEW:** Documents: http://localhost:8080/documents (will need views created)
+3. **Atzitu nabigatzailean**:
+   - Saioa hasi: http://localhost:8080/login
+   - Aginte-panela: http://localhost:8080/dashboard
+   - **BERRIA:** Nominak: http://localhost:8080/payslips
+   - **BERRIA:** Dokumentuak: http://localhost:8080/documents (ikuspegiak sortu behar dira)
 
 ---
 
-### Step 4: Rebuild Android App
+### 4. Urratsa: Berreraikitzen Android Aplikazioa
 
 ```bash
 cd "c:\Users\idz60\Downloads\erronka4-main\erronka4-main\Zabala Gailetak\android-app"
@@ -68,10 +68,10 @@ cd "c:\Users\idz60\Downloads\erronka4-main\erronka4-main\Zabala Gailetak\android
 
 ---
 
-## 📄 FILE CONTENTS TO COPY
+## 📄 KOPIATU BEHARREKO FITXATEGI EDUKIA
 
-### PAYSLIPS INDEX VIEW
-Save as: `public/views/payslips/index.php`
+### NOMINEN INDEX IKUSPEGIA
+Gorde honela: `public/views/payslips/index.php`
 
 ```php
 <?php require dirname(__DIR__) . '/layouts/header.php'; ?>
@@ -133,7 +133,7 @@ Save as: `public/views/payslips/index.php`
                         </div>
                     </div>
                 </div>
-                
+
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.2);">
                     <div>
                         <div style="font-size: 0.75rem; opacity: 0.8; margin-bottom: 4px;">Urteko gordina / Bruto anual</div>
@@ -173,19 +173,19 @@ Save as: `public/views/payslips/index.php`
                         <?php endforeach; ?>
                     </select>
                 </div>
-                
+
                 <div class="filter-item">
                     <label for="month">Hilabetea / Mes</label>
                     <select name="month" id="month" class="form-select-industrial" onchange="this.form.submit()">
                         <option value="">Guztiak / Todos</option>
-                        <?php 
+                        <?php
                         $months = [
                             1 => 'Urtarrila / Enero', 2 => 'Otsaila / Febrero', 3 => 'Martxoa / Marzo',
                             4 => 'Apirila / Abril', 5 => 'Maiatza / Mayo', 6 => 'Ekaina / Junio',
                             7 => 'Uztaila / Julio', 8 => 'Abuztua / Agosto', 9 => 'Iraila / Septiembre',
                             10 => 'Urria / Octubre', 11 => 'Azaroa / Noviembre', 12 => 'Abendua / Diciembre'
                         ];
-                        foreach ($months as $num => $name): 
+                        foreach ($months as $num => $name):
                         ?>
                             <option value="<?= $num ?>" <?= $num == $selected_month ? 'selected' : '' ?>>
                                 <?= $name ?>
@@ -241,7 +241,7 @@ Save as: `public/views/payslips/index.php`
                                         </strong>
                                     </td>
                                     <td>
-                                        <?php 
+                                        <?php
                                         $totalDeductions = $payslip['taxes'] + $payslip['social_security'] + $payslip['other_deductions'];
                                         echo \ZabalaGailetak\HrPortal\Models\Payslip::formatCurrency($totalDeductions);
                                         ?>
@@ -269,8 +269,8 @@ Save as: `public/views/payslips/index.php`
 <?php require dirname(__DIR__) . '/layouts/footer.php'; ?>
 ```
 
-### PAYSLIPS SHOW VIEW
-Save as: `public/views/payslips/show.php`
+### NOMINEN SHOW IKUSPEGIA
+Gorde honela: `public/views/payslips/show.php`
 
 ```php
 <?php require dirname(__DIR__) . '/layouts/header.php'; ?>
@@ -431,40 +431,40 @@ Save as: `public/views/payslips/show.php`
 
 ---
 
-## ✅ Verification Checklist
+## ✅ Egiaztapen Zerrenda
 
-After completing the above:
+Goikoa osatu ondoren:
 
-- [ ] Directories `payslips/` and `documents/` created
-- [ ] File `payslips/index.php` created with content
-- [ ] File `payslips/show.php` created with content
-- [ ] Server is running
-- [ ] Navigation shows "Nominak" and "Dokumentuak" links
-- [ ] Can access http://localhost:8080/payslips
-- [ ] API endpoints respond correctly
-
----
-
-## 🎉 Success!
-
-Once you complete these steps, you'll have:
-- ✅ Fully functional payslips module
-- ✅ Navigation links in place
-- ✅ Backend API ready
-- ✅ Android app colors unified
-- ✅ **75% implementation complete!**
+- [ ] `payslips/` eta `documents/` direktorioak sortuak
+- [ ] `payslips/index.php` fitxategia edukiarekin sortu da
+- [ ] `payslips/show.php` fitxategia edukiarekin sortu da
+- [ ] Zerbitzaria martxan dago
+- [ ] Nabigazioak "Nominak" eta "Dokumentuak" estekak erakusten ditu
+- [ ] http://localhost:8080/payslips atzitu daiteke
+- [ ] API amaiera-puntuak zuzen erantzuten dute
 
 ---
 
-**Total Time Needed: 5-10 minutes**
+## 🎉 Arrakasta!
 
-**Next Steps After This:**
-1. Add sample payslip data to database for testing
-2. Create documents views (similar process)
-3. Implement PDF generation
-4. Enhance dashboard with quick actions
+Urrats hauek osatzen badituzu, izango duzu:
+- ✅ Nominen modulu erabat funtzionala
+- ✅ Nabigazio estekak tokian
+- ✅ Backend API prest
+- ✅ Android aplikazio koloreak bateratuak
+- ✅ **75% inplementazio osatua!**
 
 ---
 
-*Generated: 2026-02-06*
-*Implementation Progress: 75% (after manual steps)*
+**Beharrezko Denbora Guztira: 5-10 minutu**
+
+**Hurrengo Urratsak Honen Ondoren:**
+1. Gehitu nomina datu lagin datu-basean probarako
+2. Sortu dokumentuen ikuspegiak (prozesu antzekoa)
+3. Inplementatu PDF sortzea
+4. Hobetu aginte-panela ekintza azkarrekin
+
+---
+
+*Sortua: 2026-02-06*
+*Inplementazio Aurrerapena: 75% (eskuz urratsen ondoren)*

@@ -1,91 +1,91 @@
-# 📱 Android Previews - Índice de Documentación
+# 📱 Android Preview-ak - Dokumentazio Indizea
 
-## 🚀 ¡Empieza aquí!
+## 🚀 Hasi hemen!
 
-### Si tienes poco tiempo ⚡
-→ Lee [QUICK_PREVIEW_START.md](QUICK_PREVIEW_START.md) (5 minutos)
+### Denbora gutxi baduzu ⚡
+→ Irakurri [QUICK_PREVIEW_START.md](QUICK_PREVIEW_START.md) (5 minutu)
 
-### Si quieres una guía completa 📖
-→ Lee [PREVIEWS_GUIDE.md](PREVIEWS_GUIDE.md) (15 minutos)
+### Gida osoa nahi baduzu 📖
+→ Irakurri [PREVIEWS_GUIDE.md](PREVIEWS_GUIDE.md) (15 minutu)
 
-### Si necesitas detalles técnicos 🔍
-→ Lee [PREVIEWS_IMPLEMENTATION_SUMMARY.md](PREVIEWS_IMPLEMENTATION_SUMMARY.md) (10 minutos)
+### Xehetasun teknikoak behar badituzu 🔍
+→ Irakurri [PREVIEWS_IMPLEMENTATION_SUMMARY.md](PREVIEWS_IMPLEMENTATION_SUMMARY.md) (10 minutu)
 
 ---
 
-## 📚 Documentación disponible
+## 📚 Eskuragarri dagoen Dokumentazioa
 
 ### 1. [QUICK_PREVIEW_START.md](QUICK_PREVIEW_START.md)
-**Para**: Usuarios que quieren empezar rápido
-**Tiempo**: ~5 minutos
-**Contenido**:
-- 3 pasos para ver los previews
-- Ubicación de botones y iconos
-- Opciones del panel preview
-- Atajos útiles
-- Tips pro
+**Norentzat**: Azkar hasi nahi duten erabiltzaileak
+**Denbora**: ~5 minutu
+**Edukia**:
+- Preview-ak ikusteko 3 urrats
+- Botoien eta ikonoen kokapena
+- Preview panelaren aukerak
+- Lasterbide erabilgarriak
+- Pro aholkuak
 
-✅ **Lee esto primero si nunca has usado previews**
+✅ **Irakurri hau lehenengo inoiz preview-ak erabili ez badituzu**
 
 ---
 
 ### 2. [PREVIEWS_GUIDE.md](PREVIEWS_GUIDE.md)
-**Para**: Guía completa y referencia
-**Tiempo**: ~15 minutos
-**Contenido**:
-- Explicación de qué son los previews
-- Dónde están los previews
-- 3 formas de usar los previews
-- Características de los previews
-- Configuración del tema
-- Tipos de preview (simple, múltiple)
-- Tips útiles
-- Solución de problemas
-- Referencias externas
+**Norentzat**: Gida osoa eta erreferentzia
+**Denbora**: ~15 minutu
+**Edukia**:
+- Preview-en azalpena
+- Non dauden preview-ak
+- Preview-ak erabiltzeko 3 modu
+- Preview-en ezaugarriak
+- Gaiaren konfigurazioa
+- Preview motak (sinplea, anitza)
+- Aholku erabilgarriak
+- Arazo-konponketa
+- Kanpoko erreferentziak
 
-✅ **Lee esto para entender todo en detalle**
+✅ **Irakurri hau dena xehetasunez ulertzeko**
 
 ---
 
 ### 3. [PREVIEWS_IMPLEMENTATION_SUMMARY.md](PREVIEWS_IMPLEMENTATION_SUMMARY.md)
-**Para**: Resumen técnico de lo que se cambió
-**Tiempo**: ~10 minutos
-**Contenido**:
-- Resumen ejecutivo
-- Estadísticas
-- Cambios realizados (por pantalla)
-- Archivos de documentación creados
-- Características implementadas
-- Cómo usar en Android Studio
-- Pantallas con preview
-- Verificación de previews
-- Próximos pasos opcionales
-- Ubicación de archivos
+**Norentzat**: Aldatu denaren laburpen teknikoa
+**Denbora**: ~10 minutu
+**Edukia**:
+- Laburpen exekutiboa
+- Estatistikak
+- Egindako aldaketak (pantailaka)
+- Sortutako dokumentazio fitxategiak
+- Inplementatutako ezaugarriak
+- Nola erabili Android Studio-n
+- Preview-ekin pantailak
+- Preview-en egiaztapena
+- Hurrengo urrats aukerakorrak
+- Fitxategien kokapena
 
-✅ **Lee esto para ver qué se cambió**
+✅ **Irakurri hau aldatu dena ikusteko**
 
 ---
 
-## 🔧 Script de Verificación
+## 🔧 Egiaztapen Script-a
 
 ### [verify-previews.sh](verify-previews.sh)
-Verifica que todos los archivos tengan previews configurados.
+Egiaztatu fitxategi guztiek preview-ak konfiguratuta dituztela.
 
-**Uso:**
+**Erabilera:**
 ```bash
 ./verify-previews.sh
 ```
 
-**Resultado esperado:**
+**Espero den emaitza:**
 ```
-🎉 ¡Excelente! Todos los archivos tienen previews configurados
+🎉 Bikain! Fitxategi guztiek preview-ak konfiguratuta dituzte
 ```
 
 ---
 
-## 📍 Archivos con Previews
+## 📍 Preview-ak dituzten Fitxategiak
 
-| Archivo | Ruta | Previews | Preview |
+| Fitxategia | Bidea | Preview-ak | Preview |
 |---------|------|----------|---------|
 | LoginScreen | `auth/LoginScreen.kt` | 3 | ✅ |
 | DashboardScreen | `dashboard/DashboardScreen.kt` | 2 | ✅ |
@@ -95,128 +95,128 @@ Verifica que todos los archivos tengan previews configurados.
 | VacationDashboardScreen | `vacation/VacationDashboardScreen.kt` | 2 | ✅ |
 | NewVacationRequestScreen | `vacation/NewVacationRequestScreen.kt` | 3 | ✅ |
 
-**Total**: 7 archivos, 17 previews, 100% cobertura ✅
+**Guztira**: 7 fitxategi, 17 preview, 100% estaldura ✅
 
 ---
 
-## 🎓 Guía de Aprendizaje Recomendada
+## 🎓 Gomendatutako Ikasketa Gida
 
-### Nivel 1: Básico (30 min)
-1. Lee [QUICK_PREVIEW_START.md](QUICK_PREVIEW_START.md)
-2. Abre Android Studio
-3. Abre `LoginScreen.kt`
-4. Haz clic en "Preview"
-5. Prueba cambiar el código y ver los cambios en tiempo real
+### Maila 1: Oinarrizkoa (30 min)
+1. Irakurri [QUICK_PREVIEW_START.md](QUICK_PREVIEW_START.md)
+2. Ireki Android Studio
+3. Ireki `LoginScreen.kt`
+4. Egin klik "Preview"-n
+5. Probatu kodea aldatzea eta aldaketak denbora errealean ikustea
 
-### Nivel 2: Intermedio (1 hora)
-1. Lee [PREVIEWS_GUIDE.md](PREVIEWS_GUIDE.md)
-2. Abre cada archivo con previews
-3. Experimenta con diferentes variantes
-4. Prueba el modo Split View (código + preview)
-5. Cambia el código y observa los cambios
+### Maila 2: Tartekoa (1 ordu)
+1. Irakurri [PREVIEWS_GUIDE.md](PREVIEWS_GUIDE.md)
+2. Ireki preview-ak dituen fitxategi bakoitza
+3. Esperimentatu aldaera desberdinekin
+4. Probatu Split View modua (kodea + preview)
+5. Aldatu kodea eta behatu aldaketak
 
-### Nivel 3: Avanzado (personal)
-1. Lee [PREVIEWS_IMPLEMENTATION_SUMMARY.md](PREVIEWS_IMPLEMENTATION_SUMMARY.md)
-2. Agrega más previews a componentes
-3. Crea previews parametrizados
-4. Integra con UI testing
-
----
-
-## ❓ Preguntas frecuentes
-
-### ¿Por dónde empiezo?
-→ Abre [QUICK_PREVIEW_START.md](QUICK_PREVIEW_START.md)
-
-### ¿Cómo abro un preview?
-→ Sección "3 pasos para ver los Previews" en [QUICK_PREVIEW_START.md](QUICK_PREVIEW_START.md)
-
-### ¿Qué pantallas tienen previews?
-→ Lee la tabla de "Archivos con Previews" arriba
-
-### El preview no aparece, ¿qué hago?
-→ Ve a "Problemas comunes" en [PREVIEWS_GUIDE.md](PREVIEWS_GUIDE.md)
-
-### ¿Cuántos previews hay?
-→ Total: **17 previews** en **7 pantallas** con **100% cobertura** ✅
-
-### ¿Puedo hacer click en el preview?
-→ No, los previews son estáticos. Usa el emulador para pruebas interactivas.
-
-### ¿Cómo verifico que todo está bien?
-→ Ejecuta `./verify-previews.sh`
+### Maila 3: Aurreratua (pertsonala)
+1. Irakurri [PREVIEWS_IMPLEMENTATION_SUMMARY.md](PREVIEWS_IMPLEMENTATION_SUMMARY.md)
+2. Gehitu preview gehiago osagaiei
+3. Sortu preview parametrizatuak
+4. Integratu UI testing-ekin
 
 ---
 
-## 🎯 Casos de uso
+## ❓ Maiz egiten diren galderak
 
-### "Quiero visualizar la pantalla de login rápidamente"
-1. Abre `auth/LoginScreen.kt`
-2. Haz clic en "Preview"
-3. Verás 3 variantes: normal, cargando, error
+### Nondik hasi?
+→ Ireki [QUICK_PREVIEW_START.md](QUICK_PREVIEW_START.md)
 
-### "Necesito probar diferentes estados"
-1. Abre cualquier archivo con previews
-2. Busca `@Preview(name = "...")`
-3. Verás múltiples variantes para diferentes estados
+### Nola ireki preview bat?
+→ "Preview-ak ikusteko 3 urrats" atala [QUICK_PREVIEW_START.md](QUICK_PREVIEW_START.md)-n
 
-### "Quiero cambiar el diseño sin ejecutar la app"
-1. Haz clic en "Split Editor" (View → Split Editor)
-2. Abre un archivo con previews
-3. Edita el código a la izquierda
-4. Ve los cambios en tiempo real a la derecha
+### Zein pantailetan daude preview-ak?
+→ Irakurri goiko "Preview-ak dituzten Fitxategiak" taula
 
-### "Necesito verificar que todo funciona"
-1. Ejecuta `./verify-previews.sh`
-2. Verifica que la salida muestra "100%"
+### Preview-a ez da agertzen, zer egin?
+→ Joan "Arazo ohikoak" atalera [PREVIEWS_GUIDE.md](PREVIEWS_GUIDE.md)-n
 
----
+### Zenbat preview daude?
+→ Guztira: **17 preview** **7 pantailatan** **100% estaldurarekin** ✅
 
-## 📊 Estadísticas
+### Klik egin dezaket preview-ean?
+→ Ez, preview-ak estatikoak dira. Erabili emuladorea proba interaktiboetarako.
 
-- **Pantallas cubierta**: 7/7 (100%)
-- **Total de previews**: 17 variantes
-- **Documentación**: 4 archivos
-- **Scripts de validación**: 1
-- **Tiempo para empezar**: < 5 minutos
+### Nola egiaztatu dena ongi dagoela?
+→ Exekutatu `./verify-previews.sh`
 
 ---
 
-## 🔗 Enlaces útiles
+## 🎯 Erabilera Kasuak
 
-### En este repositorio
-- [README.md](README.md) - Información general del proyecto
-- [MIGRATION_KOTLIN_2.0.md](MIGRATION_KOTLIN_2.0.md) - Migración a Kotlin 2.0
-- [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md) - Notas para desarrolladores
+### "Login pantaila azkar bistaratu nahi dut"
+1. Ireki `auth/LoginScreen.kt`
+2. Egin klik "Preview"-n
+3. 3 aldaera ikusiko dituzu: normala, kargatzen, errorea
 
-### Externos
+### "Egoera desberdinak probatu behar ditut"
+1. Ireki preview-ak dituen edozein fitxategi
+2. Bilatu `@Preview(name = "...")`
+3. Egoera desberdinekin aldaera anitzak ikusiko dituzu
+
+### "Diseinua aldatu nahi dut aplikazioa exekutatu gabe"
+1. Egin klik "Split Editor"-en (View → Split Editor)
+2. Ireki preview-ak dituen fitxategia
+3. Editatu kodea ezkerrean
+4. Ikusi aldaketak denbora errealean eskuinean
+
+### "Dena funtzionatzen duela egiaztatu behar dut"
+1. Exekutatu `./verify-previews.sh`
+2. Egiaztatu irteera "100%" erakusten duela
+
+---
+
+## 📊 Estatistikak
+
+- **Estalitako pantailak**: 7/7 (100%)
+- **Preview guztira**: 17 aldaera
+- **Dokumentazioa**: 4 fitxategi
+- **Balidazio script-ak**: 1
+- **Hasteko denbora**: < 5 minutu
+
+---
+
+## 🔗 Esteka erabilgarriak
+
+### Biltegi honetan
+- [README.md](README.md) - Proiektuaren informazio orokorra
+- [MIGRATION_KOTLIN_2.0.md](MIGRATION_KOTLIN_2.0.md) - Kotlin 2.0-ra migrazioa
+- [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md) - Garatzaileentzat oharrak
+
+### Kanpokoak
 - [Android Compose Preview Documentation](https://developer.android.com/jetpack/compose/tooling/previews)
 - [Jetpack Compose Best Practices](https://developer.android.com/jetpack/compose/hands-on)
 - [Material 3 Design](https://m3.material.io/)
 
 ---
 
-## 📞 Soporte
+## 📞 Laguntza
 
-¿Tienes preguntas o problemas?
+Galderak edo arazoak dituzu?
 
-1. **Primero**, consulta la sección "Solución de problemas" en [PREVIEWS_GUIDE.md](PREVIEWS_GUIDE.md)
-2. **Luego**, ejecuta `./verify-previews.sh` para verificar el estado
-3. **Finalmente**, revisa los archivos `.kt` para ver ejemplos de previews correctamente configurados
+1. **Lehenik**, kontsultatu "Arazo-konponketa" atala [PREVIEWS_GUIDE.md](PREVIEWS_GUIDE.md)-n
+2. **Ondoren**, exekutatu `./verify-previews.sh` egoera egiaztatzeko
+3. **Azkenik**, berrikusi `.kt` fitxategiak behar bezala konfiguratutako preview-en adibideak ikusteko
 
 ---
 
-## 📝 Resumen rápido
+## 📝 Laburpen azkarra
 
-| Tarea | Documento | Tiempo |
+| Zeregina | Dokumentua | Denbora |
 |-------|-----------|--------|
-| Empezar rápido | QUICK_PREVIEW_START.md | 5 min |
-| Guía completa | PREVIEWS_GUIDE.md | 15 min |
-| Detalles técnicos | PREVIEWS_IMPLEMENTATION_SUMMARY.md | 10 min |
-| Verificar estado | `./verify-previews.sh` | < 1 min |
+| Azkar hasi | QUICK_PREVIEW_START.md | 5 min |
+| Gida osoa | PREVIEWS_GUIDE.md | 15 min |
+| Xehetasun teknikoak | PREVIEWS_IMPLEMENTATION_SUMMARY.md | 10 min |
+| Egoera egiaztatu | `./verify-previews.sh` | < 1 min |
 
 ---
 
-**¡Disfruta desarrollando con Previews! 🎉**
+**Gozatu Preview-ekin garatzen! 🎉**
 
-Última actualización: Febrero 3, 2026
+Azken eguneraketa: Otsaila 3, 2026

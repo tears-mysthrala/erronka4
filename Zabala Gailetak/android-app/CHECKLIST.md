@@ -1,47 +1,47 @@
-# ✅ Checklist Post-Migración Kotlin 2.0
+# ✅ Checklist Post-Migrazioa Kotlin 2.0
 
-**Ejecutar estos pasos en orden después de hacer pull de los cambios**
+**Urrats hauek ordenan exekutatu aldaketak egin ondoren**
 
 ---
 
-## 📋 Pre-Build (preparación)
+## 📋 Pre-Build (prestaketa)
 
-- [ ] **Cerrar Android Studio** (si está abierto)
-- [ ] **Hacer pull** de los últimos cambios
-- [ ] **Navegar a directorio:**
+- [ ] **Itxi Android Studio** (irekita badago)
+- [ ] **Egin pull** azken aldaketekin
+- [ ] **Nabigatu direktoriora:**
   ```bash
   cd Zabala\ Gailetak/android-app
   ```
 
 ---
 
-## 🔍 Verificación Automática
+## 🔍 Egiaztapen Automatikoa
 
-- [ ] **Ejecutar script de verificación:**
+- [ ] **Exekutatu egiaztapen script-a:**
   ```bash
   ./post-migration-check.sh
   ```
-  - ✅ Si todo pasa: continuar
-  - ❌ Si falla: revisar output y corregir antes de continuar
+  - ✅ Dena ongi badoa: jarraitu
+  - ❌ Huts egiten badu: berrikusi irteerak eta zuzendu jarraitu aurretik
 
 ---
 
-## 🏗️ Build Inicial
+## 🏗️ Build Hasiera
 
-- [ ] **Abrir Android Studio**
+- [ ] **Ireki Android Studio**
 - [ ] **Invalidate Caches:**
   - `File` → `Invalidate Caches / Restart`
-  - Seleccionar "Invalidate and Restart"
-  - Esperar reinicio
+  - Hautatu "Invalidate and Restart"
+  - Itxaron berrabiarazte arte
 
 - [ ] **Gradle Sync:**
-  - Esperar sincronización automática
-  - O manualmente: `File` → `Sync Project with Gradle Files`
-  - ⏱️ Primera vez tomará más tiempo (descarga AGP 9, Kotlin 2.0.21, etc.)
+  - Itxaron sinkronizazio automatikora
+  - Edo eskuz: `File` → `Sync Project with Gradle Files`
+  - ⏱️ Lehen aldiz denbora gehiago beharko du (AGP 9, Kotlin 2.0.21, etab. deskargatzeko)
 
 - [ ] **Rebuild Project:**
   - `Build` → `Rebuild Project`
-  - ⏱️ Build inicial será lento (~5-10 min)
+  - ⏱️ Hasierako build-a motelago izango da (~5-10 min)
 
 ---
 
@@ -52,113 +52,113 @@
   ./gradlew :app:testDebugUnitTest
   ```
 
-- [ ] **Compilar Release:**
+- [ ] **Konpilatu Release:**
   ```bash
   ./gradlew :app:assembleRelease
   ```
 
-- [ ] **Crear emulador API 24** (nueva compatibilidad):
+- [ ] **Sortu API 24 emuladorea** (bateragarritasun berria):
   - Tools → Device Manager → Create Device
   - API Level: 24 (Android 7.0)
-  - Ejecutar app en emulador
+  - Exekutatu app emuladorean
 
 ---
 
-## 🔒 Seguridad (CRÍTICO)
+## 🔒 Segurtasuna (KRITIKOA)
 
-- [ ] **Buscar uso de security-crypto:**
+- [ ] **Bilatu security-crypto erabilera:**
   ```bash
   grep -r "EncryptedSharedPreferences\|EncryptedFile\|MasterKey" app/src/
   ```
 
-- [ ] **Si hay resultados:**
-  - [ ] Leer sección "Migración de security-crypto" en [MIGRATION_KOTLIN_2.0.md](MIGRATION_KOTLIN_2.0.md)
-  - [ ] Implementar alternativa con Android Keystore
-  - [ ] Probar migración de datos (si hay datos cifrados existentes)
-  - [ ] Ejecutar tests de seguridad
+- [ ] **Emaitzak badaude:**
+  - [ ] Irakurri "Migración de security-crypto" atala [MIGRATION_KOTLIN_2.0.md](MIGRATION_KOTLIN_2.0.md)-n
+  - [ ] Inplementatu Android Keystore alternatiboa
+  - [ ] Probatu datuen migrazioa (zifratutako datuak badaude)
+  - [ ] Exekutatu segurtasun testak
 
-- [ ] **Si NO hay resultados:**
-  - ✅ No requiere acción
+- [ ] **Emaitzarik EZ badago:**
+  - ✅ Ez da ekintzarik behar
 
 ---
 
-## 📊 Validación de Mejoras
+## 📊 Hobekuntzen Balidazioa
 
-- [ ] **Verificar build speed:**
+- [ ] **Egiaztatu build speed:**
   ```bash
-  # Build con profiling
+  # Build profiling-ekin
   ./gradlew :app:assembleDebug --profile
-  
-  # Ver reporte generado
+
+  # Ikusi sortutako txostena
   open build/reports/profile/profile-*.html
   ```
 
-- [ ] **Comparar tiempos:**
-  - Anotar tiempo de incremental build
-  - Hacer cambio pequeño en código
-  - Re-compilar y comparar (debería ser 30-40% más rápido)
+- [ ] **Konparatu denborak:**
+  - Idatzi incremental build denbora
+  - Egin aldaketa txiki bat kodean
+  - Berriro konpilatu eta konparatu (% 30-40 azkarragoa izan beharko luke)
 
 ---
 
-## 🎯 Verificaciones Finales
+## 🎯 Azken Egiaztapenak
 
-- [ ] **Auto-completion funciona** en Android Studio para:
-  - [ ] Clases anotadas con `@HiltViewModel`
-  - [ ] DAOs de Room (generados por KSP)
+- [ ] **Auto-completion funtzionatzen du** Android Studio-n:
+  - [ ] `@HiltViewModel`-ekin anotatutako klaseak
+  - [ ] Room DAOak (KSP-k sortutakoak)
   - [ ] Inject constructors
 
-- [ ] **No hay errores de compilación** en:
+- [ ] **Ez dago konpilazio akatsik**:
   - [ ] Activities/Fragments
-  - [ ] ViewModels con Hilt
+  - [ ] ViewModels Hilt-ekin
   - [ ] Room DAOs/Entities
   - [ ] Retrofit interfaces
 
-- [ ] **App funciona correctamente:**
-  - [ ] Login/autenticación
-  - [ ] Navegación entre pantallas
-  - [ ] Persistencia de datos (Room)
-  - [ ] Llamadas a API (Retrofit)
-  - [ ] Biometría (si aplica)
+- [ ] **App-a behar bezala funtzionatzen du:**
+  - [ ] Login/autentifikazioa
+  - [ ] Pantailen arteko nabigazioa
+  - [ ] Datuen persistentzia (Room)
+  - [ ] API deiak (Retrofit)
+  - [ ] Biometria (badagokio)
 
 ---
 
-## 📝 Reportar Problemas
+## 📝 Arazoak Jakinarazi
 
-Si encuentras problemas:
+Arazoak aurkitzen badituzu:
 
-1. **Verificar versión de Android Studio:**
+1. **Egiaztatu Android Studio bertsioa:**
    - Help → About
-   - Debe ser **Ladybug (2024.2)** o superior
+   - **Ladybug (2024.2)** edo berriagoa izan behar du
 
-2. **Verificar JDK:**
+2. **Egiaztatu JDK:**
    - File → Project Structure → SDK Location
-   - Debe ser **JDK 17**
+   - **JDK 17** izan behar du
 
-3. **Limpiar y rebuild:**
+3. **Garbitu eta rebuild:**
    ```bash
    ./gradlew clean
    ./gradlew :app:assembleDebug --info
    ```
 
-4. **Revisar logs detallados:**
-   - Build Output en Android Studio
-   - O terminal: `./gradlew :app:assembleDebug --stacktrace`
+4. **Berrikusi log xehatuak:**
+   - Build Output Android Studio-n
+   - Edo terminalean: `./gradlew :app:assembleDebug --stacktrace`
 
-5. **Consultar documentación:**
-   - [MIGRATION_KOTLIN_2.0.md](MIGRATION_KOTLIN_2.0.md) - Guía completa
-   - [UPGRADE_SUMMARY.md](UPGRADE_SUMMARY.md) - Resumen de cambios
-
----
-
-## ✅ ¡Completado!
-
-Si todos los checks están marcados, la migración fue exitosa.
-
-**Próximos pasos:**
-- Continuar desarrollo normal
-- Disfrutar builds más rápidos con KSP
-- Monitorear mejoras en velocidad con `--profile`
+5. **Kontsultatu dokumentazioa:**
+   - [MIGRATION_KOTLIN_2.0.md](MIGRATION_KOTLIN_2.0.md) - Gida osoa
+   - [UPGRADE_SUMMARY.md](UPGRADE_SUMMARY.md) - Aldaketen laburpena
 
 ---
 
-**Última actualización:** 2026-01-23
+## ✅ Amaituta!
+
+Check guztiak markatuta badaude, migrazioa arrakastatsua izan da.
+
+**Hurrengo urratsak:**
+- Jarraitu garapen normalarekin
+- Gozatu KSP-rekin build azkarragoekin
+- Monitorizatu abiaduraren hobekuntzak `--profile`-rekin
+
+---
+
+**Azken eguneraketa:** 2026-01-23

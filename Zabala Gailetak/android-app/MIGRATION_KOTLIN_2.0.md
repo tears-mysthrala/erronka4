@@ -1,39 +1,39 @@
-# Migración a Kotlin 2.0 y Stack Moderno (AGP 9)
+# Migrazioa Kotlin 2.0 eta Stack Modernora (AGP 9)
 
-**Fecha:** 2026-01-23  
-**Stack objetivo:** Gradle 8.10.2 + AGP 8.7.3 + Kotlin 2.0.21 + minSdk 24
+**Data:** 2026-01-23
+**Stack helburua:** Gradle 8.10.2 + AGP 8.7.3 + Kotlin 2.0.21 + minSdk 24
 
-## Cambios Implementados
+## Inplementatutako Aldaketak
 
 ### 1. Toolchain (Gradle/AGP/Kotlin)
 - ✅ **Gradle wrapper**: `8.7` → `8.10.2`
 - ✅ **Android Gradle Plugin (AGP)**: `8.5.2` → `8.7.3`
 - ✅ **Kotlin**: `1.9.24` → `2.0.21`
-- ✅ **JDK**: mantenido en `17` (requisito de AGP 9)
-- ✅ **Compose plugin**: migrado a `org.jetbrains.kotlin.plugin.compose` (Kotlin 2+ oficial)
+- ✅ **JDK**: `17`-n mantenduta (AGP 9 eskakizuna)
+- ✅ **Compose plugin**: `org.jetbrains.kotlin.plugin.compose`-ra migratuta (Kotlin 2+ ofiziala)
 
-### 2. SDK Android
-- ✅ **minSdk**: `26` → `24` (ampliada compatibilidad)
-- ✅ **compileSdk/targetSdk**: `34` → `35` (alineado con Play Store 2026)
+### 2. Android SDK
+- ✅ **minSdk**: `26` → `24` (bateragarritasuna zabalduta)
+- ✅ **compileSdk/targetSdk**: `34` → `35` (Play Store 2026-rekin lerrokatuta)
 
-### 3. Migración KAPT → KSP (velocidad de build)
-- ✅ **KSP plugin**: añadido `2.0.21-1.0.28`
-- ✅ **Room**: migrado de `kapt` → `ksp` (compiler)
-- ✅ **Hilt**: migrado de `kapt` → `ksp` (compiler)
-- ⚡ **Ganancia esperada**: 20-40% reducción en tiempos de compilación incremental
+### 3. KAPT → KSP Migrazioa (build speed)
+- ✅ **KSP plugin**: `2.0.21-1.0.28` gehitua
+- ✅ **Room**: `kapt`-etik → `ksp`-ra migratuta (compiler)
+- ✅ **Hilt**: `kapt`-etik → `ksp`-ra migratuta (compiler)
+- ⚡ **Irabazi esperoa**: % 20-40 murrizketa konpilazio inkrementalean
 
-### 4. Optimizaciones de Build Speed
-Configurado en `gradle.properties`:
-- ✅ **Memory**: 4GB → 6GB JVM heap (`-Xmx6144m`)
-- ✅ **Configuration cache**: activado (AGP 9 lo soporta mejor)
-- ✅ **KSP incremental**: activado
-- ✅ **Parallel GC**: optimizado para builds rápidos
-- ✅ **R8 full mode**: activado para releases más pequeños
+### 4. Build Speed Optimizazioak
+`gradle.properties`-en konfiguratuta:
+- ✅ **Memoria**: 4GB → 6GB JVM heap (`-Xmx6144m`)
+- ✅ **Configuration cache**: aktibatuta (AGP 9-k hobeto onartzen du)
+- ✅ **KSP incremental**: aktibatuta
+- ✅ **Parallel GC**: build azkarretarako optimizatuta
+- ✅ **R8 full mode**: release txikiagoentzat aktibatuta
 
-### 5. Actualización Masiva de Dependencias
+### 5. Mendekotasunen Eguneraketa Masiboa
 
 #### AndroidX Core
-| Dependencia | Antes | Ahora | Notas |
+| Mendekotasuna | Lehenago | Orain | Oharrak |
 |------------|-------|-------|-------|
 | core-ktx | 1.12.0 | 1.15.0 | Stable |
 | appcompat | 1.6.1 | 1.7.0 | Stable |
@@ -42,44 +42,44 @@ Configurado en `gradle.properties`:
 | activity-compose | 1.8.2 | 1.9.3 | Stable |
 
 #### Compose
-| Dependencia | Antes | Ahora | Notas |
+| Mendekotasuna | Lehenago | Orain | Oharrak |
 |------------|-------|-------|-------|
-| Compose BOM | 2024.02.00 | 2024.12.01 | Compatible Kotlin 2.0 |
+| Compose BOM | 2024.02.00 | 2024.12.01 | Kotlin 2.0 bateragarria |
 | navigation-compose | 2.7.7 | 2.8.5 | Stable |
 
-#### Persistencia & Estado
-| Dependencia | Antes | Ahora | Notas |
+#### Persistentzia & Egoera
+| Mendekotasuna | Lehenago | Orain | Oharrak |
 |------------|-------|-------|-------|
-| room | 2.6.1 | 2.6.1 | Sin cambios (última estable) |
+| room | 2.6.1 | 2.6.1 | Aldaketarik gabe (azken stable) |
 | datastore-preferences | 1.0.0 | 1.1.1 | Stable |
 
 #### Networking
-| Dependencia | Antes | Ahora | Notas |
+| Mendekotasuna | Lehenago | Orain | Oharrak |
 |------------|-------|-------|-------|
-| retrofit | 2.9.0 | 2.11.0 | ⚠️ Revisa breaking changes |
-| okhttp | 4.12.0 | 4.12.0 | Sin cambios |
+| retrofit | 2.9.0 | 2.11.0 | ⚠️ Berrikusi breaking changes |
+| okhttp | 4.12.0 | 4.12.0 | Aldaketarik gabe |
 | gson | 2.10.1 | 2.11.0 | Stable |
 
 #### DI & Async
-| Dependencia | Antes | Ahora | Notas |
+| Mendekotasuna | Lehenago | Orain | Oharrak |
 |------------|-------|-------|-------|
-| hilt | 2.51.1 | 2.54 | Con KSP |
+| hilt | 2.51.1 | 2.54 | KSP-rekin |
 | coroutines | 1.7.3 | 1.9.0 | Stable |
 
-#### Seguridad & Auth
-| Dependencia | Antes | Ahora | Notas |
+#### Segurtasuna & Auth
+| Mendekotasuna | Lehenago | Orain | Oharrak |
 |------------|-------|-------|-------|
 | credentials | 1.2.2 | 1.5.0 | Stable |
 | biometric | 1.1.0 | 1.2.0 | Stable |
-| security-crypto | 1.1.0-alpha06 | ❌ ELIMINADO | ⚠️ Ver migración abajo |
+| security-crypto | 1.1.0-alpha06 | ❌ KENDU | ⚠️ Ikusi migrazioa behean |
 
-#### Imagen & UI
-| Dependencia | Antes | Ahora | Notas |
+#### Irudia & UI
+| Mendekotasuna | Lehenago | Orain | Oharrak |
 |------------|-------|-------|-------|
 | coil-compose | 2.5.0 | 2.7.0 | Stable |
 
 #### Testing
-| Dependencia | Antes | Ahora | Notas |
+| Mendekotasuna | Lehenago | Orain | Oharrak |
 |------------|-------|-------|-------|
 | mockito | 5.10.0 | 5.14.2 | Stable |
 | androidx.test.ext:junit | 1.1.5 | 1.2.1 | Stable |
@@ -87,17 +87,17 @@ Configurado en `gradle.properties`:
 
 ---
 
-## ⚠️ ACCIÓN REQUERIDA: Migración de `security-crypto` (DEPRECADO)
+## ⚠️ EKINTZA BEHARREZKOA: `security-crypto` Migrazioa (ZAHARKITUTA)
 
-**Estado:** `androidx.security:security-crypto` está **oficialmente deprecado** por Google y no recibirá más actualizaciones.
+**Egoera:** `androidx.security:security-crypto` Google-k **ofizialki zaharkituta** dago eta ez du eguneraketa gehiagorik jasoko.
 
-### Qué hacer
+### Zer egin
 
-#### Opción 1: Android Keystore + EncryptedSharedPreferences replacement
-Si usabais `EncryptedSharedPreferences` o `EncryptedFile`:
+#### Aukera 1: Android Keystore + EncryptedSharedPreferences ordezkoa
+`EncryptedSharedPreferences` edo `EncryptedFile` erabiltzen bazenu:
 
 ```kotlin
-// ANTES (con security-crypto)
+// LEHENAGO (security-crypto-rekin)
 val masterKey = MasterKey.Builder(context)
     .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
     .build()
@@ -110,7 +110,7 @@ val encryptedPrefs = EncryptedSharedPreferences.create(
     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
 )
 
-// DESPUÉS (con Keystore nativo)
+// ONDOREN (Keystore natiboa)
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import javax.crypto.Cipher
@@ -122,10 +122,10 @@ object KeystoreHelper {
     private const val KEY_ALIAS = "zabala_master_key"
     private const val ANDROID_KEYSTORE = "AndroidKeyStore"
     private const val TRANSFORMATION = "AES/GCM/NoPadding"
-    
+
     fun getOrCreateKey(): SecretKey {
         val keyStore = KeyStore.getInstance(ANDROID_KEYSTORE).apply { load(null) }
-        
+
         if (!keyStore.containsAlias(KEY_ALIAS)) {
             val keyGenerator = KeyGenerator.getInstance(
                 KeyProperties.KEY_ALGORITHM_AES,
@@ -143,10 +143,10 @@ object KeystoreHelper {
             )
             keyGenerator.generateKey()
         }
-        
+
         return keyStore.getKey(KEY_ALIAS, null) as SecretKey
     }
-    
+
     fun encrypt(data: ByteArray): Pair<ByteArray, ByteArray> {
         val cipher = Cipher.getInstance(TRANSFORMATION)
         cipher.init(Cipher.ENCRYPT_MODE, getOrCreateKey())
@@ -154,7 +154,7 @@ object KeystoreHelper {
         val iv = cipher.iv
         return Pair(encrypted, iv)
     }
-    
+
     fun decrypt(encrypted: ByteArray, iv: ByteArray): ByteArray {
         val cipher = Cipher.getInstance(TRANSFORMATION)
         cipher.init(Cipher.DECRYPT_MODE, getOrCreateKey(), GCMParameterSpec(128, iv))
@@ -162,53 +162,53 @@ object KeystoreHelper {
     }
 }
 
-// Uso en DataStore (recomendado para persistencia segura)
+// DataStore-n erabilera (persistentzia seguruarako gomendatua)
 class SecurePreferencesRepository(context: Context) {
     private val dataStore = context.dataStore
-    
+
     suspend fun saveSecureString(key: String, value: String) {
         val (encrypted, iv) = KeystoreHelper.encrypt(value.toByteArray())
         dataStore.edit { prefs ->
-            prefs[stringPreferencesKey("${key}_data")] = 
+            prefs[stringPreferencesKey("${key}_data")] =
                 Base64.encodeToString(encrypted, Base64.NO_WRAP)
-            prefs[stringPreferencesKey("${key}_iv")] = 
+            prefs[stringPreferencesKey("${key}_iv")] =
                 Base64.encodeToString(iv, Base64.NO_WRAP)
         }
     }
-    
+
     suspend fun getSecureString(key: String): String? {
         val prefs = dataStore.data.first()
         val encryptedStr = prefs[stringPreferencesKey("${key}_data")] ?: return null
         val ivStr = prefs[stringPreferencesKey("${key}_iv")] ?: return null
-        
+
         val encrypted = Base64.decode(encryptedStr, Base64.NO_WRAP)
         val iv = Base64.decode(ivStr, Base64.NO_WRAP)
-        
+
         return String(KeystoreHelper.decrypt(encrypted, iv))
     }
 }
 ```
 
-#### Opción 2: Si solo necesitabais almacenar tokens/credenciales
-Usar `androidx.credentials:credentials` (ya actualizado a 1.5.0):
+#### Aukera 2: Token-ak/kredentzialak bakarrik gorde behar badituzu
+Erabili `androidx.credentials:credentials` (dagoeneko 1.5.0-ra eguneratua):
 
 ```kotlin
-// Para tokens de autenticación
+// Autentifikazio tokenetarako
 val credentialManager = CredentialManager.create(context)
 
-// Guardar
+// Gorde
 val credential = PasswordCredential("username", "token")
 credentialManager.saveCredential(SavePasswordRequest(credential))
 
-// Recuperar
+// Berreskuratu
 val getCredRequest = GetCredentialRequest(
     listOf(GetPasswordOption())
 )
 val result = credentialManager.getCredential(context, getCredRequest)
 ```
 
-### Archivos a revisar
-Buscar en el código fuente:
+### Berrikusteko fitxategiak
+Bilatu iturburu kodean:
 ```bash
 cd /home/kalista/erronkak/erronka4/Zabala\ Gailetak/android-app
 grep -r "security-crypto" app/src/
@@ -219,61 +219,61 @@ grep -r "MasterKey" app/src/
 
 ---
 
-## Pasos Post-Migración
+## Migrazio Ondorengo Urratsak
 
-### 1. Sync y Build Inicial
+### 1. Sync eta Build Hasiera
 ```bash
 cd /home/kalista/erronkak/erronka4/Zabala\ Gailetak/android-app
 
-# Actualizar wrapper si no se recoge automáticamente
+# Eguneratu wrapper automatikoki hartzen ez bada
 ./gradlew wrapper --gradle-version=8.10.2
 
-# Limpiar build anterior
+# Garbitu aurreko build-a
 ./gradlew clean
 
-# Build inicial (puede tardar por descarga de nuevas dependencias)
+# Hasierako build-a (mendekotasun berriak deskargatzeko denbora hartu dezake)
 ./gradlew :app:assembleDebug
 ```
 
-**Notas:**
-- Primera compilación será lenta (descarga AGP 9, Kotlin 2.0.21, nuevas libs)
-- Configuration cache puede mostrar warnings en primera ejecución (esperado)
-- KSP genera código en `build/generated/ksp/` (nuevo path vs kapt)
+**Oharrak:**
+- Lehen konpilazioa motela izango da (AGP 9, Kotlin 2.0.21, lib berriak deskargatu)
+- Configuration cache-k abisuak erakutsi ditzake lehen exekuzioan (espero dena)
+- KSP-k `build/generated/ksp/`-n kodea sortzen du (kapt-eko path berria)
 
-### 2. Verificar Generación de Código KSP
+### 2. KSP Kode Sortzea Egiaztatu
 ```bash
-# Debe existir código generado para Hilt y Room
+# Hilt eta Room-erako sortutako kodea egon behar du
 ls -la app/build/generated/ksp/debug/kotlin/
 
-# Verificar que Hilt genera componentes
+# Egiaztatu Hilt-ek osagaiak sortzen dituela
 find app/build/generated/ksp -name "*_HiltComponents*"
 
-# Verificar que Room genera DAOs
+# Egiaztatu Room-ek DAOak sortzen dituela
 find app/build/generated/ksp -name "*_Impl.kt"
 ```
 
-### 3. Ejecutar Tests
+### 3. Exekutatu Testak
 ```bash
-# Unit tests
+# Unit testak
 ./gradlew :app:testDebugUnitTest
 
-# UI tests (si hay emulador/dispositivo)
+# UI testak (emuladorea/gailua badago)
 ./gradlew :app:connectedDebugAndroidTest
 ```
 
-### 4. Validar en Android Studio
-1. **File → Invalidate Caches / Restart** (recomendado después de cambio grande)
+### 4. Android Studio-n Balidatu
+1. **File → Invalidate Caches / Restart** (aldaketa handi baten ondoren gomendatua)
 2. **Build → Rebuild Project**
-3. Verificar que no hay errores de sincronización en "Build" tab
-4. Comprobar que auto-completion funciona en clases anotadas con Hilt/Room
+3. Egiaztatu ez dagoela sinkronizazio akatsik "Build" fitxan
+4. Egiaztatu auto-completion funtzionatzen duela Hilt/Room-ekin anotatutako klaseetan
 
-### 5. Testing en Dispositivos minSdk 24
-Como ahora soportamos **API 24 (Android 7.0)**:
-- Probar en emulador con API 24 para detectar problemas de compatibilidad
-- Si usáis APIs Java 8+ (Stream, Optional, Time, etc.), puede que necesitéis **coreLibraryDesugaring**:
+### 5. minSdk 24 Gailuetan Probatu
+Orain **API 24 (Android 7.0)** onartzen dugunez:
+- Probatu API 24 emuladorean bateragarritasun arazoak detektatzeko
+- Java 8+ API-ak erabiltzen badituzu (Stream, Optional, Time, etab.), agian **coreLibraryDesugaring** beharko duzu:
 
 ```kotlin
-// En app/build.gradle.kts, si aparecen errores de API Java moderna
+// app/build.gradle.kts-en, Java API modernoko erroreak agertzen badira
 android {
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
@@ -287,33 +287,33 @@ dependencies {
 
 ---
 
-## Breaking Changes Potenciales
+## Breaking Change Potentzialak
 
 ### Retrofit 2.9 → 2.11
-- **Call adapters**: Si usabais adapters personalizados, revisar API (normalmente no hay cambios)
-- **Converter factories**: Gson converter es compatible
+- **Call adapters**: Adapter pertsonalizatuak erabiltzen badituzu, berrikusi API-a (normalean ez dago aldaketarik)
+- **Converter factories**: Gson converter bateragarria da
 
-### OkHttp (sin cambios de versión)
-- Mantenido en 4.12.0 (no hay breaking changes)
+### OkHttp (bertsio aldaketarik gabe)
+- 4.12.0-n mantenduta (ez dago breaking changes)
 
 ### Coroutines 1.7 → 1.9
-- **Flows**: comportamiento más estricto con cancellation (generalmente mejor)
-- **TestDispatchers**: API de testing puede tener cambios menores
+- **Flows**: bertan behera utzearekin jokabide zorrotzagoa (orokorrean hobea)
+- **TestDispatchers**: testing API-ak aldaketa txikiak izan ditzake
 
 ### Compose BOM 2024.02 → 2024.12
-- **Material3**: nuevos componentes disponibles (DatePicker, TimeInput, etc.)
-- **Navigation**: `NavBackStackEntry.savedStateHandle` más robusto
+- **Material3**: osagai berriak eskuragarri (DatePicker, TimeInput, etab.)
+- **Navigation**: `NavBackStackEntry.savedStateHandle` sendoagoa
 
-### Hilt con KSP
-- **Generación de código**: path cambia de `build/generated/source/kapt` → `build/generated/ksp`
-- **Incremental builds**: KSP es más rápido pero puede requerir clean si hay problemas iniciales
-- **Logging**: errores de KSP aparecen en formato diferente (generalmente más claro)
+### Hilt KSP-rekin
+- **Kode sorkuntza**: path-a `build/generated/source/kapt`-etik → `build/generated/ksp`-ra aldatzen da
+- **Incremental builds**: KSP azkarragoa da baina hasierako arazoak badaude clean behar izan dezake
+- **Logging**: KSP erroreak formatu desberdinean agertzen dira (normalean argiago)
 
 ---
 
-## Rollback Plan
+## Rollback Plana
 
-Si hay problemas críticos, revertir a estado anterior:
+Arazo kritikoak badaude, itzuli aurreko egoerara:
 
 ```bash
 git checkout HEAD~1 -- gradle/wrapper/gradle-wrapper.properties
@@ -327,23 +327,23 @@ git checkout HEAD~1 -- gradle.properties
 
 ---
 
-## Métricas Esperadas
+## Espero diren Metrikak
 
-### Build Times (estimación)
-- **Clean build**: +10-15% más lento inicialmente (AGP 9 + Kotlin 2.0 overhead)
-- **Incremental build** (con KSP): **30-40% más rápido** vs KAPT
-- **Configuration cache hit**: **hasta 50% más rápido** en re-builds sin cambios
+### Build Times (estimazioa)
+- **Clean build**: hasieran % 10-15 motelago (AGP 9 + Kotlin 2.0 overhead)
+- **Incremental build** (KSP-rekin): **% 30-40 azkarragoa** KAPT-ekiko
+- **Configuration cache hit**: **% 50 arte azkarragoa** aldaketarik gabeko re-build-etan
 
-### APK Size
-- **R8 full mode**: 5-10% reducción esperada en release
-- **Compose**: sin cambios significativos
+### APK Tamaina
+- **R8 full mode**: espero den % 5-10 murrizketa release-an
+- **Compose**: aldaketa esanguratsurik gabe
 
-### Compatibilidad
-- **Dispositivos adicionales**: ~5% más usuarios alcanzables con minSdk 24
+### Bateragarritasuna
+- **Gailu gehigarriak**: % 5 bat erabiltzaile gehiago eskuragarri minSdk 24-rekin
 
 ---
 
-## Recursos y Referencias
+## Baliabideak eta Erreferentziak
 
 - [AGP 9.0.0 Release Notes](https://developer.android.com/studio/releases/gradle-plugin)
 - [Kotlin 2.0 Release](https://kotlinlang.org/docs/whatsnew20.html)
@@ -354,11 +354,11 @@ git checkout HEAD~1 -- gradle.properties
 
 ---
 
-## Contacto y Soporte
+## Kontaktua eta Laguntza
 
-Para dudas sobre esta migración:
-- Revisar issues de build en Android Studio Build Output
-- Consultar logs de Gradle con `--info` o `--debug` flags
-- Documentación del proyecto: [AGENTS.md](../AGENTS.md)
+Migrazio honen gaineko zalantzak:
+- Berrikusi build issue-ak Android Studio Build Output-en
+- Kontsultatu Gradle log-ak `--info` edo `--debug` flags-ekin
+- Proiektuaren dokumentazioa: [AGENTS.md](../AGENTS.md)
 
-**Última actualización:** 2026-01-23
+**Azken eguneraketa:** 2026-01-23

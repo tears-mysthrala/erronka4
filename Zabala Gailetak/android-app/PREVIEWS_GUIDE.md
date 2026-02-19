@@ -1,79 +1,79 @@
-# 📱 Android Studio Preview Guide
+# 📱 Android Studio Preview Gida
 
-## ¿Qué son los Previews?
+## Zer dira Preview-ak?
 
-Los **Previews** en Jetpack Compose te permiten visualizar tus componentes en tiempo de diseño sin necesidad de ejecutar la aplicación. Es una forma rápida y eficiente de desarrollar y probar la UI.
+Jetpack Compose-ko **Preview-ek** zure osagaiak diseinuaren denboran bistaratzeko aukera ematen dizute aplikazioa exekutatu gabe. UI garatzeko eta probatzeko modu azkar eta eraginkorra da.
 
-## 📍 Dónde están los Previews
+## 📍 Non daude Preview-ak
 
-Hemos configurado previews en los siguientes pantallas:
+Preview-ak pantaila hauetan konfiguratu ditugu:
 
-### 🔐 Authentication
+### 🔐 Autentifikazioa
 - **LoginScreen.kt**
-  - `LoginPreview` - Estado normal
-  - `LoginPreviewLoading` - Estado de carga
-  - `LoginPreviewError` - Con mensaje de error
+  - `LoginPreview` - Egoera normala
+  - `LoginPreviewLoading` - Karga egoera
+  - `LoginPreviewError` - Errore mezuarekin
 
 ### 📊 Dashboard
 - **DashboardScreen.kt**
-  - `DashboardScreenPreview` - Vista principal del dashboard
+  - `DashboardScreenPreview` - Dashboard-aren ikuspegi nagusia
 
-### 📄 Documents
+### 📄 Dokumentuak
 - **DocumentsScreen.kt**
-  - `DocumentsScreenPreview` - Lista de documentos
+  - `DocumentsScreenPreview` - Dokumentu zerrenda
 
-### 💰 Payslips (Nóminas)
+### 💰 Payslips (Nominak)
 - **PayslipsScreen.kt**
-  - `PayslipsScreenPreview` - Vista predeterminada
-  - `PayslipsScreenEmptyPreview` - Estado vacío
+  - `PayslipsScreenPreview` - Ikuspegi lehenetsia
+  - `PayslipsScreenEmptyPreview` - Egoera hutsa
 
-### 👤 Profile
+### 👤 Profila
 - **ProfileScreen.kt**
-  - `ProfileScreenPreview` - Pantalla de perfil
+  - `ProfileScreenPreview` - Profil pantaila
 
-### 🏖️ Vacation (Vacaciones)
+### 🏖️ Vacation (Oporrak)
 - **VacationDashboardScreen.kt**
-  - `VacationDashboardScreenPreview` - Dashboard de vacaciones
+  - `VacationDashboardScreenPreview` - Oporretako dashboard-a
 
 - **NewVacationRequestScreen.kt**
-  - `NewVacationRequestScreenPreview` - Formulario de solicitud
-  - `NewVacationRequestScreenErrorPreview` - Formulario con error
+  - `NewVacationRequestScreenPreview` - Eskaera formularioa
+  - `NewVacationRequestScreenErrorPreview` - Errorearekin formularioa
 
-## 🚀 Cómo usar los Previews en Android Studio
+## 🚀 Nola erabili Preview-ak Android Studio-n
 
-### Opción 1: Panel Preview integrado
-1. Abre cualquier archivo `.kt` que contenga `@Preview`
-2. Haz clic en el botón **Preview** en la parte derecha del editor
-3. Se abrirá un panel con la visualización del componente
-4. Los cambios en el código se reflejan en tiempo real
+### Aukera 1: Integratutako Preview panela
+1. Ireki `@Preview` duen edozein `.kt` fitxategi
+2. Egin klik editorearen eskuineko aldeko **Preview** botoian
+3. Osagaiaren bistaratzea duen panel bat irekiko da
+4. Kodeko aldaketak denbora errealean islatuko dira
 
-### Opción 2: Gutter Icons
-1. Busca el icono de **vista previa** (pequeño teléfono) en el margen izquierdo
-2. Haz clic en él para abrir la vista previa en el panel
+### Aukera 2: Gutter Icons
+1. Bilatu **aurrebistaren** ikonoa (telefono txikia) ezkerreko ertzean
+2. Egin klik preview-a panelean irekitzeko
 
-### Opción 3: Split View
-1. Ve a **View** > **Split Editor** en el menú superior
-2. Abre el archivo `.kt` con previews
-3. Verás el código a la izquierda y la vista previa a la derecha
+### Aukera 3: Split View
+1. Joan **View** > **Split Editor** goiko menuan
+2. Ireki preview-ak dituen fitxategia
+3. Kodea ezkerrean eta aurrebista eskuinean ikusiko dituzu
 
-## 🎨 Características de los Previews
+## 🎨 Preview-en Ezaugarriak
 
-- ✅ Múltiples variantes (estados diferentes)
-- ✅ Fondo de pantalla habilitado para mejor visualización
-- ✅ Tema configurado correctamente (ZabalaGaileTakHRTheme)
-- ✅ Datos simulados (mock data) para pruebas
-- ✅ Nombres descriptivos para identificar cada variante
+- ✅ Aldaera anitzak (egoera desberdinak)
+- ✅ Pantaila-atzeko planoa gaituta bistaratzea hobetzeko
+- ✅ Gaia behar bezala konfiguratua (ZabalaGaileTakHRTheme)
+- ✅ Probetarako datu simulatuak (mock data)
+- ✅ Izen deskribatzaileak aldaera bakoitza identifikatzeko
 
-## ⚙️ Configuración del tema
+## ⚙️ Gaiaren Konfigurazioa
 
-Todos los previews utilizan el tema **ZabalaGaileTakHRTheme**, que incluye:
-- Colores personalizados de Zabala Gailetak
-- Tipografía coherente
-- Tema oscuro/claro automático según la configuración del dispositivo
+Preview guztiek **ZabalaGaileTakHRTheme** gaia erabiltzen dute, hauek barne hartzen dituena:
+- Zabala Gailetak-en kolore pertsonalizatuak
+- Tipografia koherentea
+- Gailuaren konfigurazioarekiko gai ilun/argi automatikoa
 
-## 📱 Tipos de Preview
+## 📱 Preview Motak
 
-### Preview Simple
+### Preview Sinplea
 ```kotlin
 @Preview(showBackground = true)
 @Composable
@@ -84,7 +84,7 @@ fun MyComponentPreview() {
 }
 ```
 
-### Preview Múltiple (variantes)
+### Preview Anitza (aldaerak)
 ```kotlin
 @Preview(showBackground = true, name = "Light")
 @Composable
@@ -95,33 +95,33 @@ fun MyComponentLightPreview() { ... }
 fun MyComponentDarkPreview() { ... }
 ```
 
-## 🔍 Tips útiles
+## 🔍 Aholku erabilgarriak
 
-1. **Actualizar previews**: Si no ves cambios, presiona `Ctrl+Alt+B` (o `Cmd+Option+B` en Mac) para reconstruir
-2. **Zoom**: Usa la rueda del ratón para hacer zoom en la vista previa
-3. **Inspeccionar**: Pasa el cursor sobre elementos para ver detalles de padding, tamaño, etc.
-4. **Interactividad limitada**: Los previews son estáticos, no permiten clicks (usa el emulador para pruebas interactivas)
+1. **Preview-ak eguneratu**: Aldaketak ikusten ez badituzu, sakatu `Ctrl+Alt+B` (edo `Cmd+Option+B` Mac-en) berreraikitzeko
+2. **Zoom**: Erabili saguaren gurpila zoom egiteko preview-an
+3. **Aztertu**: Pasatu kurtsorea elementuen gainetik padding, tamaina, etab. xehetasunak ikusteko
+4. **Interaktibitaterako mugatua**: Preview-ak estatikoak dira, ez dute klik-ik onartzen (erabili emuladorea proba interaktiboetarako)
 
-## 🚨 Solución de problemas
+## 🚨 Arazo-konponketa
 
-### El preview no aparece
-- Asegúrate de que el archivo está guardado
-- Reconstruye el proyecto: **Build** > **Rebuild Project**
-- Comprueba que la función tiene `@Preview` y `@Composable`
+### Preview-a ez da agertzen
+- Ziurtatu fitxategia gordeta dagoela
+- Berreraikitu proiektua: **Build** > **Rebuild Project**
+- Egiaztatu funtzioak `@Preview` eta `@Composable` dituela
 
-### Error de compilación
-- Verifica que importaste `androidx.compose.ui.tooling.preview.Preview`
-- Comprueba que el tema `ZabalaGaileTakHRTheme` existe
+### Konpilazio errorea
+- Egiaztatu `androidx.compose.ui.tooling.preview.Preview` inportatu duzula
+- Egiaztatu `ZabalaGaileTakHRTheme` gaia existitzen dela
 
-### Preview muy lento
-- Desactiva la actualización en tiempo real en las opciones del panel
-- Reduce la complejidad del componente para pruebas rápidas
+### Preview oso motela
+- Desaktibatu denbora errealeko eguneraketa panelaren aukeretan
+- Murriztu osagaiaren konplexutasuna proba azkarretarako
 
-## 📚 Referencias
+## 📚 Erreferentziak
 
 - [Android Compose Preview Documentation](https://developer.android.com/jetpack/compose/tooling/previews)
 - [Jetpack Compose Best Practices](https://developer.android.com/jetpack/compose/hands-on)
 
 ---
 
-**¡Disfruta del desarrollo rápido con Previews! 🎉**
+**Gozatu garapen azkarrarekin Preview-ekin! 🎉**
