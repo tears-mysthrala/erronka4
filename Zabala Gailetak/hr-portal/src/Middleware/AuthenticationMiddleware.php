@@ -56,10 +56,15 @@ class AuthenticationMiddleware
 
         // Obtener header Authorization
         $authHeader = $request->getHeaderLine('Authorization');
+        
+        // Debug logging for InfinityFree issues
+        error_log("[AUTH] Request to $path - Auth header: " . (empty($authHeader) ? 'EMPTY' : 'PRESENT'));
 
         if (empty($authHeader)) {
+            error_log("[AUTH] Returning 401 for $path - No Authorization header");
             return Response::json([
-                'error' => 'Token de autenticación requerido'
+                'error' => 'Token de autenticación requerido',
+                'debug' => 'No Authorization header received'
             ], 401);
         }
 
@@ -68,6 +73,7 @@ class AuthenticationMiddleware
             $token = $this->tokenManager->extractTokenFromHeader($authHeader);
 
             if ($token === null) {
+                error_log("[AUTH] Returning 401 for $path - Invalid token format");
                 return Response::json([
                     'error' => 'Formato de token inválido'
                 ], 401);

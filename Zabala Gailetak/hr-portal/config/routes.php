@@ -134,6 +134,26 @@ $router->get('/api/health', function (Request $request): Response {
     ]);
 });
 
+// API Headers Diagnostic (Debug - remove in production)
+$router->get('/api/test/headers', function (Request $request): Response {
+    $headers = [];
+    foreach ($_SERVER as $key => $value) {
+        if (str_starts_with($key, 'HTTP_') || str_starts_with($key, 'REDIRECT_')) {
+            $headers[$key] = $value;
+        }
+    }
+    
+    return Response::json([
+        'status' => 'debug',
+        'message' => 'Headers diagnostic',
+        'has_auth_header' => $request->hasHeader('Authorization'),
+        'auth_header' => $request->getHeaderLine('Authorization') ? 'present' : 'missing',
+        'all_headers' => $headers,
+        'request_uri' => $request->getUri(),
+        'request_method' => $request->getMethod()
+    ]);
+});
+
 // Database Connection Test (Diagnostic)
 $router->get('/api/test/db', function (Request $request) use ($db): Response {
     try {

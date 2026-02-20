@@ -7,9 +7,18 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
-# Handle Authorization Header
+# Handle Authorization Header - Critical for JWT Bearer tokens
+# Try multiple ways to ensure Authorization header reaches PHP
+RewriteCond %{HTTP:Authorization} ^(.*)
+RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+
+# Additional fallback for various server configurations
 RewriteCond %{HTTP:Authorization} .
 RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# For CGI/FastCGI environments
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=REDIRECT_HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
 # Redirect all requests to index.php
 RewriteCond %{REQUEST_FILENAME} !-f
