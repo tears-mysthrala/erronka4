@@ -29,6 +29,7 @@ import com.zabalagailetak.hrapp.presentation.payslips.PayslipDetailScreen
 import com.zabalagailetak.hrapp.presentation.profile.ProfileScreen
 import com.zabalagailetak.hrapp.presentation.vacation.VacationDashboardScreen
 import com.zabalagailetak.hrapp.presentation.vacation.NewVacationRequestScreen
+import com.zabalagailetak.hrapp.presentation.vacation.VacationDetailScreen
 
 import androidx.compose.ui.tooling.preview.Preview
 import com.zabalagailetak.hrapp.presentation.ui.theme.ZabalaGaileTakHRTheme
@@ -137,9 +138,12 @@ fun AppNavigation(
             composable(
                 route = Screen.VacationDetail.route,
                 arguments = listOf(navArgument("requestId") { type = NavType.IntType })
-            ) {
-                // TODO: Implement vacation detail screen
-                Text("Vacation Detail Screen")
+            ) { backStackEntry ->
+                val requestId = backStackEntry.arguments?.getInt("requestId") ?: 0
+                VacationDetailScreen(
+                    requestId = requestId,
+                    onNavigateBack = { navController.popBackStack() }
+                )
             }
             
             composable(route = Screen.Payslips.route) {
