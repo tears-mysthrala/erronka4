@@ -9,6 +9,9 @@ declare(strict_types=1);
  * @author Zabala Gailetak
  */
 
+// Set timezone for consistent date handling (Spain/CET)
+date_default_timezone_set('Europe/Madrid');
+
 // Preflight request: return 204 and exit early (for API clients)
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     header('Access-Control-Allow-Origin: https://zabala-gailetak.infinityfreeapp.com');

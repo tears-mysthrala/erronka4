@@ -90,6 +90,11 @@ class Database
                 $pass,
                 array_merge($defaultOptions, $dbConfig['options'] ?? [])
             );
+            
+            // Set timezone for consistent date handling (Europe/Madrid for Spain)
+            // This ensures PHP and MySQL are in sync
+            self::$connection->exec("SET time_zone = '+01:00'");
+            
         } catch (PDOException $e) {
             error_log('Database connection failed: ' . $e->getMessage());
             throw new \RuntimeException('Database connection failed');

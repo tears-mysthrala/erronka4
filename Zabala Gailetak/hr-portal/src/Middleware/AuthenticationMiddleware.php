@@ -9,6 +9,7 @@ use ZabalaGailetak\HrPortal\Auth\SessionManager;
 use ZabalaGailetak\HrPortal\Http\Request;
 use ZabalaGailetak\HrPortal\Http\Response;
 use Exception;
+use Throwable;
 
 /**
  * Authentication Middleware
@@ -100,10 +101,14 @@ class AuthenticationMiddleware
 
             // Continuar con la request
             return $next($request);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
+            // Catch all errors (Exception, Error, etc.) to prevent stack trace leaks
+            error_log('[AuthenticationMiddleware] ' . get_class($e) . ': ' . $e->getMessage());
+            
+            // Return generic 401 for any authentication failure (fail secure)
             return Response::json([
-                'error' => $e->getMessage()
-            ], $e->getCode() ?: 401);
+                'error' => 'Autenticación fallida'
+            ], 401);
         }
     }
 

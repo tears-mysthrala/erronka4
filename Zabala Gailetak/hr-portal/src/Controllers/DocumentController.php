@@ -381,6 +381,10 @@ class DocumentController
         }
 
         $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        
+        // Sanitize extension: allow only alphanumeric characters
+        $extension = preg_replace('/[^a-z0-9]/', '', $extension);
+        
         if (!in_array($extension, self::ALLOWED_TYPES)) {
             return Response::json([
                 'error' => 'File type not allowed. Allowed types: ' . implode(', ', self::ALLOWED_TYPES)
