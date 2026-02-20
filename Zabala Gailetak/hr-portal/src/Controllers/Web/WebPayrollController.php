@@ -25,10 +25,19 @@ class WebPayrollController
      */
     private function getUser(Request $request): ?array
     {
-        // First check session (web login)
-        $user = $_SESSION['user'] ?? null;
-        if ($user) {
-            return $user;
+        // First check session (web login) - supports both array and individual keys
+        if (isset($_SESSION['user']) && is_array($_SESSION['user'])) {
+            return $_SESSION['user'];
+        }
+        
+        // Check individual session keys (set by WebAuthController)
+        if (isset($_SESSION['user_id'])) {
+            return [
+                'id' => $_SESSION['user_id'],
+                'email' => $_SESSION['user_email'] ?? '',
+                'role' => $_SESSION['user_role'] ?? 'employee',
+                'name' => $_SESSION['user_name'] ?? ''
+            ];
         }
         
         // Then check JWT (API login via request attribute set by AuthenticationMiddleware)
