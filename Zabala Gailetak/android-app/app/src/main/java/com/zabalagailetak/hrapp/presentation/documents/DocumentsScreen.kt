@@ -19,17 +19,36 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.zabalagailetak.hrapp.domain.model.Document
 import com.zabalagailetak.hrapp.domain.model.DocumentCategory
-import com.zabalagailetak.hrapp.presentation.ui.theme.*
 
 /**
  * Documents Screen - Display employee documents with real data
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DocumentsScreen(
     viewModel: DocumentsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    
+    LaunchedEffect(Unit) {
+        viewModel.loadDocuments()
+    }
+
+    DocumentsContent(
+        uiState = uiState,
+        onRefresh = { viewModel.refresh() },
+        onSelectTab = { viewModel.selectTab(it) },
+        onDownload = { viewModel.downloadDocument(it) }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DocumentsContent(
+    uiState: DocumentsUiState,
+    onRefresh: () -> Unit,
+    onSelectTab: (Int) -> Unit,
+    onDownload: (Int) -> Unit
+) {
     val tabs = listOf("Nire dokumentuak", "Publikoak")
     
     Scaffold(
@@ -37,12 +56,12 @@ fun DocumentsScreen(
             TopAppBar(
                 title = { Text("Dokumentuak") },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = PrimaryBlue,
+                    containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = Color.White
                 ),
                 actions = {
                     IconButton(
-                        onClick = { viewModel.refresh() },
+                        onClick = onRefresh,
                         enabled = !uiState.isLoading
                     ) {
                         if (uiState.isLoading) {
@@ -69,48 +88,16 @@ fun DocumentsScreen(
                 .background(MaterialTheme.colorScheme.background)
                 .padding(paddingValues)
         ) {
-            // Error message
-            uiState.error?.let { error ->
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = ErrorRed.copy(alpha = 0.1f)
-                    )
-                ) {
-                    Row(
-                        modifier = Modifier.padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            Icons.Default.Error,
-                            contentDescription = null,
-                            tint = ErrorRed
-                        )
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Text(
-                            text = error,
-                            color = ErrorRed,
-                            modifier = Modifier.weight(1f)
-                        )
-                        TextButton(onClick = { viewModel.refresh() }) {
-                            Text("Saiatu berriro")
-                        }
-                    }
-                }
-            }
-            
             // Tab row
             TabRow(
                 selectedTabIndex = uiState.selectedTab,
                 containerColor = MaterialTheme.colorScheme.surface,
-                contentColor = PrimaryBlue
+                contentColor = MaterialTheme.colorScheme.primary
             ) {
                 tabs.forEachIndexed { index, title ->
                     Tab(
                         selected = uiState.selectedTab == index,
-                        onClick = { viewModel.selectTab(index) },
+                        onClick = { onSelectTab(index) },
                         text = {
                             Text(
                                 text = title,
@@ -123,36 +110,94 @@ fun DocumentsScreen(
             }
             
             // Content
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 20.dp, vertical = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                val documents = if (uiState.selectedTab == 0) uiState.myDocuments else uiState.publicDocuments
-                
-                if (uiState.isLoading && documents.isEmpty()) {
-                    item {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(32.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            CircularProgressIndicator()
+            when {
+                uiState.isLoading && (uiState.myDocuments.isEmpty() && uiState.publicDocuments.isEmpty()) -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
+                uiState.error != null -> {
+                    ErrorState(
+                        error = uiState.error!!,
+                        onRetry = onRefresh
+                    )
+                }
+                else -> {
+                    val documents = if (uiState.selectedTab == 0) uiState.myDocuments else uiState.publicDocuments
+                    
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 20.dp, vertical = 16.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        if (documents.isEmpty()) {
+                            item {
+                                EmptyDocumentsState()
+                            }
+                        } else {
+                            items(documents) { document ->
+                                DocumentCard(
+                                    document = document,
+                                    onDownload = { onDownload(document.id) }
+                                )
+                            }
                         }
                     }
-                } else if (documents.isEmpty()) {
-                    item {
-                        EmptyDocumentsState()
-                    }
-                } else {
-                    items(documents) { document ->
-                        DocumentCard(
-                            document = document,
-                            onDownload = { viewModel.downloadDocument(document.id) }
-                        )
-                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ErrorState(
+    error: String,
+    onRetry: () -> Unit
+) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Card(
+            modifier = Modifier.padding(20.dp),
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.errorContainer
+            )
+        ) {
+            Column(
+                modifier = Modifier.padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Error,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.size(48.dp)
+                )
+                
+                Spacer(modifier = Modifier.height(16.dp))
+                
+                Text(
+                    text = error,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onErrorContainer,
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                )
+                
+                Spacer(modifier = Modifier.height(16.dp))
+                
+                Button(
+                    onClick = onRetry,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.error
+                    )
+                ) {
+                    Text("Saiatu berriro")
                 }
             }
         }
@@ -236,7 +281,7 @@ fun DocumentCard(
                 Icon(
                     imageVector = Icons.Default.Download,
                     contentDescription = "Deskargatu",
-                    tint = PrimaryBlue
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
         }

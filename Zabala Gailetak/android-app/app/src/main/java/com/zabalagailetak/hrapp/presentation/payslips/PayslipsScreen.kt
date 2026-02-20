@@ -20,14 +20,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.zabalagailetak.hrapp.domain.model.Payslip
-import com.zabalagailetak.hrapp.presentation.ui.theme.*
 import java.text.NumberFormat
 import java.util.*
 
 /**
  * Payslips Screen - Display employee payslips with real data
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PayslipsScreen(
     onNavigateToDetail: (Int) -> Unit,
@@ -35,17 +33,35 @@ fun PayslipsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     
+    LaunchedEffect(Unit) {
+        viewModel.loadPayslips()
+    }
+
+    PayslipsContent(
+        uiState = uiState,
+        onRefresh = { viewModel.refresh() },
+        onNavigateToDetail = onNavigateToDetail
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PayslipsContent(
+    uiState: PayslipsUiState,
+    onRefresh: () -> Unit,
+    onNavigateToDetail: (Int) -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("Nominak") },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = PrimaryBlue,
+                    containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = Color.White
                 ),
                 actions = {
                     IconButton(
-                        onClick = { viewModel.refresh() },
+                        onClick = onRefresh,
                         enabled = !uiState.isLoading
                     ) {
                         if (uiState.isLoading) {
@@ -66,85 +82,120 @@ fun PayslipsScreen(
             )
         }
     ) { paddingValues ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
-                .padding(paddingValues)
-                .padding(horizontal = 20.dp, vertical = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            // Error message
-            uiState.error?.let { error ->
-                item {
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = CardDefaults.cardColors(
-                            containerColor = ErrorRed.copy(alpha = 0.1f)
-                        )
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(16.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                Icons.Default.Error,
-                                contentDescription = null,
-                                tint = ErrorRed
-                            )
-                            Spacer(modifier = Modifier.width(12.dp))
-                            Text(
-                                text = error,
-                                color = ErrorRed,
-                                modifier = Modifier.weight(1f)
-                            )
-                            TextButton(onClick = { viewModel.refresh() }) {
-                                Text("Saiatu berriro")
-                            }
-                        }
+        when {
+            uiState.isLoading && uiState.payslips.isEmpty() -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
+            uiState.error != null -> {
+                ErrorState(
+                    error = uiState.error!!,
+                    onRetry = onRefresh,
+                    modifier = Modifier.padding(paddingValues)
+                )
+            }
+            uiState.payslips.isEmpty() -> {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                        .padding(horizontal = 20.dp, vertical = 16.dp)
+                ) {
+                    item {
+                        EmptyPayslipsState()
                     }
                 }
             }
-            
-            // Loading state
-            if (uiState.isLoading && uiState.payslips.isEmpty()) {
-                item {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(32.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
+            else -> {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.background)
+                        .padding(paddingValues)
+                        .padding(horizontal = 20.dp, vertical = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    // Summary card with latest payslip
+                    item {
+                        PayslipSummaryCard(latestPayslip = uiState.payslips.firstOrNull())
+                    }
+                    
+                    // Section header
+                    item {
+                        Text(
+                            text = "Nominen historiala",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier.padding(vertical = 8.dp)
+                        )
+                    }
+                    
+                    // Payslips list
+                    items(uiState.payslips) { payslip ->
+                        PayslipCard(
+                            payslip = payslip,
+                            onClick = { onNavigateToDetail(payslip.id) }
+                        )
                     }
                 }
-            } else if (uiState.payslips.isEmpty()) {
-                item {
-                    EmptyPayslipsState()
-                }
-            } else {
-                // Summary card with latest payslip
-                item {
-                    PayslipSummaryCard(latestPayslip = uiState.payslips.firstOrNull())
-                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ErrorState(
+    error: String,
+    onRetry: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Card(
+            modifier = Modifier.padding(20.dp),
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.errorContainer
+            )
+        ) {
+            Column(
+                modifier = Modifier.padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Error,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.size(48.dp)
+                )
                 
-                // Section header
-                item {
-                    Text(
-                        text = "Nominen historiala",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.padding(vertical = 8.dp)
-                    )
-                }
+                Spacer(modifier = Modifier.height(16.dp))
                 
-                // Payslips list
-                items(uiState.payslips) { payslip ->
-                    PayslipCard(
-                        payslip = payslip,
-                        onClick = { onNavigateToDetail(payslip.id) }
+                Text(
+                    text = error,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onErrorContainer,
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                )
+                
+                Spacer(modifier = Modifier.height(16.dp))
+                
+                Button(
+                    onClick = onRetry,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.error
                     )
+                ) {
+                    Text("Saiatu berriro")
                 }
             }
         }
@@ -260,14 +311,14 @@ fun PayslipCard(
         ) {
             Surface(
                 shape = RoundedCornerShape(12.dp),
-                color = SecondaryTeal.copy(alpha = 0.15f),
+                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
                 modifier = Modifier.size(56.dp)
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Icon(
                         imageVector = Icons.Default.Receipt,
                         contentDescription = null,
-                        tint = SecondaryTeal,
+                        tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(28.dp)
                     )
                 }
@@ -289,7 +340,7 @@ fun PayslipCard(
                     text = formatCurrency(payslip.netSalary),
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Bold,
-                    color = SuccessGreen
+                    color = Color(0xFF28A745)
                 )
             }
             
@@ -348,8 +399,13 @@ fun EmptyPayslipsState() {
     }
 }
 
+private fun formatCurrency(amount: Float): String {
+    val format = NumberFormat.getCurrencyInstance(Locale("eu", "ES"))
+    return format.format(amount)
+}
+
 /**
- * Payslip detail screen
+ * Payslip Detail Screen
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -377,7 +433,7 @@ fun PayslipDetailScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = PrimaryBlue,
+                    containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = Color.White,
                     navigationIconContentColor = Color.White
                 ),
@@ -482,7 +538,7 @@ fun PayslipDetailScreen(
                         label = "Bonuak",
                         value = formatCurrency(payslip.bonuses ?: 0f),
                         icon = Icons.Default.Star,
-                        valueColor = SuccessGreen
+                        valueColor = Color(0xFF28A745)
                     )
                 }
                 
@@ -491,7 +547,7 @@ fun PayslipDetailScreen(
                         label = "Gizarte Segurantza",
                         value = "- ${formatCurrency(payslip.socialSecurity)}",
                         icon = Icons.Default.HealthAndSafety,
-                        valueColor = ErrorRed
+                        valueColor = MaterialTheme.colorScheme.error
                     )
                 }
                 
@@ -500,7 +556,7 @@ fun PayslipDetailScreen(
                         label = "IRPF",
                         value = "- ${formatCurrency(payslip.irpf)}",
                         icon = Icons.Default.AccountBalance,
-                        valueColor = ErrorRed
+                        valueColor = MaterialTheme.colorScheme.error
                     )
                 }
                 
@@ -509,7 +565,7 @@ fun PayslipDetailScreen(
                         label = "Beste kenkariak",
                         value = "- ${formatCurrency(payslip.deductions)}",
                         icon = Icons.Default.Remove,
-                        valueColor = ErrorRed
+                        valueColor = MaterialTheme.colorScheme.error
                     )
                 }
             }
@@ -540,7 +596,7 @@ fun PayslipDetailItem(
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = PrimaryBlue,
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(24.dp)
             )
             
@@ -561,9 +617,4 @@ fun PayslipDetailItem(
             )
         }
     }
-}
-
-private fun formatCurrency(amount: Float): String {
-    val format = NumberFormat.getCurrencyInstance(Locale("eu", "ES"))
-    return format.format(amount)
 }
