@@ -1,0 +1,37 @@
+#cloud-config
+autoinstall:
+  version: 1
+  locale: es_ES.UTF-8
+  keyboard:
+    layout: es
+  identity:
+    hostname: zg-ot
+    username: zabala
+    password: $6$rounds=4096$saltsalt$jHjE.KwJRJbEFCvEMk4Gm.E/0ocKq7FJIapn1mLjEVqtZqW8Qeo6nnKVOi1y9nPNZjJxtDpABP9wX5KylMSpj0
+  ssh:
+    install-server: true
+    allow-pw: true
+    authorized-keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBCXuzD1iUrrIQq4SSuvR/z4G1UmJPmgtF9eFUm9PTfx zabala_deploy@proxmox
+  network:
+    version: 2
+    ethernets:
+      ens18:
+        addresses:
+          - 192.168.50.10/24
+        gateway4: 192.168.50.1
+        nameservers:
+          addresses: [8.8.8.8]
+  storage:
+    layout:
+      name: direct
+  packages:
+    - curl
+    - wget
+    - vim
+    - net-tools
+    - qemu-guest-agent
+  late-commands:
+    - echo 'zabala ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/zabala
+    - chmod 440 /target/etc/sudoers.d/zabala
+    - systemctl enable qemu-guest-agent

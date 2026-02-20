@@ -428,15 +428,14 @@ class EmployeeController
 
                 $stmt = $this->db->prepare(
                     'INSERT INTO users (email, password_hash, role) 
-                    VALUES (:email, :password_hash, :role) 
-                    RETURNING id'
+                    VALUES (:email, :password_hash, :role)'
                 );
                 $stmt->execute([
                     'email' => $data['email'],
                     'password_hash' => $passwordHash,
                     'role' => $userRole
                 ]);
-                $userId = $stmt->fetchColumn();
+                $userId = $this->db->lastInsertId();
 
                 // 2. Crear empleado
                 $stmt = $this->db->prepare(
@@ -448,7 +447,7 @@ class EmployeeController
                         :user_id, :first_name, :last_name, :nif, :position,
                         :employee_number, :phone, :address, :city, :postal_code,
                         :country, :hire_date, :department_id, :salary, :bank_account
-                    ) RETURNING id'
+                    )'
                 );
 
                 $employeeNumber = $data['employee_number'] ?? $this->generateEmployeeNumber();
@@ -471,7 +470,7 @@ class EmployeeController
                     'bank_account' => $data['bank_account'] ?? null
                 ]);
 
-                $employeeId = $stmt->fetchColumn();
+                $employeeId = $this->db->lastInsertId();
 
                 $this->db->commit();
 

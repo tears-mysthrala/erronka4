@@ -89,6 +89,30 @@ class Response
         );
     }
 
+    /**
+     * Create a PDF file download response
+     * 
+     * @param string $pdfContent Binary PDF content
+     * @param string $filename Download filename
+     * @param int $statusCode HTTP status code
+     * @return self
+     */
+    public static function pdf(string $pdfContent, string $filename = 'document.pdf', int $statusCode = 200): self
+    {
+        return new self(
+            $pdfContent,
+            $statusCode,
+            [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+                'Content-Length' => (string) strlen($pdfContent),
+                'Cache-Control' => 'no-cache, must-revalidate',
+                'Pragma' => 'no-cache',
+                'Expires' => '0'
+            ]
+        );
+    }
+
     public function getStatusCode(): int
     {
         return $this->statusCode;

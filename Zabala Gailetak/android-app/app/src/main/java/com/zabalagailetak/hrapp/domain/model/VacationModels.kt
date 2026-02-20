@@ -1,11 +1,13 @@
 package com.zabalagailetak.hrapp.domain.model
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import java.time.LocalDate
 
 /**
  * Vacation balance model
  */
+@Keep
 data class VacationBalance(
     @SerializedName("employee_id")
     val employeeId: Int,
@@ -23,6 +25,7 @@ data class VacationBalance(
 /**
  * Vacation request model
  */
+@Keep
 data class VacationRequest(
     val id: Int? = null,
     @SerializedName("employee_id")
@@ -53,6 +56,7 @@ data class VacationRequest(
 /**
  * Employee info for vacation requests
  */
+@Keep
 data class EmployeeInfo(
     val id: Int,
     val name: String,
@@ -64,6 +68,7 @@ data class EmployeeInfo(
 /**
  * Vacation request status
  */
+@Keep
 enum class VacationStatus {
     @SerializedName("PENDING")
     PENDING,
@@ -100,6 +105,7 @@ enum class VacationStatus {
 /**
  * Request for creating a vacation
  */
+@Keep
 data class CreateVacationRequest(
     @SerializedName("start_date")
     val startDate: String,
@@ -111,6 +117,7 @@ data class CreateVacationRequest(
 /**
  * Response for vacation requests list
  */
+@Keep
 data class VacationRequestsResponse(
     val requests: List<VacationRequest>
 )

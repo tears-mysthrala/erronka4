@@ -15,16 +15,31 @@ use ZabalaGailetak\HrPortal\Models\Document;
  */
 class WebDocumentController
 {
-    private const UPLOAD_DIR = __DIR__ . '/../../../storage/documents/';
     private const MAX_FILE_SIZE = 10485760; // 10MB
     private const ALLOWED_TYPES = ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png'];
+    
+    // MIME type whitelist for security
+    private const ALLOWED_MIME_TYPES = [
+        'application/pdf',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'image/jpeg',
+        'image/png'
+    ];
+    
+    // Dynamic upload directory - uses DOCUMENT_ROOT for InfinityFree compatibility
+    private string $uploadDir;
 
     public function __construct(
         private readonly Database $db
     ) {
+        // Use DOCUMENT_ROOT for InfinityFree open_basedir compatibility
+        // This ensures we stay within the htdocs directory
+        $this->uploadDir = ($_SERVER['DOCUMENT_ROOT'] ?? __DIR__ . '/../../../public') . '/storage/documents/';
+        
         // Ensure upload directory exists
-        if (!is_dir(self::UPLOAD_DIR)) {
-            mkdir(self::UPLOAD_DIR, 0755, true);
+        if (!is_dir($this->uploadDir)) {
+            mkdir($this->uploadDir, 0755, true);
         }
     }
 
@@ -175,16 +190,30 @@ class WebDocumentController
             return Response::redirect('/documents/upload');
         }
         
-        // Validate file type
+        // Validate file extension
         $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
         if (!in_array($extension, self::ALLOWED_TYPES)) {
             $_SESSION['flash_error'] = 'Tipo de archivo no permitido / File type not allowed';
             return Response::redirect('/documents/upload');
         }
         
+        // Validate MIME type using finfo (security fix - don't trust client-provided MIME)
+        if (!extension_loaded('fileinfo')) {
+            $_SESSION['flash_error'] = 'Server configuration error: fileinfo extension required';
+            return Response::redirect('/documents/upload');
+        }
+        
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+        $realMimeType = $finfo->file($file['tmp_name']);
+        
+        if (!in_array($realMimeType, self::ALLOWED_MIME_TYPES)) {
+            $_SESSION['flash_error'] = 'Invalid file content type detected / Tipo de archivo inválido detectado';
+            return Response::redirect('/documents/upload');
+        }
+        
         // Generate unique filename
         $filename = uniqid('doc_') . '_' . time() . '.' . $extension;
-        $filePath = self::UPLOAD_DIR . $filename;
+        $filePath = $this->uploadDir . $filename;
         
         // Move uploaded file
         if (!move_uploaded_file($file['tmp_name'], $filePath)) {
@@ -212,7 +241,7 @@ class WebDocumentController
                 $filename,
                 $file['name'],
                 $filePath,
-                $file['type'],
+                $realMimeType, // Use server-detected MIME type
                 $file['size'],
                 $checksum,
                 $data['description'] ?? null,
@@ -223,7 +252,9 @@ class WebDocumentController
             return Response::redirect('/documents');
         } catch (\PDOException $e) {
             // Delete file if database insert fails
-            unlink($filePath);
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
             $_SESSION['flash_error'] = 'Error al guardar en base de datos / Database error: ' . $e->getMessage();
             return Response::redirect('/documents/upload');
         }
@@ -275,7 +306,7 @@ class WebDocumentController
     }
 
     /**
-     * Delete/Archive document
+     * Delete/Archive document with physical file cleanup
      * POST /documents/{id}/delete
      */
     public function delete(Request $request, string $id): Response
@@ -287,10 +318,30 @@ class WebDocumentController
         }
 
         try {
+            // Get document info before archiving (to delete physical file)
+            $stmt = $this->db->prepare('SELECT file_path FROM documents WHERE id = ?');
+            $stmt->execute([$id]);
+            $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+            
+            if (!$row) {
+                $_SESSION['flash_error'] = 'Documento no encontrado / Document not found';
+                return Response::redirect('/documents');
+            }
+            
+            $filePath = $row['file_path'];
+            
+            // Archive the document (soft delete)
             $stmt = $this->db->prepare(
-                'UPDATE documents SET is_archived = TRUE, archived_at = NOW() WHERE id = ?'
+                'UPDATE documents SET is_archived = TRUE, archived_at = NOW(), file_path = NULL WHERE id = ?'
             );
             $stmt->execute([$id]);
+            
+            // Remove physical file to save storage space
+            if ($filePath && file_exists($filePath)) {
+                if (!unlink($filePath)) {
+                    error_log("[DOCUMENT] Failed to delete physical file: $filePath");
+                }
+            }
             
             $_SESSION['flash_success'] = 'Documento archivado / Document archived';
         } catch (\PDOException $e) {

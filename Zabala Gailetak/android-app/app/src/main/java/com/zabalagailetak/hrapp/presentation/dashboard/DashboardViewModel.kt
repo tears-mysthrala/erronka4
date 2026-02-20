@@ -2,6 +2,8 @@ package com.zabalagailetak.hrapp.presentation.dashboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.JsonParseException
+import com.google.gson.JsonSyntaxException
 import com.zabalagailetak.hrapp.data.api.AuthApiService
 import com.zabalagailetak.hrapp.data.api.EmployeeApiService
 import com.zabalagailetak.hrapp.data.api.VacationApiService
@@ -16,6 +18,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
+import java.net.ConnectException
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 /**
@@ -116,11 +123,51 @@ class DashboardViewModel @Inject constructor(
                     )
                 }
             } catch (e: Exception) {
+                val errorMessage = mapExceptionToMessage(e)
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        error = e.message ?: "Errorea datuak kargatzean"
+                        error = errorMessage
                     )
+                }
+            }
+        }
+    }
+
+    /**
+     * Maps exceptions to user-friendly messages in Basque
+     */
+    private fun mapExceptionToMessage(e: Exception): String {
+        return when (e) {
+            is UnknownHostException -> 
+                "Ezin da zerbitzaria aurkitu. Egiaztatu zure konexioa."
+            is ConnectException -> 
+                "Ezin da zerbitzariarekin konektatu. Saiatu berriro geroago."
+            is SocketTimeoutException -> 
+                "Konexioa denboraz kanpo. Zerbitzaria ez dago erabilgarri."
+            is IOException -> 
+                "Sare errorea. Egiaztatu zure konexioa."
+            is HttpException -> {
+                when (e.code()) {
+                    404 -> "APIa ez da aurkitu. Zerbitzaria konfiguratzen ari da."
+                    500, 502, 503 -> "Zerbitzari errorea. Saiatu berriro geroago."
+                    401 -> "Kredentzial okerrak. Egiaztatu zure datuak."
+                    403 -> "Sarbidea ukatua."
+                    else -> "Errorea zerbitzarian (${e.code()})."
+                }
+            }
+            is JsonSyntaxException, is JsonParseException -> 
+                "Zerbitzariaren erantzuna ez da zuzena (JSON). Saiatu berriro geroago."
+            else -> {
+                // Check if it's a JSON parsing error
+                val message = e.message ?: ""
+                when {
+                    message.contains("BEGIN_OBJECT") || 
+                    message.contains("Expected") ||
+                    message.contains("JSON") ||
+                    message.contains("Json") ->
+                        "Zerbitzariaren erantzuna ez da zuzena. APIa konfiguratzen ari da."
+                    else -> "Errorea gertatu da: ${e.message ?: "Saiatu berriro"}"
                 }
             }
         }

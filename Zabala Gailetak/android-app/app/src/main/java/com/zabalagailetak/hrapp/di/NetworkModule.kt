@@ -89,9 +89,13 @@ object NetworkModule {
     // to avoid cyclic injection. Create an AuthApiService from the authRetrofit here.
     @Provides
     @Singleton
-    fun provideRefreshAuthenticator(@Named("authRetrofit") authRetrofit: Retrofit, tokenStore: TokenStore): com.zabalagailetak.hrapp.data.auth.RefreshAuthenticator {
+    fun provideRefreshAuthenticator(
+        @Named("authRetrofit") authRetrofit: Retrofit,
+        tokenStore: TokenStore,
+        sessionManager: com.zabalagailetak.hrapp.data.auth.SessionManager
+    ): com.zabalagailetak.hrapp.data.auth.RefreshAuthenticator {
         val authApi = authRetrofit.create(AuthApiService::class.java)
-        return com.zabalagailetak.hrapp.data.auth.RefreshAuthenticator(authApi, tokenStore)
+        return com.zabalagailetak.hrapp.data.auth.RefreshAuthenticator(authApi, tokenStore, sessionManager)
     }
 
     // API OkHttp client (has AuthInterceptor and Authenticator)

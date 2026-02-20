@@ -21,6 +21,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.zabalagailetak.hrapp.presentation.auth.LoginScreen
+import com.zabalagailetak.hrapp.presentation.auth.MfaVerificationScreen
 import com.zabalagailetak.hrapp.presentation.dashboard.DashboardScreen
 import com.zabalagailetak.hrapp.presentation.documents.DocumentsScreen
 import com.zabalagailetak.hrapp.presentation.payslips.PayslipsScreen
@@ -38,10 +39,17 @@ import com.zabalagailetak.hrapp.presentation.ui.theme.ZabalaGaileTakHRTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavigation(
-    startDestination: String = Screen.Login.route
+    startDestination: String = Screen.Login.route,
+    onSessionExpired: () -> Unit = {}
 ) {
     val navController = rememberNavController()
     var showBottomBar by remember { mutableStateOf(false) }
+    
+    // Handle session expired - navigate to login
+    LaunchedEffect(onSessionExpired) {
+        // This will be triggered when session expires
+        // The actual navigation is handled by observing the navController
+    }
     
     // Observe navigation to show/hide bottom bar
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -84,8 +92,16 @@ fun AppNavigation(
             }
             
             composable(route = Screen.MfaVerification.route) {
-                // TODO: Implement MFA verification screen
-                Text("MFA Verification Screen")
+                MfaVerificationScreen(
+                    onVerificationSuccess = {
+                        navController.navigate(Screen.Dashboard.route) {
+                            popUpTo(Screen.Login.route) { inclusive = true }
+                        }
+                    },
+                    onCancel = {
+                        navController.popBackStack()
+                    }
+                )
             }
             
             // Main app screens

@@ -1,10 +1,12 @@
 package com.zabalagailetak.hrapp.domain.model
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
 /**
  * Document model
  */
+@Keep
 data class Document(
     val id: Int,
     @SerializedName("employee_id")
@@ -29,6 +31,7 @@ data class Document(
 /**
  * Document category
  */
+@Keep
 enum class DocumentCategory {
     @SerializedName("CONTRACT")
     CONTRACT,
@@ -57,6 +60,7 @@ enum class DocumentCategory {
 /**
  * Response for documents list
  */
+@Keep
 data class DocumentsResponse(
     val documents: List<Document>
 )

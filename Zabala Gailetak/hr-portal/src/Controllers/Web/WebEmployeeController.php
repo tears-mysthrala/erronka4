@@ -232,14 +232,14 @@ class WebEmployeeController
 
             // 1. Create User
             $userRole = $data['role'] ?? 'employee';
-            $sql = "INSERT INTO users (email, password_hash, role) VALUES (:email, :password, :role) RETURNING id";
+            $sql = "INSERT INTO users (email, password_hash, role) VALUES (:email, :password, :role)";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([
                 'email' => $data['email'],
                 'password' => password_hash($data['password'], PASSWORD_BCRYPT),
                 'role' => $userRole
             ]);
-            $userId = $stmt->fetchColumn();
+            $userId = $this->db->lastInsertId();
 
             // 2. Create Employee
             $empNum = $this->generateEmployeeNumber();
@@ -250,7 +250,7 @@ class WebEmployeeController
                 ) VALUES (
                     :user_id, :emp_num, :first_name, :last_name, :nif, 
                     :position, :dept_id, :hire_date, :salary, true
-                ) RETURNING id
+                )
             ");
             $stmt->execute([
                 'user_id' => $userId,
@@ -263,7 +263,7 @@ class WebEmployeeController
                 'hire_date' => $data['hire_date'] ?: date('Y-m-d'),
                 'salary' => $data['salary'] ?: 0
             ]);
-            $employeeId = $stmt->fetchColumn();
+            $employeeId = $this->db->lastInsertId();
 
             $this->db->commit();
 

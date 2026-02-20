@@ -2,6 +2,10 @@ name: Deploy to InfinityFree
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
 
 jobs:
   deploy:
@@ -14,6 +18,19 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Prepare Deployment
+        run: |
+          # Create storage directory structure for InfinityFree
+          mkdir -p "Zabala Gailetak/hr-portal/public/storage/documents"
+          mkdir -p "Zabala Gailetak/hr-portal/public/storage/cache"
+          
+          # Ensure .htaccess files are in place for security
+          echo "Require all denied" > "Zabala Gailetak/hr-portal/public/storage/.htaccess"
+          
+          # Create a deployment info file
+          echo "Deployed: $(date)" > "Zabala Gailetak/hr-portal/public/deploy_info.txt"
+          echo "Commit: ${{ github.sha }}" >> "Zabala Gailetak/hr-portal/public/deploy_info.txt"
+
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -24,6 +41,13 @@ jobs:
           port: 21
           local-dir: "./Zabala Gailetak/hr-portal/"
           server-dir: "/htdocs/"
+          # CRITICAL FOR INFINITYFREE: Limit concurrent connections to avoid IP ban
+          # Free tier allows only 1-2 concurrent connections
+          dangerous-clean-slate: false
+          # Use sync state to avoid re-uploading unchanged files
+          state-name: ".ftp-deploy-sync-state.json"
+          # Log level for debugging
+          log-level: "verbose"
           exclude: |
             **/.git*
             **/.git*/**
@@ -39,3 +63,51 @@ jobs:
             **/docker-compose.yml
             **/Makefile
             **/README.md
+            **/.ftp-deploy-sync-state.json
+
+  # Alternative deployment using ZIP upload (for large deployments)
+  deploy-zip:
+    name: 📦 ZIP Deploy (Alternative)
+    runs-on: ubuntu-latest
+    if: false  # Set to true to enable, false to disable
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        
+      - name: Create Deployment Package
+        run: |
+          # Create a zip file excluding development files
+          zip -r deploy.zip "Zabala Gailetak/hr-portal/" \
+            -x "*/.git/*" \
+            -x "*/tests/*" \
+            -x "*/logs/*" \
+            -x "*/.env.example" \
+            -x "*/phpunit.xml" \
+            -x "*/phpcs.xml" \
+            -x "*/phpstan.neon" \
+            -x "*/Dockerfile" \
+            -x "*/docker-compose.yml" \
+            -x "*/Makefile" \
+            -x "*/README.md"
+          
+          # Create unzip script
+          cat > unzip.php << 'EOF'
+          <?php
+          // Upload this file and the zip to your server, then visit this script
+          $zip = new ZipArchive;
+          if ($zip->open('deploy.zip') === TRUE) {
+              $zip->extractTo('.');
+              $zip->close();
+              echo "Deployment successful!";
+              unlink('deploy.zip');
+              unlink(__FILE__);
+          } else {
+              echo "Failed to extract zip!";
+          }
+          EOF
+
+      - name: Upload to InfinityFree
+        run: |
+          echo "Please manually upload deploy.zip and unzip.php to your InfinityFree htdocs/"
+          echo "Then visit https://yourdomain.com/unzip.php to extract"

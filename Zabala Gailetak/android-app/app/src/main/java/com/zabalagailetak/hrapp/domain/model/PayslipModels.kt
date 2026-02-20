@@ -1,10 +1,12 @@
 package com.zabalagailetak.hrapp.domain.model
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
 /**
  * Payslip model
  */
+@Keep
 data class Payslip(
     val id: Int,
     @SerializedName("employee_id")
@@ -47,6 +49,7 @@ data class Payslip(
 /**
  * Response for payslips list
  */
+@Keep
 data class PayslipsResponse(
     val payslips: List<Payslip>
 )

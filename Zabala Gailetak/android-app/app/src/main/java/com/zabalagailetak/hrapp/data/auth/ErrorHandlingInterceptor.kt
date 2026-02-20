@@ -20,6 +20,12 @@ class ErrorHandlingInterceptor : Interceptor {
         val request = chain.request()
         val response = chain.proceed(request)
         
+        // Handle rate limiting (429) before checking body
+        // InfinityFree returns HTML for rate limit errors
+        if (response.code == 429) {
+            throw RateLimitException("Eskaera gehiegi. Saiatu berriro minutu batean. / Too many requests. Please try again in a minute.")
+        }
+        
         // If response is successful and is JSON, return as-is
         if (response.isSuccessful) {
             val contentType = response.body?.contentType()?.toString() ?: ""
@@ -34,6 +40,10 @@ class ErrorHandlingInterceptor : Interceptor {
         val bodyString = response.body?.string() ?: ""
         
         return when {
+            // Handle rate limiting detected in HTML response
+            response.code == 429 || bodyString.contains("rate limit") || bodyString.contains("too many requests") -> {
+                throw RateLimitException("Eskaera gehiegi. Saiatu berriro minutu batean. / Too many requests. Please try again in a minute.")
+            }
             // If it's HTML, convert to JSON error
             contentType.contains("text/html") || bodyString.trim().startsWith("<") -> {
                 createJsonErrorResponse(response, bodyString)
@@ -60,6 +70,7 @@ class ErrorHandlingInterceptor : Interceptor {
             503 -> "Service unavailable. Please try again later."
             401 -> "Authentication failed. Please check your credentials."
             403 -> "Access denied. You don't have permission to access this resource."
+            429 -> "Too many requests. Please try again in a minute."
             else -> "Server error (${originalResponse.code}). Please check your connection."
         }
         
@@ -85,4 +96,11 @@ class ApiException(
     val code: Int,
     override val message: String,
     val isHtmlError: Boolean = false
+) : IOException(message)
+
+/**
+ * Exception thrown when rate limit (429) is hit
+ */
+class RateLimitException(
+    override val message: String
 ) : IOException(message)

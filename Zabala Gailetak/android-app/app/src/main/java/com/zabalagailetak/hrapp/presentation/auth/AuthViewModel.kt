@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonParseException
 import com.zabalagailetak.hrapp.data.api.AuthApiService
+import com.zabalagailetak.hrapp.data.auth.RateLimitException
 import com.zabalagailetak.hrapp.domain.model.LoginRequest
+import com.zabalagailetak.hrapp.domain.model.MfaVerificationRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -118,12 +120,55 @@ class AuthViewModel @Inject constructor(
             try {
                 val mfaToken = _uiState.value.mfaToken ?: throw Exception("No MFA token")
                 
-                // TODO: Implement MFA verification API call
+                // Call MFA verification API
+                val request = MfaVerificationRequest(
+                    mfaToken = mfaToken,
+                    code = code
+                )
+                
+                val response = authApi.verifyMfa(request)
+                
+                if (!response.isSuccessful) {
+                    val errorMsg = parseErrorResponse(response.errorBody()?.string())
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            error = errorMsg ?: "Kode okerra / Código incorrecto"
+                        )
+                    }
+                    return@launch
+                }
+                
+                val loginResponse = response.body()
+                
+                if (loginResponse == null) {
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            error = "Erantzuna hutsik dago. Saiatu berriro."
+                        )
+                    }
+                    return@launch
+                }
+                
+                // Save tokens
+                val token = loginResponse.token
+                if (!token.isNullOrBlank()) {
+                    try {
+                        tokenStore.saveToken(token)
+                        loginResponse.refreshToken?.let { rf ->
+                            if (rf.isNotBlank()) tokenStore.saveRefreshToken(rf)
+                        }
+                    } catch (_: Exception) {
+                        // ignore store errors
+                    }
+                }
                 
                 _uiState.update {
                     it.copy(
                         isLoading = false,
                         loginSuccess = true,
+                        token = token,
                         error = null
                     )
                 }
@@ -175,12 +220,15 @@ class AuthViewModel @Inject constructor(
             is HttpException -> {
                 when (e.code()) {
                     404 -> "APIa ez da aurkitu. Zerbitzaria konfiguratzen ari da."
+                    429 -> "Eskaera gehiegi. Saiatu berriro minutu batean."
                     500, 502, 503 -> "Zerbitzari errorea. Saiatu berriro geroago."
                     401 -> "Kredentzial okerrak. Egiaztatu zure datuak."
                     403 -> "Sarbidea ukatua."
                     else -> "Errorea zerbitzarian (${e.code()})."
                 }
             }
+            is RateLimitException ->
+                "Eskaera gehiegi. Saiatu berriro minutu batean. / Too many requests. Please try again."
             is JsonParseException -> 
                 "Zerbitzariaren erantzuna ez da zuzena. Saiatu berriro geroago."
             else -> {
@@ -191,6 +239,9 @@ class AuthViewModel @Inject constructor(
                     message.contains("Expected") ||
                     message.contains("JSON") ->
                         "Zerbitzariaren erantzuna ez da zuzena. Kontsultatu administratzailea."
+                    message.contains("rate limit", ignoreCase = true) ||
+                    message.contains("too many", ignoreCase = true) ->
+                        "Eskaera gehiegi. Saiatu berriro minutu batean."
                     else -> "Errorea gertatu da: ${e.message ?: "Saiatu berriro"}"
                 }
             }
@@ -200,9 +251,9 @@ class AuthViewModel @Inject constructor(
     /**
      * Parse error response from API
      */
-    private fun parseErrorResponse(errorBody: String?): String {
+    private fun parseErrorResponse(errorBody: String?): String? {
         if (errorBody.isNullOrBlank()) {
-            return "Errorea gertatu da. Saiatu berriro."
+            return null
         }
         
         return try {
@@ -211,11 +262,13 @@ class AuthViewModel @Inject constructor(
             when {
                 json.has("message") -> json.getString("message")
                 json.has("error") -> json.getString("error")
-                else -> "Errorea gertatu da. Saiatu berriro."
+                else -> null
             }
         } catch (e: Exception) {
-            // Not JSON, return generic message
-            if (errorBody.contains("<html") || errorBody.contains("<!DOCTYPE")) {
+            // Not JSON, check for HTML error
+            if (errorBody.contains("rate limit", ignoreCase = true)) {
+                "Eskaera gehiegi. Saiatu berriro minutu batean."
+            } else if (errorBody.contains("<html") || errorBody.contains("<!DOCTYPE")) {
                 "Zerbitzari errorea. Saiatu berriro geroago."
             } else {
                 errorBody.take(100)

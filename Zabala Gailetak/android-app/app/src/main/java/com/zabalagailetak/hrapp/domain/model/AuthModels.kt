@@ -1,10 +1,12 @@
 package com.zabalagailetak.hrapp.domain.model
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
 /**
  * Login request
  */
+@Keep
 data class LoginRequest(
     val username: String,
     val password: String
@@ -13,6 +15,7 @@ data class LoginRequest(
 /**
  * Login response
  */
+@Keep
 data class LoginResponse(
     val token: String,
     @SerializedName("refresh_token")
@@ -27,6 +30,7 @@ data class LoginResponse(
 /**
  * MFA verification request
  */
+@Keep
 data class MfaVerificationRequest(
     @SerializedName("mfa_token")
     val mfaToken: String,
@@ -36,6 +40,7 @@ data class MfaVerificationRequest(
 /**
  * Employee/User model
  */
+@Keep
 data class Employee(
     val id: Int,
     val username: String,
@@ -63,6 +68,7 @@ data class Employee(
 /**
  * Department model
  */
+@Keep
 data class Department(
     val id: Int,
     val name: String,

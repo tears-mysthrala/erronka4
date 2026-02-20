@@ -75,15 +75,20 @@ class Database
         }
 
         try {
+            // Default options optimized for InfinityFree shared hosting
+            // ATTR_PERSISTENT: Reuse connections to avoid max_user_connections limit
+            $defaultOptions = [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => false,
+                PDO::ATTR_PERSISTENT => true, // Critical for InfinityFree's connection limits
+            ];
+            
             self::$connection = new PDO(
                 $dsn,
                 $user,
                 $pass,
-                $dbConfig['options'] ?? [
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                    PDO::ATTR_EMULATE_PREPARES => false,
-                ]
+                array_merge($defaultOptions, $dbConfig['options'] ?? [])
             );
         } catch (PDOException $e) {
             error_log('Database connection failed: ' . $e->getMessage());
