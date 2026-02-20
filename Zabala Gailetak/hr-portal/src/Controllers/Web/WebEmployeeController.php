@@ -29,24 +29,45 @@ class WebEmployeeController
     }
 
     /**
-     * Extraer userId y role desde sesión
+     * Get authenticated user from session or JWT
      */
-    private function getAuthInfo(): ?array
+    private function getUser(Request $request): ?array
     {
-        if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_role'])) {
+        // First check session (web login)
+        $user = $_SESSION['user'] ?? null;
+        if ($user) {
+            return $user;
+        }
+        
+        // Then check JWT (API login via request attribute set by AuthenticationMiddleware)
+        $jwtUser = $request->getAttribute('user');
+        if ($jwtUser) {
+            return $jwtUser;
+        }
+        
+        return null;
+    }
+
+    /**
+     * Extraer userId y role desde sesión o JWT
+     */
+    private function getAuthInfo(Request $request): ?array
+    {
+        $user = $this->getUser($request);
+        if (!$user) {
             return null;
         }
 
         return [
-            'user_id' => $_SESSION['user_id'],
-            'role' => $_SESSION['user_role'],
-            'email' => $_SESSION['user_email'] ?? ''
+            'user_id' => $user['id'] ?? $user['user_id'] ?? null,
+            'role' => $user['role'] ?? null,
+            'email' => $user['email'] ?? ''
         ];
     }
 
     public function index(Request $request): Response
     {
-        $auth = $this->getAuthInfo();
+        $auth = $this->getAuthInfo($request);
         if (!$auth) {
             return Response::redirect('/login');
         }
@@ -126,7 +147,7 @@ class WebEmployeeController
 
     public function show(Request $request, string $id): Response
     {
-        $auth = $this->getAuthInfo();
+        $auth = $this->getAuthInfo($request);
         if (!$auth) {
             return Response::redirect('/login');
         }
@@ -180,7 +201,7 @@ class WebEmployeeController
 
     public function createForm(Request $request): Response
     {
-        $auth = $this->getAuthInfo();
+        $auth = $this->getAuthInfo($request);
         if (!$auth) {
             return Response::redirect('/login');
         }
@@ -203,7 +224,7 @@ class WebEmployeeController
 
     public function create(Request $request): Response
     {
-        $auth = $this->getAuthInfo();
+        $auth = $this->getAuthInfo($request);
         if (!$auth) {
             return Response::redirect('/login');
         }
@@ -293,7 +314,7 @@ class WebEmployeeController
 
     public function editForm(Request $request, string $id): Response
     {
-        $auth = $this->getAuthInfo();
+        $auth = $this->getAuthInfo($request);
         if (!$auth) {
             return Response::redirect('/login');
         }
@@ -360,7 +381,7 @@ class WebEmployeeController
 
     public function update(Request $request, string $id): Response
     {
-        $auth = $this->getAuthInfo();
+        $auth = $this->getAuthInfo($request);
         if (!$auth) {
             return Response::redirect('/login');
         }
@@ -472,7 +493,7 @@ class WebEmployeeController
 
     public function delete(Request $request, string $id): Response
     {
-        $auth = $this->getAuthInfo();
+        $auth = $this->getAuthInfo($request);
         if (!$auth) {
             return Response::redirect('/login');
         }
@@ -515,7 +536,7 @@ class WebEmployeeController
 
     public function export(Request $request): Response
     {
-        $auth = $this->getAuthInfo();
+        $auth = $this->getAuthInfo($request);
         if (!$auth) {
             return Response::redirect('/login');
         }
@@ -604,7 +625,7 @@ class WebEmployeeController
      */
     public function profile(Request $request): Response
     {
-        $auth = $this->getAuthInfo();
+        $auth = $this->getAuthInfo($request);
         if (!$auth) {
             return Response::redirect('/login');
         }
@@ -636,7 +657,7 @@ class WebEmployeeController
      */
     public function editProfileForm(Request $request): Response
     {
-        $auth = $this->getAuthInfo();
+        $auth = $this->getAuthInfo($request);
         if (!$auth) {
             return Response::redirect('/login');
         }
@@ -664,7 +685,7 @@ class WebEmployeeController
      */
     public function updateProfile(Request $request): Response
     {
-        $auth = $this->getAuthInfo();
+        $auth = $this->getAuthInfo($request);
         if (!$auth) {
             return Response::redirect('/login');
         }

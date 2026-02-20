@@ -21,12 +21,32 @@ class WebPayrollController
     }
 
     /**
+     * Get authenticated user from session or JWT
+     */
+    private function getUser(Request $request): ?array
+    {
+        // First check session (web login)
+        $user = $_SESSION['user'] ?? null;
+        if ($user) {
+            return $user;
+        }
+        
+        // Then check JWT (API login via request attribute set by AuthenticationMiddleware)
+        $jwtUser = $request->getAttribute('user');
+        if ($jwtUser) {
+            return $jwtUser;
+        }
+        
+        return null;
+    }
+
+    /**
      * List payslips view
      * GET /payslips
      */
     public function index(Request $request): Response
     {
-        $user = $_SESSION['user'] ?? null;
+        $user = $this->getUser($request);
         if (!$user) {
             return Response::redirect('/login');
         }
@@ -108,7 +128,7 @@ class WebPayrollController
      */
     public function show(Request $request, string $id): Response
     {
-        $user = $_SESSION['user'] ?? null;
+        $user = $this->getUser($request);
         if (!$user) {
             return Response::redirect('/login');
         }
@@ -151,7 +171,7 @@ class WebPayrollController
      */
     public function createForm(Request $request): Response
     {
-        $user = $_SESSION['user'] ?? null;
+        $user = $this->getUser($request);
         if (!$user || ($user['role'] !== 'ADMIN' && $user['role'] !== 'RRHH_MGR')) {
             $_SESSION['flash_error'] = 'Access denied';
             return Response::redirect('/dashboard');
@@ -179,7 +199,7 @@ class WebPayrollController
      */
     public function create(Request $request): Response
     {
-        $user = $_SESSION['user'] ?? null;
+        $user = $this->getUser($request);
         if (!$user || ($user['role'] !== 'ADMIN' && $user['role'] !== 'RRHH_MGR')) {
             $_SESSION['flash_error'] = 'Access denied';
             return Response::redirect('/dashboard');

@@ -18,10 +18,31 @@ class WebDashboardController
         $this->db = $GLOBALS['app']->getDatabase();
     }
 
+    /**
+     * Get authenticated user from session or JWT
+     */
+    private function getUser(Request $request): ?array
+    {
+        // First check session (web login)
+        $user = $_SESSION['user'] ?? null;
+        if ($user) {
+            return $user;
+        }
+        
+        // Then check JWT (API login via request attribute set by AuthenticationMiddleware)
+        $jwtUser = $request->getAttribute('user');
+        if ($jwtUser) {
+            return $jwtUser;
+        }
+        
+        return null;
+    }
+
     public function index(Request $request): Response
     {
         // Check authentication without redirecting (middleware should handle this)
-        if (!isset($_SESSION['user_id'])) {
+        $user = $this->getUser($request);
+        if (!$user) {
             return Response::redirect('/login');
         }
 
@@ -43,8 +64,8 @@ class WebDashboardController
         $upcomingVacations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return Response::view('dashboard/index', [
-            'user' => $_SESSION['user_email'] ?? 'Usuario',
-            'role' => $_SESSION['user_role'] ?? 'employee',
+            'user' => $user['email'] ?? 'Usuario',
+            'role' => $user['role'] ?? 'employee',
             'stats' => [
                 'employees' => $employeeCount,
                 'pending_vacations' => $pendingVacations

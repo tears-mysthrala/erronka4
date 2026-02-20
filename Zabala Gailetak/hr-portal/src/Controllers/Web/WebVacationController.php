@@ -23,10 +23,30 @@ class WebVacationController
         $this->vacationService = $vacationService;
     }
 
+    /**
+     * Get authenticated user from session or JWT
+     */
+    private function getUser(Request $request): ?array
+    {
+        // First check session (web login)
+        $user = $_SESSION['user'] ?? null;
+        if ($user) {
+            return $user;
+        }
+        
+        // Then check JWT (API login via request attribute set by AuthenticationMiddleware)
+        $jwtUser = $request->getAttribute('user');
+        if ($jwtUser) {
+            return $jwtUser;
+        }
+        
+        return null;
+    }
+
     public function index(Request $request): Response
     {
-        $this->requireAuth();
-        $employeeId = $this->getCurrentEmployeeId();
+        $this->requireAuth($request);
+        $employeeId = $this->getCurrentEmployeeId($request);
 
         if (!$employeeId) {
              return Response::view('vacations/index', ['error' => 'No tienes perfil de empleado asociado.']);
@@ -38,7 +58,8 @@ class WebVacationController
 
         $requests = $this->vacationService->getEmployeeRequests($employeeId, $year);
 
-        $role = $_SESSION['user_role'] ?? 'employee';
+        $user = $this->getUser($request);
+        $role = $user['role'] ?? 'employee';
         $isAdmin = $role === 'admin' || $role === 'hr_manager';
         $isDepartmentHead = $role === 'department_head';
 
@@ -51,7 +72,7 @@ class WebVacationController
         $historyApprovals = [];
 
         if ($isDepartmentHead) {
-            $departmentId = $this->getCurrentEmployeeDepartmentId();
+            $departmentId = $this->getCurrentEmployeeDepartmentId($request);
             $pendingApprovals = $this->vacationService->getPendingManagerRequests(
                 $departmentId,
                 $pendingName,
@@ -113,15 +134,15 @@ class WebVacationController
 
     public function requestForm(Request $request): Response
     {
-        $this->requireAuth();
+        $this->requireAuth($request);
         return Response::view('vacations/create', ['errors' => []]);
     }
 
     public function create(Request $request): Response
     {
-        $this->requireAuth();
+        $this->requireAuth($request);
         $data = $request->getParsedBody();
-        $employeeId = $this->getCurrentEmployeeId();
+        $employeeId = $this->getCurrentEmployeeId($request);
 
         if (!$employeeId) {
             return Response::view('vacations/create', [
@@ -172,8 +193,9 @@ class WebVacationController
 
     public function approve(Request $request, string $id): Response
     {
-        $this->requireAuth();
-        $role = $_SESSION['user_role'] ?? 'employee';
+        $this->requireAuth($request);
+        $user = $this->getUser($request);
+        $role = $user['role'] ?? 'employee';
         $isAdmin = $role === 'admin' || $role === 'hr_manager';
         $isDepartmentHead = $role === 'department_head';
 
@@ -182,7 +204,7 @@ class WebVacationController
         }
 
         try {
-            $approverEmployeeId = $this->getCurrentEmployeeId();
+            $approverEmployeeId = $this->getCurrentEmployeeId($request);
             if (!$approverEmployeeId) {
                 throw new Exception('No se pudo identificar al aprobador');
             }
@@ -209,8 +231,9 @@ class WebVacationController
 
     public function reject(Request $request, string $id): Response
     {
-        $this->requireAuth();
-        $role = $_SESSION['user_role'] ?? 'employee';
+        $this->requireAuth($request);
+        $user = $this->getUser($request);
+        $role = $user['role'] ?? 'employee';
         $isAdmin = $role === 'admin' || $role === 'hr_manager';
         $isDepartmentHead = $role === 'department_head';
 
@@ -221,7 +244,7 @@ class WebVacationController
         $body = $request->getParsedBody() ?? [];
         $reason = $body['reason'] ?? 'Rechazado por el administrador';
         try {
-            $approverEmployeeId = $this->getCurrentEmployeeId();
+            $approverEmployeeId = $this->getCurrentEmployeeId($request);
             if (!$approverEmployeeId) {
                 throw new Exception('No se pudo identificar al aprobador');
             }
@@ -244,8 +267,9 @@ class WebVacationController
 
     public function pendingAjax(Request $request): Response
     {
-        $this->requireAuth();
-        $role = $_SESSION['user_role'] ?? 'employee';
+        $this->requireAuth($request);
+        $user = $this->getUser($request);
+        $role = $user['role'] ?? 'employee';
         $isAdmin = $role === 'admin' || $role === 'hr_manager';
         $isDepartmentHead = $role === 'department_head';
 
@@ -257,7 +281,7 @@ class WebVacationController
         $pendingEmail = trim((string)$request->getQuery('pending_email', ''));
 
         if ($isDepartmentHead) {
-            $departmentId = $this->getCurrentEmployeeDepartmentId();
+            $departmentId = $this->getCurrentEmployeeDepartmentId($request);
             $pendingApprovals = $this->vacationService->getPendingManagerRequests(
                 $departmentId,
                 $pendingName,
@@ -277,8 +301,9 @@ class WebVacationController
 
     public function historyAjax(Request $request): Response
     {
-        $this->requireAuth();
-        $role = $_SESSION['user_role'] ?? 'employee';
+        $this->requireAuth($request);
+        $user = $this->getUser($request);
+        $role = $user['role'] ?? 'employee';
         $isAdmin = $role === 'admin' || $role === 'hr_manager';
         $isDepartmentHead = $role === 'department_head';
 
@@ -289,7 +314,7 @@ class WebVacationController
         $historyName = trim((string)$request->getQuery('history_name', ''));
         $historyEmail = trim((string)$request->getQuery('history_email', ''));
 
-        $departmentId = $isDepartmentHead ? $this->getCurrentEmployeeDepartmentId() : null;
+        $departmentId = $isDepartmentHead ? $this->getCurrentEmployeeDepartmentId($request) : null;
         $historyApprovals = $this->vacationService->getRequestsHistory(
             $departmentId,
             $historyName,
@@ -301,22 +326,30 @@ class WebVacationController
         return Response::json(['success' => true, 'data' => $data]);
     }
 
-    private function requireAuth(): void
+    private function requireAuth(Request $request): void
     {
-        if (!isset($_SESSION['user_id'])) {
+        $user = $this->getUser($request);
+        if (!$user) {
             header('Location: /login');
             exit;
         }
     }
 
-    private function getCurrentEmployeeId(): ?string
+    private function getCurrentEmployeeId(Request $request): ?string
     {
+        $user = $this->getUser($request);
+        if (!$user) {
+            return null;
+        }
+
+        $userId = $user['id'] ?? $user['user_id'] ?? null;
+
         if (isset($_SESSION['employee_id'])) {
             return (string)$_SESSION['employee_id'];
         }
 
         $stmt = $this->db->prepare("SELECT id FROM employees WHERE user_id = :user_id");
-        $stmt->execute(['user_id' => $_SESSION['user_id']]);
+        $stmt->execute(['user_id' => $userId]);
         $id = $stmt->fetchColumn();
 
         if ($id) {
@@ -326,14 +359,21 @@ class WebVacationController
         return null;
     }
 
-    private function getCurrentEmployeeDepartmentId(): ?string
+    private function getCurrentEmployeeDepartmentId(Request $request): ?string
     {
+        $user = $this->getUser($request);
+        if (!$user) {
+            return null;
+        }
+
+        $userId = $user['id'] ?? $user['user_id'] ?? null;
+
         if (isset($_SESSION['employee_department_id'])) {
             return (string)$_SESSION['employee_department_id'];
         }
 
         $stmt = $this->db->prepare("SELECT department_id FROM employees WHERE user_id = :user_id");
-        $stmt->execute(['user_id' => $_SESSION['user_id']]);
+        $stmt->execute(['user_id' => $userId]);
         $departmentId = $stmt->fetchColumn();
 
         if ($departmentId) {

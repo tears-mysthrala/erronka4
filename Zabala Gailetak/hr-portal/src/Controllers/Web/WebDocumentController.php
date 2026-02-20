@@ -44,12 +44,32 @@ class WebDocumentController
     }
 
     /**
+     * Get authenticated user from session or JWT
+     */
+    private function getUser(Request $request): ?array
+    {
+        // First check session (web login)
+        $user = $_SESSION['user'] ?? null;
+        if ($user) {
+            return $user;
+        }
+        
+        // Then check JWT (API login via request attribute set by AuthenticationMiddleware)
+        $jwtUser = $request->getAttribute('user');
+        if ($jwtUser) {
+            return $jwtUser;
+        }
+        
+        return null;
+    }
+
+    /**
      * List documents view
      * GET /documents
      */
     public function index(Request $request): Response
     {
-        $user = $_SESSION['user'] ?? null;
+        $user = $this->getUser($request);
         if (!$user) {
             return Response::redirect('/login');
         }
@@ -133,7 +153,7 @@ class WebDocumentController
      */
     public function uploadForm(Request $request): Response
     {
-        $user = $_SESSION['user'] ?? null;
+        $user = $this->getUser($request);
         if (!$user || ($user['role'] !== 'ADMIN' && $user['role'] !== 'RRHH_MGR')) {
             $_SESSION['flash_error'] = 'Access denied';
             return Response::redirect('/documents');
@@ -170,7 +190,7 @@ class WebDocumentController
      */
     public function upload(Request $request): Response
     {
-        $user = $_SESSION['user'] ?? null;
+        $user = $this->getUser($request);
         if (!$user || ($user['role'] !== 'ADMIN' && $user['role'] !== 'RRHH_MGR')) {
             $_SESSION['flash_error'] = 'Access denied';
             return Response::redirect('/documents');
@@ -266,7 +286,7 @@ class WebDocumentController
      */
     public function download(Request $request, string $id): Response
     {
-        $user = $_SESSION['user'] ?? null;
+        $user = $this->getUser($request);
         if (!$user) {
             return Response::redirect('/login');
         }
@@ -311,7 +331,7 @@ class WebDocumentController
      */
     public function delete(Request $request, string $id): Response
     {
-        $user = $_SESSION['user'] ?? null;
+        $user = $this->getUser($request);
         if (!$user || ($user['role'] !== 'ADMIN' && $user['role'] !== 'RRHH_MGR')) {
             $_SESSION['flash_error'] = 'Access denied';
             return Response::redirect('/documents');
