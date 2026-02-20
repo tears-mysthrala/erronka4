@@ -13,10 +13,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import com.zabalagailetak.hrapp.data.auth.SessionManager
+import com.zabalagailetak.hrapp.data.auth.TokenStore
 import com.zabalagailetak.hrapp.presentation.navigation.AppNavigation
+import com.zabalagailetak.hrapp.presentation.navigation.Screen
 import com.zabalagailetak.hrapp.presentation.ui.theme.ZabalaGaileTakHRTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -31,6 +37,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var sessionManager: SessionManager
+
+    @Inject
+    lateinit var tokenStore: TokenStore
 
     private var sessionExpiredReceiver: BroadcastReceiver? = null
 
@@ -54,12 +63,28 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    // Main navigation host with session handling
-                    AppNavigation(
-                        onSessionExpired = {
-                            showSessionExpiredMessage()
+                    // Determine start destination based on authentication state
+                    var startDestination by remember { mutableStateOf<String?>(null) }
+                    
+                    LaunchedEffect(Unit) {
+                        // Check if user has a valid token
+                        val token = tokenStore.getToken()
+                        startDestination = if (token != null) {
+                            Screen.Dashboard.route
+                        } else {
+                            Screen.Login.route
                         }
-                    )
+                    }
+                    
+                    // Only show navigation when start destination is determined
+                    startDestination?.let { destination ->
+                        AppNavigation(
+                            startDestination = destination,
+                            onSessionExpired = {
+                                showSessionExpiredMessage()
+                            }
+                        )
+                    }
                 }
             }
         }

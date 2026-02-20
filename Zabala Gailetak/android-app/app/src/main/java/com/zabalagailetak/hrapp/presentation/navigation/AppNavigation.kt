@@ -209,8 +209,10 @@ fun BottomNavigationBar(navController: NavHostController) {
                 selected = selected,
                 onClick = {
                     navController.navigate(item.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
+                        // Pop up to Dashboard (the start of bottom nav) to maintain proper back stack
+                        popUpTo(Screen.Dashboard.route) {
                             saveState = true
+                            inclusive = false
                         }
                         launchSingleTop = true
                         restoreState = true
