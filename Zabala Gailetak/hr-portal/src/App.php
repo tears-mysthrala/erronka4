@@ -13,6 +13,9 @@ use ZabalaGailetak\HrPortal\Security\SecurityHeaders;
 use ZabalaGailetak\HrPortal\Middleware\ErrorHandlerMiddleware;
 use ZabalaGailetak\HrPortal\Middleware\SecurityHeadersMiddleware;
 use ZabalaGailetak\HrPortal\Middleware\CSRFMiddleware;
+use ZabalaGailetak\HrPortal\Middleware\AuthenticationMiddleware;
+use ZabalaGailetak\HrPortal\Auth\TokenManager;
+use ZabalaGailetak\HrPortal\Auth\SessionManager;
 
 /**
  * Main Application Class
@@ -45,9 +48,28 @@ class App
      */
     private function registerMiddleware(): void
     {
+        // Initialize auth services for middleware
+        $jwtSecret = $_ENV['JWT_SECRET'] ?? null;
+        if ($jwtSecret === null) {
+            throw new \RuntimeException('JWT_SECRET environment variable is required');
+        }
+        
+        $tokenManager = new TokenManager([
+            'jwt_secret' => $jwtSecret,
+            'jwt_issuer' => $_ENV['APP_URL'] ?? 'https://zabala-gailetak.infinityfreeapp.com',
+            'jwt_access_expiry' => 3600,
+            'jwt_refresh_expiry' => 604800
+        ]);
+        
+        $sessionManager = new SessionManager([
+            'session_prefix' => 'hrportal:',
+            'session_ttl' => (int)($_ENV['SESSION_LIFETIME'] ?? 28800)
+        ]);
+        
         $this->middleware = [
             new ErrorHandlerMiddleware(),
             new SecurityHeadersMiddleware(),
+            new AuthenticationMiddleware($tokenManager, $sessionManager),
             new CSRFMiddleware(),
         ];
     }
@@ -74,13 +96,22 @@ class App
         // Create request from globals
         $request = Request::fromGlobals();
 
-        // Process through middleware stack
-        $response = $this->processMiddleware($request);
-
-        // If no middleware handled the request, pass to router
-        if ($response === null) {
-            $response = $this->router->dispatch($request);
+        // Process through middleware stack (may return modified request or response)
+        $middlewareResult = $this->processMiddleware($request);
+        
+        // If middleware returned a Response, send it directly
+        if ($middlewareResult instanceof Response) {
+            $this->sendResponse($middlewareResult);
+            return;
         }
+        
+        // If middleware returned a modified Request, use it
+        if ($middlewareResult instanceof Request) {
+            $request = $middlewareResult;
+        }
+
+        // Pass (potentially modified) request to router
+        $response = $this->router->dispatch($request);
 
         // Send response
         $this->sendResponse($response);
@@ -88,13 +119,19 @@ class App
 
     /**
      * Process request through middleware stack
+     * Supports request modification by passing the returned request to next middleware
      */
     private function processMiddleware(Request $request): ?Response
     {
         foreach ($this->middleware as $middleware) {
-            $response = $middleware->process($request);
-            if ($response !== null) {
-                return $response;
+            $result = $middleware->process($request);
+            // If result is a Response, return it (error/response case)
+            if ($result instanceof Response) {
+                return $result;
+            }
+            // If middleware returns a modified request, use it for subsequent middleware
+            if ($result instanceof Request) {
+                $request = $result;
             }
         }
 

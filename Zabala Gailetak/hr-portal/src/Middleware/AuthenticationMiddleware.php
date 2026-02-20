@@ -27,6 +27,7 @@ class AuthenticationMiddleware
         '/api/auth/mfa/verify',
         '/login',
         '/logout',
+        '/',  // Redirects to login
     ];
 
     public function __construct(TokenManager $tokenManager, SessionManager $sessionManager)
@@ -35,13 +36,22 @@ class AuthenticationMiddleware
         $this->sessionManager = $sessionManager;
     }
 
-    public function __invoke(Request $request, callable $next): Response
+    /**
+     * Process request - validate JWT and add user attributes
+     * Returns modified Request on success, Response on auth failure, or null to skip
+     */
+    public function process(Request $request): Request|Response|null
     {
         $path = $request->getUri();
 
         // Excluir rutas públicas
         if ($this->isExcludedPath($path)) {
-            return $next($request);
+            return null;
+        }
+
+        // Web routes use session auth, skip JWT for non-API routes
+        if (!str_starts_with($path, '/api/')) {
+            return null;
         }
 
         // Obtener header Authorization
@@ -78,7 +88,15 @@ class AuthenticationMiddleware
             $userData = $this->tokenManager->getUserData($decoded);
             $userRole = $this->tokenManager->getUserRole($decoded);
 
+            // Build user array for controllers (id, role, email)
+            $user = [
+                'id' => $userId,
+                'email' => $userData->email ?? null,
+                'role' => $userRole
+            ];
+
             // Añadir información al request para uso posterior
+            $request = $request->withAttribute('user', $user);
             $request = $request->withAttribute('user_id', $userId);
             $request = $request->withAttribute('user_email', $userData->email ?? null);
             $request = $request->withAttribute('user_role', $userRole);
@@ -99,8 +117,8 @@ class AuthenticationMiddleware
                 $request = $request->withAttribute('session_id', $sessionId);
             }
 
-            // Continuar con la request
-            return $next($request);
+            // Devolver request modificada
+            return $request;
         } catch (Throwable $e) {
             // Catch all errors (Exception, Error, etc.) to prevent stack trace leaks
             error_log('[AuthenticationMiddleware] ' . get_class($e) . ': ' . $e->getMessage());
