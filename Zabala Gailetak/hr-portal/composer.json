@@ -11,7 +11,7 @@
         "ext-pdo_pgsql": "*",
         "ext-redis": "*",
         "brick/math": "^0.12",
-        "firebase/php-jwt": "^6.10",
+        "firebase/php-jwt": "^7.0.2",
         "tecnickcom/tcpdf": "^6.10"
     },
     "require-dev": {

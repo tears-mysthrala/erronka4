@@ -28,6 +28,15 @@ class TokenManager
         $this->secretKey = $config['jwt_secret'] ?? throw new Exception('JWT secret key not configured');
         $this->issuer = $config['jwt_issuer'] ?? 'hr-portal.zabalagailetak.com';
 
+        // CVE-2025-45769: Enforce minimum 32-byte key for HS256 (256-bit minimum)
+        if (strlen($this->secretKey) < 32) {
+            throw new Exception(
+                'JWT secret key must be at least 32 characters long for HS256 (256-bit minimum). ' .
+                'Current length: ' . strlen($this->secretKey) . '. ' .
+                'Generate a new key with: openssl rand -base64 32'
+            );
+        }
+
         if (isset($config['jwt_access_expiry'])) {
             $this->accessTokenExpiry = (int) $config['jwt_access_expiry'];
         }
