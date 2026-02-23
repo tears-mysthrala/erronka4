@@ -1,0 +1,468 @@
+const { marked } = require('marked');
+const puppeteer = require('puppeteer');
+const fs = require('fs');
+const path = require('path');
+
+// Zabala Gailetak color palette
+const COLORS = {
+    primary: '#B91C1C',       // Industrial Red
+    primaryLight: '#DC2626',
+    primaryDark: '#7F1D1D',
+    accent: '#EA580C',        // Orange
+    accentLight: '#F97316',
+    darkBg: '#18181B',
+    card: '#1C1C1F',
+    elevated: '#27272A',
+    text: '#FAFAFA',
+    textSecondary: '#A1A1AA',
+    textTertiary: '#71717A',
+    success: '#059669',
+    warning: '#D97706',
+    info: '#0284C7'
+};
+
+// HTML Template with Zabala Gailetak branding
+const createHTMLTemplate = (content, title) => `<!DOCTYPE html>
+<html lang="eu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${title} - Zabala Gailetak</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 11pt;
+            line-height: 1.6;
+            color: #333;
+            background: white;
+        }
+        
+        /* Cover Page */
+        .cover {
+            page-break-after: always;
+            background: ${COLORS.darkBg};
+            color: ${COLORS.text};
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px;
+            position: relative;
+        }
+        
+        .cover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 15px;
+            background: ${COLORS.primary};
+        }
+        
+        .cover::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: ${COLORS.primary};
+        }
+        
+        .cover-line {
+            width: 200px;
+            height: 3px;
+            background: ${COLORS.accent};
+            margin: 30px auto;
+        }
+        
+        .cover h1 {
+            font-size: 48pt;
+            font-weight: 700;
+            color: ${COLORS.text};
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+        
+        .cover .subtitle {
+            font-size: 20pt;
+            color: ${COLORS.accent};
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        
+        .cover .title-main {
+            font-size: 28pt;
+            font-weight: 600;
+            color: ${COLORS.text};
+            margin-top: 60px;
+            max-width: 80%;
+        }
+        
+        .cover .date {
+            font-size: 12pt;
+            color: ${COLORS.textSecondary};
+            margin-top: 80px;
+        }
+        
+        .cover .confidential {
+            font-size: 10pt;
+            color: ${COLORS.textTertiary};
+            margin-top: 40px;
+        }
+        
+        /* Content Styles */
+        .content {
+            padding: 40px 50px;
+        }
+        
+        h1 {
+            font-size: 24pt;
+            font-weight: 700;
+            color: ${COLORS.primary};
+            margin: 30px 0 15px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid ${COLORS.accent};
+            page-break-after: avoid;
+        }
+        
+        h2 {
+            font-size: 18pt;
+            font-weight: 600;
+            color: ${COLORS.primaryDark};
+            margin: 25px 0 12px 0;
+            page-break-after: avoid;
+        }
+        
+        h3 {
+            font-size: 14pt;
+            font-weight: 600;
+            color: ${COLORS.accent};
+            margin: 20px 0 10px 0;
+            page-break-after: avoid;
+        }
+        
+        h4 {
+            font-size: 12pt;
+            font-weight: 600;
+            color: #444;
+            margin: 15px 0 8px 0;
+        }
+        
+        p {
+            margin: 10px 0;
+            text-align: justify;
+        }
+        
+        ul, ol {
+            margin: 10px 0 10px 25px;
+        }
+        
+        li {
+            margin: 5px 0;
+        }
+        
+        li::marker {
+            color: ${COLORS.primary};
+        }
+        
+        a {
+            color: ${COLORS.primary};
+            text-decoration: none;
+        }
+        
+        /* Code Blocks */
+        pre {
+            background: ${COLORS.card};
+            border: 1px solid ${COLORS.elevated};
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            page-break-inside: avoid;
+        }
+        
+        code {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 9.5pt;
+            color: ${COLORS.text};
+        }
+        
+        p code, li code {
+            background: #f4f4f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: ${COLORS.primaryDark};
+            font-size: 10pt;
+        }
+        
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 10pt;
+            page-break-inside: auto;
+        }
+        
+        thead {
+            display: table-header-group;
+        }
+        
+        tr {
+            page-break-inside: avoid;
+        }
+        
+        th {
+            background: ${COLORS.primary};
+            color: white;
+            font-weight: 600;
+            padding: 10px 12px;
+            text-align: left;
+            border: 1px solid ${COLORS.primaryDark};
+        }
+        
+        td {
+            padding: 8px 12px;
+            border: 1px solid #e4e4e7;
+        }
+        
+        tr:nth-child(even) {
+            background: #fafafa;
+        }
+        
+        /* Blockquotes */
+        blockquote {
+            border-left: 4px solid ${COLORS.primary};
+            background: #fafafa;
+            padding: 12px 20px;
+            margin: 15px 0;
+            font-style: italic;
+            color: #555;
+        }
+        
+        /* Horizontal Rules */
+        hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(to right, ${COLORS.primary}, ${COLORS.accent});
+            margin: 30px 0;
+        }
+        
+        /* Images */
+        img {
+            max-width: 100%;
+            height: auto;
+            margin: 15px 0;
+        }
+        
+        /* Page Breaks */
+        .page-break {
+            page-break-before: always;
+        }
+        
+        /* Header/Footer simulation */
+        @page {
+            margin: 60px 50px 80px 50px;
+            @top-center {
+                content: "Zabala Gailetak, S.L.";
+                font-size: 9pt;
+                color: ${COLORS.textSecondary};
+            }
+            @bottom-center {
+                content: counter(page);
+                font-size: 10pt;
+                color: ${COLORS.textSecondary};
+            }
+        }
+        
+        /* Status badges */
+        .status-success {
+            color: ${COLORS.success};
+            font-weight: 600;
+        }
+        
+        .status-warning {
+            color: ${COLORS.warning};
+            font-weight: 600;
+        }
+        
+        .status-danger {
+            color: ${COLORS.primary};
+            font-weight: 600;
+        }
+        
+        /* Print optimizations */
+        @media print {
+            body {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cover Page -->
+    <div class="cover">
+        <h1>ZABALA GAILETAK</h1>
+        <div class="subtitle">S.L. - Segurtasun Dokumentazioa</div>
+        <div class="cover-line"></div>
+        <div class="title-main">${title}</div>
+        <div class="date">${new Date().toLocaleDateString('eu-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+        <div class="confidential">Dokumentu hau konfidentziala da / Este documento es confidencial</div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="content">
+        ${content}
+    </div>
+</body>
+</html>`;
+
+// Convert markdown file to PDF
+async function convertMarkdownToPDF(inputFile, outputFile, title) {
+    console.log(`📄 Converting: ${path.basename(inputFile)}`);
+    
+    try {
+        // Read markdown file
+        const markdown = fs.readFileSync(inputFile, 'utf-8');
+        
+        // Convert markdown to HTML
+        const htmlContent = marked.parse(markdown);
+        
+        // Create full HTML document
+        const html = createHTMLTemplate(htmlContent, title);
+        
+        // Launch browser
+        const browser = await puppeteer.launch({
+            headless: 'new',
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
+        });
+        
+        const page = await browser.newPage();
+        
+        // Set content
+        await page.setContent(html, { waitUntil: 'networkidle0' });
+        
+        // Generate PDF
+        await page.pdf({
+            path: outputFile,
+            format: 'A4',
+            printBackground: true,
+            margin: {
+                top: '60px',
+                right: '50px',
+                bottom: '80px',
+                left: '50px'
+            }
+        });
+        
+        await browser.close();
+        
+        console.log(`  ✅ ${outputFile}`);
+        return true;
+    } catch (error) {
+        console.error(`  ❌ Error converting ${inputFile}:`, error.message);
+        return false;
+    }
+}
+
+// Main conversion function
+async function main() {
+    const docsDir = __dirname;
+    const outputDir = path.join(docsDir, 'pdf_exports');
+    
+    // Ensure output directory exists
+    if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir, { recursive: true });
+    }
+    
+    // Define documents to convert
+    const documents = [
+        { file: 'PROJECT_DOCUMENTATION.md', title: 'Proiektuaren Dokumentazio Osoa', prefix: 'ZG_01' },
+        { file: 'security_plan.md', title: 'Segurtasun Plana', prefix: 'ZG_02' },
+        { file: 'sop_secure_development.md', title: 'Garapen Seguruaren Prozedura', prefix: 'ZG_03' },
+        { file: 'COSTES_RECURSOS_IMPLEMENTACION.md', title: 'Kostuen eta Baliabideen Analisia', prefix: 'ZG_04' },
+        { file: 'PLAN_IMPLEMENTACION_PRESUPUESTO_ZABALA_GAILETAK.md', title: 'Implementazio Plana eta Aurrekontua', prefix: 'ZG_05' },
+        { file: '../security/pentesting/reports/penetration_test_report_2026.md', title: 'Penetration Testing Txostena 2026', prefix: 'ZG_06' },
+        { file: '../security/audits/sop_ethical_hacking.md', title: 'Hacking Etikoaren Prozedura', prefix: 'ZG_07' },
+        { file: '../security/siem/siem_strategy.md', title: 'SIEM Estrategia', prefix: 'ZG_08' },
+        { file: '../security/web_hardening_sop.md', title: 'Web Aplikazioen Gotortzea', prefix: 'ZG_09' },
+        { file: '../security/incidents/sop_incident_response.md', title: 'Gertaera Erantzun Prozedura', prefix: 'ZG_10' },
+        { file: '../security/forensics/sop_evidence_collection.md', title: 'Ebidentzia Bilketa Prozedura', prefix: 'ZG_11' },
+        { file: '../compliance/compliance_plan.md', title: 'Betekuntza Plana', prefix: 'ZG_12' },
+        { file: '../compliance/ER4_COMPLIANCE_REPORT.md', title: 'ER4 Betekuntza Txostena', prefix: 'ZG_13' },
+        { file: '../security/pentesting/wifi/README.md', title: 'WiFi Pentesting Gida', prefix: 'ZG_14' },
+    ];
+    
+    console.log('');
+    console.log('╔═══════════════════════════════════════════════════════╗');
+    console.log('║  Zabala Gailetak - MD to PDF Converter                ║');
+    console.log('║  Corporate Branding Edition                           ║');
+    console.log('╚═══════════════════════════════════════════════════════╝');
+    console.log('');
+    
+    let success = 0;
+    let failed = 0;
+    
+    for (const doc of documents) {
+        const inputPath = path.join(docsDir, doc.file);
+        const outputName = `${doc.prefix}_${doc.title.replace(/\s+/g, '_')}.pdf`;
+        const outputPath = path.join(outputDir, outputName);
+        
+        if (fs.existsSync(inputPath)) {
+            const result = await convertMarkdownToPDF(inputPath, outputPath, doc.title);
+            if (result) {
+                success++;
+            } else {
+                failed++;
+            }
+        } else {
+            console.log(`⚠️  Skipped (not found): ${doc.file}`);
+        }
+    }
+    
+    console.log('');
+    console.log('═══════════════════════════════════════════════════════════');
+    console.log(`✅ Successful: ${success}`);
+    console.log(`❌ Failed: ${failed}`);
+    console.log('═══════════════════════════════════════════════════════════');
+    console.log('');
+    console.log(`📁 PDF files saved to: ${outputDir}`);
+    console.log('');
+}
+
+// Handle command line arguments
+const args = process.argv.slice(2);
+
+if (args.length === 0) {
+    // Convert all documents
+    main().catch(console.error);
+} else if (args[0] === 'single' && args[1]) {
+    // Convert single file
+    const inputFile = args[1];
+    const title = args[2] || path.basename(inputFile, '.md');
+    const outputDir = path.join(__dirname, 'pdf_exports');
+    const outputFile = path.join(outputDir, `${path.basename(inputFile, '.md')}.pdf`);
+    
+    if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir, { recursive: true });
+    }
+    
+    convertMarkdownToPDF(inputFile, outputFile, title);
+} else {
+    console.log('Usage:');
+    console.log('  node md_to_pdf.js           # Convert all documents');
+    console.log('  node md_to_pdf.js single <file.md> [title]  # Convert single file');
+}

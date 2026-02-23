@@ -1,0 +1,230 @@
+% Zabala Gailetak - LaTeX Template for Markdown to PDF Conversion
+% Based on Eisvogel template with custom Zabala Gailetak colors
+
+\documentclass[
+    paper=a4,
+    fontsize=11pt,
+    headings=standardclasses,
+    parskip=half,
+    headheight=50pt,
+]{scrartcl}
+
+% ==================== PACKAGES ====================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{fvextra}
+\usepackage{csquotes}
+\usepackage[basque,spanish,english]{babel}
+
+% ==================== ZABALA GAILETAK COLORS ====================
+\definecolor{zabalaRed}{HTML}{B91C1C}
+\definecolor{zabalaRedLight}{HTML}{DC2626}
+\definecolor{zabalaRedDark}{HTML}{7F1D1D}
+\definecolor{zabalaOrange}{HTML}{EA580C}
+\definecolor{zabalaOrangeLight}{HTML}{F97316}
+\definecolor{zabalaDarkBg}{HTML}{18181B}
+\definecolor{zabalaCard}{HTML}{1C1C1F}
+\definecolor{zabalaElevated}{HTML}{27272A}
+\definecolor{zabalaText}{HTML}{FAFAFA}
+\definecolor{zabalaTextSecondary}{HTML}{A1A1AA}
+\definecolor{zabalaTextTertiary}{HTML}{71717A}
+\definecolor{zabalaSuccess}{HTML}{059669}
+\definecolor{zabalaWarning}{HTML}{D97706}
+\definecolor{zabalaInfo}{HTML}{0284C7}
+
+% ==================== HYPERREF SETUP ====================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=zabalaRed,
+    filecolor=zabalaRed,
+    urlcolor=zabalaOrange,
+    citecolor=zabalaRedLight,
+    pdftitle={Zabala Gailetak Documentation},
+    pdfauthor={Zabala Gailetak Security Team},
+    pdfsubject={Security Documentation},
+    pdfkeywords={cybersecurity, compliance, ISO27001, GDPR},
+}
+
+% ==================== HEADER/FOOTER ====================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{%
+    \begin{tikzpicture}[remember picture, overlay]
+        \fill[zabalaRed] (0,0) rectangle (\paperwidth, 0.8cm);
+    \end{tikzpicture}%
+}
+\fancyhead[R]{\textcolor{zabalaText}{\small Zabala Gailetak, S.L.}}
+\fancyfoot[C]{\textcolor{zabalaTextSecondary}{\thepage}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\footrule}{\hbox to\headwidth{\color{zabalaRed}\leaders\hrule height \footrulewidth\hfill}}
+
+% ==================== SECTION STYLING ====================
+\titleformat{\section}
+    {\normalfont\Large\bfseries\color{zabalaRed}}
+    {\thesection}{1em}{}
+    [\vspace{-0.5em}\textcolor{zabalaOrange}{\rule{\textwidth}{1pt}}]
+
+\titleformat{\subsection}
+    {\normalfont\large\bfseries\color{zabalaRedDark}}
+    {\thesubsection}{1em}{}
+
+\titleformat{\subsubsection}
+    {\normalfont\normalsize\bfseries\color{zabalaOrange}}
+    {\thesubsubsection}{1em}{}
+
+% ==================== LIST STYLING ====================
+\setlist[itemize]{
+    label={\textcolor{zabalaRed}{\textbullet}},
+    leftmargin=*,
+    itemsep=0.3em,
+}
+
+\setlist[enumerate]{
+    label={\textcolor{zabalaRed}{\arabic*.}},
+    leftmargin=*,
+    itemsep=0.3em,
+}
+
+% ==================== CODE BLOCKS ====================
+\definecolor{codeBg}{HTML}{1C1C1F}
+\definecolor{codeFrame}{HTML}{27272A}
+\definecolor{codeText}{HTML}{FAFAFA}
+
+\lstset{
+    backgroundcolor=\color{codeBg},
+    basicstyle=\ttfamily\small\color{codeText},
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    commentstyle=\color{zabalaTextSecondary},
+    frame=single,
+    rulecolor=\color{codeFrame},
+    keepspaces=true,
+    keywordstyle=\color{zabalaOrangeLight}\bfseries,
+    numbers=left,
+    numberstyle=\tiny\color{zabalaTextTertiary},
+    numbersep=8pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    stringstyle=\color{zabalaSuccess},
+    tabsize=2,
+    aboveskip=1em,
+    belowskip=1em,
+    xleftmargin=1em,
+    framexleftmargin=1em,
+}
+
+% ==================== TABLE STYLING ====================
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+
+\let\oldlongtable\longtable
+\let\endoldlongtable\endlongtable
+
+% ==================== CUSTOM BOXES ====================
+\newenvironment{warningbox}{%
+    \begin{tikzpicture}
+    \node[draw=zabalaWarning, fill=zabalaWarning!10, rounded corners=3pt, 
+          inner sep=10pt, text width=\textwidth-20pt] \bgroup
+}{%
+    \egroup;\end{tikzpicture}\vspace{0.5em}
+}
+
+\newenvironment{infobox}{%
+    \begin{tikzpicture}
+    \node[draw=zabalaInfo, fill=zabalaInfo!10, rounded corners=3pt, 
+          inner sep=10pt, text width=\textwidth-20pt] \bgroup
+}{%
+    \egroup;\end{tikzpicture}\vspace{0.5em}
+}
+
+\newenvironment{successbox}{%
+    \begin{tikzpicture}
+    \node[draw=zabalaSuccess, fill=zabalaSuccess!10, rounded corners=3pt, 
+          inner sep=10pt, text width=\textwidth-20pt] \bgroup
+}{%
+    \egroup;\end{tikzpicture}\vspace{0.5em}
+}
+
+% ==================== TITLE PAGE ====================
+\newcommand{\makezabalatitle}[1]{%
+    \begin{titlepage}
+        \begin{tikzpicture}[remember picture, overlay]
+            % Background gradient
+            \fill[zabalaDarkBg] (current page.south west) rectangle (current page.north east);
+            
+            % Top accent bar
+            \fill[zabalaRed] (current page.north west) rectangle ([yshift=-1.5cm]current page.north east);
+            
+            % Bottom accent bar
+            \fill[zabalaRed] (current page.south west) rectangle ([yshift=1cm]current page.south east);
+            
+            % Decorative line
+            \draw[zabalaOrange, line width=2pt] 
+                ([xshift=2cm,yshift=-8cm]current page.north west) -- 
+                ([xshift=-2cm,yshift=-8cm]current page.north east);
+        \end{tikzpicture}
+        
+        \vspace*{4cm}
+        
+        \begin{center}
+            {\fontsize{42}{50}\selectfont\bfseries\color{zabalaText} ZABALA GAILETAK}
+            
+            \vspace{0.5cm}
+            
+            {\Large\color{zabalaOrange} S.L. - Segurtasun Dokumentazioa}
+            
+            \vspace{2cm}
+            
+            {\fontsize{24}{30}\selectfont\bfseries\color{zabalaText} #1}
+            
+            \vspace{3cm}
+            
+            \textcolor{zabalaTextSecondary}{
+                \today
+            }
+            
+            \vfill
+            
+            \textcolor{zabalaTextTertiary}{
+                \small Dokumentu hau konfidentziala da\\
+                Este documento es confidencial
+            }
+        \end{center}
+    \end{titlepage}
+}
+
+% ==================== DOCUMENT START ====================
+\begin{document}
+
+% Title will be inserted here by pandoc
+$if(title)$
+\makezabalatitle{$title$}
+$endif$
+
+$if(toc)$
+\tableofcontents
+\newpage
+$endif$
+
+$body$
+
+\end{document}
