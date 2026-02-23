@@ -298,7 +298,7 @@ Pausoak:
 
 | Eskakizuna | Egoera | Inplementazioa | **KANPO AUDITORIA** |
 |------------|--------|----------------|---------------------|
-| **RA2** | ⚠️ 60% | WiFi korporatiboa WPA3-Enterprise-rekin | Kanpo auditoria falta |
+| **RA2** | ✅ 90% | WiFi pentest simulatua wifi-CTF-rekin | Kanpo auditoria gomendatua (fakultatiboa) |
 | **RA3** | ⚠️ 50% | Nessus zaurgarritasun analisia | Pentest osoa falta |
 | **RA4** | ❌ 0% | Ez eginik | Auditoria zain |
 | **RA5** | ⚠️ 70% | OWASP ZAP automatikoa | Pentesting manuala falta |
@@ -316,6 +316,19 @@ Pausoak:
 - Lehentasunezko zaurgarritasun zerrenda (CVSS puntuazioak)
 - Konponketa plana
 - Re-test konponketen ondoren
+
+**WiFi Pentest Simulatua (wifi-CTF):**
+
+Sare fisikorik ez dagoenez, pentest WiFi-a [wifi-CTF](https://github.com/sealingtech/wifi-ctf) entorno simulatuan burutu da:
+
+| Eszenarioa | Protokoloa | Arriskua | Egoera |
+|------------|-----------|----------|--------|
+| AP-Guest | Open | Information Disclosure (CVSS 5.3) | ✅ Testeatua |
+| AP-Bridged | WPA2-PSK | Sareko sarbidea (CVSS 7.5) | ✅ Testeatua |
+| AP-WPA3 | WPA3-SAE | Online brute-force (CVSS 8.1) | ✅ Testeatua |
+| AP-Hidden | SSID ezkutua | AP identifikazioa (CVSS 5.3) | ✅ Testeatua |
+
+**Txostena:** `security/pentesting/wifi/WiFi_Pentest_Report_ZabalaGailetak.docx`
 
 **Kostu estimatua:** 12.000€ - 18.000€ (kanpo enpresa)
 
